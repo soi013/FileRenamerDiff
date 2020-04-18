@@ -29,6 +29,7 @@ namespace FileRenamerDiff.ViewModels
 
         public ReadOnlyReactivePropertySlim<ICollectionView> FilePathVMs { get; }
 
+        public ReactiveCommand<FolderSelectionMessage> FileLoadPathCommand { get; }
         public ReactiveCommand FileLoadCommand { get; }
 
         public AsyncReactiveCommand ReplaceCommand { get; }
@@ -60,6 +61,13 @@ namespace FileRenamerDiff.ViewModels
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
                 .ToReadOnlyReactivePropertySlim();
+
+            this.FileLoadPathCommand = new ReactiveCommand<FolderSelectionMessage>()
+                .WithSubscribe(x =>
+                {
+                    SettingVM.Value.SourceFilePath.Value = x.Response;
+                    model.LoadSourceFiles();
+                });
 
             this.FileLoadCommand = this.SettingVM.Value.SourceFilePath
                 .Select<string, bool>(x => !String.IsNullOrWhiteSpace(x))

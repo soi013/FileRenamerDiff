@@ -76,10 +76,29 @@
                CornerRadius="2"
                Mode="Standard">
                <StackPanel Orientation="Horizontal">
-                  <Button Style="{DynamicResource MaterialDesignToolButton}">
-                     <materialDesign:PackIcon Kind="File" />
+                  <Button
+                     Width="Auto"
+                     Padding="8,2"
+                     Style="{DynamicResource MaterialDesignRaisedButton}">
+                     <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Kind="FolderOpen" />
+                     <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="Click">
+                           <l:FolderBrowserDialogInteractionMessageAction>
+                              <l:DirectInteractionMessage CallbackCommand="{Binding FileLoadPathCommand, Mode=OneWay}">
+                                 <l:FolderSelectionMessage
+                                    Description="Select Target Folder"
+                                    DialogPreference="None"
+                                    SelectedPath="{Binding SettingVM.Value.SourceFilePath.Value}" />
+                              </l:DirectInteractionMessage>
+                           </l:FolderBrowserDialogInteractionMessageAction>
+                        </behaviors:EventTrigger>
+                     </behaviors:Interaction.Triggers>
                   </Button>
                   <TextBox
+                     Margin="5,0"
                      MinWidth="250"
                      FontSize="16"
                      Text="{Binding SettingVM.Value.SourceFilePath.Value}" />
@@ -139,10 +158,10 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
-                  <CheckBox  IsChecked="{Binding DataContext.IsVisibleReplacedOnly.Value, ElementName=rootObj}" >
+                  <CheckBox IsChecked="{Binding DataContext.IsVisibleReplacedOnly.Value, ElementName=rootObj}">
                      <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="Filter"/>
-                        <TextBlock Text="Changed"/>
+                        <materialDesign:PackIcon Kind="Filter" />
+                        <TextBlock Text="Changed" />
                      </StackPanel>
                   </CheckBox>
                </DataGridTemplateColumn.Header>
