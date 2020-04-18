@@ -1,0 +1,169 @@
+﻿<metro:MetroWindow
+   x:Class="FileRenamerDiff.Views.MainWindow"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+   xmlns:diffplex="clr-namespace:DiffPlex.Wpf.Controls;assembly=DiffPlex.Wpf"
+   xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:v="clr-namespace:FileRenamerDiff.Views"
+   xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+   Title="FILE RENAMER DIFF"
+   Width="1920"
+   Height="720"
+   Background="{StaticResource MaterialDesignPaper}"
+   BorderBrush="{StaticResource AccentColorBrush}"
+   BorderThickness="1"
+   FontFamily="Meiryo"
+   FontWeight="Bold"
+   GlowBrush="{StaticResource AccentColorBrush}"
+   Icon="/FileRenamerDiff_icon.ico"
+   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+   TitleCharacterCasing="Normal"
+   WindowState="Maximized">
+   <metro:MetroWindow.Resources>
+      <l:VisibilityAndBooleanConverter x:Key="VisibilityCollapsedConverter" ConvertWhenFalse="Collapsed" />
+      <l:VisibilityAndBooleanConverter
+         x:Key="VisibilityCollapsedReverseConverter"
+         ConvertWhenFalse="Visible"
+         ConvertWhenTrue="Collapsed" />
+      <v:DiffPaneModelToFlowDocumentConverter x:Key="DiffPaneModelToFlowDocumentConverter" />
+      <Style BasedOn="{StaticResource MaterialDesignRichTextBox}" TargetType="RichTextBox">
+         <Setter Property="IsReadOnly" Value="True" />
+      </Style>
+   </metro:MetroWindow.Resources>
+
+   <Window.DataContext>
+      <vm:MainWindowViewModel />
+   </Window.DataContext>
+
+   <behaviors:Interaction.Triggers>
+      <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
+      <behaviors:EventTrigger EventName="ContentRendered">
+         <l:LivetCallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
+      </behaviors:EventTrigger>
+
+      <!--  Dispose method is called, when Window closing.  -->
+      <behaviors:EventTrigger EventName="Closed">
+         <l:DataContextDisposeAction />
+      </behaviors:EventTrigger>
+
+      <!--  If you make user choose 'OK or Cancel' closing Window, then please use Window Close cancel Behavior.  -->
+
+   </behaviors:Interaction.Triggers>
+   <Grid x:Name="rootObj">
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+         <ColumnDefinition Width="Auto" />
+         <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <materialDesign:ColorZone
+         Grid.Row="0"
+         Grid.ColumnSpan="2"
+         Padding="8"
+         CornerRadius="3"
+         Mode="PrimaryDark">
+         <StackPanel Orientation="Horizontal">
+            <materialDesign:ColorZone
+               Margin="16,0,0,0"
+               Padding="8,4,8,4"
+               Panel.ZIndex="1"
+               materialDesign:ShadowAssist.ShadowDepth="Depth1"
+               CornerRadius="2"
+               Mode="Standard">
+               <StackPanel Orientation="Horizontal">
+                  <Button Style="{DynamicResource MaterialDesignToolButton}">
+                     <materialDesign:PackIcon Kind="File" />
+                  </Button>
+                  <TextBox
+                     MinWidth="250"
+                     FontSize="16"
+                     Text="{Binding SettingVM.Value.SourceFilePath.Value}" />
+               </StackPanel>
+            </materialDesign:ColorZone>
+            <Button
+               Margin="5,0"
+               Command="{Binding FileLoadCommand}"
+               Content="File Load" />
+            <Button
+               Margin="5,0"
+               Command="{Binding ReplaceCommand}"
+               Content="Dry Run" />
+            <Button
+               Margin="5,0"
+               Command="{Binding RenameExcuteCommand}"
+               Content="Save"
+               Style="{StaticResource MaterialDesignRaisedAccentButton}" />
+         </StackPanel>
+      </materialDesign:ColorZone>
+      <DataGrid
+         Grid.Row="1"
+         Grid.Column="1"
+         Margin="10"
+         materialDesign:DataGridAssist.CellPadding="4 2 2 2"
+         materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
+         AutoGenerateColumns="False"
+         EnableRowVirtualization="True"
+         ItemsSource="{Binding FilePathVMs.Value}">
+         <DataGrid.Columns>
+            <DataGridTextColumn
+               Width="120"
+               Binding="{Binding DirectoryPath, Mode=OneWay}"
+               Header="Directory"
+               IsReadOnly="True" />
+            <DataGridTemplateColumn Width="400" Header="Input">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" IsReadOnly="True" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Width="400" Header="Output">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" IsReadOnly="True" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn>
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <materialDesign:PackIcon
+                        VerticalAlignment="Center"
+                        Kind="CheckBold"
+                        Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+               <DataGridTemplateColumn.Header>
+                  <CheckBox  IsChecked="{Binding DataContext.IsVisibleReplacedOnly.Value, ElementName=rootObj}" >
+                     <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Filter"/>
+                        <TextBlock Text="Changed"/>
+                     </StackPanel>
+                  </CheckBox>
+               </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+         </DataGrid.Columns>
+      </DataGrid>
+      <Expander
+         Grid.Row="1"
+         Grid.Column="0"
+         ExpandDirection="Left"
+         IsExpanded="True">
+         <Expander.Header>
+            <TextBlock Text="Setting Replace">
+               <TextBlock.LayoutTransform>
+                  <RotateTransform Angle="90" />
+               </TextBlock.LayoutTransform>
+            </TextBlock>
+         </Expander.Header>
+         <ScrollViewer>
+            <v:SettingApp DataContext="{Binding SettingVM.Value}" />
+         </ScrollViewer>
+      </Expander>
+   </Grid>
+</metro:MetroWindow>

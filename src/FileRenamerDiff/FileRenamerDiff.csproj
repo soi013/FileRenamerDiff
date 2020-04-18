@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>FileRenamerDiff_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="FileRenamerDiff_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DiffPlex" Version="1.6.1" />
+    <PackageReference Include="DiffPlex.Wpf" Version="1.1.1" />
+    <PackageReference Include="LivetCask" Version="3.2.2.2" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0748" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.3" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.1-ci870" />
+    <PackageReference Include="MessagePack" Version="2.1.90" />
+    <PackageReference Include="MessagePack.ReactiveProperty" Version="2.1.90" />
+    <PackageReference Include="ReactiveProperty" Version="6.2.0" />
+    <PackageReference Include="System.Reactive.Compatibility" Version="4.4.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FileRenamerDiff_icon.ico" />
+  </ItemGroup>
+</Project>
