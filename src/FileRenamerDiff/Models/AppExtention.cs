@@ -18,11 +18,17 @@ namespace FileRenamerDiff.Models
         public static string ToRawText(this DiffPaneModel diffPane) => $"{diffPane.Lines.ConcatenateString(Environment.NewLine)}";
         public static string ToDisplayString(this SideBySideDiffModel ssDiff) => $"{ssDiff.OldText.ToRawText()}->{ssDiff.NewText.ToRawText()}";
 
-        public static T ToFreeze<T>(this T obj) where T : Freezable
+        public static T WithFreeze<T>(this T obj) where T : Freezable
         {
             obj.Freeze();
             return obj;
         }
+
+        public static SolidColorBrush ToSolidColorBrush(this Color mColor, bool isFreeze = false) =>
+           isFreeze
+           ? new SolidColorBrush(mColor)
+           : new SolidColorBrush(mColor).WithFreeze();
+
         public static string ToCode(this Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
 
         public static Color CodeToColorOrTransparent(string code) => CodeToColor(code) ?? Colors.Transparent;

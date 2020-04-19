@@ -15,11 +15,13 @@ namespace FileRenamerDiff.Views
     public class DiffPaneModelToFlowDocumentConverter : IValueConverter
     {
         //見やすいように少し半透明にしておく
-        private static readonly Brush unchangeBrush = new SolidColorBrush(Colors.Transparent).ToFreeze();
-        private static readonly Brush deletedBrush = new SolidColorBrush(AppExtention.CodeToColorOrTransparent($"#FFAFD1")).ToFreeze();
-        private static readonly Brush insertedBrush = new SolidColorBrush(AppExtention.CodeToColorOrTransparent($"#88E6A7")).ToFreeze();
-        private static readonly Brush imaginaryBrush = new SolidColorBrush(Colors.SkyBlue).ToFreeze();
-        private static readonly Brush modifiedBrush = new SolidColorBrush(Colors.Orange).ToFreeze();
+        private static readonly Brush unchangeBrush = Colors.Transparent.ToSolidColorBrush(true);
+        private static readonly Brush deletedBrush = AppExtention.CodeToColorOrTransparent($"#FFAFD1").ToSolidColorBrush(true);
+        private static readonly Brush insertedBrush = AppExtention.CodeToColorOrTransparent($"#88E6A7").ToSolidColorBrush(true);
+        private static readonly Brush imaginaryBrush = Colors.SkyBlue.ToSolidColorBrush(true);
+        private static readonly Brush modifiedBrush = Colors.Orange.ToSolidColorBrush(true);
+        private static readonly Brush changedTextBrush = Colors.Black.ToSolidColorBrush(true);
+        private static readonly Brush normalTextBrush = (SolidColorBrush)App.Current.Resources["MaterialDesignBody"];
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -56,6 +58,9 @@ namespace FileRenamerDiff.Views
             new Run
             {
                 Text = pieceVM.Text,
+                Foreground = (pieceVM.Type == ChangeType.Unchanged)
+                    ? normalTextBrush
+                    : changedTextBrush,
                 //差分タイプによって、背景色を決定
                 Background = (pieceVM.Type switch
                 {

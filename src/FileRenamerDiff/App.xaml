@@ -9,7 +9,7 @@
       <ResourceDictionary>
          <ResourceDictionary.MergedDictionaries>
             <materialDesign:MahAppsBundledTheme
-               BaseTheme="Light"
+               BaseTheme="Dark"
                PrimaryColor="Indigo"
                SecondaryColor="Yellow" />
             <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml" />
