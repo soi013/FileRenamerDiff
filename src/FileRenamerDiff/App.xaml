@@ -3,6 +3,7 @@
    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
    Startup="Application_Startup"
    StartupUri="Views\MainWindow.xaml">
    <Application.Resources>
@@ -30,6 +31,24 @@
             <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
 
          </ResourceDictionary.MergedDictionaries>
+         <Color x:Key="Primary900">#1A537C</Color>
+         <Color x:Key="Primary800">#286591</Color>
+         <Color x:Key="Primary700">#31709E</Color>
+         <Color x:Key="Primary600">#3A7BAA</Color>
+         <Color x:Key="Primary500">#3E82B2</Color>
+         <Color x:Key="Primary400">#5B95BF</Color>
+         <Color x:Key="Primary300">#78A7C9</Color>
+         <Color x:Key="Primary200">#9EC0D8</Color>
+         <Color x:Key="Primary100">#C5D9E8</Color>
+         <Color x:Key="Primary50">#E8EFF4</Color>
+         <SolidColorBrush
+            x:Key="MaterialDesignPaper"
+            po:Freeze="True"
+            Color="#272e33" />
+         <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Accent200}" />
+         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary500}" />
+         <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary700}" />
+         <SolidColorBrush x:Key="MahApps.Brushes.WindowTitle" Color="{DynamicResource Primary900}" />
 
          <!--  MahApps Brushes  -->
          <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}" />
@@ -54,7 +73,6 @@
          <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10" Color="{DynamicResource Primary500}" />
          <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10" Color="{DynamicResource Primary400}" />
          <SolidColorBrush x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10" Color="{DynamicResource Primary500Foreground}" />
-
       </ResourceDictionary>
    </Application.Resources>
 </Application>
