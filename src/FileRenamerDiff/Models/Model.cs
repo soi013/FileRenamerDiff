@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -30,8 +31,8 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _Setting, value);
         }
 
-        public IReadOnlyReactiveProperty<bool> IsReplacedAny => isReplacedAny;
-        private ReactivePropertySlim<bool> isReplacedAny = new ReactivePropertySlim<bool>(false);
+        public IReadOnlyReactiveProperty<int> CountReplaced => countReplaced;
+        private ReactivePropertySlim<int> countReplaced = new ReactivePropertySlim<int>(0);
 
         public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
 
@@ -64,7 +65,7 @@ namespace FileRenamerDiff.Models
             })
             .ConfigureAwait(false);
 
-            this.isReplacedAny.Value = false;
+            this.countReplaced.Value = 0;
             this.IsIdle.Value = true;
         }
 
@@ -109,7 +110,7 @@ namespace FileRenamerDiff.Models
             })
             .ConfigureAwait(false);
 
-            this.isReplacedAny.Value = SourceFilePathVMs.Any(x => x.IsReplaced);
+            this.countReplaced.Value = SourceFilePathVMs.Count(x => x.IsReplaced);
             this.IsIdle.Value = true;
         }
 

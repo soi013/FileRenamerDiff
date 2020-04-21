@@ -40,9 +40,14 @@ namespace FileRenamerDiff.ViewModels
         public ReactivePropertySlim<bool> IsVisibleReplacedOnly { get; } = new ReactivePropertySlim<bool>(false);
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
+        public IReadOnlyReactiveProperty<int> CountReplaced { get; }
+        public IReadOnlyReactiveProperty<bool> IsReplacedAny { get; }
+
         public MainWindowViewModel()
         {
             this.IsIdle = model.IsIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
 
             this.FilePathVMs = model.ObserveProperty(x => x.SourceFilePathVMs)
                 .Select(x => CreateFilePathVMs(x))
@@ -59,7 +64,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.RenameExcuteCommand = new[]
                 {
-                    model.IsReplacedAny,
+                    IsReplacedAny,
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
