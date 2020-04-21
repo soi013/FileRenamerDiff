@@ -98,8 +98,8 @@
                      </behaviors:Interaction.Triggers>
                   </Button>
                   <TextBox
-                     Margin="5,0"
                      MinWidth="250"
+                     Margin="5,0"
                      FontSize="16"
                      Text="{Binding SettingVM.Value.SourceFilePath.Value}" />
                </StackPanel>
@@ -180,7 +180,7 @@
                </TextBlock.LayoutTransform>
             </TextBlock>
          </Expander.Header>
-         <ScrollViewer>
+         <ScrollViewer IsEnabled="{Binding IsIdle.Value}">
             <v:SettingApp DataContext="{Binding SettingVM.Value}" />
          </ScrollViewer>
       </Expander>

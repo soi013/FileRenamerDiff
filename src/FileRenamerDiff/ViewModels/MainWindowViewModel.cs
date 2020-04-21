@@ -26,11 +26,12 @@ namespace FileRenamerDiff.ViewModels
     public class MainWindowViewModel : ViewModel
     {
         Model model = Model.Instance;
+        public IReadOnlyReactiveProperty<bool> IsIdle { get; }
 
         public ReadOnlyReactivePropertySlim<ICollectionView> FilePathVMs { get; }
 
-        public ReactiveCommand<FolderSelectionMessage> FileLoadPathCommand { get; }
-        public ReactiveCommand FileLoadCommand { get; }
+        public AsyncReactiveCommand<FolderSelectionMessage> FileLoadPathCommand { get; }
+        public AsyncReactiveCommand FileLoadCommand { get; }
 
         public AsyncReactiveCommand ReplaceCommand { get; }
 
@@ -41,16 +42,27 @@ namespace FileRenamerDiff.ViewModels
 
         public MainWindowViewModel()
         {
+            this.IsIdle = model.IsIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+
             this.FilePathVMs = model.ObserveProperty(x => x.SourceFilePathVMs)
                 .Select(x => CreateFilePathVMs(x))
                 .ToReadOnlyReactivePropertySlim();
 
-            this.ReplaceCommand = FilePathVMs
-                .Select(x => x?.IsEmpty == false)
+            this.ReplaceCommand = new[]
+                {
+                    FilePathVMs.Select(x => x?.IsEmpty == false),
+                    IsIdle
+                }
+                .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.Replace());
 
-            this.RenameExcuteCommand = model.IsReplacedAny
+            this.RenameExcuteCommand = new[]
+                {
+                    model.IsReplacedAny,
+                    IsIdle
+                }
+                .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.RenameExcute());
@@ -62,16 +74,21 @@ namespace FileRenamerDiff.ViewModels
                 .Select(x => new SettingAppViewModel(x))
                 .ToReadOnlyReactivePropertySlim();
 
-            this.FileLoadPathCommand = new ReactiveCommand<FolderSelectionMessage>()
-                .WithSubscribe(x =>
+            this.FileLoadPathCommand = IsIdle
+                .ToAsyncReactiveCommand<FolderSelectionMessage>()
+                .WithSubscribe(async x =>
                 {
                     SettingVM.Value.SourceFilePath.Value = x.Response;
-                    model.LoadSourceFiles();
+                    await model.LoadSourceFiles();
                 });
 
-            this.FileLoadCommand = this.SettingVM.Value.SourceFilePath
-                .Select<string, bool>(x => !String.IsNullOrWhiteSpace(x))
-                .ToReactiveCommand()
+            this.FileLoadCommand = new[]
+                {
+                    SettingVM.Value.SourceFilePath.Select<string, bool>(x => !String.IsNullOrWhiteSpace(x)),
+                    IsIdle
+                }
+                .CombineLatestValuesAreAllTrue()
+                .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.LoadSourceFiles());
         }
 
@@ -90,6 +107,7 @@ namespace FileRenamerDiff.ViewModels
 
         public void Initialize()
         {
+            model.Initialize();
         }
 
         protected override void Dispose(bool disposing)

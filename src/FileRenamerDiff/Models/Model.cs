@@ -8,17 +8,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Livet;
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.Models
 {
     public class Model : NotificationObject
     {
         public static Model Instance { get; } = new Model();
-
-        private Model()
-        {
-            LoadSetting();
-        }
 
         private IReadOnlyList<FilePathModel> _SourceFilePathVMs = new[] { new FilePathModel(@"c:\abc\my_file.txt") };
         public IReadOnlyList<FilePathModel> SourceFilePathVMs
@@ -34,25 +30,42 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _Setting, value);
         }
 
-
         public IReadOnlyReactiveProperty<bool> IsReplacedAny => isReplacedAny;
         private ReactivePropertySlim<bool> isReplacedAny = new ReactivePropertySlim<bool>(false);
 
-        public void LoadSourceFiles()
+        public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
+
+        private Model()
         {
+            LoadSetting();
+        }
+
+        internal void Initialize()
+        {
+            IsIdle.Value = true;
+        }
+
+        public async Task LoadSourceFiles()
+        {
+            this.IsIdle.Value = false;
             string sourceFilePath = Setting.SourceFilePath.Value;
             if (!Directory.Exists(sourceFilePath))
                 return;
 
-            var regex = Setting.CreateIgnoreExtensionsRegex();
+            await Task.Run(() =>
+            {
+                var regex = Setting.CreateIgnoreExtensionsRegex();
 
-            this.SourceFilePathVMs = Directory
-                .EnumerateFileSystemEntries(sourceFilePath, "*.*", SearchOption.AllDirectories)
-                .Where(x => !regex.IsMatch(Path.GetExtension(x)))
-                .Select(x => new FilePathModel(x))
-                .ToArray();
+                this.SourceFilePathVMs = Directory
+                    .EnumerateFileSystemEntries(sourceFilePath, "*.*", SearchOption.AllDirectories)
+                    .Where(x => !regex.IsMatch(Path.GetExtension(x)))
+                    .Select(x => new FilePathModel(x))
+                    .ToArray();
+            })
+            .ConfigureAwait(false);
 
             this.isReplacedAny.Value = false;
+            this.IsIdle.Value = true;
         }
 
         internal void ResetSetting()
@@ -87,15 +100,17 @@ namespace FileRenamerDiff.Models
 
         internal async Task Replace()
         {
+            this.IsIdle.Value = false;
             await Task.Run(() =>
-                {
-                    var regexes = CreateRegexes();
-                    Parallel.ForEach(SourceFilePathVMs,
-                        x => x.Replace(regexes));
+            {
+                var regexes = CreateRegexes();
+                Parallel.ForEach(SourceFilePathVMs,
+                    x => x.Replace(regexes));
+            })
+            .ConfigureAwait(false);
 
-                    this.isReplacedAny.Value = SourceFilePathVMs.Any(x => x.IsReplaced);
-                })
-                .ConfigureAwait(false);
+            this.isReplacedAny.Value = SourceFilePathVMs.Any(x => x.IsReplaced);
+            this.IsIdle.Value = true;
         }
 
 
@@ -119,14 +134,18 @@ namespace FileRenamerDiff.Models
 
         internal async Task RenameExcute()
         {
+            IsIdle.Value = false;
             await Task.Run(() =>
             {
                 SourceFilePathVMs
                     .Where(x => x.IsReplaced)
                     .AsParallel()
                     .ForAll(x => x.Rename());
-            });
-            LoadSourceFiles();
+            })
+            .ConfigureAwait(false);
+
+            await LoadSourceFiles().ConfigureAwait(false);
+            IsIdle.Value = true;
         }
     }
 }
