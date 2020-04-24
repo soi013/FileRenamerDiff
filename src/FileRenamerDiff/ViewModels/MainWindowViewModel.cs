@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Collections;
+using System.Threading.Tasks;
 
 using Livet;
 using Livet.Commands;
@@ -14,12 +15,12 @@ using Livet.Messaging.IO;
 using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
-
-using FileRenamerDiff.Models;
 using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using ps = System.Reactive.PlatformServices;
+
+using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -81,11 +82,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.FileLoadPathCommand = IsIdle
                 .ToAsyncReactiveCommand<FolderSelectionMessage>()
-                .WithSubscribe(async x =>
-                {
-                    SettingVM.Value.SourceFilePath.Value = x.Response;
-                    await model.LoadSourceFiles();
-                });
+                .WithSubscribe(async x => await FolderSelected(x));
 
             this.FileLoadCommand = new[]
                 {
@@ -95,6 +92,15 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.LoadSourceFiles());
+        }
+
+        private async Task FolderSelected(FolderSelectionMessage fsMessage)
+        {
+            if (fsMessage.Response == null)
+                return;
+
+            SettingVM.Value.SourceFilePath.Value = fsMessage.Response;
+            await model.LoadSourceFiles();
         }
 
         private ICollectionView CreateFilePathVMs(IReadOnlyList<FilePathModel> paths)
