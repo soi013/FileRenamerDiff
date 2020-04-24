@@ -129,11 +129,6 @@
          EnableRowVirtualization="True"
          ItemsSource="{Binding FilePathVMs.Value}">
          <DataGrid.Columns>
-            <DataGridTextColumn
-               Width="120"
-               Binding="{Binding DirectoryPath, Mode=OneWay}"
-               Header="Directory"
-               IsReadOnly="True" />
             <DataGridTemplateColumn Width="400" Header="Input">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
@@ -158,7 +153,10 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
-                  <materialDesign:Badged Margin="1,8,1,1" Padding="0,0,8,0" BadgeColorZoneMode="PrimaryMid">
+                  <materialDesign:Badged
+                     Margin="1,8,1,1"
+                     Padding="0,0,8,0"
+                     BadgeColorZoneMode="PrimaryMid">
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>
@@ -171,6 +169,26 @@
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
+            <DataGridTextColumn
+               Width="120"
+               Binding="{Binding DirectoryPath, Mode=OneTime}"
+               Header="Directory"
+               IsReadOnly="True" />
+            <DataGridTextColumn
+               Width="50"
+               Binding="{Binding LengthByte, Mode=OneTime}"
+               Header="Size"
+               IsReadOnly="True" />
+            <DataGridTextColumn
+               Width="80"
+               Binding="{Binding LastWriteTime, Mode=OneTime}"
+               Header="Last Write Time"
+               IsReadOnly="True" />
+            <DataGridTextColumn
+               Width="80"
+               Binding="{Binding CreationTime, Mode=OneTime}"
+               Header="Creation Time"
+               IsReadOnly="True" />
          </DataGrid.Columns>
       </DataGrid>
       <Expander

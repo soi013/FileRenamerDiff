@@ -12,10 +12,9 @@ namespace FileRenamerDiff.Models
         private SettingAppModel settingApp => model.Setting;
 
         private readonly string path;
+        private readonly FileInfo fileInfo;
 
-        public string DirectoryPath => Path.GetDirectoryName(path);
-
-        public string FileName => Path.GetFileName(path);
+        public string FileName => fileInfo?.Name;
 
         private string outputFileName = "--.-";
         public string OutputFileName
@@ -29,10 +28,17 @@ namespace FileRenamerDiff.Models
         public bool IsReplaced => FileName != OutputFileName;
 
 
+        public string DirectoryPath => fileInfo.DirectoryName;
+        public long LengthByte => fileInfo.Exists ? fileInfo.Length : -1;
+        public DateTime LastWriteTime => fileInfo.LastWriteTime;
+        public DateTime CreationTime => fileInfo.CreationTime;
 
         public FilePathModel(string path)
         {
             this.path = path;
+
+            this.fileInfo = new FileInfo(path);
+
             this.outputFileName = FileName;
         }
 

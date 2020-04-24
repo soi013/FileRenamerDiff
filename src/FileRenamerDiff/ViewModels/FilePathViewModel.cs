@@ -1,6 +1,7 @@
-﻿using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
+﻿
+using System;
 using System.IO;
+using System.Linq;
 
 using Livet;
 using Livet.Commands;
@@ -8,12 +9,16 @@ using Livet.Messaging;
 using Livet.Messaging.IO;
 using Livet.EventListeners;
 using Livet.Messaging.Windows;
-using FileRenamerDiff.Models;
+
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 using System.Reactive.Linq;
+
 using DiffPlex.DiffBuilder;
 using DiffPlex;
 using DiffPlex.DiffBuilder.Model;
-using System.Linq;
+
+using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -22,10 +27,16 @@ namespace FileRenamerDiff.ViewModels
         Model model = Model.Instance;
         private readonly FilePathModel pathModel;
 
-        public string DirectoryPath => pathModel.DirectoryPath;
-
         public ReadOnlyReactivePropertySlim<SideBySideDiffModel> Diff { get; }
         public ReadOnlyReactivePropertySlim<bool> IsReplaced { get; }
+
+        public string DirectoryPath => pathModel.DirectoryPath;
+
+        public string LengthByte => AppExtention.ReadableByteText(pathModel.LengthByte);
+
+        public string LastWriteTime => pathModel.LastWriteTime.ToString();
+
+        public string CreationTime => pathModel.CreationTime.ToString();
 
         public FilePathViewModel(FilePathModel pathModel)
         {
