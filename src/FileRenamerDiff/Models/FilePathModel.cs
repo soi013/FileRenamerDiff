@@ -1,8 +1,10 @@
-﻿using Livet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+
+using Livet;
 
 namespace FileRenamerDiff.Models
 {
@@ -32,6 +34,7 @@ namespace FileRenamerDiff.Models
         public long LengthByte => fileInfo.Exists ? fileInfo.Length : -1;
         public DateTime LastWriteTime => fileInfo.LastWriteTime;
         public DateTime CreationTime => fileInfo.CreationTime;
+        public FileAttributes Attributes => fileInfo.Attributes;
 
         public FilePathModel(string path)
         {
@@ -55,6 +58,13 @@ namespace FileRenamerDiff.Models
         }
         public override string ToString() => $"{FileName}->{OutputFileName}";
 
-        internal void Rename() => File.Move(path, replacedPath);
+        internal void Rename()
+        {
+            Trace.WriteLine($"info Rename [{FileName}] -> [{OutputFileName}] in [{DirectoryPath}]");
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+                Directory.Move(this.path, this.replacedPath);
+            else
+                fileInfo.MoveTo(replacedPath);
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Livet;
+using Microsoft.VisualBasic;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -60,6 +61,8 @@ namespace FileRenamerDiff.Models
                 this.SourceFilePathVMs = Directory
                     .EnumerateFileSystemEntries(sourceFilePath, "*.*", SearchOption.AllDirectories)
                     .Where(x => !regex.IsMatch(Path.GetExtension(x)))
+                    //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
+                    .OrderByDescending(x => x)
                     .Select(x => new FilePathModel(x))
                     .ToArray();
             })
@@ -138,10 +141,15 @@ namespace FileRenamerDiff.Models
             IsIdle.Value = false;
             await Task.Run(() =>
             {
-                SourceFilePathVMs
-                    .Where(x => x.IsReplaced)
-                    .AsParallel()
-                    .ForAll(x => x.Rename());
+                try
+                {
+                    foreach (var replacePath in SourceFilePathVMs.Where(x => x.IsReplaced))
+                        replacePath.Rename();
+                }
+                catch (FileNotFoundException fex)
+                {
+                    Trace.WriteLine($"Warn Fail to Rename ex:{fex.Message}");
+                }
             })
             .ConfigureAwait(false);
 
