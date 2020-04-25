@@ -14,10 +14,9 @@ namespace FileRenamerDiff.Views
 {
     public class DiffPaneModelToFlowDocumentConverter : IValueConverter
     {
-        //見やすいように少し半透明にしておく
         private static readonly Brush unchangeBrush = Colors.Transparent.ToSolidColorBrush(true);
-        private static readonly Brush deletedBrush = AppExtention.CodeToColorOrTransparent($"#FFAFD1").ToSolidColorBrush(true);
-        private static readonly Brush insertedBrush = AppExtention.CodeToColorOrTransparent($"#88E6A7").ToSolidColorBrush(true);
+        private static readonly Brush deletedBrush = AppExtention.ToColorOrDefault($"#FFAFD1").ToSolidColorBrush(true);
+        private static readonly Brush insertedBrush = AppExtention.ToColorOrDefault($"#88E6A7").ToSolidColorBrush(true);
         private static readonly Brush imaginaryBrush = Colors.SkyBlue.ToSolidColorBrush(true);
         private static readonly Brush modifiedBrush = Colors.Orange.ToSolidColorBrush(true);
         private static readonly Brush changedTextBrush = Colors.Black.ToSolidColorBrush(true);

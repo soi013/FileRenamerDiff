@@ -22,18 +22,38 @@ using System.Collections;
 
 namespace FileRenamerDiff.ViewModels
 {
-    public class SettingAppViewModel
+    /// <summary>
+    /// 設定情報を編集するViewModel
+    /// </summary>
+    public class SettingAppViewModel : ViewModel
     {
+        private Model model = Model.Instance;
         private SettingAppModel setting;
-        public ReactivePropertySlim<string> SourceFilePath => setting.SourceFilePath;
 
+        /// <summary>
+        /// リネームファイルを検索するターゲットパス
+        /// </summary>
+        public ReactivePropertySlim<string> SearchFilePath => setting.SearchFilePath;
+
+        /// <summary>
+        /// 検索時に無視される拡張子コレクション
+        /// </summary>
         public ObservableCollection<ReactivePropertySlim<string>> IgnoreExtensions => setting.IgnoreExtensions;
 
+        /// <summary>
+        /// 削除文字列パターン
+        /// </summary>
         public ObservableCollection<ReplacePattern> DeleteTexts => setting.DeleteTexts;
 
+        /// <summary>
+        /// 置換文字列パターン
+        /// </summary>
         public ObservableCollection<ReplacePattern> ReplaceTexts => setting.ReplaceTexts;
 
-        public ReactiveCommand ResetSettingCommand { get; } = new ReactiveCommand();
+        /// <summary>
+        /// 設定初期化コマンド
+        /// </summary>
+        public ReactiveCommand ResetSettingCommand { get; }
 
         /// <summary>
         /// デザイナー用です　コードからは呼べません
@@ -45,7 +65,10 @@ namespace FileRenamerDiff.ViewModels
         {
             this.setting = setting;
 
-            ResetSettingCommand.Subscribe(() => Model.Instance.ResetSetting());
+            ResetSettingCommand = model.IsIdle
+                .ToReactiveCommand()
+                .WithSubscribe(() => Model.Instance.ResetSetting())
+                .AddTo(this.CompositeDisposable);
         }
     }
 }

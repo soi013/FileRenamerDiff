@@ -22,23 +22,48 @@ using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.ViewModels
 {
-    public class FilePathViewModel : ViewModel
+    /// <summary>
+    /// リネーム前後のファイル名を含むファイル情報ViewModel
+    /// </summary>
+    public class FileElementViewModel : ViewModel
     {
         Model model = Model.Instance;
-        private readonly FilePathModel pathModel;
+        private readonly FileElementModel pathModel;
 
+        /// <summary>
+        /// リネーム前後の差分比較情報
+        /// </summary>
         public ReadOnlyReactivePropertySlim<SideBySideDiffModel> Diff { get; }
+
+        /// <summary>
+        /// リネーム前後で差があったか
+        /// </summary>
         public ReadOnlyReactivePropertySlim<bool> IsReplaced { get; }
 
+        /// <summary>
+        /// ファイルの所属しているディレクトリ名
+        /// </summary>
         public string DirectoryPath => pathModel.DirectoryPath;
 
+        /// <summary>
+        /// ファイルのバイト数を読みやすく変換したもの
+        /// </summary>
         public string LengthByte => AppExtention.ReadableByteText(pathModel.LengthByte);
 
+        /// <summary>
+        /// ファイル更新日時の現在のカルチャでの文字列
+        /// </summary>
         public string LastWriteTime => pathModel.LastWriteTime.ToString();
 
+        /// <summary>
+        /// ファイル作成日時の現在のカルチャでの文字列
+        /// </summary>
         public string CreationTime => pathModel.CreationTime.ToString();
 
-        public FilePathViewModel(FilePathModel pathModel)
+        /// <summary>
+        /// ModelをもとにViewModelを作成
+        /// </summary>
+        public FileElementViewModel(FileElementModel pathModel)
         {
             this.pathModel = pathModel;
 
@@ -52,10 +77,13 @@ namespace FileRenamerDiff.ViewModels
                 .ToReadOnlyReactivePropertySlim();
         }
 
+        /// <summary>
+        /// 差分比較情報を作成
+        /// </summary>
         private SideBySideDiffModel CreateDiff()
         {
             var diff = new SideBySideDiffBuilder(new Differ());
-            return diff.BuildDiffModel(pathModel.FileName, pathModel.OutputFileName);
+            return diff.BuildDiffModel(pathModel.InputFileName, pathModel.OutputFileName);
         }
 
         public override string ToString() => $"Source:{Diff.Value?.ToDisplayString()}";

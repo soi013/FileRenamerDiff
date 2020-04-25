@@ -13,6 +13,9 @@ namespace FileRenamerDiff.Views
         public static FlowDocument GetDocument(DependencyObject obj) => (FlowDocument)obj.GetValue(DocumentProperty);
         public static void SetDocument(DependencyObject obj, FlowDocument value) => obj.SetValue(DocumentProperty, value);
 
+        /// <summary>
+        /// RichTextBoxの依存関係プロパティでない`Document`にBindingするための添付プロパティ
+        /// </summary>
         public static readonly DependencyProperty DocumentProperty = DependencyProperty.RegisterAttached(
             "Document", typeof(FlowDocument), typeof(RichTextBoxHelper),
             new FrameworkPropertyMetadata(null, Document_Changed));

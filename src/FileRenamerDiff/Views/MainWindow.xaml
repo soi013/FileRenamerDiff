@@ -91,7 +91,7 @@
                                  <l:FolderSelectionMessage
                                     Description="Select Target Folder"
                                     DialogPreference="None"
-                                    SelectedPath="{Binding SettingVM.Value.SourceFilePath.Value}" />
+                                    SelectedPath="{Binding SettingVM.Value.SearchFilePath.Value}" />
                               </l:DirectInteractionMessage>
                            </l:FolderBrowserDialogInteractionMessageAction>
                         </behaviors:EventTrigger>
@@ -101,7 +101,7 @@
                      MinWidth="250"
                      Margin="5,0"
                      FontSize="16"
-                     Text="{Binding SettingVM.Value.SourceFilePath.Value}" />
+                     Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
                </StackPanel>
             </materialDesign:ColorZone>
             <Button
@@ -127,7 +127,7 @@
          materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
          AutoGenerateColumns="False"
          EnableRowVirtualization="True"
-         ItemsSource="{Binding FilePathVMs.Value}">
+         ItemsSource="{Binding FileElemenVMs.Value}">
          <DataGrid.Columns>
             <DataGridTemplateColumn Width="400" Header="Input">
                <DataGridTemplateColumn.CellTemplate>

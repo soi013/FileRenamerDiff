@@ -14,27 +14,45 @@ using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.Models
 {
+    /// <summary>
+    /// アプリケーション全体シングルトンモデル
+    /// </summary>
     public class Model : NotificationObject
     {
+        /// <summary>
+        /// シングルトンなインスタンスを返す
+        /// </summary>
         public static Model Instance { get; } = new Model();
 
-        private IReadOnlyList<FilePathModel> _SourceFilePathVMs = new[] { new FilePathModel(@"c:\abc\my_file.txt") };
-        public IReadOnlyList<FilePathModel> SourceFilePathVMs
+        private IReadOnlyList<FileElementModel> _FileElementModels = new[] { new FileElementModel(@"c:\abc\my_file.txt") };
+        /// <summary>
+        /// リネーム対象ファイル情報のコレクション
+        /// </summary>
+        public IReadOnlyList<FileElementModel> FileElementModels
         {
-            get => _SourceFilePathVMs;
-            set => RaisePropertyChangedIfSet(ref _SourceFilePathVMs, value);
+            get => _FileElementModels;
+            set => RaisePropertyChangedIfSet(ref _FileElementModels, value);
         }
 
         private SettingAppModel _Setting;
+        /// <summary>
+        /// アプリケーション設定
+        /// </summary>
         public SettingAppModel Setting
         {
             get => _Setting;
             set => RaisePropertyChangedIfSet(ref _Setting, value);
         }
 
+        /// <summary>
+        /// リネーム前後での変更があったファイル数
+        /// </summary>
         public IReadOnlyReactiveProperty<int> CountReplaced => countReplaced;
         private ReactivePropertySlim<int> countReplaced = new ReactivePropertySlim<int>(0);
 
+        /// <summary>
+        /// アプリケーションが待機状態か
+        /// </summary>
         public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
 
         private Model()
@@ -42,15 +60,21 @@ namespace FileRenamerDiff.Models
             LoadSetting();
         }
 
+        /// <summary>
+        /// アプリケーション起動時処理
+        /// </summary>
         internal void Initialize()
         {
             IsIdle.Value = true;
         }
 
-        public async Task LoadSourceFiles()
+        /// <summary>
+        /// ターゲットパスをもとにリネーム対象ファイルを検索して、ファイル情報コレクションに読み込む
+        /// </summary>
+        public async Task LoadFileElements()
         {
             this.IsIdle.Value = false;
-            string sourceFilePath = Setting.SourceFilePath.Value;
+            string sourceFilePath = Setting.SearchFilePath.Value;
             if (!Directory.Exists(sourceFilePath))
                 return;
 
@@ -58,12 +82,12 @@ namespace FileRenamerDiff.Models
             {
                 var regex = Setting.CreateIgnoreExtensionsRegex();
 
-                this.SourceFilePathVMs = Directory
+                this.FileElementModels = Directory
                     .EnumerateFileSystemEntries(sourceFilePath, "*.*", SearchOption.AllDirectories)
                     .Where(x => !regex.IsMatch(Path.GetExtension(x)))
                     //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
                     .OrderByDescending(x => x)
-                    .Select(x => new FilePathModel(x))
+                    .Select(x => new FileElementModel(x))
                     .ToArray();
             })
             .ConfigureAwait(false);
@@ -72,11 +96,14 @@ namespace FileRenamerDiff.Models
             this.IsIdle.Value = true;
         }
 
-        internal void ResetSetting()
-        {
-            this.Setting = new SettingAppModel();
-        }
+        /// <summary>
+        /// 設定の初期化
+        /// </summary>
+        internal void ResetSetting() => this.Setting = new SettingAppModel();
 
+        /// <summary>
+        /// 設定読込
+        /// </summary>
         private void LoadSetting()
         {
             try
@@ -90,6 +117,9 @@ namespace FileRenamerDiff.Models
             }
         }
 
+        /// <summary>
+        /// 設定保存
+        /// </summary>
         internal void SaveSetting()
         {
             try
@@ -102,40 +132,50 @@ namespace FileRenamerDiff.Models
             }
         }
 
+        /// <summary>
+        /// 置換実行（ファイルにはまだ保存しない）
+        /// </summary>
         internal async Task Replace()
         {
             this.IsIdle.Value = false;
             await Task.Run(() =>
             {
                 var regexes = CreateRegexes();
-                Parallel.ForEach(SourceFilePathVMs,
+                Parallel.ForEach(FileElementModels,
                     x => x.Replace(regexes));
             })
             .ConfigureAwait(false);
 
-            this.countReplaced.Value = SourceFilePathVMs.Count(x => x.IsReplaced);
+            this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
             this.IsIdle.Value = true;
         }
 
 
+        /// <summary>
+        /// 設定をもとに置換パターンコレクションを作成する
+        /// </summary>
         internal List<ReplaceRegex> CreateRegexes()
         {
-            var deletePatterns = Setting.DeleteTexts
+            //削除パターンは置換後文字列がstring.Emptyなので、１つのReplacePatternにまとめる
+            string deleteInput = Setting.DeleteTexts
                 .Select(x =>
                     x.AsExpression
-                        ? x.Pattern
-                        : Regex.Escape(x.Pattern));
+                        ? x.TargetPattern
+                        : Regex.Escape(x.TargetPattern))
+                .ConcatenateString('|');
 
-            var deleteInput = String.Join('|', deletePatterns);
             var totalReplaceTexts = Setting.ReplaceTexts.ToList();
             totalReplaceTexts.Insert(0, new ReplacePattern(deleteInput, string.Empty, true));
 
             return totalReplaceTexts
-                .Where(a => !String.IsNullOrWhiteSpace(a.Pattern))
+                .Where(a => !String.IsNullOrWhiteSpace(a.TargetPattern))
                .Select(a => new ReplaceRegex(a))
                .ToList();
         }
 
+        /// <summary>
+        /// 置換後ファイル名を保存する
+        /// </summary>
         internal async Task RenameExcute()
         {
             IsIdle.Value = false;
@@ -143,7 +183,7 @@ namespace FileRenamerDiff.Models
             {
                 try
                 {
-                    foreach (var replacePath in SourceFilePathVMs.Where(x => x.IsReplaced))
+                    foreach (var replacePath in FileElementModels.Where(x => x.IsReplaced))
                         replacePath.Rename();
                 }
                 catch (FileNotFoundException fex)
@@ -153,7 +193,7 @@ namespace FileRenamerDiff.Models
             })
             .ConfigureAwait(false);
 
-            await LoadSourceFiles().ConfigureAwait(false);
+            await LoadFileElements().ConfigureAwait(false);
             IsIdle.Value = true;
         }
     }

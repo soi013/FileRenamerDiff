@@ -50,9 +50,9 @@
             ItemsSource="{Binding DeleteTexts}">
             <DataGrid.Columns>
                <DataGridTextColumn
-                  Binding="{Binding Pattern}"
+                  Binding="{Binding TargetPattern}"
                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Pattern" />
+                  Header="Input" />
                <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
             </DataGrid.Columns>
          </DataGrid>
@@ -65,9 +65,9 @@
             ItemsSource="{Binding ReplaceTexts}">
             <DataGrid.Columns>
                <DataGridTextColumn
-                  Binding="{Binding Pattern}"
+                  Binding="{Binding TargetPattern}"
                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Pattern" />
+                  Header="Input" />
                <DataGridTemplateColumn>
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>
@@ -78,7 +78,7 @@
                <DataGridTextColumn
                   Binding="{Binding ReplaceText}"
                   EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Replace" />
+                  Header="Output" />
                <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
             </DataGrid.Columns>
          </DataGrid>

@@ -11,28 +11,62 @@ namespace FileRenamerDiff.Models
 {
     public static class AppExtention
     {
+        /// <summary>
+        /// 指定したコレクションからコピーされた要素を格納するObservableCollectionを生成
+        /// </summary>
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new ObservableCollection<T>(source);
 
-        public static string ConcatenateString<T>(this IEnumerable<T> values, string sepalator) => String.Join(sepalator, values);
-        public static string ConcatenateString<T>(this IEnumerable<T> values, char sepalator) => String.Join(sepalator, values);
+        /// <summary>
+        /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
+        /// </summary>
+        public static string ConcatenateString<T>(this IEnumerable<T> values, string sepalator = " ") => String.Join(sepalator, values);
+
+        /// <summary>
+        /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
+        /// </summary>
+        public static string ConcatenateString<T>(this IEnumerable<T> values, char sepalator = ' ') => String.Join(sepalator, values);
+
+        /// <summary>
+        /// Linesを改行で連結する
+        /// </summary>
         public static string ToRawText(this DiffPaneModel diffPane) => $"{diffPane.Lines.ConcatenateString(Environment.NewLine)}";
+
+        /// <summary>
+        /// 差分前後の文字を比較表示
+        /// </summary>
         public static string ToDisplayString(this SideBySideDiffModel ssDiff) => $"{ssDiff.OldText.ToRawText()}->{ssDiff.NewText.ToRawText()}";
 
+        /// <summary>
+        /// オブジェクトを変更不可能にし、その System.Windows.Freezable.IsFrozen プロパティを true に設定します。
+        /// </summary>
         public static T WithFreeze<T>(this T obj) where T : Freezable
         {
             obj.Freeze();
             return obj;
         }
 
+        /// <summary>
+        ///　指定した色のSolidColorBrushに変換します。
+        /// </summary>
         public static SolidColorBrush ToSolidColorBrush(this Color mColor, bool isFreeze = false) =>
            isFreeze
            ? new SolidColorBrush(mColor)
            : new SolidColorBrush(mColor).WithFreeze();
 
+        /// <summary>
+        /// 色を文字列化 ex. #CC10D0
+        /// </summary>
         public static string ToCode(this Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
 
-        public static Color CodeToColorOrTransparent(string code) => CodeToColor(code) ?? Colors.Transparent;
-        public static Color? CodeToColor(string code)
+        /// <summary>
+        /// 指定した文字列を色に変換する、できなかったら透明色を返す
+        /// </summary>
+        public static Color ToColorOrDefault(string code) => CodeToColorOrNull(code) ?? default;
+
+        /// <summary>
+        /// 指定した文字列を色に変換する、できなかったらnullを返す
+        /// </summary>
+        public static Color? CodeToColorOrNull(string code)
         {
             try
             {
@@ -45,6 +79,9 @@ namespace FileRenamerDiff.Models
             }
         }
 
+        /// <summary>
+        /// 指定したByte数を見やすい文字列に変換する ex. 12,000 -> 12KB
+        /// </summary>
         public static string ReadableByteText(long lengthByte)
         {
             string[] sizes = { "B", "KB", "MB", "GB", "TB" };

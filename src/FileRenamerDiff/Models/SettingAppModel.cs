@@ -13,11 +13,21 @@ using Reactive.Bindings;
 
 namespace FileRenamerDiff.Models
 {
+    /// <summary>
+    /// アプリケーション設定クラス
+    /// </summary>
     public class SettingAppModel : NotificationObject
     {
         private static readonly string myDocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public ReactivePropertySlim<string> SourceFilePath { get; set; } = new ReactivePropertySlim<string>(myDocPath);
 
+        /// <summary>
+        /// リネームファイルを検索するターゲットパス
+        /// </summary>
+        public ReactivePropertySlim<string> SearchFilePath { get; set; } = new ReactivePropertySlim<string>(myDocPath);
+
+        /// <summary>
+        /// 検索時に無視される拡張子コレクション
+        /// </summary>
         public ObservableCollection<ReactivePropertySlim<string>> IgnoreExtensions { get; set; } = new[]
         {
             "pdb", "db", "xfr","ini","",
@@ -26,6 +36,9 @@ namespace FileRenamerDiff.Models
         .Select(x => new ReactivePropertySlim<string>(x))
         .ToObservableCollection();
 
+        /// <summary>
+        /// 検索時に無視される拡張子判定Regexの生成
+        /// </summary>
         public Regex CreateIgnoreExtensionsRegex()
         {
             IEnumerable<string> ignoreExts = IgnoreExtensions.Select(x => x.Value).Where(x => !String.IsNullOrWhiteSpace(x));
@@ -33,7 +46,9 @@ namespace FileRenamerDiff.Models
             return new Regex(ignorePattern, RegexOptions.Compiled);
         }
 
-
+        /// <summary>
+        /// 削除文字列パターン
+        /// </summary>
         public ObservableCollection<ReplacePattern> DeleteTexts { get; set; } = new[]
         {
              " - コピー",
@@ -50,6 +65,9 @@ namespace FileRenamerDiff.Models
         .Select(x => new ReplacePattern(x, ""))
         .ToObservableCollection();
 
+        /// <summary>
+        /// 置換文字列パターン
+        /// </summary>
         public ObservableCollection<ReplacePattern> ReplaceTexts = new ObservableCollection<ReplacePattern>
         {
             new ReplacePattern(".jpeg$", ".jpg", true),
@@ -66,6 +84,8 @@ namespace FileRenamerDiff.Models
 
         static SettingAppModel()
         {
+            //ReactivePropertyをシリアライズ可能にするため、アプリケーション全体で固定のMessagePackResolverを設定
+
             var resolver = MessagePack.Resolvers.CompositeResolver.Create(
                 ReactivePropertyResolver.Instance,
                 MessagePack.Resolvers.ContractlessStandardResolver.Instance,
@@ -77,6 +97,9 @@ namespace FileRenamerDiff.Models
         private static readonly string settingFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
 
+        /// <summary>
+        /// ファイルから設定ファイルをデシリアライズ
+        /// </summary>
         public static SettingAppModel Deserialize()
         {
             var json = File.ReadAllText(settingFilePath);
@@ -84,6 +107,9 @@ namespace FileRenamerDiff.Models
             return MessagePackSerializer.Deserialize<SettingAppModel>(mPack);
         }
 
+        /// <summary>
+        /// ファイルに設定ファイルをシリアライズ
+        /// </summary>
         public void Serialize()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(settingFilePath));

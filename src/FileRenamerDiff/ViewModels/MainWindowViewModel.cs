@@ -27,21 +27,53 @@ namespace FileRenamerDiff.ViewModels
     public class MainWindowViewModel : ViewModel
     {
         Model model = Model.Instance;
+
+        /// <summary>
+        /// アプリケーションが待機状態か
+        /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdle { get; }
 
-        public ReadOnlyReactivePropertySlim<ICollectionView> FilePathVMs { get; }
+        /// <summary>
+        /// ファイル情報コレクションのDataGrid用のICollectionView
+        /// </summary>
+        public ReadOnlyReactivePropertySlim<ICollectionView> FileElemenVMs { get; }
 
+        /// <summary>
+        /// フォルダ選択完了コマンド
+        /// </summary>
         public AsyncReactiveCommand<FolderSelectionMessage> FileLoadPathCommand { get; }
+        /// <summary>
+        /// フォルダ読み込みコマンド
+        /// </summary>
         public AsyncReactiveCommand FileLoadCommand { get; }
 
+        /// <summary>
+        /// 置換実行コマンド
+        /// </summary>
         public AsyncReactiveCommand ReplaceCommand { get; }
 
+        /// <summary>
+        /// 置換後ファイル名保存コマンド
+        /// </summary>
         public AsyncReactiveCommand RenameExcuteCommand { get; }
 
+        /// <summary>
+        /// 置換前後で差があったファイルのみ表示するか
+        /// </summary>
         public ReactivePropertySlim<bool> IsVisibleReplacedOnly { get; } = new ReactivePropertySlim<bool>(false);
+
+        /// <summary>
+        /// 設定情報ViewModel
+        /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
+        /// <summary>
+        /// リネーム前後での変更があったファイル数
+        /// </summary>
         public IReadOnlyReactiveProperty<int> CountReplaced { get; }
+        /// <summary>
+        /// リネーム前後で変更が１つでのあったか
+        /// </summary>
         public IReadOnlyReactiveProperty<bool> IsReplacedAny { get; }
 
         public MainWindowViewModel()
@@ -50,13 +82,13 @@ namespace FileRenamerDiff.ViewModels
             this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
 
-            this.FilePathVMs = model.ObserveProperty(x => x.SourceFilePathVMs)
+            this.FileElemenVMs = model.ObserveProperty(x => x.FileElementModels)
                 .Select(x => CreateFilePathVMs(x))
                 .ToReadOnlyReactivePropertySlim();
 
             this.ReplaceCommand = new[]
                 {
-                    FilePathVMs.Select(x => x?.IsEmpty == false),
+                    FileElemenVMs.Select(x => x?.IsEmpty == false),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
@@ -73,8 +105,9 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.RenameExcute());
 
+            //表示基準に変更があったら、CollectionViewのフィルタを変更する
             this.IsVisibleReplacedOnly.Subscribe(
-                _ => FilePathVMs.Value.Filter = (x => IsVisiblePath(x)));
+                _ => FileElemenVMs.Value.Filter = (x => IsVisiblePath(x)));
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
@@ -86,12 +119,12 @@ namespace FileRenamerDiff.ViewModels
 
             this.FileLoadCommand = new[]
                 {
-                    SettingVM.Value.SourceFilePath.Select<string, bool>(x => !String.IsNullOrWhiteSpace(x)),
+                    SettingVM.Value.SearchFilePath.Select<string, bool>(x => !String.IsNullOrWhiteSpace(x)),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.LoadSourceFiles());
+                .WithSubscribe(() => model.LoadFileElements());
         }
 
         private async Task FolderSelected(FolderSelectionMessage fsMessage)
@@ -99,28 +132,35 @@ namespace FileRenamerDiff.ViewModels
             if (fsMessage.Response == null)
                 return;
 
-            SettingVM.Value.SourceFilePath.Value = fsMessage.Response;
-            await model.LoadSourceFiles();
+            SettingVM.Value.SearchFilePath.Value = fsMessage.Response;
+            await model.LoadFileElements();
         }
 
-        private ICollectionView CreateFilePathVMs(IReadOnlyList<FilePathModel> paths)
+        private ICollectionView CreateFilePathVMs(IEnumerable<FileElementModel> paths)
         {
             if (paths == null)
                 return null;
 
-            var vms = new ObservableCollection<FilePathViewModel>(paths?.Select(path => new FilePathViewModel(path)));
+            var vms = new ObservableCollection<FileElementViewModel>(paths.Select(path => new FileElementViewModel(path)));
             return CollectionViewSource.GetDefaultView(vms);
         }
+
         private bool IsVisiblePath(object row) =>
             !IsVisibleReplacedOnly.Value ? true
-            : !(row is FilePathViewModel pathVM) ? true
+            : !(row is FileElementViewModel pathVM) ? true
             : pathVM.IsReplaced.Value;
 
+        /// <summary>
+        /// アプリケーション起動時処理
+        /// </summary>
         public void Initialize()
         {
             model.Initialize();
         }
 
+        /// <summary>
+        /// アプリケーション終了時処理
+        /// </summary>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

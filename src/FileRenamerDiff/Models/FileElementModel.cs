@@ -8,7 +8,10 @@ using Livet;
 
 namespace FileRenamerDiff.Models
 {
-    public class FilePathModel : NotificationObject
+    /// <summary>
+    /// リネーム前後のファイル名を含むファイル情報モデル
+    /// </summary>
+    public class FileElementModel : NotificationObject
     {
         private Model model => Model.Instance;
         private SettingAppModel settingApp => model.Setting;
@@ -16,9 +19,15 @@ namespace FileRenamerDiff.Models
         private readonly string path;
         private readonly FileInfo fileInfo;
 
-        public string FileName => fileInfo?.Name;
+        /// <summary>
+        /// リネーム前 ファイル名
+        /// </summary>
+        public string InputFileName => fileInfo?.Name;
 
         private string outputFileName = "--.-";
+        /// <summary>
+        /// リネーム後 ファイル名
+        /// </summary>
         public string OutputFileName
         {
             get => outputFileName;
@@ -27,27 +36,52 @@ namespace FileRenamerDiff.Models
 
         private string replacedPath => Path.Combine(DirectoryPath, outputFileName);
 
-        public bool IsReplaced => FileName != OutputFileName;
+        /// <summary>
+        /// リネーム前後で変更があったか
+        /// </summary>
+        public bool IsReplaced => InputFileName != OutputFileName;
 
-
+        /// <summary>
+        /// ファイルの所属しているディレクトリ名
+        /// </summary>
         public string DirectoryPath => fileInfo.DirectoryName;
+
+        /// <summary>
+        /// ファイルのバイト数 （ディレクトリの場合は-1B）
+        /// </summary>
         public long LengthByte => fileInfo.Exists ? fileInfo.Length : -1;
+
+        /// <summary>
+        /// ファイル更新日時
+        /// </summary>
         public DateTime LastWriteTime => fileInfo.LastWriteTime;
+
+        /// <summary>
+        /// ファイル作成日時
+        /// </summary>
         public DateTime CreationTime => fileInfo.CreationTime;
+
+        /// <summary>
+        /// ファイル属性
+        /// </summary>
         public FileAttributes Attributes => fileInfo.Attributes;
 
-        public FilePathModel(string path)
+        public FileElementModel(string path)
         {
             this.path = path;
 
             this.fileInfo = new FileInfo(path);
 
-            this.outputFileName = FileName;
+            this.outputFileName = InputFileName;
         }
 
-        internal void Replace(List<ReplaceRegex> repRegexes)
+        /// <summary>
+        /// 指定された
+        /// </summary>
+        /// <param name="repRegexes"></param>
+        internal void Replace(IReadOnlyList<ReplaceRegex> repRegexes)
         {
-            var outFileName = FileName;
+            var outFileName = InputFileName;
 
             foreach (var reg in repRegexes)
             {
@@ -56,11 +90,12 @@ namespace FileRenamerDiff.Models
 
             OutputFileName = outFileName;
         }
-        public override string ToString() => $"{FileName}->{OutputFileName}";
+
+        public override string ToString() => $"{InputFileName}->{OutputFileName}";
 
         internal void Rename()
         {
-            Trace.WriteLine($"info Rename [{FileName}] -> [{OutputFileName}] in [{DirectoryPath}]");
+            Trace.WriteLine($"info Rename [{InputFileName}] -> [{OutputFileName}] in [{DirectoryPath}]");
             if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
                 Directory.Move(this.path, this.replacedPath);
             else

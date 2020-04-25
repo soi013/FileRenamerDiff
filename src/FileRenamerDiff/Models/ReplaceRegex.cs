@@ -2,21 +2,30 @@
 
 namespace FileRenamerDiff.Models
 {
+    /// <summary>
+    /// 正規表現を用いて文字列を置換する処理とパターンを保持するクラス
+    /// </summary>
     public class ReplaceRegex
     {
         private Regex regex;
         private string replaceText;
 
-        public ReplaceRegex(string pattern, bool asExpression, string replaceText)
+        /// <summary>
+        /// 置換パターンを組み立てる
+        /// </summary>
+        public ReplaceRegex(ReplacePattern rPattern)
         {
-            var patternEx = asExpression ? pattern : Regex.Escape(pattern);
+            var patternEx = rPattern.AsExpression
+                ? rPattern.TargetPattern
+                : Regex.Escape(rPattern.TargetPattern);
+
             this.regex = new Regex(patternEx, RegexOptions.Compiled);
-            this.replaceText = replaceText;
+            this.replaceText = rPattern.ReplaceText;
         }
 
-        public ReplaceRegex(ReplacePattern a)
-            : this(a.Pattern, a.AsExpression, a.ReplaceText) { }
-
+        /// <summary>
+        /// 置換実行
+        /// </summary>
         internal string Replace(string input) => regex.Replace(input, replaceText);
 
         public override string ToString() => $"{regex}->{replaceText}";
