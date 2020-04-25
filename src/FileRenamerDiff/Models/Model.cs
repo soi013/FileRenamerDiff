@@ -162,6 +162,8 @@ namespace FileRenamerDiff.Models
                     x.AsExpression
                         ? x.TargetPattern
                         : Regex.Escape(x.TargetPattern))
+                .Where(x => !String.IsNullOrWhiteSpace(x))
+                .Distinct()
                 .ConcatenateString('|');
 
             var totalReplaceTexts = Setting.ReplaceTexts.ToList();
@@ -169,8 +171,9 @@ namespace FileRenamerDiff.Models
 
             return totalReplaceTexts
                 .Where(a => !String.IsNullOrWhiteSpace(a.TargetPattern))
-               .Select(a => new ReplaceRegex(a))
-               .ToList();
+                .Distinct(a => a.TargetPattern)
+                .Select(a => new ReplaceRegex(a))
+                .ToList();
         }
 
         /// <summary>

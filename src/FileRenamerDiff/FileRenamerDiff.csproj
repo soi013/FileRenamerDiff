@@ -22,6 +22,7 @@
     <PackageReference Include="MessagePack" Version="2.1.90" />
     <PackageReference Include="MessagePack.ReactiveProperty" Version="2.1.90" />
     <PackageReference Include="ReactiveProperty" Version="6.2.0" />
+    <PackageReference Include="System.Interactive" Version="4.1.1" />
     <PackageReference Include="System.Reactive.Compatibility" Version="4.4.1" />
   </ItemGroup>
   <ItemGroup>
