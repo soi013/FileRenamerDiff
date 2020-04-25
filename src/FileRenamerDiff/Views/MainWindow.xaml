@@ -104,19 +104,30 @@
                      Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
                </StackPanel>
             </materialDesign:ColorZone>
-            <Button
-               Margin="5,0"
-               Command="{Binding FileLoadCommand}"
-               Content="File Load" />
+            <Button Margin="5,0" Command="{Binding FileLoadCommand}">
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="FolderRefreshOutline" />
+                  <TextBlock Margin="5,0"  Text="Load Files" />
+               </StackPanel>
+            </Button>
             <Button
                Margin="5,0"
                Command="{Binding ReplaceCommand}"
-               Content="Dry Run" />
+               Style="{StaticResource MaterialDesignRaisedAccentButton}">
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="RenameBox" />
+                  <TextBlock Margin="5,0"  Text="Dry Run" />
+               </StackPanel>
+            </Button>
             <Button
                Margin="5,0"
                Command="{Binding RenameExcuteCommand}"
-               Content="Save"
-               Style="{StaticResource MaterialDesignRaisedAccentButton}" />
+               Style="{StaticResource MaterialDesignRaisedAccentButton}">
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="ContentSaveAllOutline" />
+                  <TextBlock Margin="5,0" Text="Save" />
+               </StackPanel>
+            </Button>
          </StackPanel>
       </materialDesign:ColorZone>
       <DataGrid
