@@ -50,6 +50,10 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ObservableCollection<ReplacePattern> ReplaceTexts => setting.ReplaceTexts;
 
+        public ReactiveCommand AddIgnoreExtensionsCommand { get; }
+        public ReactiveCommand AddDeleteTextsCommand { get; }
+        public ReactiveCommand AddReplaceTextsCommand { get; }
+
         /// <summary>
         /// 設定初期化コマンド
         /// </summary>
@@ -65,9 +69,21 @@ namespace FileRenamerDiff.ViewModels
         {
             this.setting = setting;
 
+            AddIgnoreExtensionsCommand = model.IsIdle
+                 .ToReactiveCommand()
+                 .WithSubscribe(() => setting.AddIgnoreExtensions());
+
+            AddDeleteTextsCommand = model.IsIdle
+                 .ToReactiveCommand()
+                 .WithSubscribe(() => setting.AddDeleteTexts());
+
+            AddReplaceTextsCommand = model.IsIdle
+                             .ToReactiveCommand()
+                             .WithSubscribe(() => setting.AddReplaceTexts());
+
             ResetSettingCommand = model.IsIdle
                 .ToReactiveCommand()
-                .WithSubscribe(() => Model.Instance.ResetSetting())
+                .WithSubscribe(() => model.ResetSetting())
                 .AddTo(this.CompositeDisposable);
         }
     }

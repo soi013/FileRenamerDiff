@@ -94,6 +94,12 @@ namespace FileRenamerDiff.Models
             MessagePackSerializer.DefaultOptions = MessagePack.MessagePackSerializerOptions.Standard.WithResolver(resolver);
         }
 
+        internal void AddIgnoreExtensions() => IgnoreExtensions.Add(new ReactivePropertySlim<string>(""));
+
+        internal void AddDeleteTexts() => DeleteTexts.Add(new ReplacePattern("", ""));
+
+        internal void AddReplaceTexts() => ReplaceTexts.Add(new ReplacePattern("", ""));
+
         private static readonly string settingFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
 

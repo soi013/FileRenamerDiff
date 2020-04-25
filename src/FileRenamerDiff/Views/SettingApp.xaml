@@ -26,62 +26,108 @@
          <Setter Property="MinWidth" Value="40" />
          <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
       </Style>
+      <Style
+         x:Key="AddButton"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Content">
+            <Setter.Value>
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="TableRowAddAfter" />
+                  <TextBlock Margin="5,0" Text="ADD" />
+               </StackPanel>
+            </Setter.Value>
+         </Setter>
+         <Setter Property="Margin" Value="30,5" />
+      </Style>
    </UserControl.Resources>
    <StackPanel>
       <Expander HorizontalAlignment="Stretch" Header="Ignore Extensions (File Load)">
-         <DataGrid
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            ItemsSource="{Binding IgnoreExtensions}">
-            <DataGrid.Columns>
-               <DataGridTextColumn
-                  Binding="{Binding Value}"
-                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Ignore Extensions" />
-            </DataGrid.Columns>
-         </DataGrid>
+         <Grid>
+            <Grid.RowDefinitions>
+               <RowDefinition Height="*" />
+               <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid
+               Grid.Row="0"
+               AutoGenerateColumns="False"
+               HeadersVisibility="All"
+               ItemsSource="{Binding IgnoreExtensions}">
+               <DataGrid.Columns>
+                  <DataGridTextColumn
+                     Binding="{Binding Value}"
+                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                     Header="Ignore Extensions" />
+               </DataGrid.Columns>
+            </DataGrid>
+            <Button
+               Grid.Row="1"
+               Command="{Binding AddIgnoreExtensionsCommand}"
+               Style="{StaticResource AddButton}" />
+         </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
       <Expander HorizontalAlignment="Stretch" Header="DeleteTexts">
-         <DataGrid
-            AutoGenerateColumns="False"
-            ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
-            HeadersVisibility="All"
-            ItemsSource="{Binding DeleteTexts}">
-            <DataGrid.Columns>
-               <DataGridTextColumn
-                  Binding="{Binding TargetPattern}"
-                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Input" />
-               <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
-            </DataGrid.Columns>
-         </DataGrid>
+         <Grid>
+            <Grid.RowDefinitions>
+               <RowDefinition Height="*" />
+               <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid
+               AutoGenerateColumns="False"
+               ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
+               HeadersVisibility="All"
+               ItemsSource="{Binding DeleteTexts}">
+               <DataGrid.Columns>
+                  <DataGridTextColumn
+                     Binding="{Binding TargetPattern}"
+                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                     Header="Input" />
+                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
+               </DataGrid.Columns>
+            </DataGrid>
+            <Button
+               Grid.Row="1"
+               Command="{Binding AddDeleteTextsCommand}"
+               Style="{StaticResource AddButton}" />
+         </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
       <Expander HorizontalAlignment="Stretch" Header="Replace Patterns">
-         <DataGrid
-            AutoGenerateColumns="False"
-            HeadersVisibility="All"
-            ItemsSource="{Binding ReplaceTexts}">
-            <DataGrid.Columns>
-               <DataGridTextColumn
-                  Binding="{Binding TargetPattern}"
-                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Input" />
-               <DataGridTemplateColumn>
-                  <DataGridTemplateColumn.CellTemplate>
-                     <DataTemplate>
-                        <materialDesign:PackIcon VerticalAlignment="Center" Kind="ArrowRight" />
-                     </DataTemplate>
-                  </DataGridTemplateColumn.CellTemplate>
-               </DataGridTemplateColumn>
-               <DataGridTextColumn
-                  Binding="{Binding ReplaceText}"
-                  EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                  Header="Output" />
-               <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
-            </DataGrid.Columns>
-         </DataGrid>
+         <Grid>
+            <Grid.RowDefinitions>
+               <RowDefinition Height="*" />
+               <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <DataGrid
+               AutoGenerateColumns="False"
+               HeadersVisibility="All"
+               ItemsSource="{Binding ReplaceTexts}">
+               <DataGrid.Columns>
+                  <DataGridTextColumn
+                     Binding="{Binding TargetPattern}"
+                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                     Header="Input" />
+                  <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <materialDesign:PackIcon VerticalAlignment="Center" Kind="ArrowRight" />
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
+                  <DataGridTextColumn
+                     Binding="{Binding ReplaceText}"
+                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                     Header="Output" />
+                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
+               </DataGrid.Columns>
+            </DataGrid>
+            <Button
+               Grid.Row="1"
+               Command="{Binding AddReplaceTextsCommand}"
+               Style="{StaticResource AddButton}" />
+         </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
       <Expander HorizontalAlignment="Stretch" Header="Other">
@@ -89,8 +135,12 @@
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand}"
-               Content="Reset ALL Setting"
-               Style="{StaticResource MaterialDesignRaisedAccentButton}" />
+               Style="{StaticResource MaterialDesignRaisedAccentButton}">
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="Autorenew" />
+                  <TextBlock Margin="5,0" Text="Reset ALL Setting" />
+               </StackPanel>
+            </Button>
          </StackPanel>
       </Expander>
    </StackPanel>
