@@ -41,6 +41,20 @@
          </Setter>
          <Setter Property="Margin" Value="30,5" />
       </Style>
+      <Style
+         x:Key="RemoveButton"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignIconButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Height" Value="24" />
+         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=RemoveCircle}" />
+         <Setter Property="v:RemoveItemExt.RemoveItem" Value="True" />
+      </Style>
+      <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+         <Setter Property="AutoGenerateColumns" Value="False" />
+         <Setter Property="CanUserSortColumns" Value="False" />
+         <Setter Property="HeadersVisibility" Value="All" />
+      </Style>
    </UserControl.Resources>
    <StackPanel>
       <Expander HorizontalAlignment="Stretch" Header="Ignore Extensions (File Load)">
@@ -49,16 +63,19 @@
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid
-               Grid.Row="0"
-               AutoGenerateColumns="False"
-               HeadersVisibility="All"
-               ItemsSource="{Binding IgnoreExtensions}">
+            <DataGrid ItemsSource="{Binding IgnoreExtensions}">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding Value}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="Ignore Extensions" />
+                  <DataGridTemplateColumn CanUserSort="False">
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <Button Style="{StaticResource RemoveButton}" />
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
             <Button
@@ -74,17 +91,20 @@
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid
-               AutoGenerateColumns="False"
-               ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
-               HeadersVisibility="All"
-               ItemsSource="{Binding DeleteTexts}">
+            <DataGrid ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}" ItemsSource="{Binding DeleteTexts}">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="Input" />
                   <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
+                  <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <Button Style="{StaticResource RemoveButton}" />
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
             <Button
@@ -100,10 +120,7 @@
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid
-               AutoGenerateColumns="False"
-               HeadersVisibility="All"
-               ItemsSource="{Binding ReplaceTexts}">
+            <DataGrid ItemsSource="{Binding ReplaceTexts}">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
@@ -121,6 +138,13 @@
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="Output" />
                   <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
+                  <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <Button Style="{StaticResource RemoveButton}" />
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
             <Button
