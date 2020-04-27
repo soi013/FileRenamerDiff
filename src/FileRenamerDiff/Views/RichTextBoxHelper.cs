@@ -29,7 +29,7 @@ namespace FileRenamerDiff.Views
 
             //FlowDocumentは1つのRichTextBoxにしか設定できない。
             //すでに他のRichTextBoxに所属しているなら、コピーを作成・設定する
-            richTextBox.Document = attachedDocument.Parent == null
+            richTextBox.Document = attachedDocument?.Parent == null
                 ? attachedDocument
                 : CopyFlowDocument(attachedDocument);
         }
