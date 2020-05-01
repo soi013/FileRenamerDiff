@@ -19,8 +19,8 @@
             <!--  MahApps  -->
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Indigo.xaml" />
             <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />-->
-            <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
 
             <!--  Material Design  -->
             <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
@@ -116,18 +116,6 @@
             po:Freeze="True"
             Opacity="0.4"
             Color="{StaticResource Primary500}" />
-         <SolidColorBrush
-            x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchBrush.Win10"
-            po:Freeze="True"
-            Color="{StaticResource Primary500}" />
-         <SolidColorBrush
-            x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.OnSwitchMouseOverBrush.Win10"
-            po:Freeze="True"
-            Color="{StaticResource Primary400}" />
-         <SolidColorBrush
-            x:Key="MahApps.Metro.Brushes.ToggleSwitchButton.ThumbIndicatorCheckedBrush.Win10"
-            po:Freeze="True"
-            Color="{StaticResource Primary500Foreground}" />
       </ResourceDictionary>
    </Application.Resources>
 </Application>
