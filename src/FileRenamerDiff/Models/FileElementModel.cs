@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 
+using Anotar.Serilog;
 using Livet;
 
 namespace FileRenamerDiff.Models
@@ -89,13 +90,14 @@ namespace FileRenamerDiff.Models
             }
 
             OutputFileName = outFileName;
+            LogTo.Debug("Replaced {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
         }
 
         public override string ToString() => $"{InputFileName}->{OutputFileName}";
 
         internal void Rename()
         {
-            Trace.WriteLine($"info Rename [{InputFileName}] -> [{OutputFileName}] in [{DirectoryPath}]");
+            LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
             if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
                 Directory.Move(this.path, this.replacedPath);
             else

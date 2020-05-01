@@ -7,7 +7,10 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
+
+using Anotar.Serilog;
 using DiffPlex.DiffBuilder.Model;
+
 using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.Views
@@ -31,7 +34,7 @@ namespace FileRenamerDiff.Views
                 return Binding.DoNothing;
 
             if (diffVM.Lines.Count > 1)
-                Debug.WriteLine($"Warning Lines {diffVM.Lines.Count > 1}");
+                LogTo.Warning("Lines Count is over. {@LinesCount}", diffVM.Lines.Count);
 
             List<Run> lineView = ConvertLinveVmToRuns(diffVM.Lines.First());
 
@@ -73,7 +76,8 @@ namespace FileRenamerDiff.Views
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            LogTo.Error("Not Implemented");
+            return Binding.DoNothing;
         }
     }
 }

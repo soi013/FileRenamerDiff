@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
+using Anotar.Serilog;
 using Livet;
-using Microsoft.VisualBasic;
+using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -73,6 +74,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public async Task LoadFileElements()
         {
+            LogTo.Debug("File Load Start");
             this.IsIdle.Value = false;
             string sourceFilePath = Setting.SearchFilePath.Value;
             if (!Directory.Exists(sourceFilePath))
@@ -94,6 +96,7 @@ namespace FileRenamerDiff.Models
 
             this.countReplaced.Value = 0;
             this.IsIdle.Value = true;
+            LogTo.Debug("File Load Ended");
         }
 
         /// <summary>
@@ -112,7 +115,7 @@ namespace FileRenamerDiff.Models
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"Error {ex.Message}");
+                LogTo.Error(ex, "Fail to Load Setting");
                 Setting = new SettingAppModel();
             }
         }
@@ -128,7 +131,7 @@ namespace FileRenamerDiff.Models
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"Error {ex.Message}");
+                LogTo.Error(ex, "Fail to Save Setting");
             }
         }
 
@@ -137,6 +140,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal async Task Replace()
         {
+            LogTo.Information("Replace Start");
             this.IsIdle.Value = false;
             await Task.Run(() =>
             {
@@ -148,6 +152,7 @@ namespace FileRenamerDiff.Models
 
             this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
             this.IsIdle.Value = true;
+            LogTo.Information("Replace Ended");
         }
 
 
@@ -181,6 +186,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal async Task RenameExcute()
         {
+            LogTo.Information("Renamed File Save Start");
             IsIdle.Value = false;
             await Task.Run(() =>
             {
@@ -191,13 +197,14 @@ namespace FileRenamerDiff.Models
                 }
                 catch (FileNotFoundException fex)
                 {
-                    Trace.WriteLine($"Warn Fail to Rename ex:{fex.Message}");
+                    LogTo.Warning(fex, "Fail to Rename");
                 }
             })
             .ConfigureAwait(false);
 
             await LoadFileElements().ConfigureAwait(false);
             IsIdle.Value = true;
+            LogTo.Information("Renamed File Save Ended");
         }
     }
 }

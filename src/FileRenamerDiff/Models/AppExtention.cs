@@ -1,11 +1,13 @@
-﻿using DiffPlex.DiffBuilder.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+
+using Anotar.Serilog;
+using DiffPlex.DiffBuilder.Model;
 
 namespace FileRenamerDiff.Models
 {
@@ -74,7 +76,7 @@ namespace FileRenamerDiff.Models
             }
             catch (FormatException ex)
             {
-                Debug.WriteLine($"{ex.Message}");
+                LogTo.Error(ex, "Fail to Convert Color");
                 return null;
             }
         }

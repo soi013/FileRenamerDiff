@@ -19,6 +19,7 @@ using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using ps = System.Reactive.PlatformServices;
+using Anotar.Serilog;
 
 using FileRenamerDiff.Models;
 
@@ -156,6 +157,7 @@ namespace FileRenamerDiff.ViewModels
         public void Initialize()
         {
             model.Initialize();
+            LogTo.Information("App Initialized");
         }
 
         /// <summary>
@@ -169,6 +171,8 @@ namespace FileRenamerDiff.ViewModels
             }
 
             base.Dispose(disposing);
+
+            LogTo.Information("App is Ended");
         }
     }
 }
