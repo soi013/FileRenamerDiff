@@ -90,7 +90,9 @@ namespace FileRenamerDiff.Models
             }
 
             OutputFileName = outFileName;
-            LogTo.Debug("Replaced {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
+
+            if (IsReplaced)
+                LogTo.Debug("Replaced {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
         }
 
         public override string ToString() => $"{InputFileName}->{OutputFileName}";
