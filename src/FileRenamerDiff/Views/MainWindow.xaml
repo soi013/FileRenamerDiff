@@ -19,7 +19,7 @@
    FontWeight="Bold"
    GlowBrush="{StaticResource AccentColorBrush}"
    Icon="/FileRenamerDiff_icon.ico"
-   TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+   TextElement.Foreground="{StaticResource MaterialDesignBody}"
    TitleCharacterCasing="Normal"
    WindowState="Maximized">
    <metro:MetroWindow.Resources>
@@ -79,7 +79,7 @@
                   <Button
                      Width="Auto"
                      Padding="8,2"
-                     Style="{DynamicResource MaterialDesignRaisedButton}">
+                     Style="{StaticResource MaterialDesignRaisedButton}">
                      <materialDesign:PackIcon
                         Width="24"
                         Height="24"
