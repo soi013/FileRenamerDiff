@@ -77,7 +77,10 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsReplacedAny { get; }
 
-        public IReadOnlyReactiveProperty<bool> IsConflictedAny { get; }
+        /// <summary>
+        /// ファイルパスの衝突がないか
+        /// </summary>
+        public IReadOnlyReactiveProperty<bool> IsNotConflictedAny { get; }
 
         /// <summary>
         /// ファイルパスが衝突しているファイルのみ表示するか
@@ -89,7 +92,7 @@ namespace FileRenamerDiff.ViewModels
             this.IsIdle = model.IsIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
-            this.IsConflictedAny = model.IsConflictedAny.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.IsNotConflictedAny = model.IsNotConflictedAny.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
 
             this.FileElemenVMs = model.ObserveProperty(x => x.FileElementModels)
                 .Select(x => CreateFilePathVMs(x))
@@ -107,7 +110,8 @@ namespace FileRenamerDiff.ViewModels
             this.RenameExcuteCommand = new[]
                 {
                     IsReplacedAny,
-                    IsIdle
+                    IsNotConflictedAny,
+                    IsIdle,
                 }
                 .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()

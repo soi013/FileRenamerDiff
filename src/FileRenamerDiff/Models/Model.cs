@@ -59,8 +59,8 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// いずれかのファイルパス同士が衝突しているか
         /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsConflictedAny => isConflictedAny;
-        private ReactivePropertySlim<bool> isConflictedAny = new ReactivePropertySlim<bool>(false);
+        public IReadOnlyReactiveProperty<bool> IsNotConflictedAny => isNotConflictedAny;
+        private ReactivePropertySlim<bool> isNotConflictedAny = new ReactivePropertySlim<bool>(false);
 
         private Model()
         {
@@ -209,7 +209,7 @@ namespace FileRenamerDiff.Models
                 fileElement.IsConflicted = matchPathCount >= 2;
             }
 
-            isConflictedAny.Value = FileElementModels.Any(x => x.IsConflicted);
+            isNotConflictedAny.Value = FileElementModels.All(x => !x.IsConflicted);
         }
 
         /// <summary>
