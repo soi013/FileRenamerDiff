@@ -17,8 +17,12 @@ namespace FileRenamerDiff.Models
         private Model model => Model.Instance;
         private SettingAppModel settingApp => model.Setting;
 
-        private readonly string path;
         private readonly FileInfo fileInfo;
+
+        /// <summary>
+        /// リネーム前 フルファイルパス
+        /// </summary>
+        public string InputFilePath { get; }
 
         /// <summary>
         /// リネーム前 ファイル名
@@ -32,15 +36,28 @@ namespace FileRenamerDiff.Models
         public string OutputFileName
         {
             get => outputFileName;
-            set => RaisePropertyChangedIfSet(ref outputFileName, value, nameof(IsReplaced));
+            set => RaisePropertyChangedIfSet(ref outputFileName, value, new[] { nameof(IsReplaced), nameof(OutputFilePath) });
         }
 
-        private string replacedPath => Path.Combine(DirectoryPath, outputFileName);
+        /// <summary>
+        /// リネーム後 ファイルパス
+        /// </summary>
+        public string OutputFilePath => Path.Combine(DirectoryPath, outputFileName);
 
         /// <summary>
         /// リネーム前後で変更があったか
         /// </summary>
         public bool IsReplaced => InputFileName != OutputFileName;
+
+        private bool _IsConflicted;
+        /// <summary>
+        /// 他のファイルパスと衝突しているか（上位層で判定する）
+        /// </summary>
+        public bool IsConflicted
+        {
+            get => _IsConflicted;
+            set => RaisePropertyChangedIfSet(ref _IsConflicted, value);
+        }
 
         /// <summary>
         /// ファイルの所属しているディレクトリ名
@@ -69,7 +86,7 @@ namespace FileRenamerDiff.Models
 
         public FileElementModel(string path)
         {
-            this.path = path;
+            this.InputFilePath = path;
 
             this.fileInfo = new FileInfo(path);
 
@@ -77,9 +94,8 @@ namespace FileRenamerDiff.Models
         }
 
         /// <summary>
-        /// 指定された
+        /// 指定された置換パターンで、ファイル名を置換する（ストレージに保存はされない）
         /// </summary>
-        /// <param name="repRegexes"></param>
         internal void Replace(IReadOnlyList<ReplaceRegex> repRegexes)
         {
             var outFileName = InputFileName;
@@ -97,13 +113,16 @@ namespace FileRenamerDiff.Models
 
         public override string ToString() => $"{InputFileName}->{OutputFileName}";
 
+        /// <summary>
+        /// リネームを実行（ストレージに保存される）
+        /// </summary>
         internal void Rename()
         {
             LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
             if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
-                Directory.Move(this.path, this.replacedPath);
+                Directory.Move(this.InputFilePath, this.OutputFilePath);
             else
-                fileInfo.MoveTo(replacedPath);
+                fileInfo.MoveTo(OutputFilePath);
         }
     }
 }

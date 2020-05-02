@@ -41,6 +41,11 @@ namespace FileRenamerDiff.ViewModels
         public ReadOnlyReactivePropertySlim<bool> IsReplaced { get; }
 
         /// <summary>
+        /// 他のファイルパスと衝突しているか
+        /// </summary>
+        public ReadOnlyReactivePropertySlim<bool> IsConflicted { get; }
+
+        /// <summary>
         /// ファイルの所属しているディレクトリ名
         /// </summary>
         public string DirectoryPath => pathModel.DirectoryPath;
@@ -74,6 +79,10 @@ namespace FileRenamerDiff.ViewModels
 
             this.IsReplaced = pathModel
                 .ObserveProperty(x => x.IsReplaced)
+                .ToReadOnlyReactivePropertySlim();
+
+            this.IsConflicted = pathModel
+                .ObserveProperty(x => x.IsConflicted)
                 .ToReadOnlyReactivePropertySlim();
         }
 

@@ -52,6 +52,7 @@
       <!--  If you make user choose 'OK or Cancel' closing Window, then please use Window Close cancel Behavior.  -->
 
    </behaviors:Interaction.Triggers>
+   <!--  DataGridのヘッダーからBindingするために、名前付け  -->
    <Grid x:Name="rootObj">
       <Grid.RowDefinitions>
          <RowDefinition Height="Auto" />
@@ -107,7 +108,7 @@
             <Button Margin="5,0" Command="{Binding FileLoadCommand}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="FolderRefreshOutline" />
-                  <TextBlock Margin="5,0"  Text="Load Files" />
+                  <TextBlock Margin="5,0" Text="Load Files" />
                </StackPanel>
             </Button>
             <Button
@@ -116,7 +117,7 @@
                Style="{StaticResource MaterialDesignRaisedAccentButton}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="RenameBox" />
-                  <TextBlock Margin="5,0"  Text="Dry Run" />
+                  <TextBlock Margin="5,0" Text="Dry Run" />
                </StackPanel>
             </Button>
             <Button
@@ -178,6 +179,20 @@
                         </StackPanel>
                      </CheckBox>
                   </materialDesign:Badged>
+               </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn>
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <materialDesign:PackIcon
+                        VerticalAlignment="Center"
+                        Kind="FolderAlert"
+                        Foreground="{DynamicResource ValidationErrorBrush}"
+                        Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+               <DataGridTemplateColumn.Header>
+                  <TextBlock Text="Conflicted" />
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
             <DataGridTextColumn

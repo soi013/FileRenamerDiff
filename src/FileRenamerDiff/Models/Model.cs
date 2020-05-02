@@ -56,6 +56,12 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
 
+        /// <summary>
+        /// いずれかのファイルパス同士が衝突しているか
+        /// </summary>
+        public IReadOnlyReactiveProperty<bool> IsConflictedAny => isConflictedAny;
+        private ReactivePropertySlim<bool> isConflictedAny = new ReactivePropertySlim<bool>(false);
+
         private Model()
         {
             LoadSetting();
@@ -151,10 +157,12 @@ namespace FileRenamerDiff.Models
             .ConfigureAwait(false);
 
             this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
+
+            UpdateFilePathConflict();
+
             this.IsIdle.Value = true;
             LogTo.Information("Replace Ended");
         }
-
 
         /// <summary>
         /// 設定をもとに置換パターンコレクションを作成する
@@ -181,8 +189,31 @@ namespace FileRenamerDiff.Models
                 .ToList();
         }
 
+        private void UpdateFilePathConflict()
+        {
+            var lowerAllPaths = FileElementModels
+                .SelectMany(x =>
+                    x.IsReplaced ? new[] { x.InputFilePath, x.OutputFilePath } : new[] { x.InputFilePath })
+            //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
+                .Select(x => x.ToLower())
+                .ToArray();
+
+            foreach (var fileElement in FileElementModels)
+            {
+                //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
+                string lowPath = fileElement.OutputFilePath.ToLower();
+                int matchPathCount = lowerAllPaths
+                    .Where(x => x == lowPath)
+                    .Count();
+                //もともとのファイルパスがあるので、2以上のときは衝突していると判定
+                fileElement.IsConflicted = matchPathCount >= 2;
+            }
+
+            isConflictedAny.Value = FileElementModels.Any(x => x.IsConflicted);
+        }
+
         /// <summary>
-        /// 置換後ファイル名を保存する
+        /// リネームを実行（ストレージに保存される）
         /// </summary>
         internal async Task RenameExcute()
         {
