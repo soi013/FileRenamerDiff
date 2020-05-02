@@ -124,14 +124,18 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.RenameExcute());
 
-            //表示基準に変更があったら、CollectionViewのフィルタを変更する
+            //表示基準に変更があったら、表示判定対象に変更があったら、CollectionViewの表示を更新する
             new[]
             {
                 this.IsVisibleReplacedOnly,
-                this.IsVisibleConflictedOnly
+                this.IsVisibleConflictedOnly,
+                this.CountConflicted.Select(_=>true),
+                this.CountReplaced.Select(_=>true),
             }
             .CombineLatest()
-            .Subscribe(_ => CViewFileElementVMs.Value.Refresh());
+            .Throttle(TimeSpan.FromMilliseconds(100))
+            .ObserveOnUIDispatcher()
+            .Subscribe(_ => CViewFileElementVMs.Value?.Refresh());
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
