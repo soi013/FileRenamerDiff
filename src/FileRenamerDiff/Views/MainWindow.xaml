@@ -41,7 +41,7 @@
    <behaviors:Interaction.Triggers>
       <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
       <behaviors:EventTrigger EventName="ContentRendered">
-         <l:LivetCallMethodAction MethodName="Initialize" MethodTarget="{Binding}" />
+         <l:LivetCallMethodAction MethodName="Initialize" MethodTarget="{Binding Mode=OneTime}" />
       </behaviors:EventTrigger>
 
       <!--  Dispose method is called, when Window closing.  -->
@@ -83,7 +83,7 @@
                      <behaviors:Interaction.Triggers>
                         <behaviors:EventTrigger EventName="Click">
                            <l:FolderBrowserDialogInteractionMessageAction>
-                              <l:DirectInteractionMessage CallbackCommand="{Binding FileLoadPathCommand, Mode=OneWay}">
+                              <l:DirectInteractionMessage CallbackCommand="{Binding FileLoadPathCommand, Mode=OneTime}">
                                  <l:FolderSelectionMessage
                                     Description="Select Target Folder"
                                     DialogPreference="None"
@@ -100,7 +100,7 @@
                      Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
                </StackPanel>
             </materialDesign:ColorZone>
-            <Button Margin="5,0" Command="{Binding FileLoadCommand}">
+            <Button Margin="5,0" Command="{Binding FileLoadCommand, Mode=OneTime}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="FolderRefreshOutline" />
                   <TextBlock Margin="5,0" Text="Load Files" />
@@ -108,7 +108,7 @@
             </Button>
             <Button
                Margin="5,0"
-               Command="{Binding ReplaceCommand}"
+               Command="{Binding ReplaceCommand, Mode=OneTime}"
                Style="{StaticResource MaterialDesignRaisedAccentButton}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="RenameBox" />
@@ -117,7 +117,7 @@
             </Button>
             <Button
                Margin="5,0"
-               Command="{Binding RenameExcuteCommand}"
+               Command="{Binding RenameExcuteCommand, Mode=OneTime}"
                Style="{StaticResource MaterialDesignRaisedAccentButton}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="ContentSaveAllOutline" />
@@ -134,7 +134,7 @@
          materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
          AutoGenerateColumns="False"
          EnableRowVirtualization="True"
-         ItemsSource="{Binding FileElemenVMs.Value}">
+         ItemsSource="{Binding FileElemenVMs.Value, Mode=OneWay}">
          <DataGrid.Columns>
             <DataGridTemplateColumn Width="400" Header="Input">
                <DataGridTemplateColumn.CellTemplate>

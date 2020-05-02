@@ -80,7 +80,7 @@
             </DataGrid>
             <Button
                Grid.Row="1"
-               Command="{Binding AddIgnoreExtensionsCommand}"
+               Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}"
                Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
@@ -109,7 +109,7 @@
             </DataGrid>
             <Button
                Grid.Row="1"
-               Command="{Binding AddDeleteTextsCommand}"
+               Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
                Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
@@ -149,7 +149,7 @@
             </DataGrid>
             <Button
                Grid.Row="1"
-               Command="{Binding AddReplaceTextsCommand}"
+               Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
                Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
@@ -158,7 +158,7 @@
          <StackPanel>
             <Button
                Margin="30,5"
-               Command="{Binding ResetSettingCommand}"
+               Command="{Binding ResetSettingCommand, Mode=OneTime}"
                Style="{StaticResource MaterialDesignRaisedAccentButton}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="Autorenew" />
