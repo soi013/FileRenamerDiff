@@ -78,6 +78,11 @@ namespace FileRenamerDiff.ViewModels
         public IReadOnlyReactiveProperty<bool> IsReplacedAny { get; }
 
         /// <summary>
+        /// ファイルパスの衝突しているファイル数
+        /// </summary>
+        public IReadOnlyReactiveProperty<int> CountConflicted { get; }
+
+        /// <summary>
         /// ファイルパスの衝突がないか
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsNotConflictedAny { get; }
@@ -85,14 +90,15 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイルパスが衝突しているファイルのみ表示するか
         /// </summary>
-        //public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new ReactivePropertySlim<bool>(false);
+        public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new ReactivePropertySlim<bool>(false);
 
         public MainWindowViewModel()
         {
             this.IsIdle = model.IsIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
-            this.IsNotConflictedAny = model.IsNotConflictedAny.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
             this.FileElemenVMs = model.ObserveProperty(x => x.FileElementModels)
                 .Select(x => CreateFilePathVMs(x))
@@ -119,7 +125,13 @@ namespace FileRenamerDiff.ViewModels
                 .WithSubscribe(() => model.RenameExcute());
 
             //表示基準に変更があったら、CollectionViewのフィルタを変更する
-            this.IsVisibleReplacedOnly.Subscribe(
+            new[]
+            {
+                this.IsVisibleReplacedOnly,
+                this.IsVisibleConflictedOnly,
+            }
+            .CombineLatest()
+            .Subscribe(
                 _ => FileElemenVMs.Value.Filter = (x => IsVisiblePath(x)));
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
@@ -158,10 +170,27 @@ namespace FileRenamerDiff.ViewModels
             return CollectionViewSource.GetDefaultView(vms);
         }
 
-        private bool IsVisiblePath(object row) =>
-            !IsVisibleReplacedOnly.Value ? true
-            : !(row is FileElementViewModel pathVM) ? true
-            : pathVM.IsReplaced.Value;
+        /// <summary>
+        /// 2つの表示切り替えプロパティと、各行の値に応じて、その行の表示状態を決定する
+        /// </summary>
+        /// <param name="row">行VM</param>
+        /// <returns>表示状態</returns>
+        private bool IsVisiblePath(object row)
+        {
+            if (!(row is FileElementViewModel pathVM))
+                return true;
+
+            var replacedVisible = IsVisibleReplacedOnly.Value
+                ? pathVM.IsReplaced.Value
+                : true;
+
+
+            var conflictedVisible = IsVisibleConflictedOnly.Value
+                ? pathVM.IsConflicted.Value
+                : true;
+
+            return replacedVisible && conflictedVisible;
+        }
 
         /// <summary>
         /// アプリケーション起動時処理

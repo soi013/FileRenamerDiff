@@ -25,6 +25,11 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static Model Instance { get; } = new Model();
 
+        /// <summary>
+        /// アプリケーションが待機状態か
+        /// </summary>
+        public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
+
         private IReadOnlyList<FileElementModel> _FileElementModels = new[] { new FileElementModel(@"c:\abc\my_file.txt") };
         /// <summary>
         /// リネーム対象ファイル情報のコレクション
@@ -51,16 +56,12 @@ namespace FileRenamerDiff.Models
         public IReadOnlyReactiveProperty<int> CountReplaced => countReplaced;
         private ReactivePropertySlim<int> countReplaced = new ReactivePropertySlim<int>(0);
 
-        /// <summary>
-        /// アプリケーションが待機状態か
-        /// </summary>
-        public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
 
         /// <summary>
-        /// いずれかのファイルパス同士が衝突しているか
+        /// ファイルパスの衝突しているファイル数
         /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsNotConflictedAny => isNotConflictedAny;
-        private ReactivePropertySlim<bool> isNotConflictedAny = new ReactivePropertySlim<bool>(false);
+        public IReadOnlyReactiveProperty<int> CountConflicted => countConflicted;
+        private ReactivePropertySlim<int> countConflicted = new ReactivePropertySlim<int>(0);
 
         private Model()
         {
@@ -153,12 +154,13 @@ namespace FileRenamerDiff.Models
                 var regexes = CreateRegexes();
                 Parallel.ForEach(FileElementModels,
                     x => x.Replace(regexes));
+
+                this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
+
+                UpdateFilePathConflict();
+                this.countConflicted.Value = FileElementModels.Count(x => x.IsConflicted);
             })
             .ConfigureAwait(false);
-
-            this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
-
-            UpdateFilePathConflict();
 
             this.IsIdle.Value = true;
             LogTo.Information("Replace Ended");
@@ -208,8 +210,6 @@ namespace FileRenamerDiff.Models
                 //もともとのファイルパスがあるので、2以上のときは衝突していると判定
                 fileElement.IsConflicted = matchPathCount >= 2;
             }
-
-            isNotConflictedAny.Value = FileElementModels.All(x => !x.IsConflicted);
         }
 
         /// <summary>

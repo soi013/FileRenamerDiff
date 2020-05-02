@@ -187,7 +187,20 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
-                  <TextBlock Text="Conflicted" />
+                  <materialDesign:Badged
+                     Margin="1,8,1,1"
+                     Padding="0,0,8,0"
+                     BadgeColorZoneMode="PrimaryMid">
+                     <materialDesign:Badged.Badge>
+                        <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
+                     </materialDesign:Badged.Badge>
+                     <CheckBox IsChecked="{Binding DataContext.IsVisibleConflictedOnly.Value, ElementName=rootObj}">
+                        <StackPanel Orientation="Horizontal">
+                           <materialDesign:PackIcon Kind="Filter" />
+                           <TextBlock Text="Conflicted" />
+                        </StackPanel>
+                     </CheckBox>
+                  </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
             <DataGridTextColumn
