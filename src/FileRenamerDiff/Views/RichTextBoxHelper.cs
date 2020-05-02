@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Anotar.Serilog;
+using System;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -25,7 +26,8 @@ namespace FileRenamerDiff.Views
             if (!(d is RichTextBox richTextBox))
                 return;
 
-            var attachedDocument = GetDocument(richTextBox);
+            //まれに添付プロパティがnullのことがある。原因は不明
+            var attachedDocument = GetDocument(richTextBox)??new FlowDocument();
 
             //FlowDocumentは1つのRichTextBoxにしか設定できない。
             //すでに他のRichTextBoxに所属しているなら、コピーを作成・設定する
