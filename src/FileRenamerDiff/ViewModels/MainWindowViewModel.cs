@@ -38,6 +38,7 @@ namespace FileRenamerDiff.ViewModels
         /// ファイル情報コレクションのDataGrid用のICollectionView
         /// </summary>
         public ReadOnlyReactivePropertySlim<ICollectionView> CViewFileElementVMs { get; }
+        private ReadOnlyReactivePropertySlim<ObservableCollection<FileElementViewModel>> fileElementVMs;
 
         /// <summary>
         /// フォルダ選択完了コマンド
@@ -100,13 +101,17 @@ namespace FileRenamerDiff.ViewModels
             this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
-            this.CViewFileElementVMs = model.ObserveProperty(x => x.FileElementModels)
+            this.fileElementVMs = model.ObserveProperty(x => x.FileElementModels)
                 .Select(x => CreateFilePathVMs(x))
+                .ToReadOnlyReactivePropertySlim();
+
+            this.CViewFileElementVMs = fileElementVMs
+                .Select(x => CreateCollectionViewFilePathVMs(x))
                 .ToReadOnlyReactivePropertySlim();
 
             this.ReplaceCommand = new[]
                 {
-                    CViewFileElementVMs.Select(x => x?.IsEmpty == false),
+                    fileElementVMs.Select(x => x?.Count()>=1),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
@@ -164,12 +169,15 @@ namespace FileRenamerDiff.ViewModels
             await model.LoadFileElements();
         }
 
-        private ICollectionView CreateFilePathVMs(IEnumerable<FileElementModel> paths)
+        private ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> paths)
         {
             if (paths == null)
                 return null;
+            return new ObservableCollection<FileElementViewModel>(paths.Select(path => new FileElementViewModel(path)));
+        }
 
-            var vms = new ObservableCollection<FileElementViewModel>(paths.Select(path => new FileElementViewModel(path)));
+        private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> vms)
+        {
             var cView = CollectionViewSource.GetDefaultView(vms);
             cView.Filter = (x => GetVisibleRow(x));
             return cView;
