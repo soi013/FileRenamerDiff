@@ -134,7 +134,7 @@
          materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2"
          AutoGenerateColumns="False"
          EnableRowVirtualization="True"
-         ItemsSource="{Binding FileElemenVMs.Value, Mode=OneWay}">
+         ItemsSource="{Binding CViewFileElementVMs.Value, Mode=OneWay}">
          <DataGrid.Columns>
             <DataGridTemplateColumn Width="400" Header="Input">
                <DataGridTemplateColumn.CellTemplate>

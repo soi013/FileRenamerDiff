@@ -37,7 +37,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
         /// </summary>
-        public ReadOnlyReactivePropertySlim<ICollectionView> FileElemenVMs { get; }
+        public ReadOnlyReactivePropertySlim<ICollectionView> CViewFileElementVMs { get; }
 
         /// <summary>
         /// フォルダ選択完了コマンド
@@ -100,13 +100,13 @@ namespace FileRenamerDiff.ViewModels
             this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
-            this.FileElemenVMs = model.ObserveProperty(x => x.FileElementModels)
+            this.CViewFileElementVMs = model.ObserveProperty(x => x.FileElementModels)
                 .Select(x => CreateFilePathVMs(x))
                 .ToReadOnlyReactivePropertySlim();
 
             this.ReplaceCommand = new[]
                 {
-                    FileElemenVMs.Select(x => x?.IsEmpty == false),
+                    CViewFileElementVMs.Select(x => x?.IsEmpty == false),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
@@ -128,11 +128,10 @@ namespace FileRenamerDiff.ViewModels
             new[]
             {
                 this.IsVisibleReplacedOnly,
-                this.IsVisibleConflictedOnly,
+                this.IsVisibleConflictedOnly
             }
             .CombineLatest()
-            .Subscribe(
-                _ => FileElemenVMs.Value.Filter = (x => IsVisiblePath(x)));
+            .Subscribe(_ => CViewFileElementVMs.Value.Refresh());
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
@@ -167,7 +166,9 @@ namespace FileRenamerDiff.ViewModels
                 return null;
 
             var vms = new ObservableCollection<FileElementViewModel>(paths.Select(path => new FileElementViewModel(path)));
-            return CollectionViewSource.GetDefaultView(vms);
+            var cView = CollectionViewSource.GetDefaultView(vms);
+            cView.Filter = (x => GetVisibleRow(x));
+            return cView;
         }
 
         /// <summary>
@@ -175,7 +176,7 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         /// <param name="row">行VM</param>
         /// <returns>表示状態</returns>
-        private bool IsVisiblePath(object row)
+        private bool GetVisibleRow(object row)
         {
             if (!(row is FileElementViewModel pathVM))
                 return true;
