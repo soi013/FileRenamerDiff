@@ -102,6 +102,7 @@ namespace FileRenamerDiff.Models
             .ConfigureAwait(false);
 
             this.countReplaced.Value = 0;
+            this.countConflicted.Value = 0;
             this.IsIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
