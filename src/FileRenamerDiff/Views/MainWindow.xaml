@@ -22,6 +22,10 @@
    TextElement.Foreground="{StaticResource MaterialDesignBody}"
    TitleCharacterCasing="Normal"
    WindowState="Maximized">
+   <Window.DataContext>
+      <vm:MainWindowViewModel />
+   </Window.DataContext>
+
    <metro:MetroWindow.Resources>
       <l:VisibilityAndBooleanConverter x:Key="VisibilityCollapsedConverter" ConvertWhenFalse="Collapsed" />
       <l:VisibilityAndBooleanConverter
@@ -34,10 +38,6 @@
       </Style>
    </metro:MetroWindow.Resources>
 
-   <Window.DataContext>
-      <vm:MainWindowViewModel />
-   </Window.DataContext>
-
    <behaviors:Interaction.Triggers>
       <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
       <behaviors:EventTrigger EventName="ContentRendered">
@@ -48,9 +48,6 @@
       <behaviors:EventTrigger EventName="Closed">
          <l:DataContextDisposeAction />
       </behaviors:EventTrigger>
-
-      <!--  If you make user choose 'OK or Cancel' closing Window, then please use Window Close cancel Behavior.  -->
-
    </behaviors:Interaction.Triggers>
    <!--  DataGridのヘッダーからBindingするために、名前付け  -->
    <Grid x:Name="rootObj">
@@ -72,10 +69,8 @@
             <materialDesign:ColorZone
                Margin="16,0,0,0"
                Padding="8,4,8,4"
-               Panel.ZIndex="1"
                materialDesign:ShadowAssist.ShadowDepth="Depth1"
-               CornerRadius="2"
-               Mode="Standard">
+               CornerRadius="2">
                <StackPanel Orientation="Horizontal">
                   <Button
                      Width="Auto"
@@ -144,14 +139,14 @@
             <DataGridTemplateColumn Width="400" Header="Input">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" IsReadOnly="True" />
+                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
             <DataGridTemplateColumn Width="400" Header="Output">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" IsReadOnly="True" />
+                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
@@ -186,8 +181,8 @@
                   <DataTemplate>
                      <materialDesign:PackIcon
                         VerticalAlignment="Center"
+                        Foreground="{StaticResource ValidationErrorBrush}"
                         Kind="FolderAlert"
-                        Foreground="{DynamicResource ValidationErrorBrush}"
                         Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
