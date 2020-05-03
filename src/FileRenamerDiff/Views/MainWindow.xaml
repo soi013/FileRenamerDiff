@@ -147,6 +147,10 @@
                   </Setter.Value>
                </Setter>
             </Style>
+            <Style BasedOn="{StaticResource MaterialDesignFlatPrimaryToggleButton}" TargetType="{x:Type ToggleButton}">
+               <Setter Property="Height" Value="24" />
+               <Setter Property="Width" Value="24" />
+            </Style>
          </DataGrid.Resources>
          <DataGrid.Columns>
             <DataGridTemplateColumn Width="400" Header="Input">
@@ -166,7 +170,10 @@
             <DataGridTemplateColumn>
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <materialDesign:PackIcon Kind="CheckBold" Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                     <materialDesign:PackIcon
+                        HorizontalAlignment="Center"
+                        Kind="CheckBold"
+                        Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
@@ -177,12 +184,12 @@
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>
-                     <CheckBox IsChecked="{Binding DataContext.IsVisibleReplacedOnly.Value, ElementName=rootObj}">
-                        <StackPanel Orientation="Horizontal">
+                     <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
+                        <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
                            <materialDesign:PackIcon Kind="Filter" />
-                           <TextBlock Text="Changed" />
-                        </StackPanel>
-                     </CheckBox>
+                        </ToggleButton>
+                        <TextBlock VerticalAlignment="Center" Text="Changed" />
+                     </StackPanel>
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
@@ -190,6 +197,7 @@
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <materialDesign:PackIcon
+                        HorizontalAlignment="Center"
                         Foreground="{StaticResource ValidationErrorBrush}"
                         Kind="FolderAlert"
                         Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
@@ -203,12 +211,12 @@
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>
-                     <CheckBox IsChecked="{Binding DataContext.IsVisibleConflictedOnly.Value, ElementName=rootObj}">
-                        <StackPanel Orientation="Horizontal">
+                     <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
+                        <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
                            <materialDesign:PackIcon Kind="Filter" />
-                           <TextBlock Text="Conflicted" />
-                        </StackPanel>
-                     </CheckBox>
+                        </ToggleButton>
+                        <TextBlock VerticalAlignment="Center" Text="Conflicted" />
+                     </StackPanel>
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
