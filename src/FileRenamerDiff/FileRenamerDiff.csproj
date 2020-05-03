@@ -5,10 +5,16 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>FileRenamerDiff_icon.ico</ApplicationIcon>
+    <Authors>soi</Authors>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="FileRenamerDiff_icon.ico" />
+    <None Remove="Resources\FileRenamerDiff_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\FileRenamerDiff_icon.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DiffPlex" Version="1.6.1" />
@@ -35,5 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FileRenamerDiff_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

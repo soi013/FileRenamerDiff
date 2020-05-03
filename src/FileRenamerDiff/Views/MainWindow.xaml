@@ -50,213 +50,228 @@
          <l:DataContextDisposeAction />
       </behaviors:EventTrigger>
    </behaviors:Interaction.Triggers>
-   <!--  DataGridのヘッダーからBindingするために、名前付け  -->
-   <Grid x:Name="rootObj">
-      <Grid.RowDefinitions>
-         <RowDefinition Height="Auto" />
-         <RowDefinition />
-      </Grid.RowDefinitions>
-      <Grid.ColumnDefinitions>
-         <ColumnDefinition Width="Auto" />
-         <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-      <materialDesign:ColorZone
-         Grid.Row="0"
-         Grid.ColumnSpan="2"
-         Padding="8"
-         CornerRadius="3"
-         Mode="PrimaryDark">
-         <StackPanel Orientation="Horizontal">
-            <materialDesign:ColorZone
-               Margin="16,0,0,0"
-               Padding="8,4,8,4"
-               materialDesign:ShadowAssist.ShadowDepth="Depth1"
-               CornerRadius="2">
-               <StackPanel Orientation="Horizontal">
-                  <Button
-                     Width="Auto"
-                     Padding="8,2"
-                     Style="{StaticResource MaterialDesignRaisedButton}">
-                     <materialDesign:PackIcon
-                        Width="24"
-                        Height="24"
-                        Kind="FolderOpen" />
-                     <behaviors:Interaction.Triggers>
-                        <behaviors:EventTrigger EventName="Click">
-                           <l:FolderBrowserDialogInteractionMessageAction>
-                              <l:DirectInteractionMessage CallbackCommand="{Binding FileLoadPathCommand, Mode=OneTime}">
-                                 <l:FolderSelectionMessage
-                                    Description="Select Target Folder"
-                                    DialogPreference="None"
-                                    SelectedPath="{Binding SettingVM.Value.SearchFilePath.Value}" />
-                              </l:DirectInteractionMessage>
-                           </l:FolderBrowserDialogInteractionMessageAction>
-                        </behaviors:EventTrigger>
-                     </behaviors:Interaction.Triggers>
+   
+   <materialDesign:DialogHost
+      CloseOnClickAway="True"
+      DialogContent="{Binding DialogContentVM.Value}"
+      IsOpen="{Binding IsDialogOpen.Value, Mode=TwoWay}"
+      OverlayBackground="{StaticResource PrimaryHueDarkBrush}">
+      
+      <!--  DataGridのヘッダーからBindingするために、名前付け  -->
+      <Grid x:Name="rootObj">
+         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+         </Grid.RowDefinitions>
+         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+         </Grid.ColumnDefinitions>
+         
+         <materialDesign:ColorZone
+            Grid.Row="0"
+            Grid.ColumnSpan="2"
+            Padding="8"
+            CornerRadius="3"
+            Mode="PrimaryDark">
+            <DockPanel>
+               <Button
+                  Command="{Binding ShowInformationPageCommand}"
+                  Content="{materialDesign:PackIcon InfoCircle}"
+                  DockPanel.Dock="Right"
+                  Style="{StaticResource MaterialDesignIconForegroundButton}" />
+               <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                  <materialDesign:ColorZone
+                     Margin="16,0,0,0"
+                     Padding="8,4,8,4"
+                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                     CornerRadius="2">
+                     <StackPanel Orientation="Horizontal">
+                        <Button Padding="8,2" Style="{StaticResource MaterialDesignRaisedButton}">
+                           <behaviors:Interaction.Triggers>
+                              <behaviors:EventTrigger EventName="Click">
+                                 <l:FolderBrowserDialogInteractionMessageAction>
+                                    <l:DirectInteractionMessage CallbackCommand="{Binding FileLoadPathCommand, Mode=OneTime}">
+                                       <l:FolderSelectionMessage
+                                          Description="Select Target Folder"
+                                          DialogPreference="None"
+                                          SelectedPath="{Binding SettingVM.Value.SearchFilePath.Value}" />
+                                    </l:DirectInteractionMessage>
+                                 </l:FolderBrowserDialogInteractionMessageAction>
+                              </behaviors:EventTrigger>
+                           </behaviors:Interaction.Triggers>
+                           <materialDesign:PackIcon
+                              Width="24"
+                              Height="24"
+                              Kind="FolderOpen" />
+                        </Button>
+                        <TextBox
+                           MinWidth="250"
+                           Margin="5,0"
+                           FontSize="16"
+                           Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
+                     </StackPanel>
+                  </materialDesign:ColorZone>
+                  <Button Margin="5,0" Command="{Binding FileLoadCommand, Mode=OneTime}">
+                     <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FolderRefreshOutline" />
+                        <TextBlock Margin="5,0" Text="Load Files" />
+                     </StackPanel>
                   </Button>
-                  <TextBox
-                     MinWidth="250"
+                  <Button
                      Margin="5,0"
-                     FontSize="16"
-                     Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
-               </StackPanel>
-            </materialDesign:ColorZone>
-            <Button Margin="5,0" Command="{Binding FileLoadCommand, Mode=OneTime}">
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="FolderRefreshOutline" />
-                  <TextBlock Margin="5,0" Text="Load Files" />
-               </StackPanel>
-            </Button>
-            <Button
-               Margin="5,0"
-               Command="{Binding ReplaceCommand, Mode=OneTime}"
-               Style="{StaticResource MaterialDesignRaisedAccentButton}">
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="RenameBox" />
-                  <TextBlock Margin="5,0" Text="Dry Run" />
-               </StackPanel>
-            </Button>
-            <Button
-               Margin="5,0"
-               Command="{Binding RenameExcuteCommand, Mode=OneTime}"
-               Style="{StaticResource MaterialDesignRaisedAccentButton}">
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="ContentSaveAllOutline" />
-                  <TextBlock Margin="5,0" Text="Save" />
-               </StackPanel>
-            </Button>
-         </StackPanel>
-      </materialDesign:ColorZone>
-      <DataGrid
-         Grid.Row="1"
-         Grid.Column="1"
-         Margin="10"
-         materialDesign:DataGridAssist.ColumnHeaderPadding="4,2,2,2"
-         AutoGenerateColumns="False"
-         EnableRowVirtualization="True"
-         ItemsSource="{Binding CViewFileElementVMs.Value, Mode=OneWay}">
-         <DataGrid.Resources>
-            <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
-               <Setter Property="Template">
-                  <Setter.Value>
-                     <ControlTemplate TargetType="{x:Type DataGridCell}">
-                        <Grid>
-                           <ContentPresenter Margin="5,6,2,2" VerticalAlignment="Center" />
-                        </Grid>
-                     </ControlTemplate>
-                  </Setter.Value>
-               </Setter>
-            </Style>
-            <Style BasedOn="{StaticResource MaterialDesignFlatPrimaryToggleButton}" TargetType="{x:Type ToggleButton}">
-               <Setter Property="Height" Value="24" />
-               <Setter Property="Width" Value="24" />
-            </Style>
-         </DataGrid.Resources>
-         <DataGrid.Columns>
-            <DataGridTemplateColumn Width="400" Header="Input">
-               <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
-                  </DataTemplate>
-               </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Width="400" Header="Output">
-               <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
-                  </DataTemplate>
-               </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
-               <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                     <materialDesign:PackIcon
-                        HorizontalAlignment="Center"
-                        Kind="CheckBold"
-                        Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
-                  </DataTemplate>
-               </DataGridTemplateColumn.CellTemplate>
-               <DataGridTemplateColumn.Header>
-                  <materialDesign:Badged
-                     Margin="1,8,1,1"
-                     Padding="0,0,8,0"
-                     BadgeColorZoneMode="PrimaryMid">
-                     <materialDesign:Badged.Badge>
-                        <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
-                     </materialDesign:Badged.Badge>
-                     <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
-                        <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
-                           <materialDesign:PackIcon Kind="Filter" />
-                        </ToggleButton>
-                        <TextBlock VerticalAlignment="Center" Text="Changed" />
+                     Command="{Binding ReplaceCommand, Mode=OneTime}"
+                     Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                     <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="RenameBox" />
+                        <TextBlock Margin="5,0" Text="Dry Run" />
                      </StackPanel>
-                  </materialDesign:Badged>
-               </DataGridTemplateColumn.Header>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
-               <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                     <materialDesign:PackIcon
-                        HorizontalAlignment="Center"
-                        Foreground="{StaticResource ValidationErrorBrush}"
-                        Kind="FolderAlert"
-                        Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
-                  </DataTemplate>
-               </DataGridTemplateColumn.CellTemplate>
-               <DataGridTemplateColumn.Header>
-                  <materialDesign:Badged
-                     Margin="1,8,1,1"
-                     Padding="0,0,8,0"
-                     BadgeColorZoneMode="PrimaryMid">
-                     <materialDesign:Badged.Badge>
-                        <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
-                     </materialDesign:Badged.Badge>
-                     <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
-                        <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
-                           <materialDesign:PackIcon Kind="Filter" />
-                        </ToggleButton>
-                        <TextBlock VerticalAlignment="Center" Text="Conflicted" />
+                  </Button>
+                  <Button
+                     Margin="5,0"
+                     Command="{Binding RenameExcuteCommand, Mode=OneTime}"
+                     Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                     <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="ContentSaveAllOutline" />
+                        <TextBlock Margin="5,0" Text="Save" />
                      </StackPanel>
-                  </materialDesign:Badged>
-               </DataGridTemplateColumn.Header>
-            </DataGridTemplateColumn>
-            <materialDesign:DataGridTextColumn
-               Width="120"
-               Binding="{Binding DirectoryPath, Mode=OneTime}"
-               Header="Directory"
-               IsReadOnly="True" />
-            <materialDesign:DataGridTextColumn
-               Width="50"
-               Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"
-               Header="Size"
-               IsReadOnly="True" />
-            <materialDesign:DataGridTextColumn
-               Width="80"
-               Binding="{Binding LastWriteTime, Mode=OneTime}"
-               Header="Last Write Time"
-               IsReadOnly="True" />
-            <materialDesign:DataGridTextColumn
-               Width="80"
-               Binding="{Binding CreationTime, Mode=OneTime}"
-               Header="Creation Time"
-               IsReadOnly="True" />
-         </DataGrid.Columns>
-      </DataGrid>
-      <Expander
-         Grid.Row="1"
-         Grid.Column="0"
-         ExpandDirection="Left"
-         IsExpanded="True">
-         <Expander.Header>
-            <TextBlock Text="Setting Replace">
-               <TextBlock.LayoutTransform>
-                  <RotateTransform Angle="90" />
-               </TextBlock.LayoutTransform>
-            </TextBlock>
-         </Expander.Header>
-         <ScrollViewer IsEnabled="{Binding IsIdle.Value}">
-            <v:SettingApp DataContext="{Binding SettingVM.Value}" />
-         </ScrollViewer>
-      </Expander>
-   </Grid>
+                  </Button>
+               </StackPanel>
+            </DockPanel>
+         </materialDesign:ColorZone>
+         
+         <DataGrid
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="10"
+            materialDesign:DataGridAssist.ColumnHeaderPadding="4,2,2,2"
+            AutoGenerateColumns="False"
+            EnableRowVirtualization="True"
+            ItemsSource="{Binding CViewFileElementVMs.Value, Mode=OneWay}">
+            <DataGrid.Resources>
+               <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
+                  <Setter Property="Template">
+                     <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                           <Grid>
+                              <ContentPresenter Margin="5,6,2,2" VerticalAlignment="Center" />
+                           </Grid>
+                        </ControlTemplate>
+                     </Setter.Value>
+                  </Setter>
+               </Style>
+               <Style BasedOn="{StaticResource MaterialDesignFlatPrimaryToggleButton}" TargetType="{x:Type ToggleButton}">
+                  <Setter Property="Height" Value="24" />
+                  <Setter Property="Width" Value="24" />
+               </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+               <DataGridTemplateColumn Width="400" Header="Input">
+                  <DataGridTemplateColumn.CellTemplate>
+                     <DataTemplate>
+                        <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                     </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+               </DataGridTemplateColumn>
+               <DataGridTemplateColumn Width="400" Header="Output">
+                  <DataGridTemplateColumn.CellTemplate>
+                     <DataTemplate>
+                        <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                     </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+               </DataGridTemplateColumn>
+               <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
+                  <DataGridTemplateColumn.CellTemplate>
+                     <DataTemplate>
+                        <materialDesign:PackIcon
+                           HorizontalAlignment="Center"
+                           Kind="CheckBold"
+                           Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                     </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                  <DataGridTemplateColumn.Header>
+                     <materialDesign:Badged
+                        Margin="1,8,1,1"
+                        Padding="0,0,8,0"
+                        BadgeColorZoneMode="PrimaryMid">
+                        <materialDesign:Badged.Badge>
+                           <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
+                        </materialDesign:Badged.Badge>
+                        <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
+                           <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
+                              <materialDesign:PackIcon Kind="Filter" />
+                           </ToggleButton>
+                           <TextBlock VerticalAlignment="Center" Text="Changed" />
+                        </StackPanel>
+                     </materialDesign:Badged>
+                  </DataGridTemplateColumn.Header>
+               </DataGridTemplateColumn>
+               <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
+                  <DataGridTemplateColumn.CellTemplate>
+                     <DataTemplate>
+                        <materialDesign:PackIcon
+                           HorizontalAlignment="Center"
+                           Foreground="{StaticResource ValidationErrorBrush}"
+                           Kind="FolderAlert"
+                           Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                     </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+                  <DataGridTemplateColumn.Header>
+                     <materialDesign:Badged
+                        Margin="1,8,1,1"
+                        Padding="0,0,8,0"
+                        BadgeColorZoneMode="PrimaryMid">
+                        <materialDesign:Badged.Badge>
+                           <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
+                        </materialDesign:Badged.Badge>
+                        <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
+                           <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
+                              <materialDesign:PackIcon Kind="Filter" />
+                           </ToggleButton>
+                           <TextBlock VerticalAlignment="Center" Text="Conflicted" />
+                        </StackPanel>
+                     </materialDesign:Badged>
+                  </DataGridTemplateColumn.Header>
+               </DataGridTemplateColumn>
+               <materialDesign:DataGridTextColumn
+                  Width="120"
+                  Binding="{Binding DirectoryPath, Mode=OneTime}"
+                  Header="Directory"
+                  IsReadOnly="True" />
+               <materialDesign:DataGridTextColumn
+                  Width="50"
+                  Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"
+                  Header="Size"
+                  IsReadOnly="True" />
+               <materialDesign:DataGridTextColumn
+                  Width="80"
+                  Binding="{Binding LastWriteTime, Mode=OneTime}"
+                  Header="Last Write Time"
+                  IsReadOnly="True" />
+               <materialDesign:DataGridTextColumn
+                  Width="80"
+                  Binding="{Binding CreationTime, Mode=OneTime}"
+                  Header="Creation Time"
+                  IsReadOnly="True" />
+            </DataGrid.Columns>
+         </DataGrid>
+         
+         <Expander
+            Grid.Row="1"
+            Grid.Column="0"
+            ExpandDirection="Left"
+            IsExpanded="True">
+            <Expander.Header>
+               <TextBlock Text="Setting Replace">
+                  <TextBlock.LayoutTransform>
+                     <RotateTransform Angle="90" />
+                  </TextBlock.LayoutTransform>
+               </TextBlock>
+            </Expander.Header>
+            <ScrollViewer IsEnabled="{Binding IsIdle.Value}">
+               <v:SettingApp DataContext="{Binding SettingVM.Value}" />
+            </ScrollViewer>
+         </Expander>
+      </Grid>
+   </materialDesign:DialogHost>
 </metro:MetroWindow>

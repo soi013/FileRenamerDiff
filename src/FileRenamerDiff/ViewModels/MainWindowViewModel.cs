@@ -35,6 +35,15 @@ namespace FileRenamerDiff.ViewModels
         public IReadOnlyReactiveProperty<bool> IsIdle { get; }
 
         /// <summary>
+        /// ダイアログが表示されているか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsDialogOpen { get; } = new ReactivePropertySlim<bool>(false);
+        /// <summary>
+        /// ダイアログ表示VM
+        /// </summary>
+        public ReactivePropertySlim<ViewModel> DialogContentVM { get; set; } = new ReactivePropertySlim<ViewModel>();
+
+        /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
         /// </summary>
         public ReadOnlyReactivePropertySlim<ICollectionView> CViewFileElementVMs { get; }
@@ -63,6 +72,11 @@ namespace FileRenamerDiff.ViewModels
         /// 置換前後で差があったファイルのみ表示するか
         /// </summary>
         public ReactivePropertySlim<bool> IsVisibleReplacedOnly { get; } = new ReactivePropertySlim<bool>(false);
+
+        /// <summary>
+        /// アプリケーション情報表示コマンド
+        /// </summary>
+        public ReactiveCommand ShowInformationPageCommand { get; }
 
         /// <summary>
         /// 設定情報ViewModel
@@ -129,6 +143,10 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.RenameExcute());
 
+            this.ShowInformationPageCommand = IsIdle
+                .ToReactiveCommand()
+                .WithSubscribe(() => ShowDialog(new InformationPageViewModel()));
+
             //表示基準に変更があったら、表示判定対象に変更があったら、CollectionViewの表示を更新する
             new[]
             {
@@ -158,6 +176,12 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.LoadFileElements());
+        }
+
+        private void ShowDialog(ViewModel innerVM)
+        {
+            this.DialogContentVM.Value = innerVM;
+            this.IsDialogOpen.Value = true;
         }
 
         private async Task FolderSelected(FolderSelectionMessage fsMessage)
