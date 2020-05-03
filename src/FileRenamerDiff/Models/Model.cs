@@ -30,7 +30,12 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
 
-        private IReadOnlyList<FileElementModel> _FileElementModels = new[] { new FileElementModel(@"c:\abc\my_file.txt") };
+        private IReadOnlyList<FileElementModel> _FileElementModels = new[]
+        {
+            new FileElementModel(@"c:\abc\sample.txt"),
+            new FileElementModel(@"c:\def\sample(1).txt"),
+        };
+
         /// <summary>
         /// リネーム対象ファイル情報のコレクション
         /// </summary>
