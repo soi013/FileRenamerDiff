@@ -117,6 +117,20 @@
             po:Freeze="True"
             Opacity="0.4"
             Color="{StaticResource Primary500}" />
+         <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="materialDesign:PackIcon">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+         </Style>
+
+         <!--  選択できないし、タブストップもしないセル  -->
+         <Style
+            x:Key="IgnoreCell"
+            BasedOn="{StaticResource MaterialDesignDataGridCell}"
+            TargetType="{x:Type DataGridCell}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+         </Style>
       </ResourceDictionary>
    </Application.Resources>
 </Application>

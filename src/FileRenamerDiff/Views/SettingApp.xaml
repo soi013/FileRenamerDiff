@@ -126,10 +126,10 @@
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="Input" />
-                  <DataGridTemplateColumn>
+                  <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                           <materialDesign:PackIcon VerticalAlignment="Center" Kind="ArrowRight" />
+                           <materialDesign:PackIcon Kind="ArrowRight" />
                         </DataTemplate>
                      </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>

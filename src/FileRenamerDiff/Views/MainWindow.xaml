@@ -167,7 +167,7 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn>
+            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <materialDesign:PackIcon
@@ -193,7 +193,7 @@
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn>
+            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <materialDesign:PackIcon
@@ -220,22 +220,22 @@
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
-            <DataGridTextColumn
+            <materialDesign:DataGridTextColumn
                Width="120"
                Binding="{Binding DirectoryPath, Mode=OneTime}"
                Header="Directory"
                IsReadOnly="True" />
-            <DataGridTextColumn
+            <materialDesign:DataGridTextColumn
                Width="50"
                Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"
                Header="Size"
                IsReadOnly="True" />
-            <DataGridTextColumn
+            <materialDesign:DataGridTextColumn
                Width="80"
                Binding="{Binding LastWriteTime, Mode=OneTime}"
                Header="Last Write Time"
                IsReadOnly="True" />
-            <DataGridTextColumn
+            <materialDesign:DataGridTextColumn
                Width="80"
                Binding="{Binding CreationTime, Mode=OneTime}"
                Header="Creation Time"
