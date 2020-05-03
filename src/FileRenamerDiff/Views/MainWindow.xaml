@@ -27,13 +27,14 @@
    </Window.DataContext>
 
    <metro:MetroWindow.Resources>
+      <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
       <l:VisibilityAndBooleanConverter x:Key="VisibilityCollapsedConverter" ConvertWhenFalse="Collapsed" />
       <l:VisibilityAndBooleanConverter
          x:Key="VisibilityCollapsedReverseConverter"
          ConvertWhenFalse="Visible"
          ConvertWhenTrue="Collapsed" />
       <v:DiffPaneModelToFlowDocumentConverter x:Key="DiffPaneModelToFlowDocumentConverter" />
-      <Style BasedOn="{StaticResource MaterialDesignRichTextBox}" TargetType="RichTextBox">
+      <Style BasedOn="{StaticResource MaterialDesignRichTextBox}" TargetType="{x:Type RichTextBox}">
          <Setter Property="IsReadOnly" Value="True" />
       </Style>
    </metro:MetroWindow.Resources>
@@ -165,9 +166,7 @@
             <DataGridTemplateColumn>
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                     <materialDesign:PackIcon
-                        Kind="CheckBold"
-                        Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                     <materialDesign:PackIcon Kind="CheckBold" Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
@@ -220,7 +219,7 @@
                IsReadOnly="True" />
             <DataGridTextColumn
                Width="50"
-               Binding="{Binding LengthByte, Mode=OneTime}"
+               Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"
                Header="Size"
                IsReadOnly="True" />
             <DataGridTextColumn

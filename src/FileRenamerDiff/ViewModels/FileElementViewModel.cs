@@ -51,9 +51,9 @@ namespace FileRenamerDiff.ViewModels
         public string DirectoryPath => pathModel.DirectoryPath;
 
         /// <summary>
-        /// ファイルのバイト数を読みやすく変換したもの
+        /// ファイルのバイト数
         /// </summary>
-        public string LengthByte => AppExtention.ReadableByteText(pathModel.LengthByte);
+        public long LengthByte => pathModel.LengthByte;
 
         /// <summary>
         /// ファイル更新日時の現在のカルチャでの文字列
