@@ -140,7 +140,7 @@ namespace FileRenamerDiff.ViewModels
             .CombineLatest()
             .Throttle(TimeSpan.FromMilliseconds(100))
             .ObserveOnUIDispatcher()
-            .Subscribe(_ => CViewFileElementVMs.Value?.Refresh());
+            .Subscribe(_ => RefleshCollectionViewSafe());
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
@@ -203,6 +203,26 @@ namespace FileRenamerDiff.ViewModels
                 : true;
 
             return replacedVisible && conflictedVisible;
+        }
+
+        private void RefleshCollectionViewSafe()
+        {
+            if (!(CViewFileElementVMs.Value is ListCollectionView currentView))
+                return;
+
+            //なぜかCollectionViewが追加中・編集中のことがある。
+            if (currentView.IsAddingNew)
+            {
+                LogTo.Warning("CollectionView is Adding");
+                currentView.CancelNew();
+            }
+            if (currentView.IsEditingItem)
+            {
+                LogTo.Warning("CollectionView is Editing");
+                currentView.CommitEdit();
+            }
+
+            currentView.Refresh();
         }
 
         /// <summary>
