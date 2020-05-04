@@ -18,6 +18,9 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class SettingAppModel : NotificationObject
     {
+        internal static readonly string SettingFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+            + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
+
         private static readonly string myDocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         /// <summary>
@@ -100,15 +103,12 @@ namespace FileRenamerDiff.Models
 
         internal void AddReplaceTexts() => ReplaceTexts.Add(new ReplacePattern("", ""));
 
-        private static readonly string settingFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-            + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
-
         /// <summary>
         /// ファイルから設定ファイルをデシリアライズ
         /// </summary>
         public static SettingAppModel Deserialize()
         {
-            var json = File.ReadAllText(settingFilePath);
+            var json = File.ReadAllText(SettingFilePath);
             var mPack = MessagePack.MessagePackSerializer.ConvertFromJson(json);
             return MessagePackSerializer.Deserialize<SettingAppModel>(mPack);
         }
@@ -118,9 +118,9 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public void Serialize()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(settingFilePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(SettingFilePath));
             var json = MessagePackSerializer.SerializeToJson(this);
-            File.WriteAllText(settingFilePath, json);
+            File.WriteAllText(SettingFilePath, json);
         }
     }
 }

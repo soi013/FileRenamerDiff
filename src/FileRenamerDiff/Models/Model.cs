@@ -128,7 +128,8 @@ namespace FileRenamerDiff.Models
             }
             catch (Exception ex)
             {
-                LogTo.Error(ex, "Fail to Load Setting");
+                //何故かStatic　コンストラクタから呼ばれる場合、Fody.Anotar.Serilogは使えない
+                Serilog.Log.Warning(ex, "Can not Load Setting {@SettingFilePath}", SettingAppModel.SettingFilePath);
                 Setting = new SettingAppModel();
             }
         }
