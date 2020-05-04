@@ -156,6 +156,11 @@
       <Border Style="{StaticResource divider}" />
       <Expander HorizontalAlignment="Stretch" Header="Other">
          <StackPanel>
+            <CheckBox
+               Margin="30,5"
+               Content="Search Sub Directories"
+               IsChecked="{Binding IsSearchSubDirectories.Value}"
+               Style="{StaticResource MaterialDesignLightCheckBox}" />
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand, Mode=OneTime}"

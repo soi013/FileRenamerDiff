@@ -50,6 +50,11 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ObservableCollection<ReplacePattern> ReplaceTexts => setting.ReplaceTexts;
 
+        /// <summary>
+        /// ファイル探索時にサブディレクトリを探索するか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsSearchSubDirectories => setting.IsSearchSubDirectories;
+
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
         public ReactiveCommand AddDeleteTextsCommand { get; }
         public ReactiveCommand AddReplaceTextsCommand { get; }

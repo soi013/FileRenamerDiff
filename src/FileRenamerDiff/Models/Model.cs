@@ -96,8 +96,12 @@ namespace FileRenamerDiff.Models
             {
                 var regex = Setting.CreateIgnoreExtensionsRegex();
 
+                var searchOpt = Setting.IsSearchSubDirectories.Value
+                    ? SearchOption.AllDirectories
+                    : SearchOption.TopDirectoryOnly;
+
                 this.FileElementModels = Directory
-                    .EnumerateFileSystemEntries(sourceFilePath, "*.*", SearchOption.AllDirectories)
+                    .EnumerateFileSystemEntries(sourceFilePath, "*.*", searchOpt)
                     .Where(x => !regex.IsMatch(Path.GetExtension(x)))
                     //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
                     .OrderByDescending(x => x)

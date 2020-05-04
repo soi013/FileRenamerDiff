@@ -85,6 +85,11 @@ namespace FileRenamerDiff.Models
             new ReplacePattern("", ""),
         };
 
+        /// <summary>
+        /// ファイル探索時にサブディレクトリを探索するか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsSearchSubDirectories { get; set; } = new ReactivePropertySlim<bool>(true);
+
         static SettingAppModel()
         {
             //ReactivePropertyをシリアライズ可能にするため、アプリケーション全体で固定のMessagePackResolverを設定
