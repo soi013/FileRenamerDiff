@@ -18,7 +18,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DiffPlex" Version="1.6.1" />
-    <PackageReference Include="DiffPlex.Wpf" Version="1.1.1" />
     <PackageReference Include="LivetCask" Version="3.2.2.2" />
     <PackageReference Include="LivetExtensions" Version="3.2.2.2" />
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0748" />
