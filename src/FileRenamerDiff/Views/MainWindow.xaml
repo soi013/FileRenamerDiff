@@ -114,8 +114,8 @@
                   </materialDesign:ColorZone>
                   <Button Margin="5,0" Command="{Binding FileLoadCommand, Mode=OneTime}">
                      <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FolderRefreshOutline" />
-                        <TextBlock Margin="5,0" Text="Load Files" />
+                        <materialDesign:PackIcon Kind="FolderSearchOutline" />
+                        <TextBlock Margin="5,0" Text="Search Files" />
                      </StackPanel>
                   </Button>
                   <Button

@@ -58,15 +58,26 @@
       <Style BasedOn="{StaticResource MaterialDesignLightCheckBox}" TargetType="{x:Type CheckBox}">
          <Setter Property="Margin" Value="30,5" />
       </Style>
+      <Style BasedOn="{StaticResource MaterialDesignExpander}" TargetType="{x:Type Expander}">
+         <Setter Property="Padding" Value="10,2,2,2" />
+         <Setter Property="HorizontalAlignment" Value="Stretch" />
+      </Style>
    </UserControl.Resources>
    <StackPanel>
-      <Expander HorizontalAlignment="Stretch" Header="Ignore Extensions (File Load)">
+      <Expander Header="File Search">
          <Grid>
             <Grid.RowDefinitions>
+               <RowDefinition Height="Auto" />
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid ItemsSource="{Binding IgnoreExtensions}">
+            <materialDesign:Card Margin="15,5,15,10">
+               <StackPanel Grid.Row="0">
+                  <CheckBox Content="Search Sub Directories" IsChecked="{Binding IsSearchSubDirectories.Value}" />
+                  <CheckBox Content="Ignore Directory" IsChecked="{Binding IsIgnoreDirectory.Value}" />
+               </StackPanel>
+            </materialDesign:Card>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding IgnoreExtensions}">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding Value}"
@@ -82,13 +93,13 @@
                </DataGrid.Columns>
             </DataGrid>
             <Button
-               Grid.Row="1"
+               Grid.Row="2"
                Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}"
                Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander HorizontalAlignment="Stretch" Header="DeleteTexts">
+      <Expander Header="Delete Texts">
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="*" />
@@ -117,7 +128,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander HorizontalAlignment="Stretch" Header="Replace Patterns">
+      <Expander Header="Replace Patterns">
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="*" />
@@ -159,8 +170,6 @@
       <Border Style="{StaticResource divider}" />
       <Expander HorizontalAlignment="Stretch" Header="Other">
          <StackPanel>
-            <CheckBox Content="Search Sub Directories" IsChecked="{Binding IsSearchSubDirectories.Value}" />
-            <CheckBox Content="Ignore Directory (File Load)" IsChecked="{Binding IsIgnoreDirectory.Value}" />
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand, Mode=OneTime}"
