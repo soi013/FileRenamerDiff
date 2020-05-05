@@ -59,5 +59,40 @@ namespace FileRenamerDiff.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   ## 3rd Party Libraries / Icons
+        ///
+        ///Following codes / libraries make it happen, thanks for their work.
+        ///
+        ///### ReactiveProperty
+        ///
+        ///Authors: neuecc xin9le okazuki
+        ///
+        ///Project Site: https://github.com/runceel/ReactiveProperty
+        ///
+        ///License: https://licenses.nuget.org/MIT
+        ///
+        ///### MessagePack
+        ///
+        ///Authors: neuecc, aarnott
+        ///
+        ///Project Site: https://github.com/neuecc/MessagePack-CSharp
+        ///
+        ///License: https://licenses.nuget.org/MIT
+        ///
+        ///### DiffPlex
+        ///
+        ///Authors: Matthew Manela
+        ///
+        ///Project Site: https://github.com/mmanela/diffplex/
+        ///
+        ///License: https://github [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string License {
+            get {
+                return ResourceManager.GetString("License", resourceCulture);
+            }
+        }
     }
 }

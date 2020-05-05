@@ -133,6 +133,12 @@
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="IsHitTestVisible" Value="False" />
          </Style>
+         <!--  仕切り  -->
+         <Style x:Key="divider" TargetType="{x:Type Border}">
+            <Setter Property="Height" Value="1" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="{StaticResource MaterialDesignDivider}" />
+         </Style>
 
          <DataTemplate DataType="{x:Type vm:InformationPageViewModel}">
             <v:InformationPage />

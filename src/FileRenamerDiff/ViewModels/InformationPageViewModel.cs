@@ -33,5 +33,7 @@ namespace FileRenamerDiff.ViewModels
 
         public string Author { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
         public string Version { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+        public string LicenseText { get; } = Properties.Resources.License;
     }
 }

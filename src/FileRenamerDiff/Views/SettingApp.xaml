@@ -17,11 +17,6 @@
    d:DesignWidth="800"
    mc:Ignorable="d">
    <UserControl.Resources>
-      <Style x:Key="divider" TargetType="{x:Type Border}">
-         <Setter Property="Height" Value="1" />
-         <Setter Property="HorizontalAlignment" Value="Stretch" />
-         <Setter Property="Background" Value="{StaticResource MaterialDesignDivider}" />
-      </Style>
       <Style BasedOn="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" TargetType="{x:Type TextBox}">
          <Setter Property="MinWidth" Value="40" />
          <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />

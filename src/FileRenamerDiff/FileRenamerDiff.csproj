@@ -10,10 +10,14 @@
 
   <ItemGroup>
     <None Remove="FileRenamerDiff_icon.ico" />
+    <None Remove="License.md" />
     <None Remove="Resources\FileRenamerDiff_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\License.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\FileRenamerDiff_icon.png" />
   </ItemGroup>
   <ItemGroup>
