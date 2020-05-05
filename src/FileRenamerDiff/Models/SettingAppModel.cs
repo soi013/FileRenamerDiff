@@ -90,6 +90,11 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public ReactivePropertySlim<bool> IsSearchSubDirectories { get; set; } = new ReactivePropertySlim<bool>(true);
 
+        /// <summary>
+        /// ファイル探索時にディレクトリ自身もリストに含めるか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsIgnoreDirectory { get; set; } = new ReactivePropertySlim<bool>(true);
+
         static SettingAppModel()
         {
             //ReactivePropertyをシリアライズ可能にするため、アプリケーション全体で固定のMessagePackResolverを設定

@@ -112,15 +112,19 @@ namespace FileRenamerDiff.Models
             {
                 //読み取り権限のない場合は無視
                 IgnoreInaccessible = true,
-                RecurseSubdirectories = setting.IsSearchSubDirectories.Value
+                RecurseSubdirectories = setting.IsSearchSubDirectories.Value,
             };
 
-            return Directory.EnumerateFileSystemEntries(sourceFilePath, "*.*", option)
-                 .Where(x => !regex.IsMatch(Path.GetExtension(x)))
-                 //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
-                 .OrderByDescending(x => x)
-                 .Select(x => new FileElementModel(x))
-                 .ToArray();
+            IEnumerable<string> fileEnums = setting.IsIgnoreDirectory.Value
+                ? Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option)
+                : Directory.EnumerateFiles(sourceFilePath, "*", option);
+
+            return fileEnums
+                .Where(x => !regex.IsMatch(Path.GetExtension(x)))
+                //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
+                .OrderByDescending(x => x)
+                .Select(x => new FileElementModel(x))
+                .ToArray();
         }
 
         /// <summary>

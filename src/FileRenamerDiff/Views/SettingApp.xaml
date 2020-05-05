@@ -55,6 +55,9 @@
          <Setter Property="CanUserSortColumns" Value="False" />
          <Setter Property="HeadersVisibility" Value="All" />
       </Style>
+      <Style BasedOn="{StaticResource MaterialDesignLightCheckBox}" TargetType="{x:Type CheckBox}">
+         <Setter Property="Margin" Value="30,5" />
+      </Style>
    </UserControl.Resources>
    <StackPanel>
       <Expander HorizontalAlignment="Stretch" Header="Ignore Extensions (File Load)">
@@ -156,11 +159,8 @@
       <Border Style="{StaticResource divider}" />
       <Expander HorizontalAlignment="Stretch" Header="Other">
          <StackPanel>
-            <CheckBox
-               Margin="30,5"
-               Content="Search Sub Directories"
-               IsChecked="{Binding IsSearchSubDirectories.Value}"
-               Style="{StaticResource MaterialDesignLightCheckBox}" />
+            <CheckBox Content="Search Sub Directories" IsChecked="{Binding IsSearchSubDirectories.Value}" />
+            <CheckBox Content="Ignore Directory (File Load)" IsChecked="{Binding IsIgnoreDirectory.Value}" />
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand, Mode=OneTime}"

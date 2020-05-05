@@ -55,6 +55,11 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactivePropertySlim<bool> IsSearchSubDirectories => setting.IsSearchSubDirectories;
 
+        /// <summary>
+        /// ディレクトリもリネームするか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsIgnoreDirectory => setting.IsIgnoreDirectory;
+
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
         public ReactiveCommand AddDeleteTextsCommand { get; }
         public ReactiveCommand AddReplaceTextsCommand { get; }
