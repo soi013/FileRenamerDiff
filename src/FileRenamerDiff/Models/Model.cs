@@ -94,19 +94,7 @@ namespace FileRenamerDiff.Models
 
             await Task.Run(() =>
             {
-                var regex = Setting.CreateIgnoreExtensionsRegex();
-
-                var searchOpt = Setting.IsSearchSubDirectories.Value
-                    ? SearchOption.AllDirectories
-                    : SearchOption.TopDirectoryOnly;
-
-                this.FileElementModels = Directory
-                    .EnumerateFileSystemEntries(sourceFilePath, "*.*", searchOpt)
-                    .Where(x => !regex.IsMatch(Path.GetExtension(x)))
-                    //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
-                    .OrderByDescending(x => x)
-                    .Select(x => new FileElementModel(x))
-                    .ToArray();
+                this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting);
             })
             .ConfigureAwait(false);
 
@@ -114,6 +102,25 @@ namespace FileRenamerDiff.Models
             this.countConflicted.Value = 0;
             this.IsIdle.Value = true;
             LogTo.Debug("File Load Ended");
+        }
+
+        private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting)
+        {
+            var regex = setting.CreateIgnoreExtensionsRegex();
+
+            var option = new EnumerationOptions()
+            {
+                //読み取り権限のない場合は無視
+                IgnoreInaccessible = true,
+                RecurseSubdirectories = setting.IsSearchSubDirectories.Value
+            };
+
+            return Directory.EnumerateFileSystemEntries(sourceFilePath, "*.*", option)
+                 .Where(x => !regex.IsMatch(Path.GetExtension(x)))
+                 //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
+                 .OrderByDescending(x => x)
+                 .Select(x => new FileElementModel(x))
+                 .ToArray();
         }
 
         /// <summary>
