@@ -8,6 +8,7 @@
    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    Title="FILE RENAMER DIFF"
    Width="1920"
    Height="720"
@@ -114,7 +115,7 @@
                   <Button Margin="5,0" Command="{Binding FileLoadCommand, Mode=OneTime}">
                      <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FolderSearchOutline" />
-                        <TextBlock Margin="5,0" Text="Search Files" />
+                        <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_SearchFiles}" />
                      </StackPanel>
                   </Button>
                   <Button
@@ -123,7 +124,7 @@
                      Style="{StaticResource MaterialDesignRaisedAccentButton}">
                      <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="RenameBox" />
-                        <TextBlock Margin="5,0" Text="Dry Run" />
+                        <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_DryRun}" />
                      </StackPanel>
                   </Button>
                   <Button
@@ -132,7 +133,7 @@
                      Style="{StaticResource MaterialDesignRaisedAccentButton}">
                      <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="ContentSaveAllOutline" />
-                        <TextBlock Margin="5,0" Text="Save" />
+                        <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_Save}" />
                      </StackPanel>
                   </Button>
                </StackPanel>
@@ -165,14 +166,14 @@
                </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-               <DataGridTemplateColumn Width="400" Header="Input">
+               <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_OldText}">
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>
                         <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
                      </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                </DataGridTemplateColumn>
-               <DataGridTemplateColumn Width="400" Header="Output">
+               <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_NewText}">
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>
                         <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
@@ -200,7 +201,7 @@
                            <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
                               <materialDesign:PackIcon Kind="Filter" />
                            </ToggleButton>
-                           <TextBlock VerticalAlignment="Center" Text="Changed" />
+                           <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Grid_Changed}" />
                         </StackPanel>
                      </materialDesign:Badged>
                   </DataGridTemplateColumn.Header>
@@ -227,7 +228,7 @@
                            <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
                               <materialDesign:PackIcon Kind="Filter" />
                            </ToggleButton>
-                           <TextBlock VerticalAlignment="Center" Text="Conflicted" />
+                           <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Grid_Conflicted}" />
                         </StackPanel>
                      </materialDesign:Badged>
                   </DataGridTemplateColumn.Header>
@@ -235,7 +236,7 @@
                <materialDesign:DataGridTextColumn
                   Width="120"
                   Binding="{Binding DirectoryPath, Mode=OneTime}"
-                  Header="Directory"
+                  Header="{x:Static properties:Resources.Grid_Directory}"
                   IsReadOnly="True" />
                <materialDesign:DataGridTextColumn
                   Width="50"
@@ -245,12 +246,12 @@
                <materialDesign:DataGridTextColumn
                   Width="80"
                   Binding="{Binding LastWriteTime, Mode=OneTime}"
-                  Header="Last Write Time"
+                  Header="{x:Static properties:Resources.Grid_DateModified}"
                   IsReadOnly="True" />
                <materialDesign:DataGridTextColumn
                   Width="80"
                   Binding="{Binding CreationTime, Mode=OneTime}"
-                  Header="Creation Time"
+                  Header="{x:Static properties:Resources.Grid_CreatedDate}"
                   IsReadOnly="True" />
             </DataGrid.Columns>
          </DataGrid>
@@ -261,7 +262,7 @@
             ExpandDirection="Left"
             IsExpanded="True">
             <Expander.Header>
-               <TextBlock Text="Setting Replace">
+               <TextBlock Text="{x:Static properties:Resources.Setting_SettingTab}">
                   <TextBlock.LayoutTransform>
                      <RotateTransform Angle="90" />
                   </TextBlock.LayoutTransform>

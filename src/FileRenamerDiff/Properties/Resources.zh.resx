@@ -117,84 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="License" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\License.md;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="Setting_SettingTab" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="Setting_FileSearch" xml:space="preserve">
-    <value>File Search</value>
-  </data>
-  <data name="Setting_SearchSubDirectories" xml:space="preserve">
-    <value>Search Sub Directories</value>
-  </data>
-  <data name="Setting_IgnoreDirectory" xml:space="preserve">
-    <value>Ignore Directory</value>
-  </data>
-  <data name="Setting_IgnoreExtensions" xml:space="preserve">
-    <value>Ignore Extensions</value>
-  </data>
-  <data name="Setting_Add" xml:space="preserve">
-    <value>ADD</value>
-  </data>
-  <data name="Setting_DeleteTexts" xml:space="preserve">
-    <value>Delete Texts</value>
-  </data>
-  <data name="Setting_AsExpression" xml:space="preserve">
-    <value>As
-REGEXP</value>
-  </data>
-  <data name="Setting_DeleteTextTarget" xml:space="preserve">
-    <value>Text</value>
-  </data>
-  <data name="Setting_ReplacePatterns" xml:space="preserve">
-    <value>Replace Patterns</value>
-  </data>
-  <data name="Setting_ReplaceTextTarget" xml:space="preserve">
-    <value>Target Text</value>
-  </data>
-  <data name="Setting_ReplaceText" xml:space="preserve">
-    <value>Replace Text</value>
-  </data>
-  <data name="Setting_ResetAllSetting" xml:space="preserve">
-    <value>Reset ALL Settings</value>
-  </data>
-  <data name="Setting_Other" xml:space="preserve">
-    <value>Other</value>
-  </data>
-  <data name="Menu_SearchFiles" xml:space="preserve">
-    <value>Search Files</value>
-  </data>
-  <data name="Menu_DryRun" xml:space="preserve">
-    <value>DRY RUN</value>
-  </data>
-  <data name="Menu_Save" xml:space="preserve">
-    <value>SAVE</value>
-  </data>
-  <data name="Grid_OldText" xml:space="preserve">
-    <value>OLD File Name</value>
-  </data>
-  <data name="Grid_NewText" xml:space="preserve">
-    <value>NEW File Name</value>
-  </data>
-  <data name="Grid_Changed" xml:space="preserve">
-    <value>Changed</value>
-  </data>
-  <data name="Grid_Conflicted" xml:space="preserve">
-    <value>Duplicated</value>
+    <value>檔案搜尋</value>
   </data>
   <data name="Grid_DateModified" xml:space="preserve">
-    <value>Date modified</value>
+    <value>修改日期</value>
+  </data>
+  <data name="Grid_Conflicted" xml:space="preserve">
+    <value>重复的</value>
+  </data>
+  <data name="Grid_Changed" xml:space="preserve">
+    <value>已更改</value>
+  </data>
+  <data name="Grid_NewText" xml:space="preserve">
+    <value>新文件名</value>
+  </data>
+  <data name="Grid_OldText" xml:space="preserve">
+    <value>旧文件名</value>
+  </data>
+  <data name="Menu_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Menu_DryRun" xml:space="preserve">
+    <value>試執行</value>
+  </data>
+  <data name="Menu_SearchFiles" xml:space="preserve">
+    <value>檔案搜尋</value>
+  </data>
+  <data name="Setting_Other" xml:space="preserve">
+    <value>其他</value>
   </data>
   <data name="Grid_CreatedDate" xml:space="preserve">
-    <value>Created Date</value>
+    <value>建立日期</value>
   </data>
-  <data name="Setting_SettingTab" xml:space="preserve">
-    <value>Settings</value>
+  <data name="Setting_ResetAllSetting" xml:space="preserve">
+    <value>重置所有设置</value>
+  </data>
+  <data name="Setting_ReplaceTextTarget" xml:space="preserve">
+    <value>目标文本</value>
+  </data>
+  <data name="Setting_ReplacePatterns" xml:space="preserve">
+    <value>替换模式</value>
+  </data>
+  <data name="Setting_DeleteTexts" xml:space="preserve">
+    <value>删除文本</value>
+  </data>
+  <data name="Setting_AsExpression" xml:space="preserve">
+    <value>規則運算式</value>
+  </data>
+  <data name="Setting_Add" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="Setting_IgnoreExtensions" xml:space="preserve">
+    <value>忽略扩展版</value>
+  </data>
+  <data name="Setting_SearchSubDirectories" xml:space="preserve">
+    <value>搜索子目录</value>
+  </data>
+  <data name="Setting_IgnoreDirectory" xml:space="preserve">
+    <value>忽略目录</value>
+  </data>
+  <data name="Setting_ReplaceText" xml:space="preserve">
+    <value>替换文本</value>
+  </data>
+  <data name="Setting_DeleteTextTarget" xml:space="preserve">
+    <value>删除文本</value>
   </data>
   <data name="Grid_Directory" xml:space="preserve">
-    <value>Directory</value>
+    <value>目录</value>
   </data>
   <data name="Grid_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>大小</value>
   </data>
 </root>

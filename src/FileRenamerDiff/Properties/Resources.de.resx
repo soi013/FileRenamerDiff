@@ -117,84 +117,80 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="License" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\License.md;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="Setting_FileSearch" xml:space="preserve">
-    <value>File Search</value>
+    <value>Dateisuche</value>
   </data>
   <data name="Setting_SearchSubDirectories" xml:space="preserve">
-    <value>Search Sub Directories</value>
+    <value>Suche in Unterverzeichnissen</value>
   </data>
   <data name="Setting_IgnoreDirectory" xml:space="preserve">
-    <value>Ignore Directory</value>
+    <value>Verzeichnis ignorieren</value>
   </data>
   <data name="Setting_IgnoreExtensions" xml:space="preserve">
-    <value>Ignore Extensions</value>
+    <value>Erweiterungen ignorieren</value>
   </data>
   <data name="Setting_Add" xml:space="preserve">
-    <value>ADD</value>
+    <value>hinzufügen</value>
   </data>
   <data name="Setting_DeleteTexts" xml:space="preserve">
-    <value>Delete Texts</value>
+    <value>Texte löschen</value>
   </data>
   <data name="Setting_AsExpression" xml:space="preserve">
-    <value>As
-REGEXP</value>
+    <value>Regulärer
+Ausdruck</value>
   </data>
   <data name="Setting_DeleteTextTarget" xml:space="preserve">
     <value>Text</value>
   </data>
   <data name="Setting_ReplacePatterns" xml:space="preserve">
-    <value>Replace Patterns</value>
+    <value>Muster ersetzen</value>
   </data>
   <data name="Setting_ReplaceTextTarget" xml:space="preserve">
-    <value>Target Text</value>
+    <value>Zieltext</value>
   </data>
   <data name="Setting_ReplaceText" xml:space="preserve">
-    <value>Replace Text</value>
+    <value>Text ersetzen</value>
   </data>
   <data name="Setting_ResetAllSetting" xml:space="preserve">
-    <value>Reset ALL Settings</value>
+    <value>Andere</value>
   </data>
   <data name="Setting_Other" xml:space="preserve">
-    <value>Other</value>
+    <value>Alle Einstellungen zurücksetzen</value>
   </data>
   <data name="Menu_SearchFiles" xml:space="preserve">
-    <value>Search Files</value>
+    <value>Dateien durchsuchen</value>
   </data>
   <data name="Menu_DryRun" xml:space="preserve">
-    <value>DRY RUN</value>
+    <value>Trockenlauf</value>
   </data>
   <data name="Menu_Save" xml:space="preserve">
-    <value>SAVE</value>
+    <value>Speichern</value>
   </data>
   <data name="Grid_OldText" xml:space="preserve">
-    <value>OLD File Name</value>
+    <value>Alter Dateiname</value>
   </data>
   <data name="Grid_NewText" xml:space="preserve">
-    <value>NEW File Name</value>
-  </data>
-  <data name="Grid_Changed" xml:space="preserve">
-    <value>Changed</value>
+    <value>Neuer Dateiname</value>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>Duplicated</value>
+    <value>Verdoppelt</value>
+  </data>
+  <data name="Grid_Changed" xml:space="preserve">
+    <value>Geändert</value>
   </data>
   <data name="Grid_DateModified" xml:space="preserve">
-    <value>Date modified</value>
+    <value>Änderungsdatum</value>
   </data>
   <data name="Grid_CreatedDate" xml:space="preserve">
-    <value>Created Date</value>
+    <value>Erstellungsdatum</value>
   </data>
   <data name="Setting_SettingTab" xml:space="preserve">
-    <value>Settings</value>
+    <value>Einstellungen</value>
   </data>
   <data name="Grid_Directory" xml:space="preserve">
-    <value>Directory</value>
+    <value>Verzeichnis</value>
   </data>
   <data name="Grid_Size" xml:space="preserve">
-    <value>Size</value>
+    <value>Größe</value>
   </data>
 </root>

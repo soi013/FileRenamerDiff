@@ -8,13 +8,14 @@
    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
    Height="Auto"
    d:DataContext="{d:DesignInstance {x:Type vm:SettingAppViewModel},
                                     IsDesignTimeCreatable=True}"
    d:DesignHeight="650"
-   d:DesignWidth="800"
+   d:DesignWidth="400"
    mc:Ignorable="d">
    <UserControl.Resources>
       <Style BasedOn="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" TargetType="{x:Type TextBox}">
@@ -30,7 +31,7 @@
             <Setter.Value>
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="TableRowAddAfter" />
-                  <TextBlock Margin="5,0" Text="ADD" />
+                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_Add}" />
                </StackPanel>
             </Setter.Value>
          </Setter>
@@ -59,7 +60,7 @@
       </Style>
    </UserControl.Resources>
    <StackPanel>
-      <Expander Header="File Search">
+      <Expander Header="{x:Static properties:Resources.Setting_FileSearch}">
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="Auto" />
@@ -68,8 +69,8 @@
             </Grid.RowDefinitions>
             <materialDesign:Card Margin="15,5,15,10">
                <StackPanel Grid.Row="0">
-                  <CheckBox Content="Search Sub Directories" IsChecked="{Binding IsSearchSubDirectories.Value}" />
-                  <CheckBox Content="Ignore Directory" IsChecked="{Binding IsIgnoreDirectory.Value}" />
+                  <CheckBox Content="{x:Static properties:Resources.Setting_SearchSubDirectories}" IsChecked="{Binding IsSearchSubDirectories.Value}" />
+                  <CheckBox Content="{x:Static properties:Resources.Setting_IgnoreDirectory}" IsChecked="{Binding IsIgnoreDirectory.Value}" />
                </StackPanel>
             </materialDesign:Card>
             <DataGrid Grid.Row="1" ItemsSource="{Binding IgnoreExtensions}">
@@ -77,7 +78,7 @@
                   <DataGridTextColumn
                      Binding="{Binding Value}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="Ignore Extensions" />
+                     Header="{x:Static properties:Resources.Setting_IgnoreExtensions}" />
                   <DataGridTemplateColumn CanUserSort="False">
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -94,7 +95,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander Header="Delete Texts">
+      <Expander Header="{x:Static properties:Resources.Setting_DeleteTexts}">
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="*" />
@@ -105,8 +106,8 @@
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="Input" />
-                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
+                     Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
+                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -123,7 +124,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander Header="Replace Patterns">
+      <Expander Header="{x:Static properties:Resources.Setting_ReplacePatterns}">
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="*" />
@@ -134,7 +135,7 @@
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="Input" />
+                     Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}" />
                   <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -145,8 +146,8 @@
                   <DataGridTextColumn
                      Binding="{Binding ReplaceText}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="Output" />
-                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="As&#xa;Expression" />
+                     Header="{x:Static properties:Resources.Setting_ReplaceText}" />
+                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -163,7 +164,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander HorizontalAlignment="Stretch" Header="Other">
+      <Expander HorizontalAlignment="Stretch" Header="{x:Static properties:Resources.Setting_Other}">
          <StackPanel>
             <Button
                Margin="30,5"
@@ -171,7 +172,7 @@
                Style="{StaticResource MaterialDesignRaisedAccentButton}">
                <StackPanel Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="Autorenew" />
-                  <TextBlock Margin="5,0" Text="Reset ALL Setting" />
+                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ResetAllSetting}" />
                </StackPanel>
             </Button>
          </StackPanel>
