@@ -51,7 +51,7 @@
          <SolidColorBrush
             x:Key="PrimaryHueLightBrush"
             po:Freeze="True"
-            Color="{StaticResource Accent200}" />
+            Color="{StaticResource Primary200}" />
          <SolidColorBrush
             x:Key="PrimaryHueMidBrush"
             po:Freeze="True"
