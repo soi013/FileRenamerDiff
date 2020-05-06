@@ -38,7 +38,7 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<ReactivePropertySlim<string>> IgnoreExtensions =>
             ignoreExtensions ??= new[]
             {
-                "pdb", "db", "xfr","ini","",
+                "pdb", "db", "cache","tmp","ini",
                 "", "", "", "", "",
             }
             .Select(x => new ReactivePropertySlim<string>(x))
@@ -61,7 +61,7 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<ReplacePattern> DeleteTexts =>
             deleteTexts ??= new[]
             {
-                 " - コピー",
+                 " -copy",
                 "(1)",
                 "(2)",
                 "(3)",
