@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Resources;
+using System.Globalization;
+using System.Windows.Data;
+using System.Collections;
+using System.Collections.ObjectModel;
 
 using Livet;
 using Livet.Commands;
@@ -11,14 +16,13 @@ using Livet.Messaging.IO;
 using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
-using FileRenamerDiff.Models;
 using Reactive.Bindings;
 using System.Reactive;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
-using System.Collections;
+
+using FileRenamerDiff.Models;
+using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -60,6 +64,16 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactivePropertySlim<bool> IsIgnoreDirectory => setting.IsIgnoreDirectory;
 
+        /// <summary>
+        /// 選択可能な言語一覧
+        /// </summary>
+        public IReadOnlyList<CultureInfo> AvailableLanguages { get; }
+
+        /// <summary>
+        /// アプリケーションの表示言語
+        /// </summary>
+        public ReactivePropertySlim<CultureInfo> SelectedLanguage { get; } = new ReactivePropertySlim<CultureInfo>();
+
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
         public ReactiveCommand AddDeleteTextsCommand { get; }
         public ReactiveCommand AddReplaceTextsCommand { get; }
@@ -79,6 +93,9 @@ namespace FileRenamerDiff.ViewModels
         {
             this.setting = setting;
 
+            this.AvailableLanguages = CreateAvailableLanguages();
+            this.SelectedLanguage = CreateAppLanguageRp();
+
             AddIgnoreExtensionsCommand = model.IsIdle
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddIgnoreExtensions());
@@ -95,6 +112,38 @@ namespace FileRenamerDiff.ViewModels
                 .ToReactiveCommand()
                 .WithSubscribe(() => model.ResetSetting())
                 .AddTo(this.CompositeDisposable);
+        }
+
+        private static CultureInfo[] CreateAvailableLanguages()
+        {
+            var resourceManager = new ResourceManager(typeof(Resources));
+            return CultureInfo.GetCultures(CultureTypes.AllCultures)
+                            .Where(x => !x.Equals(CultureInfo.InvariantCulture))
+                            .Where(x => IsAvailableCulture(x, resourceManager))
+                            .Concat(new[] { CultureInfo.GetCultureInfo("en"), CultureInfo.InvariantCulture })
+                            .ToArray();
+        }
+
+        private static bool IsAvailableCulture(CultureInfo cultureInfo, ResourceManager resourceManager) =>
+            resourceManager.GetResourceSet(cultureInfo, true, false) != null;
+
+        private ReactivePropertySlim<CultureInfo> CreateAppLanguageRp()
+        {
+            //Model側から変更されることは無いはずなので、初期値のみ読込
+            //リストにない言語の場合は、Autoに設定する
+            var modelCultureInfo = CultureInfo.GetCultureInfo(setting.AppLanguageCode.Value);
+            if (!this.AvailableLanguages.Contains(modelCultureInfo))
+                modelCultureInfo = CultureInfo.InvariantCulture;
+
+            var rp = new ReactivePropertySlim<CultureInfo>(modelCultureInfo);
+
+            rp.Select(c =>
+                    (c == null || c == CultureInfo.InvariantCulture)
+                        ? ""
+                        : c.Name)
+                .Subscribe(c => setting.AppLanguageCode.Value = c);
+
+            return rp;
         }
     }
 }

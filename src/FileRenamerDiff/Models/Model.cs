@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Globalization;
 
 using Anotar.Serilog;
 using Livet;
@@ -59,18 +60,20 @@ namespace FileRenamerDiff.Models
         /// リネーム前後での変更があったファイル数
         /// </summary>
         public IReadOnlyReactiveProperty<int> CountReplaced => countReplaced;
-        private ReactivePropertySlim<int> countReplaced = new ReactivePropertySlim<int>(0);
+        private readonly ReactivePropertySlim<int> countReplaced = new ReactivePropertySlim<int>(0);
 
 
         /// <summary>
         /// ファイルパスの衝突しているファイル数
         /// </summary>
         public IReadOnlyReactiveProperty<int> CountConflicted => countConflicted;
-        private ReactivePropertySlim<int> countConflicted = new ReactivePropertySlim<int>(0);
+        private readonly ReactivePropertySlim<int> countConflicted = new ReactivePropertySlim<int>(0);
 
         private Model()
         {
             LoadSetting();
+            //設定に応じてアプリケーションの言語を変更する
+            UpdateLanguage(Setting.AppLanguageCode.Value);
         }
 
         /// <summary>
@@ -125,6 +128,12 @@ namespace FileRenamerDiff.Models
                 .OrderByDescending(x => x)
                 .Select(x => new FileElementModel(x))
                 .ToArray();
+        }
+
+        internal void UpdateLanguage(string langCode)
+        {
+            if (!String.IsNullOrWhiteSpace(langCode))
+                Properties.Resources.Culture = CultureInfo.GetCultureInfo(langCode);
         }
 
         /// <summary>

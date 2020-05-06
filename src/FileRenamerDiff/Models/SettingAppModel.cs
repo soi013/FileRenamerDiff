@@ -109,6 +109,13 @@ namespace FileRenamerDiff.Models
             isIgnoreDirectory ??= new ReactivePropertySlim<bool>(true);
         private ReactivePropertySlim<bool> isIgnoreDirectory;
 
+        /// <summary>
+        /// アプリケーションの表示言語
+        /// </summary>
+        public ReactivePropertySlim<string> AppLanguageCode =>
+            appLanguage ??= new ReactivePropertySlim<string>("");
+        private ReactivePropertySlim<string> appLanguage;
+
         static SettingAppModel()
         {
             //ReactivePropertyをシリアライズ可能にするため、アプリケーション全体で固定のMessagePackResolverを設定
