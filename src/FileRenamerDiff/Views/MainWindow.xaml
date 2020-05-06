@@ -241,7 +241,7 @@
                <materialDesign:DataGridTextColumn
                   Width="50"
                   Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"
-                  Header="Size"
+                  Header="{x:Static properties:Resources.Grid_Size}"
                   IsReadOnly="True" />
                <materialDesign:DataGridTextColumn
                   Width="80"
