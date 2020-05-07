@@ -21,7 +21,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
         /// </summary>
-        public static string ConcatenateString<T>(this IEnumerable<T> values, string sepalator = " ") => String.Join(sepalator, values);
+        public static string ConcatenateString<T>(this IEnumerable<T> values, string sepalator) => String.Join(sepalator, values);
 
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
