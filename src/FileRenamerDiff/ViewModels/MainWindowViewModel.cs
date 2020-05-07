@@ -22,6 +22,8 @@ using ps = System.Reactive.PlatformServices;
 using Anotar.Serilog;
 
 using FileRenamerDiff.Models;
+using Serilog.Events;
+using Microsoft.WindowsAPICodePack.Shell.Interop;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -176,6 +178,15 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.LoadFileElements());
+
+            //アプリケーション内メッセージのうち、一定レベルより上のものをダイアログで表示する
+            model.MessageEventStream
+                .Where(m => m != null && m.MessageLevel >= LogEventLevel.Warning)
+                .Select(m => new MessageDialogViewModel(m))
+                //他のUI変更とタイミングが同じになると、重くなるので少し遅らせる
+                .Throttle(TimeSpan.FromMilliseconds(100))
+                .ObserveOnUIDispatcher()
+                .Subscribe(x => ShowDialog(x));
         }
 
         private void ShowDialog(ViewModel innerVM)

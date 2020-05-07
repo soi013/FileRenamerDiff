@@ -1,0 +1,47 @@
+﻿<UserControl
+   x:Class="FileRenamerDiff.Views.MessageDialog"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+   xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+   xmlns:local="clr-namespace:FileRenamerDiff.Views"
+   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:v="clr-namespace:FileRenamerDiff.Views"
+   xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+   d:DataContext="{d:DesignInstance {x:Type vm:MessageDialogViewModel},
+                                    IsDesignTimeCreatable=True}"
+   d:DesignHeight="450"
+   d:DesignWidth="450"
+   Background="{StaticResource MaterialDesignPaper}"
+   TextElement.Foreground="{StaticResource MaterialDesignBody}"
+   UseLayoutRounding="True"
+   mc:Ignorable="d">
+   <UserControl.Resources>
+      <v:LogEventLevelToBrushConverter x:Key="LogEventLevelToBrushConverter" />
+      <v:LogEventLevelToPackIconKindConverter x:Key="LogEventLevelToPackIconKindConverter" />
+   </UserControl.Resources>
+   <StackPanel Margin="15">
+      <StackPanel Orientation="Horizontal">
+         <materialDesign:PackIcon
+            Width="64"
+            Height="64"
+            VerticalAlignment="Center"
+            Foreground="{Binding AppMessage.MessageLevel, Converter={StaticResource LogEventLevelToBrushConverter}}"
+            Kind="{Binding AppMessage.MessageLevel, Converter={StaticResource LogEventLevelToPackIconKindConverter}}" />
+         <TextBlock
+            VerticalAlignment="Center"
+            Margin="10,0"
+            Foreground="{Binding AppMessage.MessageLevel, Converter={StaticResource LogEventLevelToBrushConverter}}"
+            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+            Text="{Binding AppMessage.MessageHead}" />
+      </StackPanel>
+      <Border Style="{StaticResource divider}"/>
+      <TextBlock
+         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+         Text="{Binding AppMessage.MessageBody}"
+         TextWrapping="Wrap" />
+   </StackPanel>
+</UserControl>

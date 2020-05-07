@@ -13,6 +13,7 @@ using Livet;
 using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using Serilog.Events;
 
 namespace FileRenamerDiff.Models
 {
@@ -68,6 +69,15 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public IReadOnlyReactiveProperty<int> CountConflicted => countConflicted;
         private readonly ReactivePropertySlim<int> countConflicted = new ReactivePropertySlim<int>(0);
+
+        /// <summary>
+        /// アプリケーション内メッセージ読み取り専用
+        /// </summary>
+        public IReadOnlyReactiveProperty<AppMessage> MessageEventStream => MessageEvent;
+        /// <summary>
+        /// アプリケーション内メッセージ変更用
+        /// </summary>
+        internal ReactivePropertySlim<AppMessage> MessageEvent { get; } = new ReactivePropertySlim<AppMessage>();
 
         private Model()
         {
@@ -170,6 +180,12 @@ namespace FileRenamerDiff.Models
             catch (Exception ex)
             {
                 LogTo.Error(ex, "Fail to Save Setting");
+                MessageEvent.Value = new AppMessage
+                {
+                    MessageLevel = LogEventLevel.Error,
+                    MessageHead = "FAIL to SaveSetting",
+                    MessageBody = $"{ex.Message}"
+                };
             }
         }
 
@@ -190,8 +206,21 @@ namespace FileRenamerDiff.Models
 
                 UpdateFilePathConflict();
                 this.countConflicted.Value = FileElementModels.Count(x => x.IsConflicted);
-            })
-            .ConfigureAwait(false);
+            });
+
+            if (CountConflicted.Value >= 1)
+            {
+                LogTo.Warning("Some fileNames are DUPLICATED {@count}", CountConflicted.Value);
+                MessageEvent.Value = new AppMessage
+                {
+                    MessageLevel = LogEventLevel.Warning,
+                    MessageHead = "Some fileNames are DUPLICATED",
+                    MessageBody = FileElementModels
+                        .Where(x => x.IsConflicted)
+                        .Select(x => x.OutputFileName)
+                        .ConcatenateString(Environment.NewLine)
+                };
+            }
 
             this.IsIdle.Value = true;
             LogTo.Information("Replace Ended");

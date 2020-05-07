@@ -6,9 +6,9 @@
    xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
-   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    Title="FILE RENAMER DIFF"
    Width="1920"
    Height="720"
@@ -50,13 +50,13 @@
          <l:DataContextDisposeAction />
       </behaviors:EventTrigger>
    </behaviors:Interaction.Triggers>
-   
+
    <materialDesign:DialogHost
       CloseOnClickAway="True"
-      DialogContent="{Binding DialogContentVM.Value}"
+      DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
       IsOpen="{Binding IsDialogOpen.Value, Mode=TwoWay}"
       OverlayBackground="{StaticResource PrimaryHueDarkBrush}">
-      
+
       <!--  DataGridのヘッダーからBindingするために、名前付け  -->
       <Grid x:Name="rootObj">
          <Grid.RowDefinitions>
@@ -67,7 +67,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
          </Grid.ColumnDefinitions>
-         
+
          <materialDesign:ColorZone
             Grid.Row="0"
             Grid.ColumnSpan="2"
@@ -139,7 +139,7 @@
                </StackPanel>
             </DockPanel>
          </materialDesign:ColorZone>
-         
+
          <DataGrid
             Grid.Row="1"
             Grid.Column="1"
@@ -255,7 +255,7 @@
                   IsReadOnly="True" />
             </DataGrid.Columns>
          </DataGrid>
-         
+
          <Expander
             Grid.Row="1"
             Grid.Column="0"

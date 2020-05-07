@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 
 using Anotar.Serilog;
 using Livet;
+using Serilog.Events;
 
 namespace FileRenamerDiff.Models
 {
@@ -128,7 +129,13 @@ namespace FileRenamerDiff.Models
             }
             catch (Exception ex)
             {
-                LogTo.Warning(ex,"Fail to Rename {@fileElement}", this);
+                LogTo.Warning(ex, "Fail to Rename {@fileElement}", this);
+                model.MessageEvent.Value = new AppMessage
+                {
+                    MessageLevel = LogEventLevel.Warning,
+                    MessageHead = "FAIL to SAVE",
+                    MessageBody = $"{this.InputFilePath} -> {this.OutputFilePath}"
+                };
             }
         }
     }
