@@ -21,7 +21,11 @@ The difference display before and after the change is a feature of this software
 
 ![screenshot3](images/screenshot3.png)
 
+## Unlimited number of Delete & Replace Patterns
 
+
+
+![screenshot3](images/screenshot5.png)
 
 ## 5 Language Support
 
