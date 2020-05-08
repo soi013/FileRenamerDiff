@@ -157,7 +157,7 @@ namespace FileRenamerDiff.Models
             LogTo.Information("Reset Setting");
             MessageEvent.Value = new AppMessage
             {
-                MessageLevel = LogEventLevel.Information,
+                MessageLevel = AppMessageLevel.Info,
                 MessageHead = "Reset Setting"
             };
         }
@@ -193,7 +193,7 @@ namespace FileRenamerDiff.Models
                 LogTo.Error(ex, "Fail to Save Setting");
                 MessageEvent.Value = new AppMessage
                 {
-                    MessageLevel = LogEventLevel.Error,
+                    MessageLevel = AppMessageLevel.Error,
                     MessageHead = "FAIL to SaveSetting",
                     MessageBody = $"{ex.Message}"
                 };
@@ -224,7 +224,7 @@ namespace FileRenamerDiff.Models
                 LogTo.Warning("Some fileNames are DUPLICATED {@count}", CountConflicted.Value);
                 MessageEvent.Value = new AppMessage
                 {
-                    MessageLevel = LogEventLevel.Warning,
+                    MessageLevel = AppMessageLevel.Alert,
                     MessageHead = "Some fileNames are DUPLICATED",
                     MessageBody = FileElementModels
                         .Where(x => x.IsConflicted)

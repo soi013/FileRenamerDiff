@@ -42,7 +42,7 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         [Obsolete("Designer only", true)]
         public MessageDialogViewModel()
-            : this(new AppMessage { MessageLevel = LogEventLevel.Warning, MessageHead = "DUMMY HEAD", MessageBody = "DUMMY BODY" }) { }
+            : this(new AppMessage { MessageLevel = AppMessageLevel.Alert, MessageHead = "DUMMY HEAD", MessageBody = "DUMMY BODY" }) { }
 
         public MessageDialogViewModel(AppMessage aMessage)
         {

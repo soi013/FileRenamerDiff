@@ -132,7 +132,7 @@ namespace FileRenamerDiff.Models
                 LogTo.Warning(ex, "Fail to Rename {@fileElement}", this);
                 model.MessageEvent.Value = new AppMessage
                 {
-                    MessageLevel = LogEventLevel.Warning,
+                    MessageLevel = AppMessageLevel.Alert,
                     MessageHead = "FAIL to SAVE",
                     MessageBody = $"{this.InputFilePath} -> {this.OutputFilePath}"
                 };

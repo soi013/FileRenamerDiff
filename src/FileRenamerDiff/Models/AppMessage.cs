@@ -24,7 +24,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// メッセージレベル
         /// </summary>
-        public LogEventLevel MessageLevel { get; set; }
+        public AppMessageLevel MessageLevel { get; set; }
 
         /// <summary>
         /// メッセージタイトル
@@ -35,5 +35,15 @@ namespace FileRenamerDiff.Models
         /// メッセージ本体
         /// </summary>
         public string MessageBody { get; set; }
+    }
+
+    /// <summary>
+    /// アプリケーション内メッセージレベル
+    /// </summary>
+    public enum AppMessageLevel
+    {
+        Info,
+        Alert,
+        Error
     }
 }
