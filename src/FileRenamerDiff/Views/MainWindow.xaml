@@ -274,11 +274,14 @@
             ExpandDirection="Left"
             IsExpanded="True">
             <Expander.Header>
-               <TextBlock Text="{x:Static properties:Resources.Setting_SettingTab}">
-                  <TextBlock.LayoutTransform>
-                     <RotateTransform Angle="90" />
-                  </TextBlock.LayoutTransform>
-               </TextBlock>
+               <StackPanel >
+                  <materialDesign:PackIcon Kind="CogOutline" Width="24" Height="24"/>
+                  <TextBlock Text="{x:Static properties:Resources.Setting_SettingTab}" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="5,0">
+                     <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                     </TextBlock.LayoutTransform>
+                  </TextBlock>
+               </StackPanel>
             </Expander.Header>
             <ScrollViewer IsEnabled="{Binding IsIdle.Value}">
                <v:SettingApp DataContext="{Binding SettingVM.Value}" />

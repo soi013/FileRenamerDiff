@@ -24,6 +24,12 @@
          <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
       </Style>
       <Style
+         x:Key="ExpanderHeader"
+         BasedOn="{StaticResource MaterialDesignBody1TextBlock}"
+         TargetType="{x:Type TextBlock}">
+         <Setter Property="Margin" Value="5,0" />
+      </Style>
+      <Style
          x:Key="AddButton"
          x:Shared="False"
          BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
@@ -61,7 +67,13 @@
       </Style>
    </UserControl.Resources>
    <StackPanel>
-      <Expander Header="{x:Static properties:Resources.Setting_FileSearch}">
+      <Expander>
+         <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+               <materialDesign:PackIcon Kind="FolderSettingsOutline" />
+               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_FileSearch}" />
+            </StackPanel>
+         </Expander.Header>
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="Auto" />
@@ -96,7 +108,13 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander Header="{x:Static properties:Resources.Setting_DeleteTexts}">
+      <Expander>
+         <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+               <materialDesign:PackIcon Kind="FormatStrikethrough" />
+               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_DeleteTexts}" />
+            </StackPanel>
+         </Expander.Header>
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="*" />
@@ -125,7 +143,13 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander Header="{x:Static properties:Resources.Setting_ReplacePatterns}">
+      <Expander>
+         <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+               <materialDesign:PackIcon Kind="AbTesting" />
+               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_ReplacePatterns}" />
+            </StackPanel>
+         </Expander.Header>
          <Grid>
             <Grid.RowDefinitions>
                <RowDefinition Height="*" />
@@ -165,18 +189,24 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander HorizontalAlignment="Stretch" Header="{x:Static properties:Resources.Setting_Other}">
+      <Expander>
+         <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+               <materialDesign:PackIcon Kind="Tune" />
+               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_Other}" />
+            </StackPanel>
+         </Expander.Header>
          <StackPanel>
             <ComboBox
-               FontSize="14"
                Margin="30,5"
                Padding="5"
-               materialDesign:HintAssist.IsFloating="True"
-               materialDesign:HintAssist.FloatingScale="0.9"
-               materialDesign:HintAssist.FloatingOffset="0,-20"
-               materialDesign:HintAssist.Hint="App language: Changed AFTER RESTART"
-               ItemsSource="{Binding AvailableLanguages}"
                materialDesign:ColorZoneAssist.Mode="Accent"
+               materialDesign:HintAssist.FloatingOffset="0,-20"
+               materialDesign:HintAssist.FloatingScale="0.9"
+               materialDesign:HintAssist.Hint="App language: Changed AFTER RESTART"
+               materialDesign:HintAssist.IsFloating="True"
+               FontSize="14"
+               ItemsSource="{Binding AvailableLanguages}"
                SelectedItem="{Binding SelectedLanguage.Value}">
                <ComboBox.ItemTemplate>
                   <DataTemplate>
