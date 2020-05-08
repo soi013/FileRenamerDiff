@@ -27,6 +27,7 @@
    </Window.DataContext>
 
    <metro:MetroWindow.Resources>
+      <v:BoolToCursorConverter x:Key="BoolToCursorConverter" />
       <l:TaskbarItemProgressStateAndBooleanConverter
          x:Key="TaskbarItemProgressStateAndBooleanConverter"
          ConvertWhenFalse="Indeterminate"
@@ -42,9 +43,13 @@
          <Setter Property="IsReadOnly" Value="True" />
       </Style>
    </metro:MetroWindow.Resources>
-   <metro:MetroWindow.TaskbarItemInfo>
+   <!--  アプリケーションが待機状態で無いときは、タスクバーとマウスカーソルの表示を変更  -->
+   <metro:MetroWindow.Cursor>
+      <Binding Converter="{StaticResource BoolToCursorConverter}" Path="IsIdle.Value" />
+   </metro:MetroWindow.Cursor>
+   <Window.TaskbarItemInfo>
       <TaskbarItemInfo ProgressState="{Binding IsIdle.Value, Converter={StaticResource TaskbarItemProgressStateAndBooleanConverter}, Mode=OneWay}" />
-   </metro:MetroWindow.TaskbarItemInfo>
+   </Window.TaskbarItemInfo>
 
    <behaviors:Interaction.Triggers>
       <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
