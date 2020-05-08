@@ -133,7 +133,7 @@ namespace FileRenamerDiff.Models
                 model.MessageEvent.Value = new AppMessage
                 {
                     MessageLevel = AppMessageLevel.Alert,
-                    MessageHead = "FAIL to SAVE",
+                    MessageHead = Properties.Resources.Alert_FailSaveRename,
                     MessageBody = $"{this.InputFilePath} -> {this.OutputFilePath}"
                 };
             }

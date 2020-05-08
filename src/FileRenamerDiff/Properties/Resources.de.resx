@@ -164,7 +164,7 @@ Ausdruck</value>
     <value>Trockenlauf</value>
   </data>
   <data name="Menu_Save" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Umbenennen Speichern</value>
   </data>
   <data name="Grid_OldText" xml:space="preserve">
     <value>Alter Dateiname</value>
@@ -192,5 +192,17 @@ Ausdruck</value>
   </data>
   <data name="Grid_Size" xml:space="preserve">
     <value>Größe</value>
+  </data>
+  <data name="Alert_FailSaveSetting" xml:space="preserve">
+    <value>Das Speichern von Einstellungen ist fehlgeschlagen.</value>
+  </data>
+  <data name="Alert_FailSaveRename" xml:space="preserve">
+    <value>Die Umbenennung konnte nicht gespeichert werden.</value>
+  </data>
+  <data name="Info_SettingsReset" xml:space="preserve">
+    <value>Die Einstellungen wurden zurückgesetzt.</value>
+  </data>
+  <data name="Alert_FileNamesDuplicated" xml:space="preserve">
+    <value>Einige Dateinamen sind doppelt vorhanden.</value>
   </data>
 </root>

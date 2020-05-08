@@ -61,6 +61,33 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   FAILED to save rename. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_FailSaveRename {
+            get {
+                return ResourceManager.GetString("Alert_FailSaveRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   FAILED to save settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_FailSaveSetting {
+            get {
+                return ResourceManager.GetString("Alert_FailSaveSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Some fileNames are DUPLICATED. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_FileNamesDuplicated {
+            get {
+                return ResourceManager.GetString("Alert_FileNamesDuplicated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Changed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_Changed {
@@ -129,6 +156,15 @@ namespace FileRenamerDiff.Properties {
         public static string Grid_Size {
             get {
                 return ResourceManager.GetString("Grid_Size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Settings were reset. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Info_SettingsReset {
+            get {
+                return ResourceManager.GetString("Info_SettingsReset", resourceCulture);
             }
         }
         

@@ -192,4 +192,16 @@
   <data name="Grid_Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
+  <data name="Alert_FailSaveSetting" xml:space="preserve">
+    <value>設定の保存に失敗しました。</value>
+  </data>
+  <data name="Alert_FailSaveRename" xml:space="preserve">
+    <value>リネーム保存に失敗しました。</value>
+  </data>
+  <data name="Info_SettingsReset" xml:space="preserve">
+    <value>設定がリセットされました。</value>
+  </data>
+  <data name="Alert_FileNamesDuplicated" xml:space="preserve">
+    <value>一部のファイル名が重複しています。</value>
+  </data>
 </root>

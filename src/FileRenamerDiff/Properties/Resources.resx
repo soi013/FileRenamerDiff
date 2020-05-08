@@ -197,4 +197,16 @@ REGEXP</value>
   <data name="Grid_Size" xml:space="preserve">
     <value>Size</value>
   </data>
+  <data name="Alert_FailSaveSetting" xml:space="preserve">
+    <value>FAILED to save settings.</value>
+  </data>
+  <data name="Alert_FailSaveRename" xml:space="preserve">
+    <value>FAILED to save rename.</value>
+  </data>
+  <data name="Info_SettingsReset" xml:space="preserve">
+    <value>Settings were reset.</value>
+  </data>
+  <data name="Alert_FileNamesDuplicated" xml:space="preserve">
+    <value>Some fileNames are DUPLICATED.</value>
+  </data>
 </root>

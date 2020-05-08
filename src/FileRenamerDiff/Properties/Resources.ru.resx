@@ -167,7 +167,7 @@
     <value>Сухой прогон</value>
   </data>
   <data name="Menu_Save" xml:space="preserve">
-    <value>сохранить</value>
+    <value>Сохранить переименование</value>
   </data>
   <data name="Grid_OldText" xml:space="preserve">
     <value>Удалить тексты</value>
@@ -192,5 +192,17 @@
   </data>
   <data name="Grid_Size" xml:space="preserve">
     <value>Размер</value>
+  </data>
+  <data name="Alert_FailSaveSetting" xml:space="preserve">
+    <value>БЕЗОПАСНО для сохранения настроек.</value>
+  </data>
+  <data name="Alert_FailSaveRename" xml:space="preserve">
+    <value>Не удалось сохранить переименование.</value>
+  </data>
+  <data name="Info_SettingsReset" xml:space="preserve">
+    <value>Настройки были сброшены.</value>
+  </data>
+  <data name="Alert_FileNamesDuplicated" xml:space="preserve">
+    <value>Некоторые имена файлов дублируются.</value>
   </data>
 </root>

@@ -139,7 +139,7 @@
     <value>旧文件名</value>
   </data>
   <data name="Menu_Save" xml:space="preserve">
-    <value>保存</value>
+    <value>保存重命名</value>
   </data>
   <data name="Menu_DryRun" xml:space="preserve">
     <value>試執行</value>
@@ -191,5 +191,17 @@
   </data>
   <data name="Grid_Size" xml:space="preserve">
     <value>大小</value>
+  </data>
+  <data name="Alert_FailSaveSetting" xml:space="preserve">
+    <value>保存设置失败。</value>
+  </data>
+  <data name="Alert_FailSaveRename" xml:space="preserve">
+    <value>重命名失败，无法保存。</value>
+  </data>
+  <data name="Info_SettingsReset" xml:space="preserve">
+    <value>设置被重置。</value>
+  </data>
+  <data name="Alert_FileNamesDuplicated" xml:space="preserve">
+    <value>有些文件名是重复的。</value>
   </data>
 </root>

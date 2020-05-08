@@ -158,7 +158,7 @@ namespace FileRenamerDiff.Models
             MessageEvent.Value = new AppMessage
             {
                 MessageLevel = AppMessageLevel.Info,
-                MessageHead = "Reset Setting"
+                MessageHead = Properties.Resources.Info_SettingsReset,
             };
         }
 
@@ -194,7 +194,7 @@ namespace FileRenamerDiff.Models
                 MessageEvent.Value = new AppMessage
                 {
                     MessageLevel = AppMessageLevel.Error,
-                    MessageHead = "FAIL to SaveSetting",
+                    MessageHead = Properties.Resources.Alert_FailSaveSetting,
                     MessageBody = $"{ex.Message}"
                 };
             }
@@ -225,7 +225,7 @@ namespace FileRenamerDiff.Models
                 MessageEvent.Value = new AppMessage
                 {
                     MessageLevel = AppMessageLevel.Alert,
-                    MessageHead = "Some fileNames are DUPLICATED",
+                    MessageHead = Properties.Resources.Alert_FileNamesDuplicated,
                     MessageBody = FileElementModels
                         .Where(x => x.IsConflicted)
                         .Select(x => x.OutputFileName)
