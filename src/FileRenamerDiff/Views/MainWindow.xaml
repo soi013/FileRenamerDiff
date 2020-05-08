@@ -27,6 +27,10 @@
    </Window.DataContext>
 
    <metro:MetroWindow.Resources>
+      <l:TaskbarItemProgressStateAndBooleanConverter
+         x:Key="TaskbarItemProgressStateAndBooleanConverter"
+         ConvertWhenFalse="Indeterminate"
+         ConvertWhenTrue="Normal" />
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
       <l:VisibilityAndBooleanConverter x:Key="VisibilityCollapsedConverter" ConvertWhenFalse="Collapsed" />
       <l:VisibilityAndBooleanConverter
@@ -38,6 +42,9 @@
          <Setter Property="IsReadOnly" Value="True" />
       </Style>
    </metro:MetroWindow.Resources>
+   <metro:MetroWindow.TaskbarItemInfo>
+      <TaskbarItemInfo ProgressState="{Binding IsIdle.Value, Converter={StaticResource TaskbarItemProgressStateAndBooleanConverter}, Mode=OneWay}" />
+   </metro:MetroWindow.TaskbarItemInfo>
 
    <behaviors:Interaction.Triggers>
       <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
