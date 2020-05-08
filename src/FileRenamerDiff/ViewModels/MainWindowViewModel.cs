@@ -179,9 +179,9 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.LoadFileElements());
 
-            //アプリケーション内メッセージのうち、一定レベルより上のものをダイアログで表示する
+            //アプリケーション内メッセージをダイアログで表示する
             model.MessageEventStream
-                .Where(m => m != null && m.MessageLevel >= LogEventLevel.Warning)
+                .Where(m => m != null)
                 .Select(m => new MessageDialogViewModel(m))
                 //他のUI変更とタイミングが同じになると、重くなるので少し遅らせる
                 .Throttle(TimeSpan.FromMilliseconds(100))

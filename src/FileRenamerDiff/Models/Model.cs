@@ -142,14 +142,25 @@ namespace FileRenamerDiff.Models
 
         internal void UpdateLanguage(string langCode)
         {
-            if (!String.IsNullOrWhiteSpace(langCode))
-                Properties.Resources.Culture = CultureInfo.GetCultureInfo(langCode);
+            if (String.IsNullOrWhiteSpace(langCode))
+                return;
+
+            Properties.Resources.Culture = CultureInfo.GetCultureInfo(langCode);
         }
 
         /// <summary>
         /// 設定の初期化
         /// </summary>
-        internal void ResetSetting() => this.Setting = new SettingAppModel();
+        internal void ResetSetting()
+        {
+            this.Setting = new SettingAppModel();
+            LogTo.Information("Reset Setting");
+            MessageEvent.Value = new AppMessage
+            {
+                MessageLevel = LogEventLevel.Information,
+                MessageHead = "Reset Setting"
+            };
+        }
 
         /// <summary>
         /// 設定読込

@@ -20,6 +20,16 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class SettingAppModel : NotificationObject
     {
+        static SettingAppModel()
+        {
+            //ReactivePropertyをシリアライズ可能にするため、アプリケーション全体で固定のMessagePackResolverを設定
+            var resolver = CompositeResolver.Create(
+                ReactivePropertyResolver.Instance,
+                ContractlessStandardResolverAllowPrivate.Instance
+            );
+            MessagePackSerializer.DefaultOptions = MessagePack.MessagePackSerializerOptions.Standard.WithResolver(resolver);
+        }
+
         internal static readonly string SettingFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
 
@@ -116,14 +126,9 @@ namespace FileRenamerDiff.Models
             appLanguage ??= new ReactivePropertySlim<string>("");
         private ReactivePropertySlim<string> appLanguage;
 
-        static SettingAppModel()
+        public SettingAppModel()
         {
-            //ReactivePropertyをシリアライズ可能にするため、アプリケーション全体で固定のMessagePackResolverを設定
-            var resolver = CompositeResolver.Create(
-                ReactivePropertyResolver.Instance,
-                ContractlessStandardResolverAllowPrivate.Instance
-            );
-            MessagePackSerializer.DefaultOptions = MessagePack.MessagePackSerializerOptions.Standard.WithResolver(resolver);
+            AppLanguageCode.Subscribe(x => LogTo.Information("Change Lang {@lang}", x));
         }
 
         internal void AddIgnoreExtensions() => IgnoreExtensions.Add(new ReactivePropertySlim<string>(""));
