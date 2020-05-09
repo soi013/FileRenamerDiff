@@ -290,23 +290,43 @@ namespace FileRenamerDiff.Models
         {
             LogTo.Information("Renamed File Save Start");
             IsIdle.Value = false;
-            await Task.Run(() =>
+
+            await Task.Run(() => RenameExcuteCore()).ConfigureAwait(false);
+
+            await LoadFileElements().ConfigureAwait(false);
+
+            IsIdle.Value = true;
+            LogTo.Information("Renamed File Save Ended");
+        }
+
+        private void RenameExcuteCore()
+        {
+            var failFileElements = new List<FileElementModel>();
+
+            foreach (var replaceElement in FileElementModels.Where(x => x.IsReplaced))
             {
                 try
                 {
-                    foreach (var replacePath in FileElementModels.Where(x => x.IsReplaced))
-                        replacePath.Rename();
+                    replaceElement.Rename();
                 }
-                catch (FileNotFoundException fex)
+                catch (Exception ex)
                 {
-                    LogTo.Warning(fex, "Fail to Rename");
+                    LogTo.Warning(ex, "Fail to Rename {@fileElement}", replaceElement);
+                    failFileElements.Add(replaceElement);
                 }
-            })
-            .ConfigureAwait(false);
+            }
 
-            await LoadFileElements().ConfigureAwait(false);
-            IsIdle.Value = true;
-            LogTo.Information("Renamed File Save Ended");
+            if (!failFileElements.Any())
+                return;
+
+            MessageEvent.Value = new AppMessage
+            {
+                MessageLevel = AppMessageLevel.Error,
+                MessageHead = Properties.Resources.Alert_FailSaveRename,
+                MessageBody = failFileElements
+                    .Select(x => $"{x.InputFilePath} -> {x.OutputFilePath}")
+                    .ConcatenateString(Environment.NewLine)
+            };
         }
     }
 }

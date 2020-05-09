@@ -120,23 +120,11 @@ namespace FileRenamerDiff.Models
         internal void Rename()
         {
             LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
-            try
-            {
-                if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
-                    Directory.Move(this.InputFilePath, this.OutputFilePath);
-                else
-                    fileInfo.MoveTo(OutputFilePath);
-            }
-            catch (Exception ex)
-            {
-                LogTo.Warning(ex, "Fail to Rename {@fileElement}", this);
-                model.MessageEvent.Value = new AppMessage
-                {
-                    MessageLevel = AppMessageLevel.Alert,
-                    MessageHead = Properties.Resources.Alert_FailSaveRename,
-                    MessageBody = $"{this.InputFilePath} -> {this.OutputFilePath}"
-                };
-            }
+
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+                Directory.Move(this.InputFilePath, this.OutputFilePath);
+            else
+                fileInfo.MoveTo(OutputFilePath);
         }
     }
 }
