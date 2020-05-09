@@ -101,15 +101,15 @@ namespace FileRenamerDiff.Models
         {
             LogTo.Debug("File Load Start");
             this.IsIdle.Value = false;
-            string sourceFilePath = Setting.SearchFilePath.Value;
-            if (!Directory.Exists(sourceFilePath))
-                return;
-
-            await Task.Run(() =>
+            string sourceFilePath = Setting?.SearchFilePath.Value;
+            if (Directory.Exists(sourceFilePath))
             {
-                this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting);
-            })
-            .ConfigureAwait(false);
+                await Task.Run(() =>
+               {
+                   this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting);
+               })
+               .ConfigureAwait(false);
+            }
 
             this.countReplaced.Value = 0;
             this.countConflicted.Value = 0;
