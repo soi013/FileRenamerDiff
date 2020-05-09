@@ -10,8 +10,8 @@
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
    Title="FILE RENAMER DIFF"
-   Width="1920"
-   Height="720"
+   Width="1600"
+   Height="800"
    Background="{StaticResource MaterialDesignPaper}"
    BorderBrush="{StaticResource AccentColorBrush}"
    BorderThickness="1"
@@ -20,8 +20,7 @@
    GlowBrush="{StaticResource AccentColorBrush}"
    Icon="/FileRenamerDiff_icon.ico"
    TextElement.Foreground="{StaticResource MaterialDesignBody}"
-   TitleCharacterCasing="Normal"
-   WindowState="Maximized">
+   TitleCharacterCasing="Normal">
    <Window.DataContext>
       <vm:MainWindowViewModel />
    </Window.DataContext>
@@ -124,7 +123,10 @@
                            Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
                      </StackPanel>
                   </materialDesign:ColorZone>
-                  <Button Margin="5,0" Command="{Binding FileLoadCommand, Mode=OneTime}">
+                  <Button
+                     Margin="5,0"
+                     Command="{Binding FileLoadCommand, Mode=OneTime}"
+                     Style="{StaticResource MaterialDesignRaisedLightButton}">
                      <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FolderSearchOutline" />
                         <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_SearchFiles}" />
@@ -274,9 +276,15 @@
             ExpandDirection="Left"
             IsExpanded="True">
             <Expander.Header>
-               <StackPanel >
-                  <materialDesign:PackIcon Kind="CogOutline" Width="24" Height="24"/>
-                  <TextBlock Text="{x:Static properties:Resources.Setting_SettingTab}" Style="{StaticResource MaterialDesignBody1TextBlock}" Margin="5,0">
+               <StackPanel>
+                  <materialDesign:PackIcon
+                     Width="24"
+                     Height="24"
+                     Kind="CogOutline" />
+                  <TextBlock
+                     Margin="5,0"
+                     Style="{StaticResource MaterialDesignBody1TextBlock}"
+                     Text="{x:Static properties:Resources.Setting_SettingTab}">
                      <TextBlock.LayoutTransform>
                         <RotateTransform Angle="90" />
                      </TextBlock.LayoutTransform>
