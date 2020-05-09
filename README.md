@@ -1,7 +1,6 @@
 # ![icon](./images/FileRenamerDiff_icon_64.png) File Renamer Diff
 
-This is a file renaming software.
-The difference display before and after the change is a feature of this software.
+A File Renamer App featuring a difference display before and after the change.
 
 # Screen Shot
 
