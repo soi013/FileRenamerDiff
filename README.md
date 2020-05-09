@@ -6,8 +6,6 @@ A File Renamer App featuring a difference display before and after the change.
 
 ![icon](./images/screenshot1.png)
 
-
-
 # Features
 
 ## Difference View
@@ -16,33 +14,24 @@ A File Renamer App featuring a difference display before and after the change.
 
 ## Detect Duplicate
 
-
-
 ![screenshot3](images/screenshot3.png)
 
 ## Unlimited number of Delete & Replace Patterns
-
-
 
 ![screenshot3](images/screenshot5.png)
 
 ## 5 Language Support
 
-
-
 ![screenshot4](images/screenshot4.png)
 
-
-
 - English 
-- Germany
 - Japanese
-- Russia
-- Chinese 
-
-
+- Germany (machine translation)
+- Russia (machine translation)
+- Chinese (machine translation)
 
 # 3rd Party Libraries / Icons
+
 Following codes / libraries make it happen, thanks for their work.
 
 [3rd Party Libraries / Icons](./src/FileRenamerDiff/Resources/License.md)
