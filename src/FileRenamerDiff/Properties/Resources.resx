@@ -209,4 +209,7 @@ REGEXP</value>
   <data name="Alert_FileNamesDuplicated" xml:space="preserve">
     <value>Some fileNames are DUPLICATED.</value>
   </data>
+  <data name="Alert_InvalidFileName" xml:space="preserve">
+    <value>The output file name contains invalid file-name characters.</value>
+  </data>
 </root>

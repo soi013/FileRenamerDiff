@@ -204,4 +204,7 @@
   <data name="Alert_FileNamesDuplicated" xml:space="preserve">
     <value>有些文件名是重复的。</value>
   </data>
+  <data name="Alert_InvalidFileName" xml:space="preserve">
+    <value>輸出檔名稱含有無效的檔名字元。</value>
+  </data>
 </root>

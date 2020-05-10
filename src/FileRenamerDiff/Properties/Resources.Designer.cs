@@ -88,6 +88,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   The output file name contains invalid file-name characters. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_InvalidFileName {
+            get {
+                return ResourceManager.GetString("Alert_InvalidFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Changed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_Changed {

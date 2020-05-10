@@ -204,4 +204,7 @@
   <data name="Alert_FileNamesDuplicated" xml:space="preserve">
     <value>一部のファイル名が重複しています。</value>
   </data>
+  <data name="Alert_InvalidFileName" xml:space="preserve">
+    <value>出力ファイル名に無効な文字が含まれています。</value>
+  </data>
 </root>

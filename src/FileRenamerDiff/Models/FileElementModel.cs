@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 using Anotar.Serilog;
+using FileRenamerDiff.Properties;
 using Livet;
 using Serilog.Events;
 
@@ -118,6 +119,10 @@ namespace FileRenamerDiff.Models
             if (InvalidCharRegex.IsMatch(outFileName))
             {
                 LogTo.Warning("Invalid Char included {@outFileName}", outFileName);
+                model.MessageEvent.Value = new AppMessage(AppMessageLevel.Alert,
+                    head: Resources.Alert_InvalidFileName,
+                   body: $"{InputFileName} -> {outFileName}");
+
                 outFileName = InvalidCharRegex.Replace(outFileName, "_");
             }
 
