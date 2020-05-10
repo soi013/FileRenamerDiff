@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 using Anotar.Serilog;
@@ -85,6 +86,13 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public FileAttributes Attributes => fileInfo.Attributes;
 
+        /// <summary>
+        /// ファイル名に指定できない文字の検出器
+        /// </summary>
+        private static Regex InvalidCharRegex = new Regex(
+            Path.GetInvalidFileNameChars().Select(x => Regex.Escape(x.ToString())).ConcatenateString('|'),
+            RegexOptions.Compiled);
+
         public FileElementModel(string path)
         {
             this.InputFilePath = path;
@@ -104,6 +112,13 @@ namespace FileRenamerDiff.Models
             foreach (var reg in repRegexes)
             {
                 outFileName = reg.Replace(outFileName);
+            }
+
+            //ファイル名に指定できない文字は"_"に置き換える
+            if (InvalidCharRegex.IsMatch(outFileName))
+            {
+                LogTo.Warning("Invalid Char included {@outFileName}", outFileName);
+                outFileName = InvalidCharRegex.Replace(outFileName, "_");
             }
 
             OutputFileName = outFileName;
