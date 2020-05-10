@@ -15,6 +15,8 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using Serilog.Events;
 
+using FileRenamerDiff.Properties;
+
 namespace FileRenamerDiff.Models
 {
     /// <summary>
@@ -155,11 +157,7 @@ namespace FileRenamerDiff.Models
         {
             this.Setting = new SettingAppModel();
             LogTo.Information("Reset Setting");
-            MessageEvent.Value = new AppMessage
-            {
-                MessageLevel = AppMessageLevel.Info,
-                MessageHead = Properties.Resources.Info_SettingsReset,
-            };
+            MessageEvent.Value = new AppMessage(AppMessageLevel.Info, head: Resources.Info_SettingsReset);
         }
 
         /// <summary>
@@ -173,7 +171,6 @@ namespace FileRenamerDiff.Models
             }
             catch (Exception ex)
             {
-                //何故かStatic　コンストラクタから呼ばれる場合、Fody.Anotar.Serilogは使えない
                 LogTo.Warning(ex, "Can not Load Setting {@SettingFilePath}", SettingAppModel.SettingFilePath);
                 Setting = new SettingAppModel();
             }
@@ -191,12 +188,7 @@ namespace FileRenamerDiff.Models
             catch (Exception ex)
             {
                 LogTo.Error(ex, "Fail to Save Setting");
-                MessageEvent.Value = new AppMessage
-                {
-                    MessageLevel = AppMessageLevel.Error,
-                    MessageHead = Properties.Resources.Alert_FailSaveSetting,
-                    MessageBody = $"{ex.Message}"
-                };
+                MessageEvent.Value = new AppMessage(AppMessageLevel.Error, head: Resources.Alert_FailSaveSetting, body: ex.Message);
             }
         }
 
@@ -222,15 +214,13 @@ namespace FileRenamerDiff.Models
             if (CountConflicted.Value >= 1)
             {
                 LogTo.Warning("Some fileNames are DUPLICATED {@count}", CountConflicted.Value);
-                MessageEvent.Value = new AppMessage
-                {
-                    MessageLevel = AppMessageLevel.Alert,
-                    MessageHead = Properties.Resources.Alert_FileNamesDuplicated,
-                    MessageBody = FileElementModels
+                MessageEvent.Value = new AppMessage(
+                    AppMessageLevel.Alert,
+                    head: Resources.Alert_FileNamesDuplicated,
+                    body: FileElementModels
                         .Where(x => x.IsConflicted)
                         .Select(x => x.OutputFileName)
-                        .ConcatenateString(Environment.NewLine)
-                };
+                        .ConcatenateString(Environment.NewLine));
             }
 
             this.IsIdle.Value = true;
@@ -267,7 +257,7 @@ namespace FileRenamerDiff.Models
             var lowerAllPaths = FileElementModels
                 .SelectMany(x =>
                     x.IsReplaced ? new[] { x.InputFilePath, x.OutputFilePath } : new[] { x.InputFilePath })
-            //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
+                //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
                 .Select(x => x.ToLower())
                 .ToArray();
 
@@ -319,14 +309,12 @@ namespace FileRenamerDiff.Models
             if (!failFileElements.Any())
                 return;
 
-            MessageEvent.Value = new AppMessage
-            {
-                MessageLevel = AppMessageLevel.Error,
-                MessageHead = Properties.Resources.Alert_FailSaveRename,
-                MessageBody = failFileElements
+            MessageEvent.Value = new AppMessage(
+                AppMessageLevel.Error,
+                head: Resources.Alert_FailSaveRename,
+                body: failFileElements
                     .Select(x => $"{x.InputFilePath} -> {x.OutputFilePath}")
-                    .ConcatenateString(Environment.NewLine)
-            };
+                    .ConcatenateString(Environment.NewLine));
         }
     }
 }

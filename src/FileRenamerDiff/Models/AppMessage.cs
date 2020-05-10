@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 
 using Anotar.Serilog;
 using Livet;
+using Livet.Messaging;
 using MessagePack;
 using MessagePack.ReactivePropertyExtension;
 using MessagePack.Resolvers;
@@ -35,6 +36,15 @@ namespace FileRenamerDiff.Models
         /// メッセージ本体
         /// </summary>
         public string MessageBody { get; set; }
+
+        public AppMessage() { }
+
+        public AppMessage(AppMessageLevel level, string head, string body = "")
+        {
+            MessageLevel = level;
+            MessageHead = head;
+            MessageBody = body;
+        }
     }
 
     /// <summary>
