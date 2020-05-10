@@ -88,11 +88,13 @@ namespace FileRenamerDiff.Models
         public FileAttributes Attributes => fileInfo.Attributes;
 
         /// <summary>
-        /// ファイル名に指定できない文字の検出器
+        /// ファイル名に指定できない文字の検出器 (参考:https://dobon.net/vb/dotnet/file/invalidpathchars.html#section2)
         /// </summary>
-        private static Regex InvalidCharRegex = new Regex(
-            Path.GetInvalidFileNameChars().Select(x => Regex.Escape(x.ToString())).ConcatenateString('|'),
-            RegexOptions.Compiled);
+        private static readonly Regex invalidCharRegex = new Regex(
+            "[\\x00-\\x1f<>:\"/\\\\|?*]" +
+            "|^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9]|CLOCK\\$)(\\.|$)" +
+            "|[\\. ]$",
+            RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public FileElementModel(string path)
         {
@@ -116,14 +118,14 @@ namespace FileRenamerDiff.Models
             }
 
             //ファイル名に指定できない文字は"_"に置き換える
-            if (InvalidCharRegex.IsMatch(outFileName))
+            if (invalidCharRegex.IsMatch(outFileName))
             {
                 LogTo.Warning("Invalid Char included {@outFileName}", outFileName);
                 model.MessageEvent.Value = new AppMessage(AppMessageLevel.Alert,
                     head: Resources.Alert_InvalidFileName,
                    body: $"{InputFileName} -> {outFileName}");
 
-                outFileName = InvalidCharRegex.Replace(outFileName, "_");
+                outFileName = invalidCharRegex.Replace(outFileName, "_");
             }
 
             OutputFileName = outFileName;
