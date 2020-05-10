@@ -123,93 +123,123 @@
   </data>
   <data name="Setting_FileSearch" xml:space="preserve">
     <value>File Search</value>
+    <comment>ファイル探索関連の設定タグ</comment>
   </data>
   <data name="Setting_SearchSubDirectories" xml:space="preserve">
     <value>Search Sub Directories</value>
+    <comment>指定されたパスのフォルダだけでなく、サブフォルダ以下の階層もファイルを探索するかどうかのチェックボックス</comment>
   </data>
   <data name="Setting_IgnoreDirectory" xml:space="preserve">
     <value>Ignore Directory</value>
+    <comment>ファイル探索時に、フォルダ自体はリネーム対象にするかどうかのチェックボックス</comment>
   </data>
   <data name="Setting_IgnoreExtensions" xml:space="preserve">
     <value>Ignore Extensions</value>
+    <comment>ファイル探索時に無視される拡張子の一覧</comment>
   </data>
   <data name="Setting_Add" xml:space="preserve">
     <value>ADD</value>
+    <comment>リストに何かを追加するボタン（何かは使われる場所によって違う）</comment>
   </data>
   <data name="Setting_DeleteTexts" xml:space="preserve">
     <value>Delete Texts</value>
+    <comment>リネーム時の削除文字パターンのリスト</comment>
   </data>
   <data name="Setting_AsExpression" xml:space="preserve">
     <value>As
 REGEXP</value>
+    <comment>リネーム時に正規表現として認識させるかのチェックボックス（2行に分割）</comment>
   </data>
   <data name="Setting_DeleteTextTarget" xml:space="preserve">
     <value>Text</value>
+    <comment>リネーム時に削除対象となる文字のリスト</comment>
   </data>
   <data name="Setting_ReplacePatterns" xml:space="preserve">
     <value>Replace Patterns</value>
+    <comment>リネーム時の置換文字パターンのリスト</comment>
   </data>
   <data name="Setting_ReplaceTextTarget" xml:space="preserve">
     <value>Target Text</value>
+    <comment>リネーム時に置換対象となる文字のリスト</comment>
   </data>
   <data name="Setting_ReplaceText" xml:space="preserve">
     <value>Replace Text</value>
+    <comment>リネーム時に置換された後の文字のリスト</comment>
   </data>
   <data name="Setting_ResetAllSetting" xml:space="preserve">
     <value>Reset ALL Settings</value>
+    <comment>すべての設定を初期化するボタン</comment>
   </data>
   <data name="Setting_Other" xml:space="preserve">
     <value>Other</value>
+    <comment>その他の設定タグ</comment>
   </data>
   <data name="Menu_SearchFiles" xml:space="preserve">
     <value>Search Files</value>
+    <comment>ファイル探索を開始するボタン</comment>
   </data>
   <data name="Menu_DryRun" xml:space="preserve">
     <value>DRY RUN</value>
+    <comment>リネーム処理のプレビュー（まだストレージに保存はされない）ボタン</comment>
   </data>
   <data name="Menu_Save" xml:space="preserve">
     <value>SAVE</value>
+    <comment>リネーム処理の実行（ストレージに保存される）ボタン</comment>
   </data>
   <data name="Grid_OldText" xml:space="preserve">
     <value>OLD File Name</value>
+    <comment>リネーム前の現在のファイル名リスト</comment>
   </data>
   <data name="Grid_NewText" xml:space="preserve">
     <value>NEW File Name</value>
+    <comment>リネーム後の予定ファイル名リスト</comment>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
     <value>Changed</value>
+    <comment>リネーム前後で変更があったかどうかの表示</comment>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
     <value>Duplicated</value>
+    <comment>ファイル名が重複していたかどうかの表示</comment>
   </data>
   <data name="Grid_DateModified" xml:space="preserve">
     <value>Date modified</value>
+    <comment>ファイル名の更新日時リスト</comment>
   </data>
   <data name="Grid_CreatedDate" xml:space="preserve">
     <value>Created Date</value>
+    <comment>ファイル名の作成日時リスト</comment>
   </data>
   <data name="Setting_SettingTab" xml:space="preserve">
     <value>Settings</value>
+    <comment>全体設定タグ</comment>
   </data>
   <data name="Grid_Directory" xml:space="preserve">
     <value>Directory</value>
+    <comment>ファイル名の所属しているディレクトリリスト</comment>
   </data>
   <data name="Grid_Size" xml:space="preserve">
     <value>Size</value>
+    <comment>ファイル名のファイルサイズのリスト</comment>
   </data>
   <data name="Alert_FailSaveSetting" xml:space="preserve">
     <value>FAILED to save settings.</value>
+    <comment>設定の保存に失敗したときの警告メッセージ文章</comment>
   </data>
   <data name="Alert_FailSaveRename" xml:space="preserve">
     <value>FAILED to save rename.</value>
+    <comment>リネーム保存に失敗したときの警告メッセージ文章</comment>
   </data>
   <data name="Info_SettingsReset" xml:space="preserve">
     <value>Settings were reset.</value>
+    <comment>全体設定がリセットされたときのメッセージ文章</comment>
   </data>
   <data name="Alert_FileNamesDuplicated" xml:space="preserve">
     <value>Some fileNames are DUPLICATED.</value>
+    <comment>一部のファイル名が重複していたときの警告メッセージ文章</comment>
   </data>
   <data name="Alert_InvalidFileName" xml:space="preserve">
     <value>The output file name contains invalid file-name characters.</value>
+    <comment>一部のファイル名に無効な文字が含まれていたときの警告メッセージ文章</comment>
   </data>
 </root>
