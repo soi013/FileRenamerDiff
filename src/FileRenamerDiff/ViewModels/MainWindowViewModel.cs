@@ -24,6 +24,7 @@ using Anotar.Serilog;
 using FileRenamerDiff.Models;
 using Serilog.Events;
 using Microsoft.WindowsAPICodePack.Shell.Interop;
+using System.Reactive.Concurrency;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -182,17 +183,31 @@ namespace FileRenamerDiff.ViewModels
             //アプリケーション内メッセージをダイアログで表示する
             model.MessageEventStream
                 .Where(m => m != null)
-                .Select(m => new MessageDialogViewModel(m))
-                //他のUI変更とタイミングが同じになると、重くなるので少し遅らせる
-                .Throttle(TimeSpan.FromMilliseconds(100))
+                //同種類の警告をまとめるため、時間でバッファ
+                .Buffer(TimeSpan.FromMilliseconds(100))
+                .Where(ms => ms.Any())
+                //同じヘッダのメッセージをまとめる
+                .Select(ms => ms
+                    .SumSameHead()
+                    .Select(m => new MessageDialogViewModel(m)))
                 .ObserveOnUIDispatcher()
-                .Subscribe(x => ShowDialog(x));
+                .Subscribe(async ms =>
+                    {
+                        foreach (var m in ms)
+                            await ShowDialogAsync(m);
+                    });
         }
 
         private void ShowDialog(ViewModel innerVM)
         {
             this.DialogContentVM.Value = innerVM;
             this.IsDialogOpen.Value = true;
+        }
+        private async Task ShowDialogAsync(ViewModel innerVM)
+        {
+            this.DialogContentVM.Value = innerVM;
+            this.IsDialogOpen.Value = true;
+            await this.IsDialogOpen;
         }
 
         private async Task FolderSelected(FolderSelectionMessage fsMessage)
