@@ -9,4 +9,7 @@
    <DataTemplate DataType="{x:Type vm:MessageDialogViewModel}">
       <v:MessageDialog />
    </DataTemplate>
+   <DataTemplate DataType="{x:Type vm:ProgressDialogViewModel}">
+      <v:ProgressDialog />
+   </DataTemplate>
 </ResourceDictionary>

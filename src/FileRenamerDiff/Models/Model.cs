@@ -8,12 +8,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
 
+using Serilog.Events;
 using Anotar.Serilog;
 using Livet;
 using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using Serilog.Events;
+using Reactive.Bindings.Notifiers;
 
 using FileRenamerDiff.Properties;
 
@@ -81,8 +82,21 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal ReactivePropertySlim<AppMessage> MessageEvent { get; } = new ReactivePropertySlim<AppMessage>();
 
+        /// <summary>
+        /// 処理状態メッセージ通知
+        /// </summary>
+        private ScheduledNotifier<ProgressInfo> progress = new ScheduledNotifier<ProgressInfo>();
+
+        /// <summary>
+        /// 現在の処理状態メッセージ
+        /// </summary>
+        public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
+
         private Model()
         {
+            CurrentProgessInfo = progress
+                .ToReadOnlyReactivePropertySlim();
+
             LoadSetting();
             //設定に応じてアプリケーションの言語を変更する
             UpdateLanguage(Setting.AppLanguageCode.Value);
@@ -108,18 +122,19 @@ namespace FileRenamerDiff.Models
             {
                 await Task.Run(() =>
                {
-                   this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting);
+                   this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting, progress);
                })
                .ConfigureAwait(false);
             }
 
             this.countReplaced.Value = 0;
             this.countConflicted.Value = 0;
+            progress?.Report(new ProgressInfo(0, "Finished"));
             this.IsIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
 
-        private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting)
+        private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress)
         {
             var regex = setting.CreateIgnoreExtensionsRegex();
 
@@ -136,6 +151,11 @@ namespace FileRenamerDiff.Models
 
             return fileEnums
                 .Where(x => !regex.IsMatch(Path.GetExtension(x)))
+                .Do((x, i) =>
+                    {
+                        if (i % 16 == 0)
+                            progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
+                    })
                 //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
                 .OrderByDescending(x => x)
                 .Select(x => new FileElementModel(x))

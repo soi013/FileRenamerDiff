@@ -63,7 +63,7 @@
    </behaviors:Interaction.Triggers>
 
    <materialDesign:DialogHost
-      CloseOnClickAway="True"
+      CloseOnClickAway="{Binding CloseOnClickAwayDialog.Value}"
       DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
       IsOpen="{Binding IsDialogOpen.Value, Mode=TwoWay}"
       OverlayBackground="{StaticResource PrimaryHueDarkBrush}">

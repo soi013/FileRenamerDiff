@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -80,5 +81,12 @@ namespace FileRenamerDiff.Models
                 return null;
             }
         }
+
+        public static IEnumerable<TSource> Do<TSource>(this IEnumerable<TSource> source, Action<TSource, int> onNext) =>
+            source.Select((x, i) =>
+            {
+                onNext(x, i);
+                return x;
+            });
     }
 }

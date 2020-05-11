@@ -18,13 +18,13 @@ using Livet.Messaging.Windows;
 using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using System.Reactive.Concurrency;
 using ps = System.Reactive.PlatformServices;
 using Anotar.Serilog;
-
-using FileRenamerDiff.Models;
 using Serilog.Events;
 using Microsoft.WindowsAPICodePack.Shell.Interop;
-using System.Reactive.Concurrency;
+
+using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -45,6 +45,10 @@ namespace FileRenamerDiff.ViewModels
         /// ダイアログ表示VM
         /// </summary>
         public ReactivePropertySlim<ViewModel> DialogContentVM { get; set; } = new ReactivePropertySlim<ViewModel>();
+        /// <summary>
+        /// ダイアログの外側をクリックした際に閉じられるか
+        /// </summary>
+        public ReactivePropertySlim<bool> CloseOnClickAwayDialog { get; } = new ReactivePropertySlim<bool>(true);
 
         /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
@@ -171,14 +175,14 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand<FolderSelectionMessage>()
                 .WithSubscribe(async x => await FolderSelected(x));
 
-            this.FileLoadCommand = new[]
+            this.FileLoadCommand = (new[]
                 {
-                    SettingVM.Value.SearchFilePath.Select<string, bool>(x => !String.IsNullOrWhiteSpace(x)),
+                    SettingVM.Value.SearchFilePath.Select(x => !string.IsNullOrWhiteSpace(x)),
                     IsIdle
-                }
+                })
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.LoadFileElements());
+                .WithSubscribe(LoadFileElements);
 
             //アプリケーション内メッセージをダイアログで表示する
             model.MessageEventStream
@@ -198,15 +202,15 @@ namespace FileRenamerDiff.ViewModels
                     });
         }
 
-        private void ShowDialog(ViewModel innerVM)
+        private void ShowDialog(ViewModel innerVM, bool canCloseAwayDialog = true)
         {
             this.DialogContentVM.Value = innerVM;
+            this.CloseOnClickAwayDialog.Value = canCloseAwayDialog;
             this.IsDialogOpen.Value = true;
         }
-        private async Task ShowDialogAsync(ViewModel innerVM)
+        private async Task ShowDialogAsync(ViewModel innerVM, bool canCloseAwayDialog = true)
         {
-            this.DialogContentVM.Value = innerVM;
-            this.IsDialogOpen.Value = true;
+            ShowDialog(innerVM, canCloseAwayDialog);
             await this.IsDialogOpen;
         }
 
@@ -216,7 +220,24 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             SettingVM.Value.SearchFilePath.Value = fsMessage.Response;
-            await model.LoadFileElements();
+            await LoadFileElements();
+        }
+
+        private async Task LoadFileElements()
+        {
+            //ファイル読込を開始する
+            var taskLoad = model.LoadFileElements();
+
+            //一定時間経過しても読込が終了していなかったら、
+            await Task.WhenAny(Task.Delay(500), taskLoad);
+            if (taskLoad.IsCompleted)
+                return;
+
+            //進行ダイアログを表示
+            ShowDialog(new ProgressDialogViewModel(), false);
+            await taskLoad;
+            //読込が終わったらダイアログを閉じる
+            IsDialogOpen.Value = false;
         }
 
         private ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> paths)
