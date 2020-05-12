@@ -41,10 +41,10 @@ namespace FileRenamerDiff.ViewModels
         public ProgressDialogViewModel()
         {
             this.CurrentProgessInfo = model.CurrentProgessInfo
-                .ObserveOnUIDispatcher()
                 .Buffer(TimeSpan.FromMilliseconds(500))
                 .Where(x => x.Any())
                 .Select(x => x.Last())
+                .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim();
         }
     }
