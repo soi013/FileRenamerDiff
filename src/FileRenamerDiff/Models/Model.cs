@@ -282,7 +282,10 @@ namespace FileRenamerDiff.Models
         {
             var lowerAllPaths = FileElementModels
                 .SelectMany(x =>
-                    x.IsReplaced ? new[] { x.InputFilePath, x.OutputFilePath } : new[] { x.InputFilePath })
+                //大文字小文字を区別せず一致していたら、Inputのみ返す
+                    (String.Compare(x.InputFilePath, x.OutputFilePath, true) == 0)
+                     ? new[] { x.InputFilePath }
+                     : new[] { x.InputFilePath, x.OutputFilePath })
                 //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
                 .Select(x => x.ToLower())
                 .ToArray();
