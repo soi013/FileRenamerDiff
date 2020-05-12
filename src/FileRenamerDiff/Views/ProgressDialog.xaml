@@ -29,9 +29,12 @@
          <RowDefinition />
       </Grid.RowDefinitions>
       <StackPanel Grid.Row="0">
-         <TextBlock Text="Count: " />
-         <TextBlock Margin="15,5,0,30" Text="{Binding CurrentProgessInfo.Value.Count, Mode=OneWay, StringFormat=\{0:N\}}" />
-         <TextBlock Text="Message:" />
+         <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Count: " />
+         <TextBlock
+            Margin="15,5,0,30"
+            Style="{StaticResource MaterialDesignBody1TextBlock}"
+            Text="{Binding CurrentProgessInfo.Value.Count, Mode=OneWay, StringFormat=\{0:N0\}}" />
+         <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Text="Message:" />
       </StackPanel>
       <TextBlock
          Grid.Row="1"
