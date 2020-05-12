@@ -149,15 +149,22 @@ namespace FileRenamerDiff.Models
                 ? Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option)
                 : Directory.EnumerateFiles(sourceFilePath, "*", option);
 
-            return fileEnums
+            var loadedFileList = fileEnums
                 .Where(x => !regex.IsMatch(Path.GetExtension(x)))
                 .Do((x, i) =>
                     {
                         if (i % 16 == 0)
                             progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
                     })
-                //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
-                .OrderByDescending(x => x)
+                .ToList();
+
+            progress?.Report(new ProgressInfo(0, "Files were Loaded. Sorting Files"));
+            //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
+            loadedFileList.Sort();
+            loadedFileList.Reverse();
+            progress?.Report(new ProgressInfo(0, "Files were Sorted. Creating FileList"));
+
+            return loadedFileList
                 .Select(x => new FileElementModel(x))
                 .ToArray();
         }
