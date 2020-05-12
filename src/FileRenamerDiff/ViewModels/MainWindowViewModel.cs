@@ -139,16 +139,16 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => model.Replace());
 
-            this.RenameExcuteCommand = new[]
+            this.RenameExcuteCommand = (new[]
                 {
                     IsReplacedAny,
                     IsNotConflictedAny,
                     IsIdle,
-                }
+                })
                 .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.RenameExcute());
+                .WithSubscribe(() => RenameExcute());
 
             this.ShowInformationPageCommand = IsIdle
                 .ToReactiveCommand()
@@ -196,10 +196,10 @@ namespace FileRenamerDiff.ViewModels
                     .Select(m => new MessageDialogViewModel(m)))
                 .ObserveOnUIDispatcher()
                 .Subscribe(async ms =>
-                    {
-                        foreach (var m in ms)
-                            await ShowDialogAsync(m);
-                    });
+                {
+                    foreach (var m in ms)
+                        await ShowDialogAsync(m);
+                });
         }
 
         private void ShowDialog(ViewModel innerVM, bool canCloseAwayDialog = true)
@@ -228,7 +228,7 @@ namespace FileRenamerDiff.ViewModels
             //ファイル読込を開始する
             var taskLoad = model.LoadFileElements();
 
-            //一定時間経過しても読込が終了していなかったら、
+            //一定時間経過しても処理が終了していなかったら、
             await Task.WhenAny(Task.Delay(500), taskLoad);
             if (taskLoad.IsCompleted)
                 return;
@@ -236,6 +236,23 @@ namespace FileRenamerDiff.ViewModels
             //進行ダイアログを表示
             ShowDialog(new ProgressDialogViewModel(), false);
             await taskLoad;
+            //読込が終わったらダイアログを閉じる
+            IsDialogOpen.Value = false;
+        }
+
+        private　async Task RenameExcute()
+        {
+            //リネーム実行を開始する
+            var taskRename = model.RenameExcute();
+
+            //一定時間経過しても処理が終了していなかったら、
+            await Task.WhenAny(Task.Delay(500), taskRename);
+            if (taskRename.IsCompleted)
+                return;
+
+            //進行ダイアログを表示
+            ShowDialog(new ProgressDialogViewModel(), false);
+            await taskRename;
             //読込が終わったらダイアログを閉じる
             IsDialogOpen.Value = false;
         }

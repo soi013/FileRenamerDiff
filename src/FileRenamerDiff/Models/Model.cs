@@ -85,7 +85,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 処理状態メッセージ通知
         /// </summary>
-        private ScheduledNotifier<ProgressInfo> progress = new ScheduledNotifier<ProgressInfo>();
+        private ScheduledNotifier<ProgressInfo> progressNotifier = new ScheduledNotifier<ProgressInfo>();
 
         /// <summary>
         /// 現在の処理状態メッセージ
@@ -94,7 +94,7 @@ namespace FileRenamerDiff.Models
 
         private Model()
         {
-            CurrentProgessInfo = progress
+            CurrentProgessInfo = progressNotifier
                 .ToReadOnlyReactivePropertySlim();
 
             LoadSetting();
@@ -122,14 +122,13 @@ namespace FileRenamerDiff.Models
             {
                 await Task.Run(() =>
                {
-                   this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting, progress);
+                   this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting, progressNotifier);
                })
                .ConfigureAwait(false);
             }
 
             this.countReplaced.Value = 0;
             this.countConflicted.Value = 0;
-            progress?.Report(new ProgressInfo(0, "Finished"));
             this.IsIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
@@ -308,7 +307,7 @@ namespace FileRenamerDiff.Models
             LogTo.Information("Renamed File Save Start");
             IsIdle.Value = false;
 
-            await Task.Run(() => RenameExcuteCore()).ConfigureAwait(false);
+            await Task.Run(() => RenameExcuteCore(progressNotifier)).ConfigureAwait(false);
 
             await LoadFileElements().ConfigureAwait(false);
 
@@ -316,15 +315,17 @@ namespace FileRenamerDiff.Models
             LogTo.Information("Renamed File Save Ended");
         }
 
-        private void RenameExcuteCore()
+        private void RenameExcuteCore(IProgress<ProgressInfo> progress)
         {
             var failFileElements = new List<FileElementModel>();
 
-            foreach (var replaceElement in FileElementModels.Where(x => x.IsReplaced))
+            foreach (var (replaceElement, index) in FileElementModels.Where(x => x.IsReplaced).WithIndex())
             {
                 try
                 {
                     replaceElement.Rename();
+                    if (index % 16 == 0)
+                        progress.Report(new ProgressInfo(index, $"File Renamed {replaceElement.OutputFilePath}"));
                 }
                 catch (Exception ex)
                 {

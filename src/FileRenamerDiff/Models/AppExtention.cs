@@ -88,5 +88,7 @@ namespace FileRenamerDiff.Models
                 onNext(x, i);
                 return x;
             });
+
+        public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
     }
 }
