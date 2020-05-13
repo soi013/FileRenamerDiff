@@ -154,12 +154,6 @@
   <data name="Setting_ReplaceText" xml:space="preserve">
     <value>Заменить текст</value>
   </data>
-  <data name="Setting_ResetAllSetting" xml:space="preserve">
-    <value>Сброс всех настроек</value>
-  </data>
-  <data name="Setting_Other" xml:space="preserve">
-    <value>Другое</value>
-  </data>
   <data name="Menu_SearchFiles" xml:space="preserve">
     <value>Поисковые файлы</value>
   </data>
@@ -207,5 +201,11 @@
   </data>
   <data name="Alert_InvalidFileName" xml:space="preserve">
     <value>Имя выходного файла содержит недопустимые знаки.</value>
+  </data>
+  <data name="Setting_Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="Setting_ResetAllSetting" xml:space="preserve">
+    <value>Сброс всех настроек</value>
   </data>
 </root>

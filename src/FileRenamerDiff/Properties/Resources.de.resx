@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Setting_FileSearch" xml:space="preserve">
-    <value>Dateisuche</value>
+    <value>Filesuche</value>
   </data>
   <data name="Setting_SearchSubDirectories" xml:space="preserve">
-    <value>Suche in Unterverzeichnissen</value>
+    <value>Suche in Subverzeichnissen</value>
   </data>
   <data name="Setting_IgnoreDirectory" xml:space="preserve">
-    <value>Verzeichnis ignorieren</value>
+    <value>Auch das Verzeichnis selbst</value>
   </data>
   <data name="Setting_IgnoreExtensions" xml:space="preserve">
-    <value>Erweiterungen ignorieren</value>
+    <value>Zu ignorierende Erweiterungen</value>
   </data>
   <data name="Setting_Add" xml:space="preserve">
     <value>hinzufügen</value>
   </data>
   <data name="Setting_DeleteTexts" xml:space="preserve">
-    <value>Texte löschen</value>
+    <value>Zu löschende Texte</value>
   </data>
   <data name="Setting_AsExpression" xml:space="preserve">
     <value>Regulärer
@@ -143,7 +143,7 @@ Ausdruck</value>
     <value>Text</value>
   </data>
   <data name="Setting_ReplacePatterns" xml:space="preserve">
-    <value>Muster ersetzen</value>
+    <value>Ersetzungsmuster</value>
   </data>
   <data name="Setting_ReplaceTextTarget" xml:space="preserve">
     <value>Zieltext</value>
@@ -152,10 +152,7 @@ Ausdruck</value>
     <value>Text ersetzen</value>
   </data>
   <data name="Setting_ResetAllSetting" xml:space="preserve">
-    <value>Andere</value>
-  </data>
-  <data name="Setting_Other" xml:space="preserve">
-    <value>Alle Einstellungen zurücksetzen</value>
+    <value>Initialisierung aller Einstellungen</value>
   </data>
   <data name="Menu_SearchFiles" xml:space="preserve">
     <value>Dateien durchsuchen</value>
@@ -207,5 +204,8 @@ Ausdruck</value>
   </data>
   <data name="Alert_InvalidFileName" xml:space="preserve">
     <value>Der Ausgabedateiname enthält für Dateinamen ungültige Zeichen.</value>
+  </data>
+  <data name="Setting_Other" xml:space="preserve">
+    <value>Andere</value>
   </data>
 </root>
