@@ -9,6 +9,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Version>1.1</Version>
     <PackageProjectUrl>https://github.com/soi013/FileRenamerDiff</PackageProjectUrl>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>

@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Collections;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Reflection.Metadata;
 
 using Livet;
 using Livet.Commands;
@@ -20,18 +22,21 @@ using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using ps = System.Reactive.PlatformServices;
 using Anotar.Serilog;
+using Serilog.Events;
 
 using FileRenamerDiff.Models;
-using System.Reflection;
-using System.Reflection.Metadata;
 
 namespace FileRenamerDiff.ViewModels
 {
-    public class InformationPageViewModel : DialogBaseViewModel
+    public class DialogBaseViewModel : ViewModel
     {
-        public string Author { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
-        public string Version { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        protected Model model = Model.Instance;
 
-        public string LicenseText { get; } = Properties.Resources.License;
+
+        /// <summary>
+        /// ダイアログが表示されているか
+        /// Bindされるのは使用側のDialogHost
+        /// </summary>
+        public ReactivePropertySlim<bool> IsDialogOpen { get; } = new ReactivePropertySlim<bool>(false);
     }
 }

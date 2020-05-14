@@ -25,28 +25,31 @@ using Anotar.Serilog;
 using Serilog.Events;
 
 using FileRenamerDiff.Models;
-using DiffPlex;
-
 namespace FileRenamerDiff.ViewModels
 {
-    /// <summary>
-    /// アプリケーション内メッセージ表示用VM
-    /// </summary>
-    public class MessageDialogViewModel : DialogBaseViewModel
+    public class ConfirmDialogViewModel : DialogBaseViewModel
     {
-        Model model = Model.Instance;
-        public AppMessage AppMessage { get; }
-
         /// <summary>
-        /// デザイナー用です　コードからは呼べません
+        /// ダイアログ結果（初期状態はNull）
         /// </summary>
-        [Obsolete("Designer only", true)]
-        public MessageDialogViewModel()
-            : this(new AppMessage(AppMessageLevel.Alert, head: "DUMMY HEAD", body: "DUMMY BODY")) { }
+        public bool? IsOK { get; private set; } = null;
 
-        public MessageDialogViewModel(AppMessage aMessage)
+        public ReactiveCommand OkCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand CancelCommand { get; } = new ReactiveCommand();
+
+        public ConfirmDialogViewModel()
         {
-            this.AppMessage = aMessage;
+            OkCommand.Subscribe(() =>
+            {
+                IsOK = true;
+                IsDialogOpen.Value = false;
+            });
+
+            CancelCommand.Subscribe(() =>
+            {
+                IsOK = false;
+                IsDialogOpen.Value = false;
+            });
         }
     }
 }

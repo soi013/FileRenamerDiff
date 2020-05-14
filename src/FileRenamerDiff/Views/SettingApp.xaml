@@ -14,7 +14,7 @@
    Height="Auto"
    d:DataContext="{d:DesignInstance {x:Type vm:SettingAppViewModel},
                                     IsDesignTimeCreatable=True}"
-   d:DesignHeight="650"
+   d:DesignHeight="850"
    d:DesignWidth="400"
    mc:Ignorable="d">
    <UserControl.Resources>
@@ -44,6 +44,22 @@
          </Setter>
          <Setter Property="Margin" Value="30,5" />
       </Style>
+      <Style
+         x:Key="ClearAllButton"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Content">
+            <Setter.Value>
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="RemoveCircle" />
+                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ClearAll}" />
+               </StackPanel>
+            </Setter.Value>
+         </Setter>
+         <Setter Property="Margin" Value="30,5" />
+      </Style>
+
       <Style
          x:Key="RemoveButton"
          x:Shared="False"
@@ -101,10 +117,10 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <Button
-               Grid.Row="2"
-               Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+               <Button Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
+               <Button Command="{Binding ClearAllIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource ClearAllButton}" />
+            </StackPanel>
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />

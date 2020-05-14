@@ -32,10 +32,8 @@ namespace FileRenamerDiff.ViewModels
     /// <summary>
     /// 進行状態表示用VM
     /// </summary>
-    public class ProgressDialogViewModel : ViewModel
+    public class ProgressDialogViewModel : DialogBaseViewModel
     {
-        Model model = Model.Instance;
-
         public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
 
         public ProgressDialogViewModel()

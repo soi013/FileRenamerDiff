@@ -207,4 +207,7 @@
   <data name="Alert_InvalidFileName" xml:space="preserve">
     <value>出力ファイル名に無効な文字が含まれています。</value>
   </data>
+  <data name="Setting_ClearAll" xml:space="preserve">
+    <value>全削除</value>
+  </data>
 </root>

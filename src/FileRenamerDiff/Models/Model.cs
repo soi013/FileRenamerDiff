@@ -92,6 +92,11 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
 
+        /// <summary>
+        /// ユーザー確認デリゲート
+        /// </summary>
+        public Func<Task<bool>> ConfirmUser { get; set; }
+
         private Model()
         {
             CurrentProgessInfo = progressNotifier

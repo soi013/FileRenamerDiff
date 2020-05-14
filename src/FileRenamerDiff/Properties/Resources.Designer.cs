@@ -259,6 +259,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   CLEAR ALL に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_ClearAll {
+            get {
+                return ResourceManager.GetString("Setting_ClearAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete Texts に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_DeleteTexts {

@@ -38,13 +38,9 @@ namespace FileRenamerDiff.ViewModels
         public IReadOnlyReactiveProperty<bool> IsIdle { get; }
 
         /// <summary>
-        /// ダイアログが表示されているか
-        /// </summary>
-        public ReactivePropertySlim<bool> IsDialogOpen { get; } = new ReactivePropertySlim<bool>(false);
-        /// <summary>
         /// ダイアログ表示VM
         /// </summary>
-        public ReactivePropertySlim<ViewModel> DialogContentVM { get; set; } = new ReactivePropertySlim<ViewModel>();
+        public ReactivePropertySlim<DialogBaseViewModel> DialogContentVM { get; set; } = new ReactivePropertySlim<DialogBaseViewModel>();
         /// <summary>
         /// ダイアログの外側をクリックした際に閉じられるか
         /// </summary>
@@ -200,18 +196,26 @@ namespace FileRenamerDiff.ViewModels
                     foreach (var m in ms)
                         await ShowDialogAsync(m);
                 });
+
+            //ユーザーへの確認はダイアログで行う
+            this.model.ConfirmUser += async () =>
+             {
+                 var confirmDialogViewModel = new ConfirmDialogViewModel();
+                 await ShowDialogAsync(confirmDialogViewModel, false);
+                 return confirmDialogViewModel.IsOK == true;
+             };
         }
 
-        private void ShowDialog(ViewModel innerVM, bool canCloseAwayDialog = true)
+        private void ShowDialog(DialogBaseViewModel innerVM, bool canCloseAwayDialog = true)
         {
             this.DialogContentVM.Value = innerVM;
             this.CloseOnClickAwayDialog.Value = canCloseAwayDialog;
-            this.IsDialogOpen.Value = true;
+            innerVM.IsDialogOpen.Value = true;
         }
-        private async Task ShowDialogAsync(ViewModel innerVM, bool canCloseAwayDialog = true)
+        private async Task ShowDialogAsync(DialogBaseViewModel innerVM, bool canCloseAwayDialog = true)
         {
             ShowDialog(innerVM, canCloseAwayDialog);
-            await this.IsDialogOpen;
+            await innerVM.IsDialogOpen;
         }
 
         private async Task FolderSelected(FolderSelectionMessage fsMessage)
@@ -234,13 +238,14 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             //進行ダイアログを表示
-            ShowDialog(new ProgressDialogViewModel(), false);
+            var innerVM = new ProgressDialogViewModel();
+            ShowDialog(innerVM, false);
             await taskLoad;
             //読込が終わったらダイアログを閉じる
-            IsDialogOpen.Value = false;
+            innerVM.IsDialogOpen.Value = false;
         }
 
-        private　async Task RenameExcute()
+        private async Task RenameExcute()
         {
             //リネーム実行を開始する
             var taskRename = model.RenameExcute();
@@ -251,10 +256,11 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             //進行ダイアログを表示
-            ShowDialog(new ProgressDialogViewModel(), false);
+            var innerVM = new ProgressDialogViewModel();
+            ShowDialog(innerVM, false);
             await taskRename;
             //読込が終わったらダイアログを閉じる
-            IsDialogOpen.Value = false;
+            innerVM.IsDialogOpen.Value = false;
         }
 
         private ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> paths)

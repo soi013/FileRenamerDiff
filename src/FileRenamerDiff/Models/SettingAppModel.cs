@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
+using System.Threading.Tasks;
 using Anotar.Serilog;
 using Livet;
 using MessagePack;
@@ -136,6 +136,24 @@ namespace FileRenamerDiff.Models
         internal void AddDeleteTexts() => DeleteTexts.Add(new ReplacePattern("", ""));
 
         internal void AddReplaceTexts() => ReplaceTexts.Add(new ReplacePattern("", ""));
+
+
+        internal async Task ClearIgnoreExtensions()
+        {
+            bool isOk = await Model.Instance.ConfirmUser();
+            if (isOk)
+            {
+                IgnoreExtensions.Clear();
+            }
+        }
+        internal async Task ClearDeleteTexts()
+        {
+            bool isOk = await Model.Instance.ConfirmUser();
+            if (isOk)
+            {
+                DeleteTexts.Clear();
+            }
+        }
 
         /// <summary>
         /// ファイルから設定ファイルをデシリアライズ

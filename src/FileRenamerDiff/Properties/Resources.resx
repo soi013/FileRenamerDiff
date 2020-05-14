@@ -242,4 +242,7 @@ REGEXP</value>
     <value>The output file name contains invalid file-name characters.</value>
     <comment>一部のファイル名に無効な文字が含まれていたときの警告メッセージ文章</comment>
   </data>
+  <data name="Setting_ClearAll" xml:space="preserve">
+    <value>CLEAR ALL</value>
+  </data>
 </root>
