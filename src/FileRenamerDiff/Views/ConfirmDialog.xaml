@@ -22,13 +22,25 @@
          <Setter Property="Width" Value="150" />
       </Style>
    </UserControl.Resources>
-   <StackPanel>
+   <StackPanel HorizontalAlignment="Center">
+      <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+         <materialDesign:PackIcon
+            Width="64"
+            Height="64"
+            VerticalAlignment="Center"
+            Kind="Alert" />
+         <TextBlock
+            Margin="10,0"
+            VerticalAlignment="Center"
+            Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+            Text="CONFIRM" />
+      </StackPanel>
       <TextBlock
          Margin="15"
          HorizontalAlignment="Center"
          FontSize="24"
-         Text="Confirm" />
-      <StackPanel Orientation="Horizontal">
+         Text="Are you sure you want to clear ALL List?" />
+      <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
          <Button Command="{Binding OkCommand}" Content="OK" />
          <Button Command="{Binding CancelCommand}" Content="Cancel" />
       </StackPanel>
