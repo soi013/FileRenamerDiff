@@ -352,5 +352,12 @@ namespace FileRenamerDiff.Models
                     .Select(x => $"{x.InputFilePath} -> {x.OutputFilePath}")
                     .ConcatenateString(Environment.NewLine));
         }
+
+        internal async Task ExcuteAfterConfirm(Action actionIfConfirmed)
+        {
+            bool isConfirmed = await ConfirmUser();
+            if (isConfirmed)
+                actionIfConfirmed();
+        }
     }
 }

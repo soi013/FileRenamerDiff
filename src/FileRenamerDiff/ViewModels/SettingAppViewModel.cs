@@ -77,12 +77,12 @@ namespace FileRenamerDiff.ViewModels
 
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
 
-        public ReactiveCommand ClearAllIgnoreExtensionsCommand { get; }
+        public AsyncReactiveCommand ClearIgnoreExtensionsCommand { get; }
 
         public ReactiveCommand AddDeleteTextsCommand { get; }
-        public AsyncReactiveCommand ClearAllDeleteTextsCommand { get; }
+        public AsyncReactiveCommand ClearDeleteTextsCommand { get; }
         public ReactiveCommand AddReplaceTextsCommand { get; }
-        public ReactiveCommand ClearAllReplaceTextsCommand { get; }
+        public AsyncReactiveCommand ClearReplaceTextsCommand { get; }
 
         /// <summary>
         /// 設定初期化コマンド
@@ -106,30 +106,47 @@ namespace FileRenamerDiff.ViewModels
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddIgnoreExtensions());
 
-            ClearAllIgnoreExtensionsCommand =
+            ClearIgnoreExtensionsCommand =
                 new[]
                 {
                     model.IsIdle,
-                    setting.IgnoreExtensions.ObserveProperty(x => x.Count).Select(x => x >= 1)
+                    setting.IgnoreExtensions.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
-                 .ToReactiveCommand()
-                 .WithSubscribe(() => setting.ClearIgnoreExtensions());
-            //.WithSubscribe(() => ShowConfirmDialog(() => setting.IgnoreExtensions.Clear()));
+                 .ToAsyncReactiveCommand()
+                 .WithSubscribe(() =>
+                    model.ExcuteAfterConfirm(() =>
+                        setting.IgnoreExtensions.Clear()));
 
             AddDeleteTextsCommand = model.IsIdle
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddDeleteTexts());
-            ClearAllDeleteTextsCommand = model.IsIdle
+            ClearDeleteTextsCommand =
+                new[]
+                {
+                    model.IsIdle,
+                    setting.DeleteTexts.ObserveIsAny(),
+                }
+                .CombineLatestValuesAreAllTrue()
                  .ToAsyncReactiveCommand()
-                 .WithSubscribe(() => setting.ClearDeleteTexts());
+                 .WithSubscribe(() =>
+                    model.ExcuteAfterConfirm(() =>
+                        setting.DeleteTexts.Clear()));
 
             AddReplaceTextsCommand = model.IsIdle
                              .ToReactiveCommand()
                              .WithSubscribe(() => setting.AddReplaceTexts());
-            ClearAllReplaceTextsCommand = model.IsIdle
-                 .ToReactiveCommand()
-                 .WithSubscribe(() => setting.ReplaceTexts.Clear());
+            ClearReplaceTextsCommand =
+                new[]
+                {
+                    model.IsIdle,
+                    setting.ReplaceTexts.ObserveIsAny(),
+                }
+                .CombineLatestValuesAreAllTrue()
+                 .ToAsyncReactiveCommand()
+                 .WithSubscribe(() =>
+                    model.ExcuteAfterConfirm(() =>
+                        setting.ReplaceTexts.Clear()));
 
             ResetSettingCommand = model.IsIdle
                 .ToReactiveCommand()

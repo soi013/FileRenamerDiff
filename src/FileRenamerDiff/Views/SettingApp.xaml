@@ -45,7 +45,7 @@
          <Setter Property="Margin" Value="30,5" />
       </Style>
       <Style
-         x:Key="ClearAllButton"
+         x:Key="ClearButton"
          x:Shared="False"
          BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
          TargetType="{x:Type Button}">
@@ -119,7 +119,7 @@
             </DataGrid>
             <StackPanel Grid.Row="2" Orientation="Horizontal">
                <Button Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
-               <Button Command="{Binding ClearAllIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource ClearAllButton}" />
+               <Button Command="{Binding ClearIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource ClearButton}" />
             </StackPanel>
          </Grid>
       </Expander>
@@ -152,10 +152,10 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <Button
-               Grid.Row="1"
-               Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+               <Button Command="{Binding AddDeleteTextsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
+               <Button Command="{Binding ClearDeleteTextsCommand, Mode=OneTime}" Style="{StaticResource ClearButton}" />
+            </StackPanel>
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
@@ -198,10 +198,11 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <Button
-               Grid.Row="1"
-               Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+               <Button Command="{Binding AddReplaceTextsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
+               <Button Command="{Binding ClearReplaceTextsCommand, Mode=OneTime}" Style="{StaticResource ClearButton}" />
+            </StackPanel>
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />

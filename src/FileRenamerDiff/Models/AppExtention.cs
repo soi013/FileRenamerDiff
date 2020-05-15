@@ -7,6 +7,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
+using System.Reactive.Linq;
+using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
 using DiffPlex.DiffBuilder.Model;
 
@@ -90,5 +92,11 @@ namespace FileRenamerDiff.Models
             });
 
         public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
+
+        public static IObservable<int> ObserveCount<T>(this ObservableCollection<T> source) =>
+            source.ObserveProperty(x => x.Count);
+
+        public static IObservable<bool> ObserveIsAny<T>(this ObservableCollection<T> source) =>
+            source.ObserveCount().Select(x => x >= 1);
     }
 }

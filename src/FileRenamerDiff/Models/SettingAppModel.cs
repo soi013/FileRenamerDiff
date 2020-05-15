@@ -137,24 +137,6 @@ namespace FileRenamerDiff.Models
 
         internal void AddReplaceTexts() => ReplaceTexts.Add(new ReplacePattern("", ""));
 
-
-        internal async Task ClearIgnoreExtensions()
-        {
-            bool isOk = await Model.Instance.ConfirmUser();
-            if (isOk)
-            {
-                IgnoreExtensions.Clear();
-            }
-        }
-        internal async Task ClearDeleteTexts()
-        {
-            bool isOk = await Model.Instance.ConfirmUser();
-            if (isOk)
-            {
-                DeleteTexts.Clear();
-            }
-        }
-
         /// <summary>
         /// ファイルから設定ファイルをデシリアライズ
         /// </summary>
