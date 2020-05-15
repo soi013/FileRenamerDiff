@@ -8,6 +8,7 @@
    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
    d:DesignHeight="450"
@@ -17,12 +18,12 @@
    UseLayoutRounding="True"
    mc:Ignorable="d">
    <UserControl.Resources>
-      <Style BasedOn="{StaticResource MaterialDesignFlatButton}" TargetType="{x:Type Button}">
+      <Style BasedOn="{StaticResource MaterialDesignFlatLightBgButton}" TargetType="{x:Type Button}">
          <Setter Property="Margin" Value="10" />
          <Setter Property="Width" Value="150" />
       </Style>
    </UserControl.Resources>
-   <StackPanel HorizontalAlignment="Center">
+   <StackPanel HorizontalAlignment="Center" Margin="30">
       <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
          <materialDesign:PackIcon
             Width="64"
@@ -33,16 +34,16 @@
             Margin="10,0"
             VerticalAlignment="Center"
             Style="{StaticResource MaterialDesignHeadline4TextBlock}"
-            Text="CONFIRM" />
+            Text="{x:Static properties:Resources.Alert_ConfirmClearHead}" />
       </StackPanel>
       <TextBlock
          Margin="15"
          HorizontalAlignment="Center"
          FontSize="24"
-         Text="Are you sure you want to clear ALL List?" />
+         Text="{x:Static properties:Resources.Alert_ConfirmClearBody}" />
       <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
          <Button Command="{Binding OkCommand}" Content="OK" />
-         <Button Command="{Binding CancelCommand}" Content="Cancel" />
+         <Button Command="{Binding CancelCommand}" Content="CANCEL" />
       </StackPanel>
    </StackPanel>
 </UserControl>

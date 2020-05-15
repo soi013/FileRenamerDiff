@@ -207,4 +207,13 @@
   <data name="Alert_InvalidFileName" xml:space="preserve">
     <value>輸出檔名稱含有無效的檔名字元。</value>
   </data>
+  <data name="Setting_ClearAll" xml:space="preserve">
+    <value>彻底删除</value>
+  </data>
+  <data name="Alert_ConfirmClearBody" xml:space="preserve">
+    <value>是否确实要清除表?</value>
+  </data>
+  <data name="Alert_ConfirmClearHead" xml:space="preserve">
+    <value>确认</value>
+  </data>
 </root>

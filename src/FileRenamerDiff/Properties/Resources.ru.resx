@@ -208,4 +208,13 @@
   <data name="Setting_ResetAllSetting" xml:space="preserve">
     <value>Сброс всех настроек</value>
   </data>
+  <data name="Setting_ClearAll" xml:space="preserve">
+    <value>Очистить все</value>
+  </data>
+  <data name="Alert_ConfirmClearBody" xml:space="preserve">
+    <value>Действительно очистить таблицу?</value>
+  </data>
+  <data name="Alert_ConfirmClearHead" xml:space="preserve">
+    <value>Подтвердить</value>
+  </data>
 </root>

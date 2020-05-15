@@ -244,5 +244,12 @@ REGEXP</value>
   </data>
   <data name="Setting_ClearAll" xml:space="preserve">
     <value>CLEAR ALL</value>
+    <comment>リストの中身を空にするボタン（リストの中身は使われる場所によって違う）</comment>
+  </data>
+  <data name="Alert_ConfirmClearBody" xml:space="preserve">
+    <value>Are you sure you want to clear table?</value>
+  </data>
+  <data name="Alert_ConfirmClearHead" xml:space="preserve">
+    <value>Confirm</value>
   </data>
 </root>

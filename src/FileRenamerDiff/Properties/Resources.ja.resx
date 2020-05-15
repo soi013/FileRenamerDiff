@@ -210,4 +210,10 @@
   <data name="Setting_ClearAll" xml:space="preserve">
     <value>全削除</value>
   </data>
+  <data name="Alert_ConfirmClearBody" xml:space="preserve">
+    <value>テーブルをクリアしてもよろしいですか?</value>
+  </data>
+  <data name="Alert_ConfirmClearHead" xml:space="preserve">
+    <value>確認</value>
+  </data>
 </root>

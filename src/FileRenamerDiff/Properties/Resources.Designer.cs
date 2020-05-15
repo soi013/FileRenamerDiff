@@ -61,6 +61,24 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Are you sure you want to clear table? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_ConfirmClearBody {
+            get {
+                return ResourceManager.GetString("Alert_ConfirmClearBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Confirm に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_ConfirmClearHead {
+            get {
+                return ResourceManager.GetString("Alert_ConfirmClearHead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   FAILED to save rename. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Alert_FailSaveRename {

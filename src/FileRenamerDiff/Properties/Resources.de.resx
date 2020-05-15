@@ -208,4 +208,13 @@ Ausdruck</value>
   <data name="Setting_Other" xml:space="preserve">
     <value>Andere</value>
   </data>
+  <data name="Setting_ClearAll" xml:space="preserve">
+    <value>Alle löschen</value>
+  </data>
+  <data name="Alert_ConfirmClearBody" xml:space="preserve">
+    <value>Möchten Sie die Tabelle löschen?</value>
+  </data>
+  <data name="Alert_ConfirmClearHead" xml:space="preserve">
+    <value>Bestätigen</value>
+  </data>
 </root>
