@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.Threading;
 
 using Serilog.Events;
 using Anotar.Serilog;
@@ -103,6 +104,11 @@ namespace FileRenamerDiff.Models
         public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
 
         /// <summary>
+        /// 現在の処理のキャンセルトークン
+        /// </summary>
+        public CancellationTokenSource CancelWork { get; private set; }
+
+        /// <summary>
         /// ユーザー確認デリゲート
         /// </summary>
         public Func<Task<bool>> ConfirmUser { get; set; }
@@ -135,11 +141,21 @@ namespace FileRenamerDiff.Models
             string sourceFilePath = Setting?.SearchFilePath.Value;
             if (Directory.Exists(sourceFilePath))
             {
-                await Task.Run(() =>
-               {
-                   this.FileElementModels = LoadFileElementsCore(sourceFilePath, Setting, progressNotifier);
-               })
-               .ConfigureAwait(false);
+                using (CancelWork = new CancellationTokenSource())
+                {
+                    try
+                    {
+                        await Task.Run(() =>
+                            this.FileElementModels =
+                                LoadFileElementsCore(sourceFilePath, Setting, progressNotifier, CancelWork.Token))
+                            .ConfigureAwait(false); ;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        progressNotifier.Report(new ProgressInfo(0, "canceled"));
+                        this.FileElementModels = Array.Empty<FileElementModel>();
+                    }
+                }
             }
 
             this.countReplaced.Value = 0;
@@ -148,7 +164,7 @@ namespace FileRenamerDiff.Models
             LogTo.Debug("File Load Ended");
         }
 
-        private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress)
+        private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
             var regex = setting.CreateIgnoreExtensionsRegex();
 
@@ -167,16 +183,21 @@ namespace FileRenamerDiff.Models
                 .Where(x => !regex.IsMatch(Path.GetExtension(x)))
                 .Do((x, i) =>
                     {
-                        if (i % 16 == 0)
-                            progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
+                        if (i % 16 != 0)
+                            return;
+                        progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
+                        cancellationToken.ThrowIfCancellationRequested();
                     })
                 .ToList();
 
             progress?.Report(new ProgressInfo(0, "Files were Loaded. Sorting Files"));
             //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
             loadedFileList.Sort();
+            cancellationToken.ThrowIfCancellationRequested();
             loadedFileList.Reverse();
+
             progress?.Report(new ProgressInfo(0, "Files were Sorted. Creating FileList"));
+            cancellationToken.ThrowIfCancellationRequested();
 
             return loadedFileList
                 .Select(x => new FileElementModel(x))
@@ -325,7 +346,17 @@ namespace FileRenamerDiff.Models
             LogTo.Information("Renamed File Save Start");
             isIdle.Value = false;
 
-            await Task.Run(() => RenameExcuteCore(progressNotifier)).ConfigureAwait(false);
+            using (CancelWork = new CancellationTokenSource())
+            {
+                try
+                {
+                    await Task.Run(() => RenameExcuteCore(progressNotifier, CancelWork.Token)).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    progressNotifier.Report(new ProgressInfo(0, "canceled"));
+                }
+            }
 
             await LoadFileElements().ConfigureAwait(false);
 
@@ -333,7 +364,7 @@ namespace FileRenamerDiff.Models
             LogTo.Information("Renamed File Save Ended");
         }
 
-        private void RenameExcuteCore(IProgress<ProgressInfo> progress)
+        private void RenameExcuteCore(IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
             var failFileElements = new List<FileElementModel>();
 
@@ -342,13 +373,17 @@ namespace FileRenamerDiff.Models
                 try
                 {
                     replaceElement.Rename();
-                    if (index % 16 == 0)
-                        progress.Report(new ProgressInfo(index, $"File Renamed {replaceElement.OutputFilePath}"));
                 }
                 catch (Exception ex)
                 {
                     LogTo.Warning(ex, "Fail to Rename {@fileElement}", replaceElement);
                     failFileElements.Add(replaceElement);
+                }
+
+                if (index % 16 == 0)
+                {
+                    progress.Report(new ProgressInfo(index, $"File Renamed {replaceElement.OutputFilePath}"));
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
             }
 

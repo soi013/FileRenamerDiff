@@ -36,6 +36,8 @@ namespace FileRenamerDiff.ViewModels
     {
         public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
 
+        public ReactiveCommand CancelCommand { get; } = new ReactiveCommand();
+
         public ProgressDialogViewModel()
         {
             this.CurrentProgessInfo = model.CurrentProgessInfo
@@ -44,6 +46,9 @@ namespace FileRenamerDiff.ViewModels
                 .Select(x => x.Last())
                 .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim();
+
+            CancelCommand
+                .Subscribe(() => model.CancelWork?.Cancel());
         }
     }
 }
