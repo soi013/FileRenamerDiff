@@ -27,11 +27,17 @@ using System.Reflection.Metadata;
 
 namespace FileRenamerDiff.ViewModels
 {
+    /// <summary>
+    /// アプリケーション情報ダイアログVM
+    /// </summary>
     public class InformationPageViewModel : DialogBaseViewModel
     {
         public string Author { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
         public string Version { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
+        /// <summary>
+        /// リソースファイルの文章を表示
+        /// </summary>
         public string LicenseText { get; } = Properties.Resources.License;
     }
 }

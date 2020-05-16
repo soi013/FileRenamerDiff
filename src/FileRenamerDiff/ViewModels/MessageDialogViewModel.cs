@@ -34,7 +34,6 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class MessageDialogViewModel : DialogBaseViewModel
     {
-        Model model = Model.Instance;
         public AppMessage AppMessage { get; }
 
         /// <summary>

@@ -84,6 +84,12 @@ namespace FileRenamerDiff.Models
             }
         }
 
+        /// <summary>
+        /// 要素とインデックスを使用して、なんらかの処理を付随的に行う。
+        /// </summary>
+        /// <param name="source">入力</param>
+        /// <param name="onNext">付随的処理</param>
+        /// <returns>sourceと同じ</returns>
         public static IEnumerable<TSource> Do<TSource>(this IEnumerable<TSource> source, Action<TSource, int> onNext) =>
             source.Select((x, i) =>
             {
@@ -91,12 +97,27 @@ namespace FileRenamerDiff.Models
                 return x;
             });
 
+        /// <summary>
+        /// インデックスを付与して列挙する
+        /// </summary>
         public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
 
+        /// <summary>
+        /// CountプロパティをIObservableとして購読する
+        /// </summary>
         public static IObservable<int> ObserveCount<T>(this ObservableCollection<T> source) =>
             source.ObserveProperty(x => x.Count);
 
+        /// <summary>
+        /// シークエンスに要素が含まれているかをIObservableとして購読する
+        /// </summary>
         public static IObservable<bool> ObserveIsAny<T>(this ObservableCollection<T> source) =>
             source.ObserveCount().Select(x => x >= 1);
+
+        /// <summary>
+        /// シークエンスが空かをIObservableとして購読する
+        /// </summary>
+        public static IObservable<bool> ObserveIsEmpty<T>(this ObservableCollection<T> source) =>
+            source.ObserveCount().Select(x => x <= 0);
     }
 }

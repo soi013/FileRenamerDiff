@@ -28,10 +28,12 @@ using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.ViewModels
 {
+    /// <summary>
+    /// ダイアログ表示用VMの基底クラス
+    /// </summary>
     public class DialogBaseViewModel : ViewModel
     {
         protected Model model = Model.Instance;
-
 
         /// <summary>
         /// ダイアログが表示されているか
