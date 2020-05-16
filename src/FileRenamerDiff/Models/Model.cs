@@ -31,9 +31,19 @@ namespace FileRenamerDiff.Models
         public static Model Instance { get; } = new Model();
 
         /// <summary>
-        /// アプリケーションが待機状態か
+        /// アプリケーションが待機状態か（変更用）
         /// </summary>
-        public ReactivePropertySlim<bool> IsIdle { get; } = new ReactivePropertySlim<bool>(false);
+        private ReactivePropertySlim<bool> isIdle { get; } = new ReactivePropertySlim<bool>(false);
+
+        /// <summary>
+        /// アプリケーションが待機状態か（外部購読用）
+        /// </summary>
+        public IReadOnlyReactiveProperty<bool> IsIdle => isIdle;
+
+        /// <summary>
+        /// アプリケーションが待機状態か（UI購読用）
+        /// </summary>
+        public IReadOnlyReactiveProperty<bool> IsIdleUI => isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
 
         private IReadOnlyList<FileElementModel> _FileElementModels = new FileElementModel[]
         {
@@ -112,7 +122,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal void Initialize()
         {
-            IsIdle.Value = true;
+            isIdle.Value = true;
         }
 
         /// <summary>
@@ -121,7 +131,7 @@ namespace FileRenamerDiff.Models
         public async Task LoadFileElements()
         {
             LogTo.Debug("File Load Start");
-            this.IsIdle.Value = false;
+            this.isIdle.Value = false;
             string sourceFilePath = Setting?.SearchFilePath.Value;
             if (Directory.Exists(sourceFilePath))
             {
@@ -134,7 +144,7 @@ namespace FileRenamerDiff.Models
 
             this.countReplaced.Value = 0;
             this.countConflicted.Value = 0;
-            this.IsIdle.Value = true;
+            this.isIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
 
@@ -229,7 +239,7 @@ namespace FileRenamerDiff.Models
         internal async Task Replace()
         {
             LogTo.Information("Replace Start");
-            this.IsIdle.Value = false;
+            this.isIdle.Value = false;
             await Task.Run(() =>
             {
                 var regexes = CreateRegexes();
@@ -254,7 +264,7 @@ namespace FileRenamerDiff.Models
                         .ConcatenateString(Environment.NewLine));
             }
 
-            this.IsIdle.Value = true;
+            this.isIdle.Value = true;
             LogTo.Information("Replace Ended");
         }
 
@@ -313,13 +323,13 @@ namespace FileRenamerDiff.Models
         internal async Task RenameExcute()
         {
             LogTo.Information("Renamed File Save Start");
-            IsIdle.Value = false;
+            isIdle.Value = false;
 
             await Task.Run(() => RenameExcuteCore(progressNotifier)).ConfigureAwait(false);
 
             await LoadFileElements().ConfigureAwait(false);
 
-            IsIdle.Value = true;
+            isIdle.Value = true;
             LogTo.Information("Renamed File Save Ended");
         }
 

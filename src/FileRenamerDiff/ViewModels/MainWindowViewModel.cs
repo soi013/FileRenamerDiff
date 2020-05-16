@@ -35,7 +35,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// アプリケーションが待機状態か
         /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsIdle { get; }
+        public IReadOnlyReactiveProperty<bool> IsIdle => model.IsIdleUI;
 
         /// <summary>
         /// ダイアログ表示VM
@@ -112,7 +112,6 @@ namespace FileRenamerDiff.ViewModels
 
         public MainWindowViewModel()
         {
-            this.IsIdle = model.IsIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
             this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();

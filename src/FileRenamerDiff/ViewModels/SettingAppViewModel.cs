@@ -24,6 +24,7 @@ using Reactive.Bindings.Extensions;
 using FileRenamerDiff.Models;
 using FileRenamerDiff.Properties;
 using Reactive.Bindings.ObjectExtensions;
+using Anotar.Serilog;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -102,29 +103,29 @@ namespace FileRenamerDiff.ViewModels
             this.AvailableLanguages = CreateAvailableLanguages();
             this.SelectedLanguage = CreateAppLanguageRp();
 
-            AddIgnoreExtensionsCommand = model.IsIdle
+            AddIgnoreExtensionsCommand = model.IsIdleUI
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddIgnoreExtensions());
 
             ClearIgnoreExtensionsCommand =
                 new[]
                 {
-                    model.IsIdle,
+                    model.IsIdleUI,
                     setting.IgnoreExtensions.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
-                 .ToAsyncReactiveCommand()
-                 .WithSubscribe(() =>
+                .ToAsyncReactiveCommand()
+                .WithSubscribe(() =>
                     model.ExcuteAfterConfirm(() =>
                         setting.IgnoreExtensions.Clear()));
 
-            AddDeleteTextsCommand = model.IsIdle
+            AddDeleteTextsCommand = model.IsIdleUI
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddDeleteTexts());
             ClearDeleteTextsCommand =
                 new[]
                 {
-                    model.IsIdle,
+                    model.IsIdleUI,
                     setting.DeleteTexts.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
@@ -133,13 +134,13 @@ namespace FileRenamerDiff.ViewModels
                     model.ExcuteAfterConfirm(() =>
                         setting.DeleteTexts.Clear()));
 
-            AddReplaceTextsCommand = model.IsIdle
+            AddReplaceTextsCommand = model.IsIdleUI
                              .ToReactiveCommand()
                              .WithSubscribe(() => setting.AddReplaceTexts());
             ClearReplaceTextsCommand =
                 new[]
                 {
-                    model.IsIdle,
+                    model.IsIdleUI,
                     setting.ReplaceTexts.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
@@ -148,7 +149,7 @@ namespace FileRenamerDiff.ViewModels
                     model.ExcuteAfterConfirm(() =>
                         setting.ReplaceTexts.Clear()));
 
-            ResetSettingCommand = model.IsIdle
+            ResetSettingCommand = model.IsIdleUI
                 .ToReactiveCommand()
                 .WithSubscribe(() => model.ResetSetting())
                 .AddTo(this.CompositeDisposable);
