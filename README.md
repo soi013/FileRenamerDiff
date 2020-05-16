@@ -10,25 +10,40 @@ A File Renamer App featuring a difference display before and after the change.
 
 ## Difference View
 
-![screenshot2](images/screenshot2.png)
+<img src=images/screenshot2.png width=320px>
 
 ## Detect Duplicate
 
-![screenshot3](images/screenshot3.png)
+<img src=images/screenshot3.png width=320px>
 
 ## Unlimited number of Delete & Replace Patterns
 
-![screenshot3](images/screenshot5.png)
+<img src=images/screenshot5.png width=320px>
 
 ## 5 Language Support
 
-![screenshot4](images/screenshot4.png)
+<img src=images/screenshot4.png width=320px>
 
 - English 
 - Japanese
 - Germany (machine translation)
 - Russia (machine translation)
 - Chinese (machine translation)
+
+# Install
+### Microsoft Store (Windows 10 only)
+
+[Microsoft Store](https://www.microsoft.com/store/apps/9PH9DKV5XVDB)
+
+### Portable version
+
+Download from [latest Relese](https://github.com/soi013/filerenamerdiff/releases).
+
+`FileRenamerDiff_app_win-x64~` is for x64(64bit) OS.  
+`FileRenamerDiff_app_win-x86~` is for x86(32bit) OS.
+
+This application is self-contained.  
+This means that you don't need to install .NET Framework or .NET Core.
 
 # 3rd Party Libraries / Icons
 
