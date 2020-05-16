@@ -32,12 +32,12 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class InformationPageViewModel : DialogBaseViewModel
     {
-        public string Author { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
-        public string Version { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public static string Author { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
+        public static string Version { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         /// <summary>
         /// リソースファイルの文章を表示
         /// </summary>
-        public string LicenseText { get; } = Properties.Resources.License;
+        public static string LicenseText { get; } = Properties.Resources.License;
     }
 }
