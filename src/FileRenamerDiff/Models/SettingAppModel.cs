@@ -6,12 +6,15 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
 using Anotar.Serilog;
 using Livet;
+using Reactive.Bindings;
 using MessagePack;
 using MessagePack.ReactivePropertyExtension;
 using MessagePack.Resolvers;
-using Reactive.Bindings;
+
+using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.Models
 {
@@ -49,7 +52,6 @@ namespace FileRenamerDiff.Models
             ignoreExtensions ??= new[]
             {
                 "pdb", "db", "cache","tmp","ini",
-                "", "", "", "", "",
             }
             .Select(x => new ReactivePropertySlim<string>(x))
             .ToObservableCollection();
@@ -75,7 +77,8 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<ReplacePattern> DeleteTexts =>
             deleteTexts ??= new[]
             {
-                 " -copy",
+                //Windowsでその場でコピーしたときの文字(- コピー)、OSの言語によって変わる
+                Resources.Windows_CopyFilePostFix,
                 "(1)",
                 "(2)",
                 "(3)",
@@ -98,14 +101,8 @@ namespace FileRenamerDiff.Models
             {
                 new ReplacePattern(".jpeg$", ".jpg", true),
                 new ReplacePattern(".htm$", ".html", true),
-                new ReplacePattern("　", " "),
-                new ReplacePattern("   ", " "),
-                new ReplacePattern("  ", " "),
-                new ReplacePattern("", ""),
-                new ReplacePattern("", ""),
-                new ReplacePattern("", ""),
-                new ReplacePattern("", ""),
-                new ReplacePattern("", ""),
+                //2以上の全・半角スペースを1つのスペースに変更
+                new ReplacePattern("\\s+", " ", true),
             };
         private ObservableCollection<ReplacePattern> replaceTexts;
 

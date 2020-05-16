@@ -217,4 +217,7 @@ Ausdruck</value>
   <data name="Alert_ConfirmClearHead" xml:space="preserve">
     <value>Bestätigen</value>
   </data>
+  <data name="Windows_CopyFilePostFix" xml:space="preserve">
+    <value>-Kopie</value>
+  </data>
 </root>

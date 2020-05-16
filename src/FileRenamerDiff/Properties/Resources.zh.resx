@@ -216,4 +216,7 @@
   <data name="Alert_ConfirmClearHead" xml:space="preserve">
     <value>确认</value>
   </data>
+  <data name="Windows_CopyFilePostFix" xml:space="preserve">
+    <value>-複製</value>
+  </data>
 </root>

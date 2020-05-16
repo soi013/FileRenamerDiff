@@ -392,5 +392,14 @@ namespace FileRenamerDiff.Properties {
                 return ResourceManager.GetString("Setting_SettingTab", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   -copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Windows_CopyFilePostFix {
+            get {
+                return ResourceManager.GetString("Windows_CopyFilePostFix", resourceCulture);
+            }
+        }
     }
 }

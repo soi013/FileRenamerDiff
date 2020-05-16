@@ -217,4 +217,7 @@
   <data name="Alert_ConfirmClearHead" xml:space="preserve">
     <value>Подтвердить</value>
   </data>
+  <data name="Windows_CopyFilePostFix" xml:space="preserve">
+    <value>-копия</value>
+  </data>
 </root>
