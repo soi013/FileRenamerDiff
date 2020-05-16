@@ -256,4 +256,8 @@ REGEXP</value>
     <value>-copy</value>
     <comment>WindowsOSでファイルをコピーした際に追加される文字</comment>
   </data>
+  <data name="Alert_NotFoundFileBody" xml:space="preserve">
+    <value>Files could not be found.</value>
+    <comment>ファイル探索時に1つもファイルが見つからなかったときの警告メッセージ文章</comment>
+  </data>
 </root>

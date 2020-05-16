@@ -115,6 +115,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Files could not be found. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Alert_NotFoundFileBody {
+            get {
+                return ResourceManager.GetString("Alert_NotFoundFileBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Changed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_Changed {

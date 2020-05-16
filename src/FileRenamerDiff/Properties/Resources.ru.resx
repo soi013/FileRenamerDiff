@@ -220,4 +220,7 @@
   <data name="Windows_CopyFilePostFix" xml:space="preserve">
     <value>-копия</value>
   </data>
+  <data name="Alert_NotFoundFileBody" xml:space="preserve">
+    <value>Файлы не удалось найти.</value>
+  </data>
 </root>

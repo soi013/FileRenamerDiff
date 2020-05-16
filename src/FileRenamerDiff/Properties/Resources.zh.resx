@@ -219,4 +219,7 @@
   <data name="Windows_CopyFilePostFix" xml:space="preserve">
     <value>-複製</value>
   </data>
+  <data name="Alert_NotFoundFileBody" xml:space="preserve">
+    <value>文件找不到了。</value>
+  </data>
 </root>

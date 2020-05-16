@@ -139,22 +139,23 @@ namespace FileRenamerDiff.Models
             LogTo.Debug("File Load Start");
             this.isIdle.Value = false;
             string sourceFilePath = Setting?.SearchFilePath.Value;
-            if (Directory.Exists(sourceFilePath))
+            using (CancelWork = new CancellationTokenSource())
             {
-                using (CancelWork = new CancellationTokenSource())
+                try
                 {
-                    try
-                    {
-                        await Task.Run(() =>
-                            this.FileElementModels =
-                                LoadFileElementsCore(sourceFilePath, Setting, progressNotifier, CancelWork.Token))
-                            .ConfigureAwait(false); ;
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        progressNotifier.Report(new ProgressInfo(0, "canceled"));
-                        this.FileElementModels = Array.Empty<FileElementModel>();
-                    }
+                    await Task.Run(() =>
+                        this.FileElementModels =
+                            LoadFileElementsCore(sourceFilePath, Setting, progressNotifier, CancelWork.Token))
+                        .ConfigureAwait(false);
+
+
+                    if (!FileElementModels.Any())
+                        MessageEvent.Value = new AppMessage(AppMessageLevel.Alert, "NOT FOUND", Resources.Alert_NotFoundFileBody);
+                }
+                catch (OperationCanceledException)
+                {
+                    progressNotifier.Report(new ProgressInfo(0, "canceled"));
+                    this.FileElementModels = Array.Empty<FileElementModel>();
                 }
             }
 
@@ -166,6 +167,9 @@ namespace FileRenamerDiff.Models
 
         private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
+            if (!Directory.Exists(sourceFilePath))
+                return Array.Empty<FileElementModel>();
+
             var ignoreRegex = setting.CreateIgnoreExtensionsRegex();
 
             var option = new EnumerationOptions()
