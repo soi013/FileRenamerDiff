@@ -105,7 +105,8 @@ namespace FileRenamerDiff.ViewModels
 
             AddIgnoreExtensionsCommand = model.IsIdleUI
                  .ToReactiveCommand()
-                 .WithSubscribe(() => setting.AddIgnoreExtensions());
+                 .WithSubscribe(() => setting.AddIgnoreExtensions())
+                 .AddTo(this.CompositeDisposable);
 
             ClearIgnoreExtensionsCommand =
                 new[]
@@ -117,11 +118,13 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() =>
                     model.ExcuteAfterConfirm(() =>
-                        setting.IgnoreExtensions.Clear()));
+                        setting.IgnoreExtensions.Clear()))
+                 .AddTo(this.CompositeDisposable);
 
             AddDeleteTextsCommand = model.IsIdleUI
                  .ToReactiveCommand()
-                 .WithSubscribe(() => setting.AddDeleteTexts());
+                 .WithSubscribe(() => setting.AddDeleteTexts())
+                 .AddTo(this.CompositeDisposable);
             ClearDeleteTextsCommand =
                 new[]
                 {
@@ -132,11 +135,13 @@ namespace FileRenamerDiff.ViewModels
                  .ToAsyncReactiveCommand()
                  .WithSubscribe(() =>
                     model.ExcuteAfterConfirm(() =>
-                        setting.DeleteTexts.Clear()));
+                        setting.DeleteTexts.Clear()))
+                 .AddTo(this.CompositeDisposable);
 
             AddReplaceTextsCommand = model.IsIdleUI
-                             .ToReactiveCommand()
-                             .WithSubscribe(() => setting.AddReplaceTexts());
+                .ToReactiveCommand()
+                .WithSubscribe(() => setting.AddReplaceTexts())
+                .AddTo(this.CompositeDisposable);
             ClearReplaceTextsCommand =
                 new[]
                 {
@@ -147,7 +152,8 @@ namespace FileRenamerDiff.ViewModels
                  .ToAsyncReactiveCommand()
                  .WithSubscribe(() =>
                     model.ExcuteAfterConfirm(() =>
-                        setting.ReplaceTexts.Clear()));
+                        setting.ReplaceTexts.Clear()))
+                 .AddTo(this.CompositeDisposable);
 
             ResetSettingCommand = model.IsIdleUI
                 .ToReactiveCommand()

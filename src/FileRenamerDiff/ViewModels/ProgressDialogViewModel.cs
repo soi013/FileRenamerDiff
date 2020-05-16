@@ -45,7 +45,8 @@ namespace FileRenamerDiff.ViewModels
                 .Where(x => x.Any())
                 .Select(x => x.Last())
                 .ObserveOnUIDispatcher()
-                .ToReadOnlyReactivePropertySlim();
+                .ToReadOnlyReactivePropertySlim()
+                .AddTo(this.CompositeDisposable);
 
             CancelCommand
                 .Subscribe(() => model.CancelWork?.Cancel());
