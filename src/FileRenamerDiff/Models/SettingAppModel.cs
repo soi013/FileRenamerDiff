@@ -62,7 +62,11 @@ namespace FileRenamerDiff.Models
         {
             IEnumerable<string> ignoreExts = IgnoreExtensions.Select(x => x.Value).Where(x => !String.IsNullOrWhiteSpace(x));
             var ignorePattern = string.Join('|', ignoreExts);
-            return new Regex(ignorePattern, RegexOptions.Compiled);
+
+            //無視する拡張子条件がない場合、逆にすべての拡張子にマッチしてしまうので、nullを返す
+            return String.IsNullOrWhiteSpace(ignorePattern)
+                ? null
+                : new Regex(ignorePattern, RegexOptions.Compiled);
         }
 
         /// <summary>

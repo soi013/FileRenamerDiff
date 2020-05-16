@@ -166,7 +166,7 @@ namespace FileRenamerDiff.Models
 
         private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
-            var regex = setting.CreateIgnoreExtensionsRegex();
+            var ignoreRegex = setting.CreateIgnoreExtensionsRegex();
 
             var option = new EnumerationOptions()
             {
@@ -180,7 +180,8 @@ namespace FileRenamerDiff.Models
                 : Directory.EnumerateFiles(sourceFilePath, "*", option);
 
             var loadedFileList = fileEnums
-                .Where(x => !regex.IsMatch(Path.GetExtension(x)))
+                //無視する拡張子が無い、または一致しないだけ残す
+                .Where(x => ignoreRegex?.IsMatch(Path.GetExtension(x)) != true)
                 .Do((x, i) =>
                     {
                         if (i % 16 != 0)
