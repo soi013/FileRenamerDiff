@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using System.IO;
 
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
@@ -119,5 +120,60 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static IObservable<bool> ObserveIsEmpty<T>(this ObservableCollection<T> source) =>
             source.ObserveCount().Select(x => x <= 0);
+
+
+        /// <summary>
+        /// 確実にファイル／ディレクトリの名前を変更する
+        /// </summary>
+        /// <param name="fileInfo">変更元ファイル</param>
+        /// <param name="outputFilePath">変更後ファイルパス</param>
+        public static void Rename(this FileInfo fileInfo, string outputFilePath)
+        {
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+            {
+                //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
+                //なので、大文字小文字だけの変更の場合は一度別のファイル名に変更する
+                RenameDirectory(fileInfo.FullName, outputFilePath);
+            }
+            else
+            {
+                fileInfo.MoveTo(outputFilePath);
+            }
+        }
+
+        /// <summary>
+        /// 確実にディレクトリの名前を変更する
+        /// </summary>
+        /// <param name="sourceFilePath">変更元ファイルパス</param>
+        /// <param name="outputFilePath">変更後ファイルパス</param>
+        public static void RenameDirectory(string sourceFilePath, string outputFilePath)
+        {
+            //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
+            //なので、大文字小文字だけの変更の場合は一度別のファイル名に変更する
+            if ((String.Compare(sourceFilePath, outputFilePath, true) == 0))
+            {
+                var tempPath = GetSafeTempName(outputFilePath);
+
+                Directory.Move(sourceFilePath, tempPath);
+                Directory.Move(tempPath, outputFilePath);
+            }
+            else
+            {
+                Directory.Move(sourceFilePath, outputFilePath);
+            }
+        }
+
+        /// <summary>
+        /// 指定したファイルパスが他のファイルパスとかぶらなくなるまで"_"を足して返す
+        /// </summary>
+        private static string GetSafeTempName(string outputFilePath)
+        {
+            outputFilePath += "_";
+            while (File.Exists(outputFilePath))
+            {
+                outputFilePath += "_";
+            }
+            return outputFilePath;
+        }
     }
 }

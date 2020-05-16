@@ -142,11 +142,7 @@ namespace FileRenamerDiff.Models
         internal void Rename()
         {
             LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
-
-            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
-                Directory.Move(this.InputFilePath, this.OutputFilePath);
-            else
-                fileInfo.MoveTo(OutputFilePath);
+            fileInfo.Rename(OutputFilePath);
         }
     }
 }

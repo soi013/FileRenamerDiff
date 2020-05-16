@@ -394,7 +394,7 @@ namespace FileRenamerDiff.Models
                 AppMessageLevel.Error,
                 head: Resources.Alert_FailSaveRename,
                 body: failFileElements
-                    .Select(x => $"{x.InputFilePath} -> {x.OutputFilePath}")
+                    .Select(x => $"{x.InputFileName} -> {x.OutputFileName} ({x.DirectoryPath})")
                     .ConcatenateString(Environment.NewLine));
         }
 
