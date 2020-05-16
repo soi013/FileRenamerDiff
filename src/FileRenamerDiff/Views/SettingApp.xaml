@@ -43,18 +43,16 @@
             </Setter.Value>
          </Setter>
          <Setter Property="Margin" Value="30,5" />
+         <Setter Property="HorizontalAlignment" Value="Center" />
       </Style>
       <Style
          x:Key="ClearButton"
          x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
+         BasedOn="{StaticResource MaterialDesignIconButton}"
          TargetType="{x:Type Button}">
          <Setter Property="Content">
             <Setter.Value>
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="RemoveCircle" />
-                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ClearAll}" />
-               </StackPanel>
+               <materialDesign:PackIcon Kind="RemoveCircle" />
             </Setter.Value>
          </Setter>
          <Setter Property="Margin" Value="30,5" />
@@ -82,7 +80,7 @@
          <Setter Property="HorizontalAlignment" Value="Stretch" />
       </Style>
    </UserControl.Resources>
-   <StackPanel>
+   <StackPanel x:Name="rootObj">
       <Expander>
          <Expander.Header>
             <StackPanel Orientation="Horizontal">
@@ -109,6 +107,9 @@
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_IgnoreExtensions}" />
                   <DataGridTemplateColumn CanUserSort="False">
+                     <DataGridTemplateColumn.Header>
+                        <Button Command="{Binding DataContext.ClearIgnoreExtensionsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+                     </DataGridTemplateColumn.Header>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                            <Button Style="{StaticResource RemoveButton}" />
@@ -117,10 +118,10 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-               <Button Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
-               <Button Command="{Binding ClearIgnoreExtensionsCommand, Mode=OneTime}" Style="{StaticResource ClearButton}" />
-            </StackPanel>
+            <Button
+               Grid.Row="2"
+               Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}"
+               Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
@@ -144,6 +145,9 @@
                      Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
                   <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
                   <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.Header>
+                        <Button Command="{Binding DataContext.ClearDeleteTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+                     </DataGridTemplateColumn.Header>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                            <Button Style="{StaticResource RemoveButton}" />
@@ -152,10 +156,10 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-               <Button Command="{Binding AddDeleteTextsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
-               <Button Command="{Binding ClearDeleteTextsCommand, Mode=OneTime}" Style="{StaticResource ClearButton}" />
-            </StackPanel>
+            <Button
+               Grid.Row="1"
+               Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
+               Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
@@ -190,6 +194,9 @@
                      Header="{x:Static properties:Resources.Setting_ReplaceText}" />
                   <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
                   <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.Header>
+                        <Button Command="{Binding DataContext.ClearReplaceTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+                     </DataGridTemplateColumn.Header>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                            <Button Style="{StaticResource RemoveButton}" />
@@ -198,11 +205,10 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-
-            <StackPanel Grid.Row="1" Orientation="Horizontal">
-               <Button Command="{Binding AddReplaceTextsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
-               <Button Command="{Binding ClearReplaceTextsCommand, Mode=OneTime}" Style="{StaticResource ClearButton}" />
-            </StackPanel>
+            <Button
+               Grid.Row="1"
+               Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
+               Style="{StaticResource AddButton}" />
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
