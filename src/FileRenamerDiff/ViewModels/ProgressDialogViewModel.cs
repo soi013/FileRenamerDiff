@@ -36,7 +36,9 @@ namespace FileRenamerDiff.ViewModels
     {
         public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
 
-        public ReactiveCommand CancelCommand { get; } = new ReactiveCommand();
+        public AsyncReactiveCommand CancelCommand { get; }
+
+        private readonly ReactivePropertySlim<bool> limitOneceCancel = new ReactivePropertySlim<bool>(true);
 
         public ProgressDialogViewModel()
         {
@@ -48,8 +50,15 @@ namespace FileRenamerDiff.ViewModels
                 .ToReadOnlyReactivePropertySlim()
                 .AddTo(this.CompositeDisposable);
 
-            CancelCommand
-                .Subscribe(() => model.CancelWork?.Cancel());
+            //ダブルクリックなどで2回以上キャンセルを押されるのを防ぐため、専用のプロパティを使用
+            CancelCommand = limitOneceCancel
+                .ToAsyncReactiveCommand()
+                .WithSubscribe(() =>
+                {
+                    limitOneceCancel.Value = false;
+                    model.CancelWork?.Cancel();
+                    return Task.CompletedTask;
+                });
         }
     }
 }
