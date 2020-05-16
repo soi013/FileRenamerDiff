@@ -83,7 +83,6 @@
             Grid.Row="0"
             Grid.ColumnSpan="2"
             Padding="8"
-            CornerRadius="3"
             Mode="PrimaryDark">
             <DockPanel>
                <Button
@@ -91,7 +90,10 @@
                   Content="{materialDesign:PackIcon InfoCircle}"
                   DockPanel.Dock="Right"
                   Style="{StaticResource MaterialDesignIconForegroundButton}" />
-               <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+               <StackPanel
+                  VerticalAlignment="Center"
+                  DockPanel.Dock="Left"
+                  Orientation="Horizontal">
                   <materialDesign:ColorZone
                      Margin="16,0,0,0"
                      Padding="8,4,8,4"
@@ -124,7 +126,7 @@
                      </StackPanel>
                   </materialDesign:ColorZone>
                   <Button
-                     Margin="5,0"
+                     Margin="8,0,0,0"
                      Command="{Binding FileLoadCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedLightButton}">
                      <StackPanel Orientation="Horizontal">
@@ -133,7 +135,7 @@
                      </StackPanel>
                   </Button>
                   <Button
-                     Margin="5,0"
+                     Margin="20,0,0,0"
                      Command="{Binding ReplaceCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedAccentButton}">
                      <StackPanel Orientation="Horizontal">
@@ -142,7 +144,7 @@
                      </StackPanel>
                   </Button>
                   <Button
-                     Margin="5,0"
+                     Margin="8,0"
                      Command="{Binding RenameExcuteCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedAccentButton}">
                      <StackPanel Orientation="Horizontal">
@@ -282,7 +284,7 @@
                      Height="24"
                      Kind="CogOutline" />
                   <TextBlock
-                     Margin="5,0"
+                     Margin="0,8"
                      Style="{StaticResource MaterialDesignBody1TextBlock}"
                      Text="{x:Static properties:Resources.Setting_SettingTab}">
                      <TextBlock.LayoutTransform>
