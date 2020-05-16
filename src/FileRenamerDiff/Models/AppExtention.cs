@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.IO;
+using System.Text.RegularExpressions;
 
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
@@ -174,6 +175,23 @@ namespace FileRenamerDiff.Models
                 outputFilePath += "_";
             }
             return outputFilePath;
+        }
+
+        /// <summary>
+        /// 正規表現を生成する、失敗したらnullを返す
+        /// </summary>
+        public static Regex CreateRegexOrNull(string pattern)
+        {
+            try
+            {
+                //\\lなどの無効なパターンが入力されると例外が発生する
+                return new Regex(pattern, RegexOptions.Compiled);
+            }
+            catch (Exception ex)
+            {
+                LogTo.Warning(ex, "Fail to Create Regex {@pattern}", pattern);
+                return null;
+            }
         }
     }
 }

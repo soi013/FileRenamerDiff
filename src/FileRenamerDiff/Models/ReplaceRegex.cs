@@ -19,14 +19,16 @@ namespace FileRenamerDiff.Models
                 ? rPattern.TargetPattern
                 : Regex.Escape(rPattern.TargetPattern);
 
-            this.regex = new Regex(patternEx, RegexOptions.Compiled);
+            this.regex = AppExtention.CreateRegexOrNull(patternEx);
             this.replaceText = rPattern.ReplaceText;
         }
 
         /// <summary>
         /// 置換実行
         /// </summary>
-        internal string Replace(string input) => regex.Replace(input, replaceText);
+        internal string Replace(string input) =>
+            regex?.Replace(input, replaceText)
+            ?? input;
 
         public override string ToString() => $"{regex}->{replaceText}";
     }
