@@ -1,6 +1,6 @@
 # ![icon](./images/FileRenamerDiff_icon_64.png) File Renamer Diff
 
-A File Renamer App featuring a difference display before and after the change.
+A File Renamer App featuring a difference display before and after the change for Windows.
 
 # Screen Shot
 
@@ -45,6 +45,12 @@ Download from [LATEST RELEASE](https://github.com/soi013/filerenamerdiff/release
 
 This application is self-contained.  
 This means that you don't need to install .NET Framework or .NET Core.
+
+# Environment
+
+- Windows 10 Ver 1803+
+- Windows 8.1
+- Windows 7 SP1+
 
 # 3rd Party Libraries / Icons
 
