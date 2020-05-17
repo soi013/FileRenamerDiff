@@ -34,13 +34,11 @@ A File Renamer App featuring a difference display before and after the change.
 
 ### Microsoft Store (Windows 10 only)
 
-<img src=images/MicrosoftStoreLogo.png width=152px>
-
 <a href='//www.microsoft.com/store/apps/9PH9DKV5XVDB?cid=storebadge&ocid=badge'><img src=images/MicrosoftStoreLogo.png width=152px></a>
 
 ### Portable version
 
-Download from [latest Relese](https://github.com/soi013/filerenamerdiff/releases).
+Download from [LATEST RELEASE](https://github.com/soi013/filerenamerdiff/releases).
 
 - `FileRenamerDiff_app_win-x64~` is for x64(64bit) OS. 
 - `FileRenamerDiff_app_win-x86~` is for x86(32bit) OS.
