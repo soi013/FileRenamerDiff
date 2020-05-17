@@ -62,6 +62,10 @@
       </behaviors:EventTrigger>
    </behaviors:Interaction.Triggers>
 
+   <behaviors:Interaction.Behaviors>
+      <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
+   </behaviors:Interaction.Behaviors>
+
    <materialDesign:DialogHost
       CloseOnClickAway="{Binding CloseOnClickAwayDialog.Value}"
       DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
@@ -104,7 +108,7 @@
                            <behaviors:Interaction.Triggers>
                               <behaviors:EventTrigger EventName="Click">
                                  <l:FolderBrowserDialogInteractionMessageAction>
-                                    <l:DirectInteractionMessage CallbackCommand="{Binding FileLoadPathCommand, Mode=OneTime}">
+                                    <l:DirectInteractionMessage CallbackCommand="{Binding LoadFilesFromDialogCommand, Mode=OneTime}">
                                        <l:FolderSelectionMessage
                                           Description="Select Target Folder"
                                           DialogPreference="None"
@@ -127,7 +131,7 @@
                   </materialDesign:ColorZone>
                   <Button
                      Margin="8,0,0,0"
-                     Command="{Binding FileLoadCommand, Mode=OneTime}"
+                     Command="{Binding LoadFilesFromCurrentPathCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedLightButton}">
                      <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="FolderSearchOutline" />

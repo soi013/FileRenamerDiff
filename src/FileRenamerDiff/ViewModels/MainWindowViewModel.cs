@@ -53,13 +53,17 @@ namespace FileRenamerDiff.ViewModels
         private ReadOnlyReactivePropertySlim<ObservableCollection<FileElementViewModel>> fileElementVMs;
 
         /// <summary>
-        /// フォルダ選択完了コマンド
+        /// フォルダ選択メッセージでのフォルダ読込コマンド
         /// </summary>
-        public AsyncReactiveCommand<FolderSelectionMessage> FileLoadPathCommand { get; }
+        public AsyncReactiveCommand<FolderSelectionMessage> LoadFilesFromDialogCommand { get; }
+        /// <summary>
+        /// パス指定でのフォルダ読込コマンド
+        /// </summary>
+        public AsyncReactiveCommand<string> LoadFilesFromNewPathCommand { get; }
         /// <summary>
         /// フォルダ読み込みコマンド
         /// </summary>
-        public AsyncReactiveCommand FileLoadCommand { get; }
+        public AsyncReactiveCommand LoadFilesFromCurrentPathCommand { get; }
 
         /// <summary>
         /// 置換実行コマンド
@@ -166,18 +170,22 @@ namespace FileRenamerDiff.ViewModels
                 .Select(x => new SettingAppViewModel(x))
                 .ToReadOnlyReactivePropertySlim();
 
-            this.FileLoadPathCommand = IsIdle
+            this.LoadFilesFromDialogCommand = IsIdle
                 .ToAsyncReactiveCommand<FolderSelectionMessage>()
-                .WithSubscribe(async x => await FolderSelected(x));
+                .WithSubscribe(async x => await LoadFileFromDialog(x));
 
-            this.FileLoadCommand = (new[]
+            this.LoadFilesFromNewPathCommand = IsIdle
+                .ToAsyncReactiveCommand<string>()
+                .WithSubscribe(async x => await LoadFileFromNewPath(x));
+
+            this.LoadFilesFromCurrentPathCommand = (new[]
                 {
                     SettingVM.Value.SearchFilePath.Select(x => !string.IsNullOrWhiteSpace(x)),
                     IsIdle
                 })
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(LoadFileElements);
+                .WithSubscribe(LoadFilesFromCurrentPath);
 
             //アプリケーション内メッセージをダイアログで表示する
             model.MessageEventStream
@@ -217,16 +225,20 @@ namespace FileRenamerDiff.ViewModels
             await innerVM.IsDialogOpen;
         }
 
-        private async Task FolderSelected(FolderSelectionMessage fsMessage)
+        private async Task LoadFileFromDialog(FolderSelectionMessage fsMessage)
         {
             if (fsMessage.Response == null)
                 return;
-
-            SettingVM.Value.SearchFilePath.Value = fsMessage.Response;
-            await LoadFileElements();
+            await LoadFileFromNewPath(fsMessage.Response);
         }
 
-        private async Task LoadFileElements()
+        private async Task LoadFileFromNewPath(string targetPath)
+        {
+            SettingVM.Value.SearchFilePath.Value = targetPath;
+            await LoadFilesFromCurrentPath();
+        }
+
+        private async Task LoadFilesFromCurrentPath()
         {
             //ファイル読込を開始する
             var taskLoad = model.LoadFileElements();
