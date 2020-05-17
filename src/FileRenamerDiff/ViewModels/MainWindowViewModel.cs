@@ -123,6 +123,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.fileElementVMs = model.ObserveProperty(x => x.FileElementModels)
                 .Select(x => CreateFilePathVMs(x))
+                .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim();
 
             this.CViewFileElementVMs = fileElementVMs
@@ -168,6 +169,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
+                .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim();
 
             this.LoadFilesFromDialogCommand = IsIdle
