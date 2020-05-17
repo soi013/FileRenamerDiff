@@ -31,9 +31,12 @@ A File Renamer App featuring a difference display before and after the change.
 - Chinese (machine translation)
 
 # Download
+
 ### Microsoft Store (Windows 10 only)
 
-<a href='//www.microsoft.com/store/apps/9PH9DKV5XVDB?cid=storebadge&ocid=badge'><img src='images\MicrosoftStoreLogo.png' alt='English badge' style='width: 71px; height: 26px;'/></a>
+<img src=images/MicrosoftStoreLogo.png width=152px>
+
+<a href='//www.microsoft.com/store/apps/9PH9DKV5XVDB?cid=storebadge&ocid=badge'><img src=images/MicrosoftStoreLogo.png width=152px></a>
 
 ### Portable version
 
