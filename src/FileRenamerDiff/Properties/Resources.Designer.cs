@@ -196,6 +196,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Select the target directory from the left button, or Drag-Drop. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Hint_SelectTargetDirectory {
+            get {
+                return ResourceManager.GetString("Hint_SelectTargetDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Settings were reset. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Info_SettingsReset {

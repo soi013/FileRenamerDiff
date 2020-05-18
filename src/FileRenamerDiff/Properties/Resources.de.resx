@@ -223,4 +223,8 @@ Ausdruck</value>
   <data name="Alert_NotFoundFileBody" xml:space="preserve">
     <value>Dateien konnten nicht gefunden werden.</value>
   </data>
+  <data name="Hint_SelectTargetDirectory" xml:space="preserve">
+    <value>Wählen Sie das Zielverzeichnis über die linke Schaltfläche oder ziehen Sie es per Drag&amp;
+Drop.</value>
+  </data>
 </root>

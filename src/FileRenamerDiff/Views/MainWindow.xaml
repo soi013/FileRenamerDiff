@@ -125,7 +125,10 @@
                         <TextBox
                            MinWidth="250"
                            Margin="5,0"
-                           FontSize="16"
+                           materialDesign:HintAssist.Foreground="{StaticResource AccentColorBrush4}"
+                           materialDesign:HintAssist.Hint="{x:Static properties:Resources.Hint_SelectTargetDirectory}"
+                           FontSize="14"
+                           Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                            Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
                      </StackPanel>
                   </materialDesign:ColorZone>

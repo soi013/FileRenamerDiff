@@ -223,4 +223,7 @@
   <data name="Alert_NotFoundFileBody" xml:space="preserve">
     <value>Файлы не удалось найти.</value>
   </data>
+  <data name="Hint_SelectTargetDirectory" xml:space="preserve">
+    <value>Выберите целевой каталог с помощью левой кнопки или перетащите его.</value>
+  </data>
 </root>

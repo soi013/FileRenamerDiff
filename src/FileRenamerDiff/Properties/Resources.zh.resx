@@ -222,4 +222,7 @@
   <data name="Alert_NotFoundFileBody" xml:space="preserve">
     <value>文件找不到了。</value>
   </data>
+  <data name="Hint_SelectTargetDirectory" xml:space="preserve">
+    <value>从左边的按钮中选择目标目录，或者拖动。</value>
+  </data>
 </root>

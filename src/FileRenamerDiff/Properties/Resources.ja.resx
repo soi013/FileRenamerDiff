@@ -222,4 +222,7 @@
   <data name="Alert_NotFoundFileBody" xml:space="preserve">
     <value>ファイルが見つかりませんでした。</value>
   </data>
+  <data name="Hint_SelectTargetDirectory" xml:space="preserve">
+    <value>左のボタンから対象のディレクトリを選択するか、ドラッグ アンド ドロップしてください。</value>
+  </data>
 </root>

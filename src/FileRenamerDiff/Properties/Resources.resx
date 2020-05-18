@@ -260,4 +260,8 @@ REGEXP</value>
     <value>Files could not be found.</value>
     <comment>ファイル探索時に1つもファイルが見つからなかったときの警告メッセージ文章</comment>
   </data>
+  <data name="Hint_SelectTargetDirectory" xml:space="preserve">
+    <value>Select the target directory from the left button, or Drag-Drop.</value>
+    <comment>ファイル探索のターゲットファイルの指定方法のヒント</comment>
+  </data>
 </root>
