@@ -42,7 +42,7 @@ namespace FileRenamerDiff.Models
         /// リネームファイルを検索するターゲットパス
         /// </summary>
         public ReactivePropertySlim<string> SearchFilePath =>
-            searchFilePath ??= new ReactivePropertySlim<string>(myDocPath);
+            searchFilePath ??= new ReactivePropertySlim<string>("");
         private ReactivePropertySlim<string> searchFilePath;
 
         /// <summary>
