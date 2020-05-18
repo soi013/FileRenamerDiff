@@ -180,12 +180,7 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand<string>()
                 .WithSubscribe(async x => await LoadFileFromNewPath(x));
 
-            this.LoadFilesFromCurrentPathCommand = (new[]
-                {
-                    SettingVM.Value.SearchFilePath.Select(x => !string.IsNullOrWhiteSpace(x)),
-                    IsIdle
-                })
-                .CombineLatestValuesAreAllTrue()
+            this.LoadFilesFromCurrentPathCommand = IsIdle
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(LoadFilesFromCurrentPath);
 
@@ -285,6 +280,9 @@ namespace FileRenamerDiff.ViewModels
 
         private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> vms)
         {
+            if (vms == null)
+                return null;
+
             var cView = CollectionViewSource.GetDefaultView(vms);
             cView.Filter = (x => GetVisibleRow(x));
             return cView;
