@@ -62,6 +62,7 @@
       </behaviors:EventTrigger>
    </behaviors:Interaction.Triggers>
 
+   <!--  ファイルパスドロップ時にターゲットパスとして読み込む  -->
    <behaviors:Interaction.Behaviors>
       <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
    </behaviors:Interaction.Behaviors>
@@ -89,15 +90,19 @@
             Padding="8"
             Mode="PrimaryDark">
             <DockPanel>
+               <!--  アプリケーション情報ボタン（右端）  -->
                <Button
                   Command="{Binding ShowInformationPageCommand}"
                   Content="{materialDesign:PackIcon InfoCircle}"
                   DockPanel.Dock="Right"
                   Style="{StaticResource MaterialDesignIconForegroundButton}" />
+
                <StackPanel
                   VerticalAlignment="Center"
                   DockPanel.Dock="Left"
                   Orientation="Horizontal">
+
+                  <!--  ターゲットファイルパス選択  -->
                   <materialDesign:ColorZone
                      Margin="16,0,0,0"
                      Padding="8,4,8,4"
@@ -132,6 +137,8 @@
                            Text="{Binding SettingVM.Value.SearchFilePath.Value}" />
                      </StackPanel>
                   </materialDesign:ColorZone>
+
+                  <!--  ファイル読み込み開始ボタン  -->
                   <Button
                      Margin="8,0,0,0"
                      Command="{Binding LoadFilesFromCurrentPathCommand, Mode=OneTime}"
@@ -141,6 +148,8 @@
                         <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_SearchFiles}" />
                      </StackPanel>
                   </Button>
+
+                  <!--  リネームプレビューボタン  -->
                   <Button
                      Margin="20,0,0,0"
                      Command="{Binding ReplaceCommand, Mode=OneTime}"
@@ -150,6 +159,8 @@
                         <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_DryRun}" />
                      </StackPanel>
                   </Button>
+
+                  <!--  リネーム実行ボタン  -->
                   <Button
                      Margin="8,0"
                      Command="{Binding RenameExcuteCommand, Mode=OneTime}"
@@ -188,6 +199,8 @@
                   <Setter Property="Width" Value="24" />
                </Style>
             </DataGrid.Resources>
+
+            <!--  変更前後の表示列  -->
             <DataGrid.Columns>
                <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_OldText}">
                   <DataGridTemplateColumn.CellTemplate>
@@ -203,6 +216,8 @@
                      </DataTemplate>
                   </DataGridTemplateColumn.CellTemplate>
                </DataGridTemplateColumn>
+
+               <!--  変更状態表示列  -->
                <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>
@@ -229,6 +244,8 @@
                      </materialDesign:Badged>
                   </DataGridTemplateColumn.Header>
                </DataGridTemplateColumn>
+
+               <!--  重複状態表示列  -->
                <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>
@@ -256,6 +273,8 @@
                      </materialDesign:Badged>
                   </DataGridTemplateColumn.Header>
                </DataGridTemplateColumn>
+
+               <!--  作成日時などの表示列  -->
                <materialDesign:DataGridTextColumn
                   Width="120"
                   Binding="{Binding DirectoryPath, Mode=OneTime}"
