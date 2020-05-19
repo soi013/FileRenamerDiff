@@ -274,12 +274,26 @@
                   </DataGridTemplateColumn.Header>
                </DataGridTemplateColumn>
 
+               <!--  ディレクトリ表示とエクスプローラーで開くボタン  -->
+               <DataGridTemplateColumn Width="120" Header="{x:Static properties:Resources.Grid_Directory}">
+                  <DataGridTemplateColumn.CellTemplate>
+                     <DataTemplate>
+                        <Button
+                           HorizontalAlignment="Left"
+                           Height="24"
+                           Command="{Binding OpenInExploreCommand, Mode=OneTime}"
+                           Style="{StaticResource MaterialDesignFlatButton}">
+                           <StackPanel Orientation="Horizontal">
+                              <materialDesign:PackIcon Margin="0,0,5,0" Kind="FolderEditOutline" />
+                              <TextBlock Text="{Binding DirectoryPath, Mode=OneTime}" />
+                           </StackPanel>
+                        </Button>
+                     </DataTemplate>
+                  </DataGridTemplateColumn.CellTemplate>
+               </DataGridTemplateColumn>
+
+
                <!--  作成日時などの表示列  -->
-               <materialDesign:DataGridTextColumn
-                  Width="120"
-                  Binding="{Binding DirectoryPath, Mode=OneTime}"
-                  Header="{x:Static properties:Resources.Grid_Directory}"
-                  IsReadOnly="True" />
                <materialDesign:DataGridTextColumn
                   Width="50"
                   Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"

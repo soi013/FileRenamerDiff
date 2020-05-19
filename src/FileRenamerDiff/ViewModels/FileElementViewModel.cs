@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 
 using Livet;
 using Livet.Commands;
@@ -66,6 +66,11 @@ namespace FileRenamerDiff.ViewModels
         public string CreationTime => pathModel.CreationTime.ToString();
 
         /// <summary>
+        /// エクスプローラーで開くコマンド
+        /// </summary>
+        public ReactiveCommand OpenInExploreCommand { get; } = new ReactiveCommand();
+
+        /// <summary>
         /// ModelをもとにViewModelを作成
         /// </summary>
         public FileElementViewModel(FileElementModel pathModel)
@@ -84,6 +89,9 @@ namespace FileRenamerDiff.ViewModels
             this.IsConflicted = pathModel
                 .ObserveProperty(x => x.IsConflicted)
                 .ToReadOnlyReactivePropertySlim();
+
+            OpenInExploreCommand.Subscribe(x =>
+                Process.Start("EXPLORER.EXE", @$"/select,""{pathModel.InputFilePath}"""));
         }
 
         /// <summary>
