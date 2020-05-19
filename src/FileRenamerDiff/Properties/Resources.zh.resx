@@ -225,4 +225,16 @@
   <data name="Hint_SelectTargetDirectory" xml:space="preserve">
     <value>从左边的按钮中选择目标目录，或者拖动。</value>
   </data>
+  <data name="Setting_IgnoreFileTypes" xml:space="preserve">
+    <value>要重命名的文件类型</value>
+  </data>
+  <data name="Setting_FileTypeHidden" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="Setting_FileTypeDirectory" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="Setting_FileTypeFile" xml:space="preserve">
+    <value>文件</value>
+  </data>
 </root>

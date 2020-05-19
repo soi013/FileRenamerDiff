@@ -92,7 +92,7 @@
    </UserControl.Resources>
 
    <StackPanel x:Name="rootObj">
-      <Expander>
+      <Expander IsExpanded="True">
          <Expander.Header>
             <StackPanel Orientation="Horizontal">
                <materialDesign:PackIcon Kind="FolderSettingsOutline" />
@@ -105,12 +105,23 @@
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <materialDesign:Card Margin="15,5,15,10">
-               <StackPanel Grid.Row="0">
+            <StackPanel Grid.Row="0">
+               <materialDesign:Card Margin="15,5,15,10">
                   <CheckBox Content="{x:Static properties:Resources.Setting_SearchSubDirectories}" IsChecked="{Binding IsSearchSubDirectories.Value}" />
-                  <CheckBox Content="{x:Static properties:Resources.Setting_IgnoreDirectory}" IsChecked="{Binding IsIgnoreDirectory.Value}" />
-               </StackPanel>
-            </materialDesign:Card>
+               </materialDesign:Card>
+               <GroupBox
+                  Margin="15,5,15,10"
+                  materialDesign:ColorZoneAssist.Mode="Dark"
+                  Header="{x:Static properties:Resources.Setting_IgnoreFileTypes}"
+                  Style="{DynamicResource MaterialDesignCardGroupBox}">
+                  <StackPanel Grid.Row="0">
+                     <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeDirectory}" IsChecked="{Binding IsDirectoryRenameTarget.Value}" />
+                     <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeFile}" IsChecked="{Binding IsFileRenameTarget.Value}" />
+                     <Border Style="{StaticResource divider}" />
+                     <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeHidden}" IsChecked="{Binding IsHiddenRenameTarget.Value}" />
+                  </StackPanel>
+               </GroupBox>
+            </StackPanel>
             <DataGrid Grid.Row="1" ItemsSource="{Binding IgnoreExtensions}">
                <DataGrid.Columns>
                   <DataGridTextColumn

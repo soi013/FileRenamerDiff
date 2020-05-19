@@ -25,7 +25,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// リネーム前 フルファイルパス
         /// </summary>
-        public string InputFilePath { get; }
+        public string InputFilePath => fileInfo?.FullName;
 
         /// <summary>
         /// リネーム前 ファイル名
@@ -96,11 +96,9 @@ namespace FileRenamerDiff.Models
             "|[\\. ]$",
             RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public FileElementModel(string path)
+        public FileElementModel(FileInfo fileInfo)
         {
-            this.InputFilePath = path;
-
-            this.fileInfo = new FileInfo(path);
+            this.fileInfo = fileInfo;
 
             this.outputFileName = InputFileName;
         }

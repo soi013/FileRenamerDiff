@@ -331,6 +331,33 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_FileTypeDirectory {
+            get {
+                return ResourceManager.GetString("Setting_FileTypeDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_FileTypeFile {
+            get {
+                return ResourceManager.GetString("Setting_FileTypeFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hidden に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_FileTypeHidden {
+            get {
+                return ResourceManager.GetString("Setting_FileTypeHidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ignore Directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_IgnoreDirectory {
@@ -345,6 +372,15 @@ namespace FileRenamerDiff.Properties {
         public static string Setting_IgnoreExtensions {
             get {
                 return ResourceManager.GetString("Setting_IgnoreExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File types to rename に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_IgnoreFileTypes {
+            get {
+                return ResourceManager.GetString("Setting_IgnoreFileTypes", resourceCulture);
             }
         }
         

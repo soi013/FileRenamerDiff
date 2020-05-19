@@ -167,7 +167,7 @@ namespace FileRenamerDiff.Models
 
         private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
-            if (!Directory.Exists(sourceFilePath))
+            if (!Directory.Exists(sourceFilePath) || setting.IsNoFileRenameTarget())
                 return Array.Empty<FileElementModel>();
 
             var ignoreRegex = setting.CreateIgnoreExtensionsRegex();
@@ -177,9 +177,10 @@ namespace FileRenamerDiff.Models
                 //読み取り権限のない場合は無視
                 IgnoreInaccessible = true,
                 RecurseSubdirectories = setting.IsSearchSubDirectories.Value,
+                AttributesToSkip = FileAttributes.System
             };
 
-            IEnumerable<string> fileEnums = setting.IsIgnoreDirectory.Value
+            IEnumerable<string> fileEnums = setting.IsDirectoryRenameTarget.Value
                 ? Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option)
                 : Directory.EnumerateFiles(sourceFilePath, "*", option);
 
@@ -205,6 +206,9 @@ namespace FileRenamerDiff.Models
             cancellationToken.ThrowIfCancellationRequested();
 
             return loadedFileList
+                .Select(x => new FileInfo(x))
+                //設定に応じて、ディレクトリ・ファイル・隠しファイルの表示状態を変更
+                .Where(x => setting.IsTargetFile(x))
                 .Select(x => new FileElementModel(x))
                 .ToArray();
         }

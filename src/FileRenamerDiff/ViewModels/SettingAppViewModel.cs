@@ -62,9 +62,19 @@ namespace FileRenamerDiff.ViewModels
         public ReactivePropertySlim<bool> IsSearchSubDirectories => setting.IsSearchSubDirectories;
 
         /// <summary>
-        /// ディレクトリもリネームするか
+        /// ディレクトリをリネーム対象にするか
         /// </summary>
-        public ReactivePropertySlim<bool> IsIgnoreDirectory => setting.IsIgnoreDirectory;
+        public ReactivePropertySlim<bool> IsDirectoryRenameTarget => setting.IsDirectoryRenameTarget;
+
+        /// <summary>
+        /// ディレクトリでないファイルをリネーム対象にするか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsFileRenameTarget => setting.IsFileRenameTarget;
+
+        /// <summary>
+        /// 隠しファイルをリネーム対象にするか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsHiddenRenameTarget => setting.IsHiddenRenameTarget;
 
         /// <summary>
         /// 選択可能な言語一覧

@@ -227,4 +227,16 @@ Ausdruck</value>
     <value>Wählen Sie das Zielverzeichnis über die linke Schaltfläche oder ziehen Sie es per Drag&amp;
 Drop.</value>
   </data>
+  <data name="Setting_IgnoreFileTypes" xml:space="preserve">
+    <value>Umzubenennende Dateitypen</value>
+  </data>
+  <data name="Setting_FileTypeHidden" xml:space="preserve">
+    <value>Ausgeblendet</value>
+  </data>
+  <data name="Setting_FileTypeDirectory" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="Setting_FileTypeFile" xml:space="preserve">
+    <value>Datei</value>
+  </data>
 </root>

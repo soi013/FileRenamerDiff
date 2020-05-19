@@ -114,17 +114,54 @@ namespace FileRenamerDiff.Models
         private ReactivePropertySlim<bool> isSearchSubDirectories;
 
         /// <summary>
-        /// ファイル探索時にディレクトリ自身もリストに含めるか
+        /// 隠しファイルをリネーム対象にするか
         /// </summary>
-        public ReactivePropertySlim<bool> IsIgnoreDirectory =>
-            isIgnoreDirectory ??= new ReactivePropertySlim<bool>(true);
-        private ReactivePropertySlim<bool> isIgnoreDirectory;
+        public ReactivePropertySlim<bool> IsHiddenRenameTarget =>
+            isHiddenRenameTarget ??= new ReactivePropertySlim<bool>(false);
+        private ReactivePropertySlim<bool> isHiddenRenameTarget;
+
+        /// <summary>
+        /// ディレクトリをリネーム対象にするか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsDirectoryRenameTarget =>
+            isDirectoryRenameTarget ??= new ReactivePropertySlim<bool>(true);
+        private ReactivePropertySlim<bool> isDirectoryRenameTarget;
+
+        /// <summary>
+        /// ディレクトリでないファイルをリネーム対象にするか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsFileRenameTarget =>
+            isFileRenameTarget ??= new ReactivePropertySlim<bool>(true);
+        private ReactivePropertySlim<bool> isFileRenameTarget;
+
+        /// <summary>
+        /// リネーム対象になるファイル種類がないか
+        /// </summary>
+        public bool IsNoFileRenameTarget() => !IsDirectoryRenameTarget.Value && !IsFileRenameTarget.Value;
+
+        /// <summary>
+        /// リネーム対象となるファイル種類か
+        /// </summary>
+        public bool IsTargetFile(FileInfo fileInfo)
+        {
+            if (!IsHiddenRenameTarget.Value && fileInfo.Attributes.HasFlag(FileAttributes.Hidden))
+                return false;
+
+            if (!IsDirectoryRenameTarget.Value && fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+                return false;
+
+            if (!IsFileRenameTarget.Value && !fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+                return false;
+
+            return true;
+        }
 
         /// <summary>
         /// アプリケーションの表示言語
         /// </summary>
         public ReactivePropertySlim<string> AppLanguageCode =>
             appLanguage ??= new ReactivePropertySlim<string>("");
+
         private ReactivePropertySlim<string> appLanguage;
 
         public SettingAppModel()

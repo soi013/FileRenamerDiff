@@ -225,4 +225,16 @@
   <data name="Hint_SelectTargetDirectory" xml:space="preserve">
     <value>左のボタンから対象のディレクトリを選択するか、ドラッグ アンド ドロップしてください。</value>
   </data>
+  <data name="Setting_IgnoreFileTypes" xml:space="preserve">
+    <value>リネームするファイル種類</value>
+  </data>
+  <data name="Setting_FileTypeHidden" xml:space="preserve">
+    <value>隠しファイル</value>
+  </data>
+  <data name="Setting_FileTypeDirectory" xml:space="preserve">
+    <value>フォルダ</value>
+  </data>
+  <data name="Setting_FileTypeFile" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
 </root>

@@ -264,4 +264,20 @@ REGEXP</value>
     <value>Select the target directory from the left button, or Drag-Drop.</value>
     <comment>ファイル探索のターゲットファイルの指定方法のヒント</comment>
   </data>
+  <data name="Setting_IgnoreFileTypes" xml:space="preserve">
+    <value>File types to rename</value>
+    <comment>ファイル探索時に無視されるファイル種類選択グループ</comment>
+  </data>
+  <data name="Setting_FileTypeFile" xml:space="preserve">
+    <value>File</value>
+    <comment>ファイル種類-フォルダじゃないファイル</comment>
+  </data>
+  <data name="Setting_FileTypeHidden" xml:space="preserve">
+    <value>Hidden</value>
+    <comment>ファイル種類-隠しファイル</comment>
+  </data>
+  <data name="Setting_FileTypeDirectory" xml:space="preserve">
+    <value>Folder</value>
+    <comment>ファイル種類-フォルダ</comment>
+  </data>
 </root>

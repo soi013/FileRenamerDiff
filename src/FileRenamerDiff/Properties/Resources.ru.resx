@@ -226,4 +226,16 @@
   <data name="Hint_SelectTargetDirectory" xml:space="preserve">
     <value>Выберите целевой каталог с помощью левой кнопки или перетащите его.</value>
   </data>
+  <data name="Setting_IgnoreFileTypes" xml:space="preserve">
+    <value>Типы файлов для переименования</value>
+  </data>
+  <data name="Setting_FileTypeHidden" xml:space="preserve">
+    <value>Скрытый</value>
+  </data>
+  <data name="Setting_FileTypeDirectory" xml:space="preserve">
+    <value>Папку</value>
+  </data>
+  <data name="Setting_FileTypeFile" xml:space="preserve">
+    <value>Файловая</value>
+  </data>
 </root>
