@@ -92,7 +92,7 @@
    </UserControl.Resources>
 
    <StackPanel x:Name="rootObj">
-      <Expander IsExpanded="True">
+      <Expander>
          <Expander.Header>
             <StackPanel Orientation="Horizontal">
                <materialDesign:PackIcon Kind="FolderSettingsOutline" />
@@ -234,7 +234,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander>
+      <Expander IsExpanded="True">
          <Expander.Header>
             <StackPanel Orientation="Horizontal">
                <materialDesign:PackIcon Kind="Tune" />
@@ -242,14 +242,11 @@
             </StackPanel>
          </Expander.Header>
          <StackPanel>
+            <TextBlock Foreground="{StaticResource AccentColorBrush4}" Margin="40,10,30,0" Text="App language: Changed AFTER RESTART" />
             <ComboBox
-               Margin="30,5"
+               Margin="30,0,30,15"
                Padding="5"
                materialDesign:ColorZoneAssist.Mode="Accent"
-               materialDesign:HintAssist.FloatingOffset="0,-20"
-               materialDesign:HintAssist.FloatingScale="0.9"
-               materialDesign:HintAssist.Hint="App language: Changed AFTER RESTART"
-               materialDesign:HintAssist.IsFloating="True"
                FontSize="14"
                ItemsSource="{Binding AvailableLanguages}"
                SelectedItem="{Binding SelectedLanguage.Value}">
