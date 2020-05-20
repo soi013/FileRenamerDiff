@@ -74,7 +74,32 @@
          <Setter Property="Height" Value="24" />
          <Setter Property="HorizontalAlignment" Value="Left" />
          <Setter Property="Content" Value="{materialDesign:PackIcon Kind=RemoveCircle}" />
-         <Setter Property="v:RemoveItemExt.RemoveItem" Value="True" />
+         <Setter Property="v:DataGridOperation.RemoveItem" Value="True" />
+      </Style>
+
+      <!--  上移動ボタン スタイル  -->
+      <Style
+         x:Key="DecrementButton"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignIconButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Width" Value="20" />
+         <Setter Property="Height" Value="20" />
+         <Setter Property="HorizontalAlignment" Value="Right" />
+         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=ArrowUp}" />
+         <Setter Property="v:DataGridOperation.DecrementItem" Value="True" />
+      </Style>
+      <!--  下移動ボタン スタイル  -->
+      <Style
+         x:Key="IncrementButton"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignIconButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Width" Value="20" />
+         <Setter Property="Height" Value="20" />
+         <Setter Property="HorizontalAlignment" Value="Left" />
+         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=ArrowDown}" />
+         <Setter Property="v:DataGridOperation.IncrementItem" Value="True" />
       </Style>
 
       <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
@@ -159,13 +184,29 @@
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}" ItemsSource="{Binding DeleteTexts}">
+
+            <!--  削除パターン  -->
+            <DataGrid
+               ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
+               ItemsSource="{Binding DeleteTexts}"
+               RowHeaderWidth="30"
+               SelectionMode="Extended">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
                   <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
+                  <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <StackPanel Orientation="Horizontal">
+                              <Button Style="{StaticResource DecrementButton}" />
+                              <Button Style="{StaticResource IncrementButton}" />
+                           </StackPanel>
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.Header>
                         <Button Command="{Binding DataContext.ClearDeleteTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
@@ -178,10 +219,9 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <Button
-               Grid.Row="1"
-               Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+               <Button Command="{Binding AddDeleteTextsCommand, Mode=OneTime}" Style="{StaticResource AddButton}" />
+            </StackPanel>
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
@@ -197,6 +237,8 @@
                <RowDefinition Height="*" />
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+
+            <!--  置換パターン  -->
             <DataGrid ItemsSource="{Binding ReplaceTexts}">
                <DataGrid.Columns>
                   <DataGridTextColumn
@@ -215,6 +257,16 @@
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_ReplaceText}" />
                   <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
+                  <DataGridTemplateColumn>
+                     <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                           <StackPanel Orientation="Horizontal">
+                              <Button Style="{StaticResource DecrementButton}" />
+                              <Button Style="{StaticResource IncrementButton}" />
+                           </StackPanel>
+                        </DataTemplate>
+                     </DataGridTemplateColumn.CellTemplate>
+                  </DataGridTemplateColumn>
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.Header>
                         <Button Command="{Binding DataContext.ClearReplaceTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
@@ -242,7 +294,10 @@
             </StackPanel>
          </Expander.Header>
          <StackPanel>
-            <TextBlock Foreground="{StaticResource AccentColorBrush4}" Margin="40,10,30,0" Text="App language: Changed AFTER RESTART" />
+            <TextBlock
+               Margin="40,10,30,0"
+               Foreground="{StaticResource AccentColorBrush4}"
+               Text="App language: Changed AFTER RESTART" />
             <ComboBox
                Margin="30,0,30,15"
                Padding="5"
