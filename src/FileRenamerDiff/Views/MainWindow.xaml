@@ -229,18 +229,16 @@
                   </DataGridTemplateColumn.CellTemplate>
                   <DataGridTemplateColumn.Header>
                      <materialDesign:Badged
-                        Margin="1,8,1,1"
-                        Padding="0,0,8,0"
-                        BadgeColorZoneMode="PrimaryMid">
+                        Padding="0,0,3,0"
+                        BadgeColorZoneMode="PrimaryMid"
+                        DataContext="{Binding DataContext, ElementName=rootObj}"
+                        ToolTip="{x:Static properties:Resources.Grid_Changed}">
                         <materialDesign:Badged.Badge>
                            <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
                         </materialDesign:Badged.Badge>
-                        <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
-                           <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
-                              <materialDesign:PackIcon Kind="Filter" />
-                           </ToggleButton>
-                           <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Grid_Changed}" />
-                        </StackPanel>
+                        <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
+                           <materialDesign:PackIcon Kind="CheckBold" />
+                        </ToggleButton>
                      </materialDesign:Badged>
                   </DataGridTemplateColumn.Header>
                </DataGridTemplateColumn>
@@ -258,18 +256,17 @@
                   </DataGridTemplateColumn.CellTemplate>
                   <DataGridTemplateColumn.Header>
                      <materialDesign:Badged
+                        Padding="0,0,3,0"
                         Margin="1,8,1,1"
-                        Padding="0,0,8,0"
-                        BadgeColorZoneMode="PrimaryMid">
+                        BadgeColorZoneMode="PrimaryMid"
+                        DataContext="{Binding DataContext, ElementName=rootObj}"
+                        ToolTip="{x:Static properties:Resources.Grid_Conflicted}">
                         <materialDesign:Badged.Badge>
                            <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
                         </materialDesign:Badged.Badge>
-                        <StackPanel DataContext="{Binding DataContext, ElementName=rootObj}" Orientation="Horizontal">
-                           <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
-                              <materialDesign:PackIcon Kind="Filter" />
-                           </ToggleButton>
-                           <TextBlock VerticalAlignment="Center" Text="{x:Static properties:Resources.Grid_Conflicted}" />
-                        </StackPanel>
+                        <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
+                           <materialDesign:PackIcon Kind="FolderAlert" />
+                        </ToggleButton>
                      </materialDesign:Badged>
                   </DataGridTemplateColumn.Header>
                </DataGridTemplateColumn>
@@ -279,8 +276,8 @@
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>
                         <Button
-                           HorizontalAlignment="Left"
                            Height="24"
+                           HorizontalAlignment="Left"
                            Command="{Binding OpenInExploreCommand, Mode=OneTime}"
                            Style="{StaticResource MaterialDesignFlatButton}">
                            <StackPanel Orientation="Horizontal">
