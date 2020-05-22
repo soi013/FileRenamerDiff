@@ -198,6 +198,9 @@
                   <Setter Property="Height" Value="24" />
                   <Setter Property="Width" Value="24" />
                </Style>
+               <Style x:Key="ToolTipTextBlock" TargetType="TextBlock">
+                  <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+               </Style>
             </DataGrid.Resources>
 
             <!--  変更前後の表示列  -->
@@ -256,8 +259,8 @@
                   </DataGridTemplateColumn.CellTemplate>
                   <DataGridTemplateColumn.Header>
                      <materialDesign:Badged
-                        Padding="0,0,3,0"
                         Margin="1,8,1,1"
+                        Padding="0,0,3,0"
                         BadgeColorZoneMode="PrimaryMid"
                         DataContext="{Binding DataContext, ElementName=rootObj}"
                         ToolTip="{x:Static properties:Resources.Grid_Conflicted}">
@@ -279,7 +282,8 @@
                            Height="24"
                            HorizontalAlignment="Left"
                            Command="{Binding OpenInExploreCommand, Mode=OneTime}"
-                           Style="{StaticResource MaterialDesignFlatButton}">
+                           Style="{StaticResource MaterialDesignFlatButton}"
+                           ToolTip="{Binding DirectoryPath, Mode=OneTime}">
                            <StackPanel Orientation="Horizontal">
                               <materialDesign:PackIcon Margin="0,0,5,0" Kind="FolderEditOutline" />
                               <TextBlock Text="{Binding DirectoryPath, Mode=OneTime}" />
@@ -299,11 +303,13 @@
                <materialDesign:DataGridTextColumn
                   Width="80"
                   Binding="{Binding LastWriteTime, Mode=OneTime}"
+                  ElementStyle="{StaticResource ToolTipTextBlock}"
                   Header="{x:Static properties:Resources.Grid_DateModified}"
                   IsReadOnly="True" />
                <materialDesign:DataGridTextColumn
                   Width="80"
                   Binding="{Binding CreationTime, Mode=OneTime}"
+                  ElementStyle="{StaticResource ToolTipTextBlock}"
                   Header="{x:Static properties:Resources.Grid_CreatedDate}"
                   IsReadOnly="True" />
             </DataGrid.Columns>
