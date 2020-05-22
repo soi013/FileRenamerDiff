@@ -186,7 +186,7 @@ namespace FileRenamerDiff.Models
 
             var loadedFileList = fileEnums
                 //無視する拡張子が無い、または一致しないだけ残す
-                .Where(x => ignoreRegex?.IsMatch(Path.GetExtension(x)) != true)
+                .Where(x => ignoreRegex?.IsMatch(AppExtention.GetExtentionCoreFromPath(x)) != true)
                 .Do((x, i) =>
                     {
                         if (i % 16 != 0)

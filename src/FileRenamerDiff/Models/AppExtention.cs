@@ -193,5 +193,10 @@ namespace FileRenamerDiff.Models
                 return null;
             }
         }
+
+        public static string GetExtentionCoreFromPath(string path) =>
+            Path.HasExtension(path)
+            ? Path.GetExtension(path).Substring(1)
+            : String.Empty;
     }
 }
