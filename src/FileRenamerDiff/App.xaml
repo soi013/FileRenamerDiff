@@ -134,7 +134,7 @@
          </Style>
          <!--  仕切り  -->
          <Style x:Key="divider" TargetType="{x:Type Border}">
-            <Setter Property="Height" Value="1" />
+            <Setter Property="Height" Value="2" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="Background" Value="{StaticResource MaterialDesignDivider}" />
          </Style>
