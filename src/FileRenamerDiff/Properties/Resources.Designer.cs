@@ -97,7 +97,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Some fileNames are DUPLICATED. に類似しているローカライズされた文字列を検索します。
+        ///   Some file names are DUPLICATED. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Alert_FileNamesDuplicated {
             get {
