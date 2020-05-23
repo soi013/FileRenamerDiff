@@ -286,6 +286,7 @@
                            HorizontalAlignment="Left"
                            Command="{Binding OpenInExploreCommand, Mode=OneTime}"
                            Style="{StaticResource MaterialDesignFlatButton}"
+                           Padding="0"
                            ToolTip="{Binding DirectoryPath, Mode=OneTime}">
                            <StackPanel Orientation="Horizontal">
                               <materialDesign:PackIcon Margin="0,0,5,0" Kind="FolderEditOutline" />
