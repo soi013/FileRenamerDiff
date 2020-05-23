@@ -164,8 +164,14 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public ReactivePropertySlim<string> AppLanguageCode =>
             appLanguage ??= new ReactivePropertySlim<string>("");
-
         private ReactivePropertySlim<string> appLanguage;
+
+        /// <summary>
+        /// アプリケーションの色テーマ
+        /// </summary>
+        public ReactivePropertySlim<bool> IsAppDarkTheme =>
+            isAppDarkTheme ??= new ReactivePropertySlim<bool>(true);
+        private ReactivePropertySlim<bool> isAppDarkTheme;
 
         public SettingAppModel()
         {

@@ -13,11 +13,11 @@
    Width="1600"
    Height="800"
    Background="{StaticResource MaterialDesignPaper}"
-   BorderBrush="{StaticResource AccentColorBrush}"
+   BorderBrush="{StaticResource PrimaryHueMidBrush}"
    BorderThickness="1"
    FontFamily="Meiryo"
    FontWeight="Bold"
-   GlowBrush="{StaticResource AccentColorBrush}"
+   GlowBrush="{StaticResource PrimaryHueMidBrush}"
    Icon="/FileRenamerDiff_icon.ico"
    TextElement.Foreground="{StaticResource MaterialDesignBody}"
    TitleCharacterCasing="Normal">
@@ -130,7 +130,7 @@
                         <TextBox
                            MinWidth="250"
                            Margin="5,0"
-                           materialDesign:HintAssist.Foreground="{StaticResource AccentColorBrush4}"
+                           materialDesign:HintAssist.Foreground="{StaticResource HighContrastBrush}"
                            materialDesign:HintAssist.Hint="{x:Static properties:Resources.Hint_SelectTargetDirectory}"
                            FontSize="14"
                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"

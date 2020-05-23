@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
-using Anotar.Serilog;
+using System.Windows.Media;
+
+using MaterialDesignThemes.Wpf;
 using Livet;
+using Anotar.Serilog;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
+
+using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff
 {
@@ -23,6 +29,36 @@ namespace FileRenamerDiff
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             LogTo.Information("App Start");
+            ChangeTheme();
+        }
+
+        /// <summary>
+        /// Light・Darkテーマ変換対応
+        /// </summary>
+        private static void ChangeTheme()
+        {
+            var paletteHelper = new PaletteHelper();
+            var theme = paletteHelper.GetTheme();
+
+            bool isDark = Model.Instance.Setting.IsAppDarkTheme.Value;
+            theme.SetBaseTheme(
+                isDark
+                    ? Theme.Dark
+                    : Theme.Light);
+
+            theme.PrimaryDark = (Color)Current.Resources["Primary700"];
+            theme.PrimaryMid = (Color)Current.Resources["Primary500"];
+            theme.PrimaryLight = (Color)Current.Resources["Primary300"];
+            theme.Paper = AppExtention.ToColorOrDefault(isDark
+                ? "#272E33"
+                : "#E6EDF2");
+
+            //ベース色とのコントラストが
+            Current.Resources["HighContrastBrush"] =
+                (isDark ? theme.PrimaryLight : theme.PrimaryDark)
+                .Color.ToSolidColorBrush(true);
+
+            paletteHelper.SetTheme(theme);
         }
 
         //Application level error handling

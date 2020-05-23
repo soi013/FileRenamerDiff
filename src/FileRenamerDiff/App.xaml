@@ -44,51 +44,14 @@
          <Color x:Key="Primary100">#C5D9E8</Color>
          <Color x:Key="Primary50">#E8EFF4</Color>
          <SolidColorBrush
-            x:Key="MaterialDesignPaper"
-            po:Freeze="True"
-            Color="#272e33" />
-         <SolidColorBrush
-            x:Key="PrimaryHueLightBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary200}" />
-         <SolidColorBrush
-            x:Key="PrimaryHueMidBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary500}" />
-         <SolidColorBrush
-            x:Key="PrimaryHueDarkBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary700}" />
-         <SolidColorBrush
             x:Key="MahApps.Brushes.WindowTitle"
             po:Freeze="True"
             Color="{StaticResource Primary900}" />
 
+         <!--  設定のテーマに応じて、DarkかLightか切り替わるBrush  -->
+         <SolidColorBrush x:Key="HighContrastBrush" />
+
          <!--  MahApps Brushes  -->
-         <SolidColorBrush
-            x:Key="HighlightBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary700}" />
-         <SolidColorBrush
-            x:Key="AccentBaseColorBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary600}" />
-         <SolidColorBrush
-            x:Key="AccentColorBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary500}" />
-         <SolidColorBrush
-            x:Key="AccentColorBrush2"
-            po:Freeze="True"
-            Color="{StaticResource Primary400}" />
-         <SolidColorBrush
-            x:Key="AccentColorBrush3"
-            po:Freeze="True"
-            Color="{StaticResource Primary300}" />
-         <SolidColorBrush
-            x:Key="AccentColorBrush4"
-            po:Freeze="True"
-            Color="{StaticResource Primary200}" />
          <SolidColorBrush
             x:Key="WindowTitleColorBrush"
             po:Freeze="True"
@@ -136,7 +99,7 @@
          <Style x:Key="divider" TargetType="{x:Type Border}">
             <Setter Property="Height" Value="2" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Background" Value="{StaticResource MaterialDesignDivider}" />
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}" />
          </Style>
       </ResourceDictionary>
    </Application.Resources>

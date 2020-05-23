@@ -18,6 +18,7 @@
    d:DesignWidth="400"
    mc:Ignorable="d">
    <UserControl.Resources>
+      <materialDesign:NotConverter x:Key="NotConverter" />
       <v:CultureDisplayConverter x:Key="CultureDisplayConverter" />
       <Style BasedOn="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" TargetType="{x:Type TextBox}">
          <Setter Property="MinWidth" Value="40" />
@@ -136,7 +137,7 @@
                </materialDesign:Card>
                <GroupBox
                   Margin="15,5,15,10"
-                  materialDesign:ColorZoneAssist.Mode="Dark"
+                  materialDesign:ColorZoneAssist.Mode="Standard"
                   Header="{x:Static properties:Resources.Setting_IgnoreFileTypes}"
                   Style="{DynamicResource MaterialDesignCardGroupBox}">
                   <StackPanel Grid.Row="0">
@@ -295,23 +296,43 @@
             </StackPanel>
          </Expander.Header>
          <StackPanel>
-            <TextBlock
-               Margin="40,10,30,0"
-               Foreground="{StaticResource AccentColorBrush4}"
-               Text="App language: Changed AFTER RESTART" />
-            <ComboBox
-               Margin="30,0,30,15"
-               Padding="5"
-               materialDesign:ColorZoneAssist.Mode="Accent"
-               FontSize="14"
-               ItemsSource="{Binding AvailableLanguages}"
-               SelectedItem="{Binding SelectedLanguage.Value}">
-               <ComboBox.ItemTemplate>
-                  <DataTemplate>
-                     <TextBlock Text="{Binding ., Converter={StaticResource CultureDisplayConverter}}" />
-                  </DataTemplate>
-               </ComboBox.ItemTemplate>
-            </ComboBox>
+            <materialDesign:Card Margin="30,5" Padding="15,10,15,5">
+               <StackPanel>
+                  <TextBlock Foreground="{StaticResource HighContrastBrush}" Text="App language: Changed AFTER RESTART" />
+                  <ComboBox
+                     Padding="5"
+                     materialDesign:ColorZoneAssist.Mode="Accent"
+                     FontSize="14"
+                     ItemsSource="{Binding AvailableLanguages}"
+                     SelectedItem="{Binding SelectedLanguage.Value}">
+                     <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                           <TextBlock Text="{Binding ., Converter={StaticResource CultureDisplayConverter}}" />
+                        </DataTemplate>
+                     </ComboBox.ItemTemplate>
+                  </ComboBox>
+
+               </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card Margin="30,5" Padding="15,10,15,5">
+               <StackPanel>
+                  <TextBlock Foreground="{StaticResource HighContrastBrush}" Text="App Theme: Changed AFTER RESTART" />
+                  <StackPanel Margin="5" Orientation="Horizontal">
+                     <RadioButton
+                        materialDesign:ColorZoneAssist.Mode="Dark"
+                        Content="DARK"
+                        IsChecked="{Binding IsAppDarkTheme.Value}"
+                        Style="{StaticResource MaterialDesignDarkRadioButton}" />
+                     <RadioButton
+                        Margin="10,0"
+                        materialDesign:ColorZoneAssist.Mode="Light"
+                        Content="LIGHT"
+                        IsChecked="{Binding IsAppDarkTheme.Value, Converter={StaticResource NotConverter}}"
+                        Style="{StaticResource MaterialDesignLightRadioButton}" />
+                  </StackPanel>
+               </StackPanel>
+            </materialDesign:Card>
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand, Mode=OneTime}"

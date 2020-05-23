@@ -86,6 +86,11 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactivePropertySlim<CultureInfo> SelectedLanguage { get; } = new ReactivePropertySlim<CultureInfo>();
 
+        /// <summary>
+        /// アプリケーションの色テーマ
+        /// </summary>
+        public ReactivePropertySlim<bool> IsAppDarkTheme => setting.IsAppDarkTheme;
+
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
 
         public AsyncReactiveCommand ClearIgnoreExtensionsCommand { get; }
