@@ -4,7 +4,7 @@ A File Renamer App featuring a difference display before and after the change fo
 
 # Screen Shot
 
-![icon](./images/screenshot1.png)
+![icon](./images/screenshot_en.png)
 
 # Features
 
@@ -29,6 +29,14 @@ A File Renamer App featuring a difference display before and after the change fo
 - Germany (machine translation)
 - Russia (machine translation)
 - Chinese (machine translation)
+
+
+
+## Light / Dark Theme Switching
+
+<img src=images/screenshot_Dark-Light.png width=550px>
+
+
 
 # Download
 
