@@ -223,8 +223,7 @@
     <value>Dateien konnten nicht gefunden werden.</value>
   </data>
   <data name="Hint_SelectTargetDirectory" xml:space="preserve">
-    <value>Wählen Sie das Zielverzeichnis über die linke Schaltfläche oder ziehen Sie es per Drag&amp;
-Drop.</value>
+    <value>Wählen Sie das Zielverzeichnis mit der linken Taste oder per Drag &amp; Drop aus.</value>
   </data>
   <data name="Setting_IgnoreFileTypes" xml:space="preserve">
     <value>Umzubenennende Dateitypen</value>
