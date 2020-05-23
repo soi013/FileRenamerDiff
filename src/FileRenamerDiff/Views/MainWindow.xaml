@@ -234,6 +234,7 @@
                   </DataGridTemplateColumn.CellTemplate>
                   <DataGridTemplateColumn.Header>
                      <materialDesign:Badged
+                        Margin="1,8,1,1"
                         Padding="0,0,3,0"
                         BadgeColorZoneMode="PrimaryMid"
                         DataContext="{Binding DataContext, ElementName=rootObj}"

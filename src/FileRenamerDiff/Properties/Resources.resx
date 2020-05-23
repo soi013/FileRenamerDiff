@@ -234,7 +234,7 @@
     <comment>全体設定がリセットされたときのメッセージ文章</comment>
   </data>
   <data name="Alert_FileNamesDuplicated" xml:space="preserve">
-    <value>Some fileNames are DUPLICATED.</value>
+    <value>Some file names are DUPLICATED.</value>
     <comment>一部のファイル名が重複していたときの警告メッセージ文章</comment>
   </data>
   <data name="Alert_InvalidFileName" xml:space="preserve">
