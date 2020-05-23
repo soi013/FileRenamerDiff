@@ -124,8 +124,7 @@
     <value>Дата изменения</value>
   </data>
   <data name="Setting_AsExpression" xml:space="preserve">
-    <value>регулярное
-выражение</value>
+    <value>Регулярное выражение</value>
   </data>
   <data name="Setting_ReplacePatterns" xml:space="preserve">
     <value>Заменить Шаблоны</value>

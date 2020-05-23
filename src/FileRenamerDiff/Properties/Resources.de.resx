@@ -136,8 +136,7 @@
     <value>Zu löschende Texte</value>
   </data>
   <data name="Setting_AsExpression" xml:space="preserve">
-    <value>Regulärer
-Ausdruck</value>
+    <value>Regulärer Ausdruck</value>
   </data>
   <data name="Setting_DeleteTextTarget" xml:space="preserve">
     <value>Text</value>

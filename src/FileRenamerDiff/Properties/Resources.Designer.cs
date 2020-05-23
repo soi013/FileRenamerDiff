@@ -285,8 +285,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   As
-        ///REGEXP に類似しているローカライズされた文字列を検索します。
+        ///   Regular Expression に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_AsExpression {
             get {

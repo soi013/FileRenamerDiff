@@ -146,8 +146,7 @@
     <comment>リネーム時の削除文字パターンのリスト</comment>
   </data>
   <data name="Setting_AsExpression" xml:space="preserve">
-    <value>As
-REGEXP</value>
+    <value>Regular Expression</value>
     <comment>リネーム時に正規表現として認識させるかのチェックボックス（2行に分割）</comment>
   </data>
   <data name="Setting_DeleteTextTarget" xml:space="preserve">

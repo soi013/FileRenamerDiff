@@ -115,6 +115,21 @@
          <Setter Property="Padding" Value="10,2,2,2" />
          <Setter Property="HorizontalAlignment" Value="Stretch" />
       </Style>
+      <!--  DataGridの正規表現列内ElmentStyle用  -->
+      <Style
+         x:Key="regexCheckBox"
+         BasedOn="{StaticResource MaterialDesignCheckBox}"
+         TargetType="{x:Type CheckBox}">
+         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
+      </Style>
+      <Style
+         x:Key="regexHeader"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+         TargetType="{x:Type DataGridColumnHeader}">
+         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Regex}" />
+         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
+      </Style>
    </UserControl.Resources>
 
    <StackPanel x:Name="rootObj">
@@ -188,7 +203,6 @@
 
             <!--  削除パターン  -->
             <DataGrid
-               ColumnHeaderStyle="{StaticResource MaterialDesignDataGridColumnHeader}"
                ItemsSource="{Binding DeleteTexts}"
                RowHeaderWidth="30"
                SelectionMode="Extended">
@@ -197,7 +211,10 @@
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
-                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
+                  <DataGridCheckBoxColumn
+                     Binding="{Binding AsExpression}"
+                     ElementStyle="{StaticResource regexCheckBox}"
+                     HeaderStyle="{StaticResource regexHeader}" />
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -258,7 +275,10 @@
                      Binding="{Binding ReplaceText}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_ReplaceText}" />
-                  <DataGridCheckBoxColumn Binding="{Binding AsExpression}" Header="{x:Static properties:Resources.Setting_AsExpression}" />
+                  <DataGridCheckBoxColumn
+                     Binding="{Binding AsExpression}"
+                     ElementStyle="{StaticResource regexCheckBox}"
+                     HeaderStyle="{StaticResource regexHeader}" />
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
