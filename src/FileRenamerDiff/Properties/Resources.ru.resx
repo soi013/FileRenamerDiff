@@ -133,10 +133,10 @@
     <value>Текст</value>
   </data>
   <data name="Setting_SearchSubDirectories" xml:space="preserve">
-    <value>Поисковые подкатегории</value>
+    <value>Поиск подкаталогов</value>
   </data>
   <data name="Setting_IgnoreDirectory" xml:space="preserve">
-    <value>каталог игнорирования</value>
+    <value>Переименовать  каталоги</value>
   </data>
   <data name="Setting_IgnoreExtensions" xml:space="preserve">
     <value>Игнорировать расширения</value>
@@ -145,34 +145,34 @@
     <value>Добавить</value>
   </data>
   <data name="Setting_DeleteTexts" xml:space="preserve">
-    <value>Удалить тексты</value>
+    <value>Удалить символы</value>
   </data>
   <data name="Setting_ReplaceTextTarget" xml:space="preserve">
     <value>Текст цели</value>
   </data>
   <data name="Setting_ReplaceText" xml:space="preserve">
-    <value>Заменить текст</value>
+    <value>После замещения</value>
   </data>
   <data name="Menu_SearchFiles" xml:space="preserve">
-    <value>Поисковые файлы</value>
+    <value>Выполнить поиск файлов</value>
   </data>
   <data name="Menu_DryRun" xml:space="preserve">
-    <value>Сухой прогон</value>
+    <value>Просмотр переименования</value>
   </data>
   <data name="Menu_Save" xml:space="preserve">
     <value>Сохранить переименование</value>
   </data>
   <data name="Grid_OldText" xml:space="preserve">
-    <value>Удалить тексты</value>
+    <value>Старое имя файла</value>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
-    <value>Изменен</value>
+    <value>Изменено</value>
   </data>
   <data name="Grid_NewText" xml:space="preserve">
     <value>Новое имя файла</value>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>Дублированный</value>
+    <value>Дублировано</value>
   </data>
   <data name="Grid_CreatedDate" xml:space="preserve">
     <value>Дата создания</value>
@@ -187,7 +187,7 @@
     <value>Размер</value>
   </data>
   <data name="Alert_FailSaveSetting" xml:space="preserve">
-    <value>БЕЗОПАСНО для сохранения настроек.</value>
+    <value>Не удалось сохранить настройки.</value>
   </data>
   <data name="Alert_FailSaveRename" xml:space="preserve">
     <value>Не удалось сохранить переименование.</value>
@@ -199,10 +199,10 @@
     <value>Некоторые имена файлов дублируются.</value>
   </data>
   <data name="Alert_InvalidFileName" xml:space="preserve">
-    <value>Имя выходного файла содержит недопустимые знаки.</value>
+    <value>Имя файла содержит недопустимые　символы.</value>
   </data>
   <data name="Setting_Other" xml:space="preserve">
-    <value>Другое</value>
+    <value>Другие</value>
   </data>
   <data name="Setting_ResetAllSetting" xml:space="preserve">
     <value>Сброс всех настроек</value>
