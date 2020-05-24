@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,6 +22,11 @@ namespace FileRenamerDiff.Views
         public InformationPage()
         {
             InitializeComponent();
+        }
+
+        private void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("cmd", $"/c start {e.Parameter}") { CreateNoWindow = true });
         }
     }
 }

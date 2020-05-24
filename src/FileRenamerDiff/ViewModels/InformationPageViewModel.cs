@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Collections;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Reflection.Metadata;
 
 using Livet;
 using Livet.Commands;
@@ -22,8 +24,6 @@ using ps = System.Reactive.PlatformServices;
 using Anotar.Serilog;
 
 using FileRenamerDiff.Models;
-using System.Reflection;
-using System.Reflection.Metadata;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -32,12 +32,25 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class InformationPageViewModel : DialogBaseViewModel
     {
-        public static string Author { get; } = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
-        public static string Version { get; } = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-
         /// <summary>
-        /// リソースファイルの文章を表示
+        /// アプリケーション情報Markdown
         /// </summary>
-        public static string LicenseText { get; } = Properties.Resources.License;
+        public static string AppInfoText { get; } = CreateAppInfoText();
+
+        private static string CreateAppInfoText()
+        {
+            string author = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
+            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string url = @"https://github.com/soi013/FileRenamerDiff";
+
+            var stb = new StringBuilder()
+            .AppendLine("# File Renamer Diff")
+            .AppendLine($"Made by *{author}*").AppendLine()
+            .AppendLine($"Version *{version}*").AppendLine()
+            .Append("Repository ").AppendLine(url);
+
+
+            return stb.ToString();
+        }
     }
 }

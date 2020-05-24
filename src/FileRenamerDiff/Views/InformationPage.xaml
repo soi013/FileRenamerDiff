@@ -6,20 +6,26 @@
    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
    xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
    xmlns:local="clr-namespace:FileRenamerDiff.Views"
+   xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
    Width="800"
    d:DataContext="{d:DesignInstance {x:Type vm:InformationPageViewModel},
                                     IsDesignTimeCreatable=True}"
    d:DesignHeight="450"
-   Background="{StaticResource MaterialDesignPaper}"
    BorderBrush="{StaticResource PrimaryHueMidBrush}"
    BorderThickness="2"
-   TextElement.Foreground="{StaticResource MaterialDesignBody}"
    mc:Ignorable="d">
+   <!--  MarkDownViewerは色が固定なので、このページはDarkテーマには対応しない  -->
+
+   <FrameworkElement.CommandBindings>
+      <!--  コードビハインドでMarkdownのリンククリック時にブラウザで開く処理を追加  -->
+      <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="OpenHyperlink" />
+   </FrameworkElement.CommandBindings>
    <Grid Margin="30,10" HorizontalAlignment="Center">
       <Grid.RowDefinitions>
          <RowDefinition Height="Auto" />
@@ -42,37 +48,14 @@
             Source="/Resources/FileRenamerDiff_icon.png"
             Stretch="Fill" />
       </Border>
-      <RichTextBox
+      <markdig:MarkdownViewer
          Grid.Row="0"
          Grid.Column="1"
-         IsReadOnly="True">
-         <FlowDocument>
-            <Paragraph FontSize="18">
-               <Run
-                  FontSize="48"
-                  FontWeight="ExtraBold"
-                  Text="File Renamer Diff" />
-               <LineBreak />
-               <LineBreak />
-               <Run Text="Made by " />
-               <Run FontStyle="Italic" Text="{Binding Author, Mode=OneTime}" />
-               <LineBreak />
-               <Run Text="Version " />
-               <Run FontStyle="Italic" Text="{Binding Version, Mode=OneTime}" />
-               <LineBreak />
-               <Run Text="Repository " />
-               <Run Foreground="{StaticResource HighContrastBrush}" Text="https://github.com/soi013/FileRenamerDiff" />
-            </Paragraph>
-         </FlowDocument>
-      </RichTextBox>
-      <TextBox
+         Markdown="{Binding AppInfoText, Mode=OneTime}" />
+      <markdig:MarkdownViewer
          Grid.Row="1"
          Grid.ColumnSpan="2"
          Margin="0,10,0,0"
-         IsReadOnly="True"
-         Style="{StaticResource MaterialDesignFilledTextFieldTextBox}"
-         Text="{Binding LicenseText, Mode=OneTime}"
-         TextWrapping="Wrap"
-         VerticalScrollBarVisibility="Auto" />
+         Markdown="{x:Static properties:Resources.License}" />
    </Grid>
 </UserControl>
