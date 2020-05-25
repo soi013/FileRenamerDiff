@@ -45,6 +45,7 @@
          CornerRadius="5">
          <Image
             Width="180"
+            Height="180"
             Source="/Resources/FileRenamerDiff_icon.png"
             Stretch="Fill" />
       </Border>

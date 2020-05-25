@@ -17,6 +17,7 @@ using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
 
 using FileRenamerDiff.Models;
+using MaterialDesignColors;
 
 namespace FileRenamerDiff
 {
@@ -46,8 +47,8 @@ namespace FileRenamerDiff
                     ? Theme.Dark
                     : Theme.Light);
 
-            theme.PrimaryDark = (Color)Current.Resources["Primary700"];
-            theme.PrimaryMid = (Color)Current.Resources["Primary500"];
+            theme.PrimaryDark = new ColorPair((Color)Current.Resources["Primary700"], Colors.White);
+            theme.PrimaryMid = new ColorPair((Color)Current.Resources["Primary500"], Colors.White);
             theme.PrimaryLight = (Color)Current.Resources["Primary300"];
             theme.Paper = AppExtention.ToColorOrDefault(isDark
                 ? "#272E33"

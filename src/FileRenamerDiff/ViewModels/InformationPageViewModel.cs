@@ -45,10 +45,10 @@ namespace FileRenamerDiff.ViewModels
 
             var stb = new StringBuilder()
             .AppendLine("# File Renamer Diff")
-            .AppendLine($"Made by *{author}*").AppendLine()
-            .AppendLine($"Version *{version}*").AppendLine()
-            .Append("Repository ").AppendLine(url);
-
+            .AppendLine($"Made by *{author}*  ")
+            .AppendLine($"Version *{version}*  ")
+            .AppendLine()
+            .AppendLine($"Repository {url} ");
 
             return stb.ToString();
         }
