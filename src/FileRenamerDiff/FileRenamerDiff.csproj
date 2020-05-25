@@ -28,12 +28,12 @@
     <PackageReference Include="DiffPlex" Version="1.6.1" />
     <PackageReference Include="LivetCask" Version="3.2.2.2" />
     <PackageReference Include="LivetExtensions" Version="3.2.2.2" />
-    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0748" />
+    <PackageReference Include="MahApps.Metro" Version="2.0.0" />
     <PackageReference Include="Markdig" Version="0.18.0" />
     <PackageReference Include="Markdig.Wpf" Version="0.3.1" />
-    <PackageReference Include="MaterialDesignColors" Version="1.2.4" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.1.1" />
-    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.1-ci870" />
+    <PackageReference Include="MaterialDesignColors" Version="1.2.6" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.4" />
     <PackageReference Include="MessagePack" Version="2.1.90" />
     <PackageReference Include="MessagePack.ReactiveProperty" Version="2.1.90" />
     <PackageReference Include="ReactiveProperty" Version="6.2.0" />
