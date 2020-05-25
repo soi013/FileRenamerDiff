@@ -114,6 +114,22 @@ Project Site: https://github.com/ControlzEx/ControlzEx
 
 License: https://licenses.nuget.org/MIT
 
+### Markdig
+
+Authors: Alexandre Mutel
+
+Project Site: https://github.com/lunet-io/markdig
+
+License: https://licenses.nuget.org/BSD-2-Clause
+
+### Markdig.Wpf
+
+Authors: Nicolas Musset
+
+Project Site: https://github.com/Kryptos-FR/markdig.wpf
+
+License: https://licenses.nuget.org/MIT
+
 ### NETStandard.Library
 
 Authors: Microsoft
