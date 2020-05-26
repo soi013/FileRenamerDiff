@@ -66,16 +66,30 @@
          <Setter Property="HorizontalAlignment" Value="Left" />
       </Style>
 
-      <!--  行削除ボタン スタイル  -->
       <Style
-         x:Key="RemoveButton"
-         x:Shared="False"
+         x:Key="DataGridMiniButton"
          BasedOn="{StaticResource MaterialDesignIconButton}"
          TargetType="{x:Type Button}">
          <Setter Property="Height" Value="24" />
          <Setter Property="HorizontalAlignment" Value="Left" />
+      </Style>
+
+      <!--  行削除ボタン スタイル  -->
+      <Style
+         x:Key="RemoveButton"
+         x:Shared="False"
+         BasedOn="{StaticResource DataGridMiniButton}"
+         TargetType="{x:Type Button}">
          <Setter Property="Content" Value="{materialDesign:PackIcon Kind=RemoveCircle}" />
          <Setter Property="v:DataGridOperation.RemoveItem" Value="True" />
+      </Style>
+      <!--  Common追加ボタン スタイル  -->
+      <Style
+         x:Key="AddCommonButton"
+         x:Shared="False"
+         BasedOn="{StaticResource DataGridMiniButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=TableRowAddAfter}" />
       </Style>
 
       <!--  上移動ボタン スタイル  -->
@@ -188,7 +202,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander>
+      <Expander IsExpanded="True">
          <Expander.Header>
             <StackPanel Orientation="Horizontal">
                <materialDesign:PackIcon Kind="FormatStrikethrough" />
@@ -237,10 +251,44 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <Button
-               Grid.Row="1"
-               Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
+            <Grid Grid.Row="1">
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+               </Grid.ColumnDefinitions>
+               <Button
+                  Grid.Column="0"
+                  Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
+                  Style="{StaticResource AddButton}" />
+               <materialDesign:PopupBox
+                  Grid.Column="1"
+                  Margin="10,0"
+                  Padding="5"
+                  StaysOpen="True">
+                  <StackPanel Margin="8">
+                     <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
+                     <DataGrid ItemsSource="{Binding CommonDeletePatternVMs}">
+                        <DataGrid.Columns>
+                           <DataGridTemplateColumn>
+                              <DataGridTemplateColumn.CellTemplate>
+                                 <DataTemplate>
+                                    <Button
+                                       Command="{Binding AddSettingCommand, Mode=OneTime}"
+                                       Content="{materialDesign:PackIcon Kind=TableRowAddAfter}"
+                                       Style="{StaticResource AddCommonButton}" />
+                                 </DataTemplate>
+                              </DataGridTemplateColumn.CellTemplate>
+                           </DataGridTemplateColumn>
+                           <materialDesign:DataGridTextColumn Binding="{Binding Comment, Mode=OneTime}" IsReadOnly="True" />
+                           <DataGridTextColumn
+                              Binding="{Binding TargetPattern, Mode=OneTime}"
+                              Header="{x:Static properties:Resources.Setting_DeleteTextTarget}"
+                              IsReadOnly="True" />
+                        </DataGrid.Columns>
+                     </DataGrid>
+                  </StackPanel>
+               </materialDesign:PopupBox>
+            </Grid>
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />

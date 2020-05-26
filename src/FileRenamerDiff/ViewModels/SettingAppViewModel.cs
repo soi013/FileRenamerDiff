@@ -51,6 +51,9 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ObservableCollection<ReplacePattern> DeleteTexts => setting.DeleteTexts;
 
+        public IReadOnlyList<CommonPatternViewModel> CommonDeletePatternVMs { get; }
+            = CommonPattern.DeletePatterns.Select(x => new CommonPatternViewModel(x, true)).ToArray();
+
         /// <summary>
         /// 置換文字列パターン
         /// </summary>
