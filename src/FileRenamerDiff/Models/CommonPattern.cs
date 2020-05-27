@@ -1,5 +1,7 @@
 ﻿using FileRenamerDiff.Properties;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace FileRenamerDiff.Models
 {
@@ -27,10 +29,13 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// よく使う削除パターン集
         /// </summary>
-        public static IReadOnlyList<CommonPattern> DeletePatterns { get; } = new[]
+        public static IReadOnlyList<CommonPattern> DeletePatterns { get; } =
+            new (string comment, string target, bool exp)[]
         {
-            new CommonPattern("Delete Windows copy tag", new ReplacePattern(Resources.Windows_CopyFilePostFix,"",false)),
-            new CommonPattern("Delete (number) tag", new ReplacePattern("\\([0-9]{0,3}\\)","",true)),
-        };
+            ("Delete Windows copy tag", Resources.Windows_CopyFilePostFix,false),
+            ("Delete (number) tag", "\\([0-9]{0,3}\\)",true),
+        }
+        .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, "", a.exp)))
+        .ToArray();
     }
 }
