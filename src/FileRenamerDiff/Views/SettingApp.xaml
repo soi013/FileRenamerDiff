@@ -144,6 +144,26 @@
          <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Regex}" />
          <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
       </Style>
+
+      <!--  Common Popup  -->
+      <Style
+         x:Key="commonPopup"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignToolForegroundPopupBox}"
+         TargetType="{x:Type materialDesign:PopupBox}">
+         <Setter Property="Margin" Value="0,0,15,0" />
+         <Setter Property="StaysOpen" Value="True" />
+         <Setter Property="ToggleContent">
+            <Setter.Value>
+               <materialDesign:PackIcon
+                  Width="24"
+                  Height="24"
+                  Foreground="{StaticResource HighContrastBrush}"
+                  Kind="BookOpen" />
+            </Setter.Value>
+         </Setter>
+      </Style>
+
    </UserControl.Resources>
 
    <StackPanel x:Name="rootObj">
@@ -202,7 +222,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
-      <Expander IsExpanded="True">
+      <Expander>
          <Expander.Header>
             <StackPanel Orientation="Horizontal">
                <materialDesign:PackIcon Kind="FormatStrikethrough" />
@@ -260,11 +280,7 @@
                   Grid.Column="0"
                   Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
                   Style="{StaticResource AddButton}" />
-               <materialDesign:PopupBox
-                  Grid.Column="1"
-                  Margin="10,0"
-                  Padding="5"
-                  StaysOpen="True">
+               <materialDesign:PopupBox Grid.Column="1" Style="{StaticResource commonPopup}">
                   <StackPanel Margin="8">
                      <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
                      <DataGrid ItemsSource="{Binding CommonDeletePatternVMs}">
@@ -279,7 +295,10 @@
                                  </DataTemplate>
                               </DataGridTemplateColumn.CellTemplate>
                            </DataGridTemplateColumn>
-                           <materialDesign:DataGridTextColumn Binding="{Binding Comment, Mode=OneTime}" IsReadOnly="True" />
+                           <materialDesign:DataGridTextColumn
+                              Binding="{Binding Comment, Mode=OneTime}"
+                              Header="Description"
+                              IsReadOnly="True" />
                            <DataGridTextColumn
                               Binding="{Binding TargetPattern, Mode=OneTime}"
                               Header="{x:Static properties:Resources.Setting_DeleteTextTarget}"
@@ -349,10 +368,48 @@
                   </DataGridTemplateColumn>
                </DataGrid.Columns>
             </DataGrid>
-            <Button
-               Grid.Row="1"
-               Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
+            <Grid Grid.Row="1">
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+               </Grid.ColumnDefinitions>
+               <Button
+                  Grid.Column="0"
+                  Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
+                  Style="{StaticResource AddButton}" />
+
+               <materialDesign:PopupBox Grid.Column="1" Style="{StaticResource commonPopup}">
+                  <StackPanel Margin="8">
+                     <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
+                     <DataGrid ItemsSource="{Binding CommonReplacePatternVMs}">
+                        <DataGrid.Columns>
+                           <DataGridTemplateColumn>
+                              <DataGridTemplateColumn.CellTemplate>
+                                 <DataTemplate>
+                                    <Button
+                                       Command="{Binding AddSettingCommand, Mode=OneTime}"
+                                       Content="{materialDesign:PackIcon Kind=TableRowAddAfter}"
+                                       Style="{StaticResource AddCommonButton}" />
+                                 </DataTemplate>
+                              </DataGridTemplateColumn.CellTemplate>
+                           </DataGridTemplateColumn>
+                           <materialDesign:DataGridTextColumn
+                              Binding="{Binding Comment, Mode=OneTime}"
+                              Header="Description"
+                              IsReadOnly="True" />
+                           <DataGridTextColumn
+                              Binding="{Binding TargetPattern, Mode=OneTime}"
+                              Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}"
+                              IsReadOnly="True" />
+                           <DataGridTextColumn
+                              Binding="{Binding ReplaceText, Mode=OneTime}"
+                              Header="{x:Static properties:Resources.Setting_ReplaceText}"
+                              IsReadOnly="True" />
+                        </DataGrid.Columns>
+                     </DataGrid>
+                  </StackPanel>
+               </materialDesign:PopupBox>
+            </Grid>
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />

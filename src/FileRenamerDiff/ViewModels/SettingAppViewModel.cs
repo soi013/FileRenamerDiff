@@ -51,6 +51,9 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ObservableCollection<ReplacePattern> DeleteTexts => setting.DeleteTexts;
 
+        /// <summary>
+        /// よく使う削除パターン集
+        /// </summary>
         public IReadOnlyList<CommonPatternViewModel> CommonDeletePatternVMs { get; }
             = CommonPattern.DeletePatterns.Select(x => new CommonPatternViewModel(x, true)).ToArray();
 
@@ -58,6 +61,12 @@ namespace FileRenamerDiff.ViewModels
         /// 置換文字列パターン
         /// </summary>
         public ObservableCollection<ReplacePattern> ReplaceTexts => setting.ReplaceTexts;
+
+        /// <summary>
+        /// よく使う置換パターン集
+        /// </summary>
+        public IReadOnlyList<CommonPatternViewModel> CommonReplacePatternVMs { get; }
+            = CommonPattern.ReplacePatterns.Select(x => new CommonPatternViewModel(x, false)).ToArray();
 
         /// <summary>
         /// ファイル探索時にサブディレクトリを探索するか

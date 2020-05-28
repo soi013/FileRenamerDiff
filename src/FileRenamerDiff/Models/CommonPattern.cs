@@ -37,5 +37,16 @@ namespace FileRenamerDiff.Models
         }
         .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, "", a.exp)))
         .ToArray();
+
+        /// <summary>
+        /// よく使う置換パターン集
+        /// </summary>
+        public static IReadOnlyList<CommonPattern> ReplacePatterns { get; } =
+            new (string comment, string target, string replace, bool exp)[]
+        {
+            ("Surround ABC with [].", "ABC","[$0]" , true),
+        }
+        .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, a.replace, a.exp)))
+        .ToArray();
     }
 }
