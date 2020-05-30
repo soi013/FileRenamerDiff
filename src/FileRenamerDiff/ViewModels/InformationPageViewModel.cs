@@ -42,13 +42,16 @@ namespace FileRenamerDiff.ViewModels
             string author = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             string url = @"https://github.com/soi013/FileRenamerDiff";
+            string regexUrl = @"https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes";
 
             var stb = new StringBuilder()
             .AppendLine("# File Renamer Diff")
             .AppendLine($"Made by *{author}*  ")
             .AppendLine($"Version *{version}*  ")
             .AppendLine()
-            .AppendLine($"Repository {url} ");
+            .AppendLine($"Repository {url}  ")
+            .AppendLine()
+            .AppendLine($"Reference of Regex [Microsoft regular-expression-language-quick-reference]({regexUrl})  ");
 
             return stb.ToString();
         }
