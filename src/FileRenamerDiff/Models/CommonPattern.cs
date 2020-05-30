@@ -32,8 +32,9 @@ namespace FileRenamerDiff.Models
         public static IReadOnlyList<CommonPattern> DeletePatterns { get; } =
             new (string comment, string target, bool exp)[]
         {
-            ("Delete Windows copy tag", Resources.Windows_CopyFilePostFix,false),
-            ("Delete (number) tag", "\\([0-9]{0,3}\\)",true),
+            ("Delete Windows copy tag", Resources.Windows_CopyFileSuffix, false),
+            ("Delete Windows shortcut tag", Resources.Windows_ShortcutFileSuffix, false),
+            ("Delete (number) tag", "\\([0-9]{0,3}\\)", true),
         }
         .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, "", a.exp)))
         .ToArray();
@@ -45,6 +46,10 @@ namespace FileRenamerDiff.Models
             new (string comment, string target, string replace, bool exp)[]
         {
             ("Surround ABC with [].", "ABC","[$0]" , true),
+            ("Reduce whitespaces to one single-byte space","\\s+", " ", true),
+            ("Replace whitespaces with '_'","\\s+", "_",true),
+            ("Add three [0] to the number (three-digit zero padding 1/2)", "\\d+","00$0",true),
+            ("Take the number to three digits (three digit zero padding 2/2)","\\d*(\\d{3})", "$1",true),
         }
         .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, a.replace, a.exp)))
         .ToArray();

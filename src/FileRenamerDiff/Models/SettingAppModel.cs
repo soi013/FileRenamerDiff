@@ -81,7 +81,8 @@ namespace FileRenamerDiff.Models
             deleteTexts ??= new[]
             {
                 //Windowsでその場でコピーしたときの文字(- コピー)、OSの言語によって変わる
-                Resources.Windows_CopyFilePostFix,
+                Resources.Windows_CopyFileSuffix,
+                Resources.Windows_ShortcutFileSuffix,
                 "(1)",
                 "(2)",
                 "(3)",

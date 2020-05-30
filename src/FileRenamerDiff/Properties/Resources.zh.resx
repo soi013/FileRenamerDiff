@@ -216,7 +216,7 @@
   <data name="Alert_ConfirmClearHead" xml:space="preserve">
     <value>确认</value>
   </data>
-  <data name="Windows_CopyFilePostFix" xml:space="preserve">
+  <data name="Windows_CopyFileSuffix" xml:space="preserve">
     <value>-複製</value>
   </data>
   <data name="Alert_NotFoundFileBody" xml:space="preserve">
@@ -236,5 +236,8 @@
   </data>
   <data name="Setting_FileTypeFile" xml:space="preserve">
     <value>文件</value>
+  </data>
+  <data name="Windows_ShortcutFileSuffix" xml:space="preserve">
+    <value>- 快捷方式</value>
   </data>
 </root>

@@ -216,7 +216,7 @@
   <data name="Alert_ConfirmClearHead" xml:space="preserve">
     <value>確認</value>
   </data>
-  <data name="Windows_CopyFilePostFix" xml:space="preserve">
+  <data name="Windows_CopyFileSuffix" xml:space="preserve">
     <value>- コピー</value>
   </data>
   <data name="Alert_NotFoundFileBody" xml:space="preserve">
@@ -236,5 +236,8 @@
   </data>
   <data name="Setting_FileTypeFile" xml:space="preserve">
     <value>ファイル</value>
+  </data>
+  <data name="Windows_ShortcutFileSuffix" xml:space="preserve">
+    <value>- ショートカット</value>
   </data>
 </root>

@@ -449,9 +449,18 @@ namespace FileRenamerDiff.Properties {
         /// <summary>
         ///   -copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string Windows_CopyFilePostFix {
+        public static string Windows_CopyFileSuffix {
             get {
-                return ResourceManager.GetString("Windows_CopyFilePostFix", resourceCulture);
+                return ResourceManager.GetString("Windows_CopyFileSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   - Shortcut に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Windows_ShortcutFileSuffix {
+            get {
+                return ResourceManager.GetString("Windows_ShortcutFileSuffix", resourceCulture);
             }
         }
     }

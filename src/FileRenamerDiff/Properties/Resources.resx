@@ -251,7 +251,7 @@
   <data name="Alert_ConfirmClearHead" xml:space="preserve">
     <value>Confirm</value>
   </data>
-  <data name="Windows_CopyFilePostFix" xml:space="preserve">
+  <data name="Windows_CopyFileSuffix" xml:space="preserve">
     <value>-copy</value>
     <comment>WindowsOSでファイルをコピーした際に追加される文字</comment>
   </data>
@@ -278,5 +278,9 @@
   <data name="Setting_FileTypeDirectory" xml:space="preserve">
     <value>Folder</value>
     <comment>ファイル種類-フォルダ</comment>
+  </data>
+  <data name="Windows_ShortcutFileSuffix" xml:space="preserve">
+    <value>- Shortcut</value>
+    <comment>WindowsOSでファイルのショートカットを作成した際に追加される文字</comment>
   </data>
 </root>
