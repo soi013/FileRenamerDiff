@@ -1,4 +1,5 @@
 ﻿using FileRenamerDiff.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -16,15 +17,33 @@ namespace FileRenamerDiff.Models
         public string Comment { get; }
 
         /// <summary>
-        /// パターン
+        /// 置換される対象のパターン
         /// </summary>
-        public ReplacePattern ReplacePattern { get; }
+        public string TargetPattern { get; }
 
-        public CommonPattern(string comment, ReplacePattern replacePattern)
+        /// <summary>
+        /// 置換後文字列
+        /// </summary>
+        public string ReplaceText { get; }
+
+        /// <summary>
+        /// パターンを単純一致か正規表現とするか
+        /// </summary>
+        public bool AsExpression { get; }
+
+        public CommonPattern(string comment, string targetPattern, string replaceText, bool asExpression)
         {
             this.Comment = comment;
-            this.ReplacePattern = replacePattern;
+            this.TargetPattern = targetPattern;
+            this.ReplaceText = replaceText;
+            this.AsExpression = asExpression;
         }
+
+        /// <summary>
+        /// 置換パターンへの変換
+        /// </summary>
+        public ReplacePattern ToReplacePattern() => new ReplacePattern(TargetPattern, ReplaceText, AsExpression);
+
 
         /// <summary>
         /// よく使う削除パターン集
@@ -36,7 +55,7 @@ namespace FileRenamerDiff.Models
             ("Delete Windows shortcut tag", Resources.Windows_ShortcutFileSuffix, false),
             ("Delete (number) tag", "\\([0-9]{0,3}\\)", true),
         }
-        .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, "", a.exp)))
+        .Select(a => new CommonPattern(a.comment, a.target, "", a.exp))
         .ToArray();
 
         /// <summary>
@@ -51,7 +70,7 @@ namespace FileRenamerDiff.Models
             ("Add three [0] to the number (three-digit zero padding 1/2)", "\\d+","00$0",true),
             ("Take the number to three digits (three digit zero padding 2/2)","\\d*(\\d{3})", "$1",true),
         }
-        .Select(a => new CommonPattern(a.comment, new ReplacePattern(a.target, a.replace, a.exp)))
+        .Select(a => new CommonPattern(a.comment, a.target, a.replace, a.exp))
         .ToArray();
     }
 }
