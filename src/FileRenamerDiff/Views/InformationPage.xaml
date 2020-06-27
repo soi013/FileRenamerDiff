@@ -39,7 +39,7 @@
          Grid.Row="0"
          Grid.Column="0"
          Padding="5,1"
-         Background="{StaticResource BlackBackground}"
+         Background="WhiteSmoke"
          BorderBrush="{StaticResource PrimaryHueLightBrush}"
          BorderThickness="2"
          CornerRadius="5">
