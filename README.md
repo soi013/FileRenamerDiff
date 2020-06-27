@@ -30,13 +30,9 @@ A File Renamer App featuring a difference display before and after the change fo
 - Russia (machine translation)
 - Chinese (machine translation)
 
-
-
 ## Light / Dark Theme Switching
 
 <img src=images/screenshot_Dark-Light.png width=550px>
-
-
 
 # Download
 
@@ -53,6 +49,15 @@ Download from [LATEST RELEASE](https://github.com/soi013/filerenamerdiff/release
 
 This application is self-contained.  
 This means that you don't need to install .NET Framework or .NET Core.
+
+# How to use
+The basic usage is as follows.
+
+1. Specify the folder you want to rename by dragging and dropping the file or by using the dialog.
+1. Set the file name deletion/replacement pattern.
+1. Check the changes in the preview.
+1. Save the actual file name.
+
 
 # Environment
 
