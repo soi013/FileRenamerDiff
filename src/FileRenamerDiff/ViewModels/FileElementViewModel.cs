@@ -9,13 +9,11 @@ using Livet.Messaging;
 using Livet.Messaging.IO;
 using Livet.EventListeners;
 using Livet.Messaging.Windows;
-
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Reactive.Linq;
-
-using DiffPlex.DiffBuilder;
 using DiffPlex;
+using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 
 using FileRenamerDiff.Models;
@@ -99,7 +97,13 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         private SideBySideDiffModel CreateDiff()
         {
-            var diff = new SideBySideDiffBuilder(new Differ());
+            char[] wordSeparaters =
+            {
+                ' ', '\t', '.', '(', ')', '{', '}', ',', '!', '?', ';', //MarkDiffデフォルトからコピー
+                '_','-','[',']','~','+','=','^',    //半角系
+                '　','、','。','「','」','（','）','｛','｝','・','！','？','；','：','＿','ー','－','～','‐','＋','＊','／','＝','＾',    //全角系
+            };
+            var diff = new SideBySideDiffBuilder(new Differ(), wordSeparaters);
             return diff.BuildDiffModel(pathModel.InputFileName, pathModel.OutputFileName);
         }
 
