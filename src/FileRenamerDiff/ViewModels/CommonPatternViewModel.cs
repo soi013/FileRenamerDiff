@@ -1,4 +1,5 @@
-﻿using FileRenamerDiff.Models;
+﻿using DiffPlex.DiffBuilder.Model;
+using FileRenamerDiff.Models;
 using Reactive.Bindings;
 
 namespace FileRenamerDiff.ViewModels
@@ -29,6 +30,11 @@ namespace FileRenamerDiff.ViewModels
         /// パターンを単純一致か正規表現とするか
         /// </summary>
         public bool AsExpression => modelPattern.AsExpression;
+        
+        /// <summary>
+        /// サンプル入出力の比較情報
+        /// </summary>
+        public SideBySideDiffModel SampleDiff { get; }
 
         /// <summary>
         /// 現在の設定のパターンへの追加
@@ -43,6 +49,8 @@ namespace FileRenamerDiff.ViewModels
         public CommonPatternViewModel(CommonPattern modelPattern, bool isDelete)
         {
             this.modelPattern = modelPattern;
+            this.SampleDiff = AppExtention.CreateDiff(modelPattern.SampleInput, modelPattern.SampleOutput);
+
             this.IsDelete = isDelete;
 
             AddSettingCommand.Subscribe(() =>

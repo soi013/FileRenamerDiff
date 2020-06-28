@@ -32,15 +32,6 @@
          ConvertWhenFalse="Indeterminate"
          ConvertWhenTrue="Normal" />
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
-      <l:VisibilityAndBooleanConverter x:Key="VisibilityCollapsedConverter" ConvertWhenFalse="Collapsed" />
-      <l:VisibilityAndBooleanConverter
-         x:Key="VisibilityCollapsedReverseConverter"
-         ConvertWhenFalse="Visible"
-         ConvertWhenTrue="Collapsed" />
-      <v:DiffPaneModelToFlowDocumentConverter x:Key="DiffPaneModelToFlowDocumentConverter" />
-      <Style BasedOn="{StaticResource MaterialDesignRichTextBox}" TargetType="{x:Type RichTextBox}">
-         <Setter Property="IsReadOnly" Value="True" />
-      </Style>
    </metro:MetroWindow.Resources>
    <!--  アプリケーションが待機状態で無いときは、タスクバーとマウスカーソルの表示を変更  -->
    <metro:MetroWindow.Cursor>
@@ -205,8 +196,8 @@
                </Style>
             </DataGrid.Resources>
 
-            <!--  変更前後の表示列  -->
             <DataGrid.Columns>
+               <!--  変更前後の表示列  -->
                <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_OldText}">
                   <DataGridTemplateColumn.CellTemplate>
                      <DataTemplate>

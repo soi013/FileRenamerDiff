@@ -13,6 +13,8 @@ using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
 using DiffPlex.DiffBuilder.Model;
+using DiffPlex.DiffBuilder;
+using DiffPlex;
 
 namespace FileRenamerDiff.Models
 {
@@ -198,5 +200,21 @@ namespace FileRenamerDiff.Models
             Path.HasExtension(path)
             ? Path.GetExtension(path).Substring(1)
             : String.Empty;
+
+
+        /// <summary>
+        /// 差分比較情報を作成
+        /// </summary>
+        public static SideBySideDiffModel CreateDiff(string inputText, string outText)
+        {
+            char[] wordSeparaters =
+            {
+                ' ', '\t', '.', '(', ')', '{', '}', ',', '!', '?', ';', //MarkDiffデフォルトからコピー
+                '_','-','[',']','~','+','=','^',    //半角系
+                '　','、','。','「','」','（','）','｛','｝','・','！','？','；','：','＿','ー','－','～','‐','＋','＊','／','＝','＾',    //全角系
+            };
+            var diff = new SideBySideDiffBuilder(new Differ(), wordSeparaters);
+            return diff.BuildDiffModel(inputText, outText);
+        }
     }
 }

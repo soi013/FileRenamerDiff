@@ -280,6 +280,8 @@
                   Grid.Column="0"
                   Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
                   Style="{StaticResource AddButton}" />
+
+               <!--  よく使う削除パターン集  -->
                <materialDesign:PopupBox Grid.Column="1" Style="{StaticResource commonPopup}">
                   <StackPanel Margin="8">
                      <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
@@ -303,6 +305,20 @@
                               Binding="{Binding TargetPattern, Mode=OneTime}"
                               Header="{x:Static properties:Resources.Setting_DeleteTextTarget}"
                               IsReadOnly="True" />
+                           <DataGridTemplateColumn Width="150" Header="Sample Input">
+                              <DataGridTemplateColumn.CellTemplate>
+                                 <DataTemplate>
+                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                 </DataTemplate>
+                              </DataGridTemplateColumn.CellTemplate>
+                           </DataGridTemplateColumn>
+                           <DataGridTemplateColumn Width="150" Header="Sample Output">
+                              <DataGridTemplateColumn.CellTemplate>
+                                 <DataTemplate>
+                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                 </DataTemplate>
+                              </DataGridTemplateColumn.CellTemplate>
+                           </DataGridTemplateColumn>
                         </DataGrid.Columns>
                      </DataGrid>
                   </StackPanel>
@@ -378,6 +394,7 @@
                   Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
                   Style="{StaticResource AddButton}" />
 
+               <!--  よく使う置換パターン集  -->
                <materialDesign:PopupBox Grid.Column="1" Style="{StaticResource commonPopup}">
                   <StackPanel Margin="8">
                      <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
@@ -405,6 +422,20 @@
                               Binding="{Binding ReplaceText, Mode=OneTime}"
                               Header="{x:Static properties:Resources.Setting_ReplaceText}"
                               IsReadOnly="True" />
+                           <DataGridTemplateColumn Width="150" Header="Sample Input">
+                              <DataGridTemplateColumn.CellTemplate>
+                                 <DataTemplate>
+                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                 </DataTemplate>
+                              </DataGridTemplateColumn.CellTemplate>
+                           </DataGridTemplateColumn>
+                           <DataGridTemplateColumn Width="150" Header="Sample Output">
+                              <DataGridTemplateColumn.CellTemplate>
+                                 <DataTemplate>
+                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                 </DataTemplate>
+                              </DataGridTemplateColumn.CellTemplate>
+                           </DataGridTemplateColumn>
                         </DataGrid.Columns>
                      </DataGrid>
                   </StackPanel>

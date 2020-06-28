@@ -77,7 +77,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.Diff = pathModel
                 .ObserveProperty(x => x.OutputFileName)
-                .Select(x => CreateDiff())
+                .Select(x => AppExtention.CreateDiff(pathModel.InputFileName, pathModel.OutputFileName))
                 .ToReadOnlyReactivePropertySlim();
 
             this.IsReplaced = pathModel
@@ -90,21 +90,6 @@ namespace FileRenamerDiff.ViewModels
 
             OpenInExploreCommand.Subscribe(x =>
                 Process.Start("EXPLORER.EXE", @$"/select,""{pathModel.InputFilePath}"""));
-        }
-
-        /// <summary>
-        /// 差分比較情報を作成
-        /// </summary>
-        private SideBySideDiffModel CreateDiff()
-        {
-            char[] wordSeparaters =
-            {
-                ' ', '\t', '.', '(', ')', '{', '}', ',', '!', '?', ';', //MarkDiffデフォルトからコピー
-                '_','-','[',']','~','+','=','^',    //半角系
-                '　','、','。','「','」','（','）','｛','｝','・','！','？','；','：','＿','ー','－','～','‐','＋','＊','／','＝','＾',    //全角系
-            };
-            var diff = new SideBySideDiffBuilder(new Differ(), wordSeparaters);
-            return diff.BuildDiffModel(pathModel.InputFileName, pathModel.OutputFileName);
         }
 
         public override string ToString() => $"Source:{Diff.Value?.ToDisplayString()}";
