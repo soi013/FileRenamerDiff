@@ -196,13 +196,13 @@ namespace FileRenamerDiff.Models
                     })
                 .ToList();
 
-            progress?.Report(new ProgressInfo(0, "Files were Loaded. Sorting Files"));
+            progress?.Report(new ProgressInfo(loadedFileList.Count, "Files were Loaded. Sorting Files"));
             //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
             loadedFileList.Sort();
             cancellationToken.ThrowIfCancellationRequested();
             loadedFileList.Reverse();
 
-            progress?.Report(new ProgressInfo(0, "Files were Sorted. Creating FileList"));
+            progress?.Report(new ProgressInfo(loadedFileList.Count * 2, "Files were Sorted. Creating FileList"));
             cancellationToken.ThrowIfCancellationRequested();
 
             return loadedFileList
