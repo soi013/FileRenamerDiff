@@ -180,8 +180,10 @@ namespace FileRenamerDiff.Models
                 AttributesToSkip = FileAttributes.System
             };
 
-            IEnumerable<string> fileEnums = setting.IsDirectoryRenameTarget.Value
-                ? Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option)
+            //ディレクトリとファイルがターゲットとなるかによって呼び出すメソッドを切り替える。後でフィルタするよりも効率がいい
+            IEnumerable<string> fileEnums =
+                (setting.IsDirectoryRenameTarget.Value && setting.IsFileRenameTarget.Value) ? Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option)
+                : setting.IsDirectoryRenameTarget.Value ? Directory.EnumerateDirectories(sourceFilePath, "*", option)
                 : Directory.EnumerateFiles(sourceFilePath, "*", option);
 
             var loadedFileList = fileEnums
