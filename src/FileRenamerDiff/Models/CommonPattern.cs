@@ -67,6 +67,8 @@ namespace FileRenamerDiff.Models
             ("Delete Windows copy tag",     Resources.Windows_CopyFileSuffix,       $"Sample{Resources.Windows_CopyFileSuffix}.txt", false),
             ("Delete Windows shortcut tag", Resources.Windows_ShortcutFileSuffix,   $"Sample.txt{Resources.Windows_ShortcutFileSuffix}", false),
             ("Delete (number) tag",         "\\s*\\([0-9]{0,3}\\)",                 "Sample (1).txt", true),
+            ("Delete whitespaces in head and tail", "^\\s+|\\s+$",                  " Sample .txt ", true),
+            ("Delete extension",            "\\.\\w+$",                             "sam.ple.txt",  true),
         }
         .Select(a => new CommonPattern(a.comment, a.target, "", a.sample, a.exp))
         .ToArray();
@@ -77,12 +79,13 @@ namespace FileRenamerDiff.Models
         public static IReadOnlyList<CommonPattern> ReplacePatterns { get; } =
             new (string comment, string target, string replace, string sample, bool exp)[]
         {
-            ("Surround ABC with [].",                       "ABC",  "[$0]",     "xAxABxABCx.txt",   true),
-            ("Reduce whitespaces to one single-byte space", "\\s+", " ",        "A  B　C.txt",   true),
-            ("Replace whitespaces with '_'",                "\\s+", "_",        "A  B　C.txt",   true),
+            ("Surround ABC with [].",                       "ABC",      "[$0]",     "xAxABxABCx.txt",   true),
+            ("Reduce whitespaces to one single-byte space", "\\s+",     " ",        "A  B　C.txt",   true),
+            ("Replace whitespaces with '_'",                "\\s+",     "_",        "A  B　C.txt",   true),
 
             ("Add three [0] to the number (three-digit zero padding 1/2)",      "\\d+",         "00$0", "Sapmle-12.txt",    true),
             ("Take the number to three digits (three digit zero padding 2/2)",  "\\d*(\\d{3})", "$1",   "Sapmle-0012.txt",  true),
+            ("Replace all extension to ABC",                "\\.\\w+$", ".ABC",      "sam.ple.txt",  true),
         }
         .Select(a => new CommonPattern(a.comment, a.target, a.replace, a.sample, a.exp))
         .ToArray();
