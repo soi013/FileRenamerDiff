@@ -1,0 +1,201 @@
+@startuml FileRenamerDiff
+skinparam shadowing false
+skinparam class {
+    BackgroundColor #F0F0F0
+    ArrowColor #5B95BF
+    BorderColor #31709E
+}
+
+Models ---[hidden]down--- ViewModels
+ViewModels ---[hidden]down--- Views
+
+package "Models" #E8EFF4{
+    class Model {
+        + {static} Model Instance <<get>>
+        + <<async>> LoadFileElements() : Task
+        ResetSetting() : void
+        - LoadSetting() : void
+        SaveSetting() : void
+        <<async>> Replace() : Task
+        CreateRegexes() : List<ReplaceRegex>
+        <<async>> RenameExcute() : Task
+    }
+    Model o-right-> "FileElementModels" FileElementModel
+    Model o--right--> "Setting" SettingAppModel
+    Model ..> ReplaceRegex
+
+    class FileElementModel {
+        - fileInfo : FileInfo
+        + InputFileName : string <<get>>
+        + OutputFileName : string <<get>> <<set>>
+        Replace(repRegexes:IReadOnlyList<ReplaceRegex>) : void
+        Rename() : void
+    }
+    FileElementModel ..> ReplaceRegex
+    FileElementModel -[hidden]right- SettingAppModel
+
+    class SettingAppModel {
+        - SearchFilePath : ReactivePropertySlim<string>
+        + Serialize() : void
+    }
+    SettingAppModel -right-> "DeleteTexts" "ReplacePattern"
+    SettingAppModel -right-> "ReplaceTexts" "ReplacePattern"
+    SettingAppModel --[hidden]right-- CommonPattern
+
+    class CommonPattern {
+        + {static} CommonPattern DeletePatterns <<get>>
+        + {static} CommonPattern ReplacePatterns <<get>>
+        + Comment : string <<get>>
+        + TargetPattern : string <<get>>
+        + ReplaceText : string <<get>>
+        + AsExpression : bool <<get>>
+        + ToReplacePattern() : ReplacePattern
+    }
+    CommonPattern .right.> ReplacePattern
+
+    class ReplacePattern {
+        + TargetPattern : string <<get>> <<set>>
+        + ReplaceText : string <<get>> <<set>>
+        + AsExpression : bool <<get>> <<set>>
+    }
+
+    class ReplaceRegex {
+        - replaceText : string
+        - ReplaceRegex : Regex
+        + ReplaceRegex(rPattern:ReplacePattern)
+        Replace(input:string) : string
+    }
+    ReplaceRegex .up.> ReplacePattern
+}
+
+package "ViewModels" #E8EFF4{
+
+    package DiffPlex {
+        class SideBySideDiffModel{ }
+
+        SideBySideDiffModel o-right-> "OldText" DiffPaneModel
+        SideBySideDiffModel o-right-> "NewText" DiffPaneModel
+
+        class DiffPaneModel{}
+        DiffPaneModel o-right-> "Lines" DiffPiece
+    }
+
+    class MainWindowViewModel {
+        - <<async>> LoadFilesFromCurrentPath() : Task
+        - <<async>> RenameExcute() : Task
+    }
+    MainWindowViewModel o---> "model" Model
+    MainWindowViewModel o-right-> "Grid" FileElementsGridViewModel
+    MainWindowViewModel o-right-> "SettingVM" SettingAppViewModel
+
+    class FileElementsGridViewModel {
+    }
+    FileElementsGridViewModel o-right-> "fileElementVMs" FileElementViewModel
+    FileElementsGridViewModel --[hidden]right-- SettingAppViewModel
+
+    class FileElementViewModel {
+    }
+    FileElementViewModel o---> "pathModel" FileElementModel
+    FileElementViewModel o-down-> "Diff" SideBySideDiffModel
+    FileElementViewModel -[hidden]right- SettingAppViewModel
+    FileElementViewModel --[hidden]right-- CommonPatternViewModel
+
+    class SettingAppViewModel {
+        - SearchFilePath : ReactivePropertySlim<string>
+    }
+    SettingAppViewModel o---> "setting" SettingAppModel
+    SettingAppViewModel ---> "DeleteTexts" ReplacePattern
+    SettingAppViewModel o-right-> "CommonDeletePatternVMs" CommonPatternViewModel
+    SettingAppViewModel ---> "ReplaceTexts" ReplacePattern
+    SettingAppViewModel o-right-> "CommonReplacePatternVMs" CommonPatternViewModel
+
+    class CommonPatternViewModel {
+        + Comment : string <<get>>
+        + TargetPattern : string <<get>>
+        + ReplaceText : string <<get>>
+        + AsExpression : bool <<get>>
+    }
+    CommonPatternViewModel o---> "modelPattern" CommonPattern
+}
+
+package "Views" #E8EFF4{
+    class MainWindow  {
+    }
+    MainWindow ..ri..> "DataContext" MainWindowViewModel : <<Binding>>
+    MainWindow o-right-> FileElementsGrid
+    MainWindow o-right-> SettingAppPage
+
+    class FileElementsGrid {
+        + "":DataGrid
+    }
+    FileElementsGrid ....> "DataContext" FileElementsGridViewModel : <<Binding>>
+    FileElementsGrid ....> DiffPaneModel: <<Binding>>\n (OldTextColumn)
+    FileElementsGrid ....> DiffPaneModel: <<Binding>>\n (NewTextColumn)
+    FileElementsGrid ....> FileElementViewModel: <<Binding>>\n (DataGridRow)
+    FileElementsGrid -[hidden]right- SettingAppPage
+
+    class SettingAppPage {}
+    SettingAppPage ....> "DataContext" SettingAppViewModel : <<Binding>>
+}
+
+
+@enduml
+
+@startuml test
+class Model {
+    + {static} Model Instance <<get>>
+    + <<async>> LoadFileElements() : Task
+    ResetSetting() : void
+    - LoadSetting() : void
+    SaveSetting() : void
+    <<async>> Replace() : Task
+    CreateRegexes() : List<ReplaceRegex>
+    <<async>> RenameExcute() : Task
+}
+Model o-right-> "FileElementModels" FileElementModel
+Model o--right--> "Setting" SettingAppModel
+Model ..> ReplaceRegex
+
+class FileElementModel {
+    - fileInfo : FileInfo
+    + InputFileName : string <<get>>
+    + OutputFileName : string <<get>> <<set>>
+    Replace(repRegexes:IReadOnlyList<ReplaceRegex>) : void
+    Rename() : void
+}
+FileElementModel ..> ReplaceRegex
+FileElementModel -[hidden]right- SettingAppModel
+
+class SettingAppModel {
+    - SearchFilePath : ReactivePropertySlim<string>
+    + Serialize() : void
+}
+SettingAppModel -right-> "DeleteTexts" "ReplacePattern"
+SettingAppModel -right-> "ReplaceTexts" "ReplacePattern"
+SettingAppModel --[hidden]right-- CommonPattern
+
+class CommonPattern {
+    + {static} CommonPattern DeletePatterns <<get>>
+    + {static} CommonPattern ReplacePatterns <<get>>
+    + Comment : string <<get>>
+    + TargetPattern : string <<get>>
+    + ReplaceText : string <<get>>
+    + AsExpression : bool <<get>>
+    + ToReplacePattern() : ReplacePattern
+}
+CommonPattern .right.> ReplacePattern
+
+class ReplacePattern {
+    + TargetPattern : string <<get>> <<set>>
+    + ReplaceText : string <<get>> <<set>>
+    + AsExpression : bool <<get>> <<set>>
+}
+
+class ReplaceRegex {
+    - replaceText : string
+    - ReplaceRegex : Regex
+    + ReplaceRegex(rPattern:ReplacePattern)
+    Replace(input:string) : string
+}
+ReplaceRegex .up.> ReplacePattern
+@enduml

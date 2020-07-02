@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace FileRenamerDiff.Views
 {
     /// <summary>
-    /// SettingApp.xaml の相互作用ロジック
+    /// SettingAppPage.xaml の相互作用ロジック
     /// </summary>
-    public partial class SettingApp : UserControl
+    public partial class SettingAppPage : UserControl
     {
-        public SettingApp()
+        public SettingAppPage()
         {
             InitializeComponent();
         }
