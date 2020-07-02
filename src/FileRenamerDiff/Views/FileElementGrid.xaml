@@ -1,0 +1,167 @@
+﻿<UserControl
+   x:Class="FileRenamerDiff.Views.FileElementGrid"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+   xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
+   xmlns:v="clr-namespace:FileRenamerDiff.Views"
+   xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+   Height="Auto"
+   d:DataContext="{d:DesignInstance {x:Type vm:FileElementsGridViewModel},
+                                    IsDesignTimeCreatable=True}"
+   d:DesignHeight="450"
+   d:DesignWidth="800"
+   mc:Ignorable="d">
+   <UserControl.Resources>
+      <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
+   </UserControl.Resources>
+   <Grid x:Name="rootObj">
+      <DataGrid
+         Margin="10"
+         materialDesign:DataGridAssist.ColumnHeaderPadding="4,2,2,2"
+         AutoGenerateColumns="False"
+         EnableRowVirtualization="True"
+         ItemsSource="{Binding CViewFileElementVMs.Value, Mode=OneWay}">
+         <DataGrid.Resources>
+            <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
+               <Setter Property="Template">
+                  <Setter.Value>
+                     <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid>
+                           <ContentPresenter Margin="5,6,2,2" VerticalAlignment="Center" />
+                        </Grid>
+                     </ControlTemplate>
+                  </Setter.Value>
+               </Setter>
+            </Style>
+            <Style BasedOn="{StaticResource MaterialDesignFlatPrimaryToggleButton}" TargetType="{x:Type ToggleButton}">
+               <Setter Property="Height" Value="24" />
+               <Setter Property="Width" Value="24" />
+            </Style>
+
+            <!--  自身をToolTipに表示するTextBlock  -->
+            <Style x:Key="ToolTipTextBlock" TargetType="TextBlock">
+               <Setter Property="ToolTip" Value="{Binding Text, RelativeSource={RelativeSource Self}}" />
+            </Style>
+         </DataGrid.Resources>
+
+         <DataGrid.Columns>
+            <!--  変更前後の表示列  -->
+            <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_OldText}">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_NewText}">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <RichTextBox v:RichTextBoxHelper.Document="{Binding Diff.Value.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <!--  変更状態表示列  -->
+            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <materialDesign:PackIcon
+                        HorizontalAlignment="Center"
+                        Kind="CheckBold"
+                        Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+               <DataGridTemplateColumn.Header>
+                  <materialDesign:Badged
+                     Margin="1,8,1,1"
+                     Padding="0,0,3,0"
+                     BadgeColorZoneMode="PrimaryMid"
+                     DataContext="{Binding DataContext, ElementName=rootObj}"
+                     ToolTip="{x:Static properties:Resources.Grid_Changed}">
+                     <materialDesign:Badged.Badge>
+                        <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
+                     </materialDesign:Badged.Badge>
+                     <ToggleButton IsChecked="{Binding IsVisibleReplacedOnly.Value}">
+                        <materialDesign:PackIcon Kind="CheckBold" />
+                     </ToggleButton>
+                  </materialDesign:Badged>
+               </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+
+            <!--  重複状態表示列  -->
+            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <materialDesign:PackIcon
+                        HorizontalAlignment="Center"
+                        Foreground="{StaticResource ValidationErrorBrush}"
+                        Kind="FolderAlert"
+                        Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+               <DataGridTemplateColumn.Header>
+                  <materialDesign:Badged
+                     Margin="1,8,1,1"
+                     Padding="0,0,3,0"
+                     BadgeColorZoneMode="PrimaryMid"
+                     DataContext="{Binding DataContext, ElementName=rootObj}"
+                     ToolTip="{x:Static properties:Resources.Grid_Conflicted}">
+                     <materialDesign:Badged.Badge>
+                        <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
+                     </materialDesign:Badged.Badge>
+                     <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
+                        <materialDesign:PackIcon Kind="FolderAlert" />
+                     </ToggleButton>
+                  </materialDesign:Badged>
+               </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+
+            <!--  ディレクトリ表示とエクスプローラーで開くボタン  -->
+            <DataGridTemplateColumn Width="120" Header="{x:Static properties:Resources.Grid_Directory}">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <Button
+                        Height="24"
+                        Padding="0"
+                        HorizontalAlignment="Left"
+                        Command="{Binding OpenInExploreCommand, Mode=OneTime}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        ToolTip="{Binding DirectoryPath, Mode=OneTime}">
+                        <StackPanel Orientation="Horizontal">
+                           <materialDesign:PackIcon Margin="0,0,5,0" Kind="FolderEditOutline" />
+                           <TextBlock Text="{Binding DirectoryPath, Mode=OneTime}" />
+                        </StackPanel>
+                     </Button>
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+
+            <!--  作成日時などの表示列  -->
+            <materialDesign:DataGridTextColumn
+               Width="50"
+               Binding="{Binding LengthByte, Converter={StaticResource ReadableByteTextConverter}, Mode=OneTime}"
+               Header="{x:Static properties:Resources.Grid_Size}"
+               IsReadOnly="True" />
+            <materialDesign:DataGridTextColumn
+               Width="80"
+               Binding="{Binding LastWriteTime, Mode=OneTime}"
+               ElementStyle="{StaticResource ToolTipTextBlock}"
+               Header="{x:Static properties:Resources.Grid_DateModified}"
+               IsReadOnly="True" />
+            <materialDesign:DataGridTextColumn
+               Width="80"
+               Binding="{Binding CreationTime, Mode=OneTime}"
+               ElementStyle="{StaticResource ToolTipTextBlock}"
+               Header="{x:Static properties:Resources.Grid_CreatedDate}"
+               IsReadOnly="True" />
+         </DataGrid.Columns>
+      </DataGrid>
+   </Grid>
+</UserControl>

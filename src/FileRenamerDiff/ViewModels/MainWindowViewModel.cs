@@ -1,30 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
-using System.Collections;
-using System.Threading.Tasks;
-
+﻿using Anotar.Serilog;
+using FileRenamerDiff.Models;
 using Livet;
-using Livet.Commands;
-using Livet.Messaging;
 using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
-using System.Reactive.Concurrency;
-using ps = System.Reactive.PlatformServices;
-using Anotar.Serilog;
-using Serilog.Events;
-using Microsoft.WindowsAPICodePack.Shell.Interop;
-
-using FileRenamerDiff.Models;
+using System;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace FileRenamerDiff.ViewModels
 {
@@ -47,10 +30,9 @@ namespace FileRenamerDiff.ViewModels
         public ReactivePropertySlim<bool> CloseOnClickAwayDialog { get; } = new ReactivePropertySlim<bool>(true);
 
         /// <summary>
-        /// ファイル情報コレクションのDataGrid用のICollectionView
+        /// ファイルVMコレクションを含んだDataGrid用VM
         /// </summary>
-        public ReadOnlyReactivePropertySlim<ICollectionView> CViewFileElementVMs { get; }
-        private ReadOnlyReactivePropertySlim<ObservableCollection<FileElementViewModel>> fileElementVMs;
+        public FileElementsGridViewModel GridVM { get; } = new FileElementsGridViewModel();
 
         /// <summary>
         /// フォルダ選択メッセージでのフォルダ読込コマンド
@@ -76,11 +58,6 @@ namespace FileRenamerDiff.ViewModels
         public AsyncReactiveCommand RenameExcuteCommand { get; }
 
         /// <summary>
-        /// 置換前後で差があったファイルのみ表示するか
-        /// </summary>
-        public ReactivePropertySlim<bool> IsVisibleReplacedOnly { get; } = new ReactivePropertySlim<bool>(false);
-
-        /// <summary>
         /// アプリケーション情報表示コマンド
         /// </summary>
         public ReactiveCommand ShowInformationPageCommand { get; }
@@ -90,49 +67,12 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
-        /// <summary>
-        /// リネーム前後での変更があったファイル数
-        /// </summary>
-        public IReadOnlyReactiveProperty<int> CountReplaced { get; }
-        /// <summary>
-        /// リネーム前後で変更が１つでのあったか
-        /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsReplacedAny { get; }
-
-        /// <summary>
-        /// ファイルパスの衝突しているファイル数
-        /// </summary>
-        public IReadOnlyReactiveProperty<int> CountConflicted { get; }
-
-        /// <summary>
-        /// ファイルパスの衝突がないか
-        /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsNotConflictedAny { get; }
-
-        /// <summary>
-        /// ファイルパスが衝突しているファイルのみ表示するか
-        /// </summary>
-        public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new ReactivePropertySlim<bool>(false);
 
         public MainWindowViewModel()
         {
-            this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
-            this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
-            this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
-            this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
-
-            this.fileElementVMs = model.ObserveProperty(x => x.FileElementModels)
-                .Select(x => CreateFilePathVMs(x))
-                .ObserveOnUIDispatcher()
-                .ToReadOnlyReactivePropertySlim();
-
-            this.CViewFileElementVMs = fileElementVMs
-                .Select(x => CreateCollectionViewFilePathVMs(x))
-                .ToReadOnlyReactivePropertySlim();
-
             this.ReplaceCommand = new[]
                 {
-                    fileElementVMs.Select(x => x?.Count()>=1),
+                    model.ObserveProperty(x => x.FileElementModels).Select(x=>x?.Count()>=1),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
@@ -141,8 +81,8 @@ namespace FileRenamerDiff.ViewModels
 
             this.RenameExcuteCommand = (new[]
                 {
-                    IsReplacedAny,
-                    IsNotConflictedAny,
+                    model.CountReplaced.Select(x => x > 0),
+                    model.CountConflicted.Select(x => x <= 0),
                     IsIdle,
                 })
                 .CombineLatestValuesAreAllTrue()
@@ -153,19 +93,6 @@ namespace FileRenamerDiff.ViewModels
             this.ShowInformationPageCommand = IsIdle
                 .ToReactiveCommand()
                 .WithSubscribe(() => ShowDialog(new InformationPageViewModel()));
-
-            //表示基準に変更があったら、表示判定対象に変更があったら、CollectionViewの表示を更新する
-            new[]
-            {
-                this.IsVisibleReplacedOnly,
-                this.IsVisibleConflictedOnly,
-                this.CountConflicted.Select(_=>true),
-                this.CountReplaced.Select(_=>true),
-            }
-            .CombineLatest()
-            .Throttle(TimeSpan.FromMilliseconds(100))
-            .ObserveOnUIDispatcher()
-            .Subscribe(_ => RefleshCollectionViewSafe());
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
@@ -271,64 +198,6 @@ namespace FileRenamerDiff.ViewModels
             innerVM.IsDialogOpen.Value = false;
         }
 
-        private ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> paths)
-        {
-            if (paths == null)
-                return null;
-            return new ObservableCollection<FileElementViewModel>(paths.Select(path => new FileElementViewModel(path)));
-        }
-
-        private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> vms)
-        {
-            if (vms == null)
-                return null;
-
-            var cView = CollectionViewSource.GetDefaultView(vms);
-            cView.Filter = (x => GetVisibleRow(x));
-            return cView;
-        }
-
-        /// <summary>
-        /// 2つの表示切り替えプロパティと、各行の値に応じて、その行の表示状態を決定する
-        /// </summary>
-        /// <param name="row">行VM</param>
-        /// <returns>表示状態</returns>
-        private bool GetVisibleRow(object row)
-        {
-            if (!(row is FileElementViewModel pathVM))
-                return true;
-
-            var replacedVisible = IsVisibleReplacedOnly.Value
-                ? pathVM.IsReplaced.Value
-                : true;
-
-
-            var conflictedVisible = IsVisibleConflictedOnly.Value
-                ? pathVM.IsConflicted.Value
-                : true;
-
-            return replacedVisible && conflictedVisible;
-        }
-
-        private void RefleshCollectionViewSafe()
-        {
-            if (!(CViewFileElementVMs.Value is ListCollectionView currentView))
-                return;
-
-            //なぜかCollectionViewが追加中・編集中のことがある。
-            if (currentView.IsAddingNew)
-            {
-                LogTo.Warning("CollectionView is Adding");
-                currentView.CancelNew();
-            }
-            if (currentView.IsEditingItem)
-            {
-                LogTo.Warning("CollectionView is Editing");
-                currentView.CommitEdit();
-            }
-
-            currentView.Refresh();
-        }
 
         /// <summary>
         /// アプリケーション起動時処理
