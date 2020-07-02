@@ -17,9 +17,6 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class FileElementModel : NotificationObject
     {
-        private Model model => Model.Instance;
-        private SettingAppModel settingApp => model.Setting;
-
         private readonly FileInfo fileInfo;
 
         /// <summary>
@@ -119,7 +116,7 @@ namespace FileRenamerDiff.Models
             if (invalidCharRegex.IsMatch(outFileName))
             {
                 LogTo.Warning("Invalid Char included {@outFileName}", outFileName);
-                model.MessageEvent.Value = new AppMessage(AppMessageLevel.Alert,
+                Model.Instance.MessageEvent.Value = new AppMessage(AppMessageLevel.Alert,
                     head: Resources.Alert_InvalidFileName,
                    body: $"{InputFileName} -> {outFileName}");
 
@@ -132,8 +129,6 @@ namespace FileRenamerDiff.Models
                 LogTo.Debug("Replaced {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
         }
 
-        public override string ToString() => $"{InputFileName}->{OutputFileName}";
-
         /// <summary>
         /// リネームを実行（ストレージに保存される）
         /// </summary>
@@ -142,5 +137,6 @@ namespace FileRenamerDiff.Models
             LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
             fileInfo.Rename(OutputFilePath);
         }
+        public override string ToString() => $"{InputFileName}->{OutputFileName}";
     }
 }
