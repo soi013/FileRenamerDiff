@@ -161,6 +161,27 @@ namespace FileRenamerDiff.Models
         }
 
         /// <summary>
+        /// 現在の設定をもとに、ファイル探索時にスキップする属性を取得
+        /// </summary>
+        public FileAttributes GetSkipAttribute()
+        {
+            var fa = FileAttributes.System;
+
+            if (!IsHiddenRenameTarget.Value)
+                fa |= FileAttributes.Hidden;
+
+            //サブディレクトリを探索せず、ディレクトリ自体もリネーム対象でないなら、スキップ
+            if (!IsDirectoryRenameTarget.Value && !IsSearchSubDirectories.Value)
+                fa |= FileAttributes.Directory;
+
+            if (!IsFileRenameTarget.Value)
+                fa |= FileAttributes.Normal;
+
+            return fa;
+        }
+
+
+        /// <summary>
         /// アプリケーションの表示言語
         /// </summary>
         public ReactivePropertySlim<string> AppLanguageCode =>

@@ -177,34 +177,31 @@ namespace FileRenamerDiff.Models
                 //読み取り権限のない場合は無視
                 IgnoreInaccessible = true,
                 RecurseSubdirectories = setting.IsSearchSubDirectories.Value,
-                AttributesToSkip = FileAttributes.System
+                //ディレクトリとファイルがターゲットとなるかで、スキップする属性を指定。後でフィルタするよりも効率がいい。
+                //ただし、ディレクトリ自体がターゲット出ない場合もサブディレクトリを探索するなら、スキップできない
+                AttributesToSkip = setting.GetSkipAttribute()
             };
 
-            //ディレクトリとファイルがターゲットとなるかによって呼び出すメソッドを切り替える。後でフィルタするよりも効率がいい
-            IEnumerable<string> fileEnums =
-                (setting.IsDirectoryRenameTarget.Value && setting.IsFileRenameTarget.Value) ? Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option)
-                : setting.IsDirectoryRenameTarget.Value ? Directory.EnumerateDirectories(sourceFilePath, "*", option)
-                : Directory.EnumerateFiles(sourceFilePath, "*", option);
+            IEnumerable<string> fileEnums = Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option);
 
             var loadedFileList = fileEnums
                 //無視する拡張子が無い、または一致しないだけ残す
                 .Where(x => ignoreRegex?.IsMatch(AppExtention.GetExtentionCoreFromPath(x)) != true)
                 .Do((x, i) =>
                     {
-                        if (i % 16 != 0)
+                        //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
+                        if ((i & 255) != 0) 
                             return;
                         progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
                         cancellationToken.ThrowIfCancellationRequested();
                     })
                 .ToList();
 
-            progress?.Report(new ProgressInfo(loadedFileList.Count, "Files were Loaded. Sorting Files"));
+            progress?.Report(new ProgressInfo(loadedFileList.Count, "Files were Loaded. Creating FileList"));
             //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
             loadedFileList.Sort();
-            cancellationToken.ThrowIfCancellationRequested();
             loadedFileList.Reverse();
 
-            progress?.Report(new ProgressInfo(loadedFileList.Count * 2, "Files were Sorted. Creating FileList"));
             cancellationToken.ThrowIfCancellationRequested();
 
             return loadedFileList
