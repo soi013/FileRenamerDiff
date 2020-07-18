@@ -29,7 +29,7 @@
     <PackageReference Include="LivetCask" Version="3.2.3.1" />
     <PackageReference Include="LivetExtensions" Version="3.2.3.1" />
     <PackageReference Include="MahApps.Metro" Version="2.1.1" />
-    <PackageReference Include="Markdig" Version="0.20.0" />
+    <PackageReference Include="Markdig" Version="0.18.0" />
     <PackageReference Include="Markdig.Wpf" Version="0.3.1" />
     <PackageReference Include="MaterialDesignColors" Version="1.2.6" />
     <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
