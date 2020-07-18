@@ -33,7 +33,10 @@ namespace FileRenamerDiff.Models
             MessagePackSerializer.DefaultOptions = MessagePack.MessagePackSerializerOptions.Standard.WithResolver(resolver);
         }
 
-        internal static readonly string SettingFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
+        /// <summary>
+        /// 起動時に読み込むデフォルトファイルパス
+        /// </summary>
+        internal static readonly string DefaultFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
             + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
 
         private static readonly string myDocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -209,9 +212,9 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイルから設定ファイルをデシリアライズ
         /// </summary>
-        public static SettingAppModel Deserialize()
+        public static SettingAppModel Deserialize(string settingFilePath)
         {
-            var json = File.ReadAllText(SettingFilePath);
+            var json = File.ReadAllText(settingFilePath);
             var mPack = MessagePack.MessagePackSerializer.ConvertFromJson(json);
             return MessagePackSerializer.Deserialize<SettingAppModel>(mPack);
         }
@@ -219,11 +222,11 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイルに設定ファイルをシリアライズ
         /// </summary>
-        public void Serialize()
+        public void Serialize(string settingFilePath)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(SettingFilePath));
+            Directory.CreateDirectory(Path.GetDirectoryName(settingFilePath));
             var json = MessagePackSerializer.SerializeToJson(this);
-            File.WriteAllText(SettingFilePath, json);
+            File.WriteAllText(settingFilePath, json);
         }
     }
 }

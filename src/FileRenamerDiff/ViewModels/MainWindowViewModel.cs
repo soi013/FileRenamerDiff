@@ -216,7 +216,7 @@ namespace FileRenamerDiff.ViewModels
         {
             if (disposing)
             {
-                model.SaveSetting();
+                model.SaveSettingFile(SettingAppModel.DefaultFilePath);
             }
 
             base.Dispose(disposing);

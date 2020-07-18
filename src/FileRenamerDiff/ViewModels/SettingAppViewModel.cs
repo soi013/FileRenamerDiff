@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.IO;
 
 using Livet;
 using Livet.Commands;
@@ -118,6 +119,26 @@ namespace FileRenamerDiff.ViewModels
         public ReactiveCommand ResetSettingCommand { get; }
 
         /// <summary>
+        /// ファイル選択メッセージでの設定ファイル読込コマンド
+        /// </summary>
+        public ReactiveCommand<FileSelectionMessage> LoadSettingFileDialogCommand { get; }
+
+        /// <summary>
+        /// ファイル選択メッセージでの設定ファイル保存コマンド
+        /// </summary>
+        public ReactiveCommand<FileSelectionMessage> SaveSettingFileDialogCommand { get; }
+
+        /// <summary>
+        /// 前回保存設定ファイルディレクトリパス
+        /// </summary>
+        public IReadOnlyReactiveProperty PreviousSettingFileDirectory { get; }
+
+        /// <summary>
+        /// 前回保存設定ファイル名
+        /// </summary>
+        public IReadOnlyReactiveProperty PreviousSettingFileName { get; }
+
+        /// <summary>
         /// デザイナー用です　コードからは呼べません
         /// </summary>
         [Obsolete("Designer only", true)]
@@ -130,12 +151,12 @@ namespace FileRenamerDiff.ViewModels
             this.AvailableLanguages = CreateAvailableLanguages();
             this.SelectedLanguage = CreateAppLanguageRp();
 
-            AddIgnoreExtensionsCommand = model.IsIdleUI
+            this.AddIgnoreExtensionsCommand = model.IsIdleUI
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddIgnoreExtensions())
                  .AddTo(this.CompositeDisposable);
 
-            ClearIgnoreExtensionsCommand =
+            this.ClearIgnoreExtensionsCommand =
                 new[]
                 {
                     model.IsIdleUI,
@@ -148,11 +169,11 @@ namespace FileRenamerDiff.ViewModels
                         setting.IgnoreExtensions.Clear()))
                  .AddTo(this.CompositeDisposable);
 
-            AddDeleteTextsCommand = model.IsIdleUI
+            this.AddDeleteTextsCommand = model.IsIdleUI
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddDeleteTexts())
                  .AddTo(this.CompositeDisposable);
-            ClearDeleteTextsCommand =
+            this.ClearDeleteTextsCommand =
                 new[]
                 {
                     model.IsIdleUI,
@@ -165,11 +186,11 @@ namespace FileRenamerDiff.ViewModels
                         setting.DeleteTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 
-            AddReplaceTextsCommand = model.IsIdleUI
+            this.AddReplaceTextsCommand = model.IsIdleUI
                 .ToReactiveCommand()
                 .WithSubscribe(() => setting.AddReplaceTexts())
                 .AddTo(this.CompositeDisposable);
-            ClearReplaceTextsCommand =
+            this.ClearReplaceTextsCommand =
                 new[]
                 {
                     model.IsIdleUI,
@@ -182,10 +203,25 @@ namespace FileRenamerDiff.ViewModels
                         setting.ReplaceTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 
-            ResetSettingCommand = model.IsIdleUI
+            this.ResetSettingCommand = model.IsIdleUI
                 .ToReactiveCommand()
                 .WithSubscribe(() => model.ResetSetting())
                 .AddTo(this.CompositeDisposable);
+
+            this.LoadSettingFileDialogCommand = model.IsIdleUI
+                .ToReactiveCommand<FileSelectionMessage>()
+                .WithSubscribe(x => model.LoadSettingFile(x?.Response?.FirstOrDefault()));
+
+            this.SaveSettingFileDialogCommand = model.IsIdleUI
+                .ToReactiveCommand<FileSelectionMessage>()
+                .WithSubscribe(x => model.SaveSettingFile(x?.Response?.FirstOrDefault()));
+
+            this.PreviousSettingFileDirectory = model.PreviousSettingFilePath
+                .Select(x => Path.GetDirectoryName(x))
+                .ToReadOnlyReactivePropertySlim();
+            this.PreviousSettingFileName = model.PreviousSettingFilePath
+                .Select(x => Path.GetFileName(x))
+                .ToReadOnlyReactivePropertySlim();
         }
 
         private static CultureInfo[] CreateAvailableLanguages()

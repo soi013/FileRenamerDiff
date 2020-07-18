@@ -61,7 +61,7 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _FileElementModels, value);
         }
 
-        private SettingAppModel _Setting;
+        private SettingAppModel _Setting = new SettingAppModel();
         /// <summary>
         /// アプリケーション設定
         /// </summary>
@@ -70,6 +70,11 @@ namespace FileRenamerDiff.Models
             get => _Setting;
             set => RaisePropertyChangedIfSet(ref _Setting, value);
         }
+
+        /// <summary>
+        /// 前回保存設定ファイルパス
+        /// </summary>
+        public ReactivePropertySlim<string> PreviousSettingFilePath { get; } = new ReactivePropertySlim<string>(SettingAppModel.DefaultFilePath);
 
         /// <summary>
         /// リネーム前後での変更があったファイル数
@@ -118,7 +123,7 @@ namespace FileRenamerDiff.Models
             CurrentProgessInfo = progressNotifier
                 .ToReadOnlyReactivePropertySlim();
 
-            LoadSetting();
+            LoadSettingFile(SettingAppModel.DefaultFilePath);
             //設定に応じてアプリケーションの言語を変更する
             UpdateLanguage(Setting.AppLanguageCode.Value);
         }
@@ -190,7 +195,7 @@ namespace FileRenamerDiff.Models
                 .Do((x, i) =>
                     {
                         //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
-                        if ((i & 255) != 0) 
+                        if ((i & 255) != 0)
                             return;
                         progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
                         cancellationToken.ThrowIfCancellationRequested();
@@ -233,27 +238,34 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 設定読込
         /// </summary>
-        private void LoadSetting()
+        internal void LoadSettingFile(string filePath)
         {
+            if (String.IsNullOrWhiteSpace(filePath))
+                return;
+
             try
             {
-                Setting = SettingAppModel.Deserialize();
+                Setting = SettingAppModel.Deserialize(filePath);
+                PreviousSettingFilePath.Value = filePath;
             }
             catch (Exception ex)
             {
-                LogTo.Warning(ex, "Can not Load Setting {@SettingFilePath}", SettingAppModel.SettingFilePath);
-                Setting = new SettingAppModel();
+                LogTo.Warning(ex, "Can not Load Setting {@SettingFilePath}", filePath);
             }
         }
 
         /// <summary>
         /// 設定保存
         /// </summary>
-        internal void SaveSetting()
+        internal void SaveSettingFile(string filePath)
         {
+            if (String.IsNullOrWhiteSpace(filePath))
+                return;
+
             try
             {
-                Setting.Serialize();
+                Setting.Serialize(filePath);
+                PreviousSettingFilePath.Value = filePath;
             }
             catch (Exception ex)
             {
