@@ -26,7 +26,7 @@
    </Window.DataContext>
 
    <metro:MetroWindow.Resources>
-      <v:BoolToCursorConverter x:Key="BoolToCursorConverter" />
+      <l:CursorTypeAndBooleanConverter x:Key="BoolToCursorConverter" ConvertWhenFalse="Wait" />
       <l:TaskbarItemProgressStateAndBooleanConverter
          x:Key="TaskbarItemProgressStateAndBooleanConverter"
          ConvertWhenFalse="Indeterminate"
@@ -163,7 +163,10 @@
                </StackPanel>
             </DockPanel>
          </materialDesign:ColorZone>
-         <v:FileElementGrid Grid.Row="1" Grid.Column="1" DataContext="{Binding GridVM}"/>
+         <v:FileElementGrid
+            Grid.Row="1"
+            Grid.Column="1"
+            DataContext="{Binding GridVM}" />
          <Expander
             Grid.Row="1"
             Grid.Column="0"
