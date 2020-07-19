@@ -9,7 +9,7 @@
   <Identity
     Name="20689soi013.FileRenamerDiff"
     Publisher="CN=BAB325C0-D092-494C-A725-1A0536F3E52A"
-    Version="1.7.0.0" />
+    Version="1.8.0.0" />
 
   <Properties>
     <DisplayName>File Renamer Diff</DisplayName>
