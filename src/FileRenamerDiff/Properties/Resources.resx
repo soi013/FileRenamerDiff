@@ -283,4 +283,12 @@
     <value>- Shortcut</value>
     <comment>WindowsOSでファイルのショートカットを作成した際に追加される文字</comment>
   </data>
+  <data name="Setting_ImportSettingFile" xml:space="preserve">
+    <value>Import Setting</value>
+    <comment>設定ファイル読み込みボタン</comment>
+  </data>
+  <data name="Setting_ExportSettingFile" xml:space="preserve">
+    <value>Export Setting</value>
+    <comment>設定ファイル保存ボタン</comment>
+  </data>
 </root>

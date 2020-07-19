@@ -489,46 +489,44 @@
                   </StackPanel>
                </StackPanel>
             </materialDesign:Card>
-            <UniformGrid Margin="30,5" Columns="2">
-               <Button Margin="0,0,15,0">
-                  <behaviors:Interaction.Triggers>
-                     <behaviors:EventTrigger EventName="Click">
-                        <l:OpenFileDialogInteractionMessageAction>
-                           <l:DirectInteractionMessage CallbackCommand="{Binding LoadSettingFileDialogCommand, Mode=OneTime}">
-                              <l:OpeningFileSelectionMessage
-                                 Title="Select Setting File"
-                                 FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
-                                 Filter="Setting File|*.json"
-                                 InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
-                           </l:DirectInteractionMessage>
-                        </l:OpenFileDialogInteractionMessageAction>
-                     </behaviors:EventTrigger>
-                  </behaviors:Interaction.Triggers>
-                  <StackPanel Orientation="Horizontal">
-                     <materialDesign:PackIcon Kind="FileImport" />
-                     <TextBlock Margin="5,0" Text="ReadFile" />
-                  </StackPanel>
-               </Button>
-               <Button>
-                  <behaviors:Interaction.Triggers>
-                     <behaviors:EventTrigger EventName="Click">
-                        <l:SaveFileDialogInteractionMessageAction>
-                           <l:DirectInteractionMessage CallbackCommand="{Binding SaveSettingFileDialogCommand, Mode=OneTime}">
-                              <l:SavingFileSelectionMessage
-                                 Title="Save File"
-                                 FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
-                                 Filter="Setting File|*.json"
-                                 InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
-                           </l:DirectInteractionMessage>
-                        </l:SaveFileDialogInteractionMessageAction>
-                     </behaviors:EventTrigger>
-                  </behaviors:Interaction.Triggers>
-                  <StackPanel Orientation="Horizontal">
-                     <materialDesign:PackIcon Kind="FileExport" />
-                     <TextBlock Margin="5,0" Text="SaveFile" />
-                  </StackPanel>
-               </Button>
-            </UniformGrid>
+            <Button Margin="30,5">
+               <behaviors:Interaction.Triggers>
+                  <behaviors:EventTrigger EventName="Click">
+                     <l:OpenFileDialogInteractionMessageAction>
+                        <l:DirectInteractionMessage CallbackCommand="{Binding LoadSettingFileDialogCommand, Mode=OneTime}">
+                           <l:OpeningFileSelectionMessage
+                              Title="{x:Static properties:Resources.Setting_ImportSettingFile}"
+                              FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
+                              Filter="Setting File|*.json"
+                              InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
+                        </l:DirectInteractionMessage>
+                     </l:OpenFileDialogInteractionMessageAction>
+                  </behaviors:EventTrigger>
+               </behaviors:Interaction.Triggers>
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="FileImport" />
+                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ImportSettingFile}" />
+               </StackPanel>
+            </Button>
+            <Button Margin="30,5">
+               <behaviors:Interaction.Triggers>
+                  <behaviors:EventTrigger EventName="Click">
+                     <l:SaveFileDialogInteractionMessageAction>
+                        <l:DirectInteractionMessage CallbackCommand="{Binding SaveSettingFileDialogCommand, Mode=OneTime}">
+                           <l:SavingFileSelectionMessage
+                              Title="{x:Static properties:Resources.Setting_ExportSettingFile}"
+                              FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
+                              Filter="Setting File|*.json"
+                              InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
+                        </l:DirectInteractionMessage>
+                     </l:SaveFileDialogInteractionMessageAction>
+                  </behaviors:EventTrigger>
+               </behaviors:Interaction.Triggers>
+               <StackPanel Orientation="Horizontal">
+                  <materialDesign:PackIcon Kind="FileExport" />
+                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ExportSettingFile}" />
+               </StackPanel>
+            </Button>
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand, Mode=OneTime}"

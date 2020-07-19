@@ -321,6 +321,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Export Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_ExportSettingFile {
+            get {
+                return ResourceManager.GetString("Setting_ExportSettingFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   File Search に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_FileSearch {
@@ -380,6 +389,15 @@ namespace FileRenamerDiff.Properties {
         public static string Setting_IgnoreFileTypes {
             get {
                 return ResourceManager.GetString("Setting_IgnoreFileTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Import Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_ImportSettingFile {
+            get {
+                return ResourceManager.GetString("Setting_ImportSettingFile", resourceCulture);
             }
         }
         

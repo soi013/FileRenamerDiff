@@ -240,4 +240,10 @@
   <data name="Windows_ShortcutFileSuffix" xml:space="preserve">
     <value>- Verknüpfung</value>
   </data>
+  <data name="Setting_ExportSettingFile" xml:space="preserve">
+    <value>Einstellungen exportieren</value>
+  </data>
+  <data name="Setting_ImportSettingFile" xml:space="preserve">
+    <value>Einstellungen importieren</value>
+  </data>
 </root>

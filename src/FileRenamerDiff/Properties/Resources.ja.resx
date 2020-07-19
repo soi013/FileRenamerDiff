@@ -240,4 +240,10 @@
   <data name="Windows_ShortcutFileSuffix" xml:space="preserve">
     <value>- ショートカット</value>
   </data>
+  <data name="Setting_ImportSettingFile" xml:space="preserve">
+    <value>設定のインポート</value>
+  </data>
+  <data name="Setting_ExportSettingFile" xml:space="preserve">
+    <value>設定のエクスポート</value>
+  </data>
 </root>
