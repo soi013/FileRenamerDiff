@@ -37,7 +37,7 @@ namespace FileRenamerDiff.Models
         /// 起動時に読み込むデフォルトファイルパス
         /// </summary>
         internal static readonly string DefaultFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-            + $@"\{nameof(FileRenamerDiff)}\{nameof(SettingAppModel)}.json";
+            + $@"\{nameof(FileRenamerDiff)}\{nameof(FileRenamerDiff)}_Settings.json";
 
         private static readonly string myDocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
