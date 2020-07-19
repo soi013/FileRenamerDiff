@@ -321,7 +321,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Export Setting に類似しているローカライズされた文字列を検索します。
+        ///   Export Settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_ExportSettingFile {
             get {
@@ -393,7 +393,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Import Setting に類似しているローカライズされた文字列を検索します。
+        ///   Import Settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_ImportSettingFile {
             get {

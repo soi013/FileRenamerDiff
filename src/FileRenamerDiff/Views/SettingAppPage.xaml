@@ -497,7 +497,7 @@
                            <l:OpeningFileSelectionMessage
                               Title="{x:Static properties:Resources.Setting_ImportSettingFile}"
                               FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
-                              Filter="Setting File|*.json"
+                              Filter="Settings File|*.json"
                               InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
                         </l:DirectInteractionMessage>
                      </l:OpenFileDialogInteractionMessageAction>
@@ -516,7 +516,7 @@
                            <l:SavingFileSelectionMessage
                               Title="{x:Static properties:Resources.Setting_ExportSettingFile}"
                               FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
-                              Filter="Setting File|*.json"
+                              Filter="Settings File|*.json"
                               InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
                         </l:DirectInteractionMessage>
                      </l:SaveFileDialogInteractionMessageAction>
