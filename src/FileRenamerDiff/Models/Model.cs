@@ -125,7 +125,7 @@ namespace FileRenamerDiff.Models
 
             LoadSettingFile(SettingAppModel.DefaultFilePath);
             //設定に応じてアプリケーションの言語を変更する
-            UpdateLanguage(Setting.AppLanguageCode.Value);
+            UpdateLanguage(Setting.AppLanguageCode);
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace FileRenamerDiff.Models
         {
             LogTo.Debug("File Load Start");
             this.isIdle.Value = false;
-            string sourceFilePath = Setting?.SearchFilePath.Value;
+            string sourceFilePath = Setting?.SearchFilePath;
             using (CancelWork = new CancellationTokenSource())
             {
                 try
@@ -181,7 +181,7 @@ namespace FileRenamerDiff.Models
             {
                 //読み取り権限のない場合は無視
                 IgnoreInaccessible = true,
-                RecurseSubdirectories = setting.IsSearchSubDirectories.Value,
+                RecurseSubdirectories = setting.IsSearchSubDirectories,
                 //ディレクトリとファイルがターゲットとなるかで、スキップする属性を指定。後でフィルタするよりも効率がいい。
                 //ただし、ディレクトリ自体がターゲット出ない場合もサブディレクトリを探索するなら、スキップできない
                 AttributesToSkip = setting.GetSkipAttribute()

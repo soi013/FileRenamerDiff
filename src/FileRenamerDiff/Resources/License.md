@@ -10,11 +10,11 @@ Project Site: https://github.com/runceel/ReactiveProperty
 
 License: https://licenses.nuget.org/MIT
 
-### MessagePack
+### Utf8Json
 
-Authors: neuecc, aarnott
+Authors: neuecc
 
-Project Site: https://github.com/neuecc/MessagePack-CSharp
+Project Site: https://github.com/neuecc/Utf8Json/
 
 License: https://licenses.nuget.org/MIT
 

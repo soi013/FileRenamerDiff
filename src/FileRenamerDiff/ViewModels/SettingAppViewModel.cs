@@ -40,12 +40,12 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// リネームファイルを検索するターゲットパス
         /// </summary>
-        public ReactivePropertySlim<string> SearchFilePath => setting.SearchFilePath;
+        public ReactiveProperty<string> SearchFilePath { get; }
 
         /// <summary>
         /// 検索時に無視される拡張子コレクション
         /// </summary>
-        public ObservableCollection<ReactivePropertySlim<string>> IgnoreExtensions => setting.IgnoreExtensions;
+        public ObservableCollection<ValueHolder<string>> IgnoreExtensions => setting.IgnoreExtensions;
 
         /// <summary>
         /// 削除文字列パターン
@@ -72,22 +72,22 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイル探索時にサブディレクトリを探索するか
         /// </summary>
-        public ReactivePropertySlim<bool> IsSearchSubDirectories => setting.IsSearchSubDirectories;
+        public ReactiveProperty<bool> IsSearchSubDirectories { get; }
 
         /// <summary>
         /// ディレクトリをリネーム対象にするか
         /// </summary>
-        public ReactivePropertySlim<bool> IsDirectoryRenameTarget => setting.IsDirectoryRenameTarget;
+        public ReactiveProperty<bool> IsDirectoryRenameTarget { get; }
 
         /// <summary>
         /// ディレクトリでないファイルをリネーム対象にするか
         /// </summary>
-        public ReactivePropertySlim<bool> IsFileRenameTarget => setting.IsFileRenameTarget;
+        public ReactiveProperty<bool> IsFileRenameTarget { get; }
 
         /// <summary>
         /// 隠しファイルをリネーム対象にするか
         /// </summary>
-        public ReactivePropertySlim<bool> IsHiddenRenameTarget => setting.IsHiddenRenameTarget;
+        public ReactiveProperty<bool> IsHiddenRenameTarget { get; }
 
         /// <summary>
         /// 選択可能な言語一覧
@@ -102,7 +102,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// アプリケーションの色テーマ
         /// </summary>
-        public ReactivePropertySlim<bool> IsAppDarkTheme => setting.IsAppDarkTheme;
+        public ReactiveProperty<bool> IsAppDarkTheme { get; }
 
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
 
@@ -147,6 +147,13 @@ namespace FileRenamerDiff.ViewModels
         public SettingAppViewModel(SettingAppModel setting)
         {
             this.setting = setting;
+
+            this.SearchFilePath = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePath);
+            this.IsSearchSubDirectories = setting.ToReactivePropertyAsSynchronized(x => x.IsSearchSubDirectories);
+            this.IsDirectoryRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsDirectoryRenameTarget);
+            this.IsFileRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsFileRenameTarget);
+            this.IsHiddenRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsHiddenRenameTarget);
+            this.IsAppDarkTheme = setting.ToReactivePropertyAsSynchronized(x => x.IsAppDarkTheme);
 
             this.AvailableLanguages = CreateAvailableLanguages();
             this.SelectedLanguage = CreateAppLanguageRp();
@@ -241,7 +248,7 @@ namespace FileRenamerDiff.ViewModels
         {
             //Model側から変更されることは無いはずなので、初期値のみ読込
             //リストにない言語の場合は、Autoに設定する
-            var modelCultureInfo = CultureInfo.GetCultureInfo(setting.AppLanguageCode.Value);
+            var modelCultureInfo = CultureInfo.GetCultureInfo(setting.AppLanguageCode ?? "");
             if (!this.AvailableLanguages.Contains(modelCultureInfo))
                 modelCultureInfo = CultureInfo.InvariantCulture;
 
@@ -251,7 +258,7 @@ namespace FileRenamerDiff.ViewModels
                     (c == null || c == CultureInfo.InvariantCulture)
                         ? ""
                         : c.Name)
-                .Subscribe(c => setting.AppLanguageCode.Value = c);
+                .Subscribe(c => setting.AppLanguageCode = c);
 
             return rp;
         }

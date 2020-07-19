@@ -41,7 +41,7 @@ namespace FileRenamerDiff
             var paletteHelper = new PaletteHelper();
             var theme = paletteHelper.GetTheme();
 
-            bool isDark = Model.Instance.Setting.IsAppDarkTheme.Value;
+            bool isDark = Model.Instance.Setting.IsAppDarkTheme;
             theme.SetBaseTheme(
                 isDark
                     ? Theme.Dark

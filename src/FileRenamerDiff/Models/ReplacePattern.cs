@@ -1,15 +1,13 @@
 ﻿using Livet;
-using MessagePack;
+using System.Runtime.Serialization;
 
 namespace FileRenamerDiff.Models
 {
     /// <summary>
     /// 置換前後のパターン
     /// </summary>
-    [MessagePackObject(keyAsPropertyName: true)]
     public class ReplacePattern : NotificationObject
     {
-        [IgnoreMember]
         private string _TargetPattern;
         /// <summary>
         /// 置換される対象のパターン
@@ -20,7 +18,6 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _TargetPattern, value);
         }
 
-        [IgnoreMember]
         private string _ReplaceText;
         /// <summary>
         /// 置換後文字列
@@ -31,7 +28,6 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _ReplaceText, value);
         }
 
-        [IgnoreMember]
         private bool _AsExpression;
         /// <summary>
         /// パターンを単純一致か正規表現とするか

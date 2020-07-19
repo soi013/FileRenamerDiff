@@ -9,9 +9,6 @@ using System.Text.RegularExpressions;
 using Anotar.Serilog;
 using Livet;
 using Livet.Messaging;
-using MessagePack;
-using MessagePack.ReactivePropertyExtension;
-using MessagePack.Resolvers;
 using Reactive.Bindings;
 using Serilog.Events;
 
