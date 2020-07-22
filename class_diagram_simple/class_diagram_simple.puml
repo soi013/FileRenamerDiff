@@ -35,7 +35,7 @@ package "Models" #E8EFF4{
     FileElementModel -[hidden]right- SettingAppModel
 
     class SettingAppModel {
-        - SearchFilePath : ReactivePropertySlim<string>
+        + SearchFilePath : string <<get>> <<set>>
         + Serialize() : void
     }
     SettingAppModel -right-> "DeleteTexts" "ReplacePattern"
@@ -48,6 +48,8 @@ package "Models" #E8EFF4{
         + Comment : string <<get>>
         + TargetPattern : string <<get>>
         + ReplaceText : string <<get>>
+        + SampleInput : string <<get>>
+        + SampleOutput : string <<get>>
         + AsExpression : bool <<get>>
         + ToReplacePattern() : ReplacePattern
     }
