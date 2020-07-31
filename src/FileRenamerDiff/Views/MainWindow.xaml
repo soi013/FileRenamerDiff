@@ -52,11 +52,6 @@
       </behaviors:EventTrigger>
    </behaviors:Interaction.Triggers>
 
-   <!--  ファイルパスドロップ時にターゲットパスとして読み込む  -->
-   <behaviors:Interaction.Behaviors>
-      <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
-   </behaviors:Interaction.Behaviors>
-
    <materialDesign:DialogHost
       CloseOnClickAway="{Binding CloseOnClickAwayDialog.Value}"
       DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
@@ -79,6 +74,10 @@
             Grid.ColumnSpan="2"
             Padding="8"
             Mode="PrimaryDark">
+            <!--  ファイルパスドロップ時にターゲットパスとして読み込む  -->
+            <behaviors:Interaction.Behaviors>
+               <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
+            </behaviors:Interaction.Behaviors>
             <DockPanel>
                <!--  アプリケーション情報ボタン（右端）  -->
                <Button

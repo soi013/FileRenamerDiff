@@ -4,6 +4,7 @@
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+   xmlns:dd="urn:gong-wpf-dragdrop"
    xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -197,7 +198,12 @@
                   </StackPanel>
                </GroupBox>
             </StackPanel>
-            <DataGrid Grid.Row="1" ItemsSource="{Binding IgnoreExtensions}">
+            <DataGrid
+               Grid.Row="1"
+               dd:DragDrop.DragDropContext="IgnoreExtensions"
+               dd:DragDrop.IsDragSource="True"
+               dd:DragDrop.IsDropTarget="True"
+               ItemsSource="{Binding IgnoreExtensions}">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding Value}"
@@ -237,6 +243,9 @@
 
             <!--  削除パターン  -->
             <DataGrid
+               dd:DragDrop.DragDropContext="Delete"
+               dd:DragDrop.IsDragSource="True"
+               dd:DragDrop.IsDropTarget="True"
                ItemsSource="{Binding DeleteTexts}"
                RowHeaderWidth="30"
                SelectionMode="Extended">
@@ -341,7 +350,12 @@
             </Grid.RowDefinitions>
 
             <!--  置換パターン  -->
-            <DataGrid ItemsSource="{Binding ReplaceTexts}">
+            <DataGrid
+               dd:DragDrop.DragDropContext="Replace"
+               dd:DragDrop.DropScrollingMode="VerticalOnly"
+               dd:DragDrop.IsDragSource="True"
+               dd:DragDrop.IsDropTarget="True"
+               ItemsSource="{Binding ReplaceTexts}">
                <DataGrid.Columns>
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"

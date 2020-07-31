@@ -138,3 +138,10 @@ Project Site: https://dot.net/
 
 License: https://github.com/dotnet/standard/blob/master/LICENSE.TXT
 
+### GongSolutions.WPF.DragDrop
+
+Authors: Jan Karger, Steven Kirk, mitchell.jon
+
+Project Site: https://github.com/punker76/gong-wpf-dragdrop
+
+License: https://www.nuget.org/packages/gong-wpf-dragdrop/2.2.0/license

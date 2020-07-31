@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DiffPlex" Version="1.6.3" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
     <PackageReference Include="LivetCask" Version="3.2.3.1" />
     <PackageReference Include="LivetExtensions" Version="3.2.3.1" />
     <PackageReference Include="MahApps.Metro" Version="2.1.1" />
