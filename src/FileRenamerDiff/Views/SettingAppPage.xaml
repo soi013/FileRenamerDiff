@@ -93,31 +93,6 @@
          <Setter Property="Content" Value="{materialDesign:PackIcon Kind=TableRowAddAfter}" />
       </Style>
 
-      <!--  上移動ボタン スタイル  -->
-      <Style
-         x:Key="DecrementButton"
-         x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignIconButton}"
-         TargetType="{x:Type Button}">
-         <Setter Property="Width" Value="20" />
-         <Setter Property="Height" Value="20" />
-         <Setter Property="HorizontalAlignment" Value="Right" />
-         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=ArrowUp}" />
-         <Setter Property="v:DataGridOperation.DecrementItem" Value="True" />
-      </Style>
-      <!--  下移動ボタン スタイル  -->
-      <Style
-         x:Key="IncrementButton"
-         x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignIconButton}"
-         TargetType="{x:Type Button}">
-         <Setter Property="Width" Value="20" />
-         <Setter Property="Height" Value="20" />
-         <Setter Property="HorizontalAlignment" Value="Left" />
-         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=ArrowDown}" />
-         <Setter Property="v:DataGridOperation.IncrementItem" Value="True" />
-      </Style>
-
       <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
          <Setter Property="AutoGenerateColumns" Value="False" />
          <Setter Property="CanUserSortColumns" Value="False" />
@@ -261,16 +236,6 @@
                      ElementStyle="{StaticResource regexCheckBox}"
                      HeaderStyle="{StaticResource regexHeader}" />
                   <DataGridTemplateColumn>
-                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                           <StackPanel Orientation="Horizontal">
-                              <Button Style="{StaticResource DecrementButton}" />
-                              <Button Style="{StaticResource IncrementButton}" />
-                           </StackPanel>
-                        </DataTemplate>
-                     </DataGridTemplateColumn.CellTemplate>
-                  </DataGridTemplateColumn>
-                  <DataGridTemplateColumn>
                      <DataGridTemplateColumn.Header>
                         <Button Command="{Binding DataContext.ClearDeleteTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
                      </DataGridTemplateColumn.Header>
@@ -379,16 +344,6 @@
                      Binding="{Binding AsExpression}"
                      ElementStyle="{StaticResource regexCheckBox}"
                      HeaderStyle="{StaticResource regexHeader}" />
-                  <DataGridTemplateColumn>
-                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                           <StackPanel Orientation="Horizontal">
-                              <Button Style="{StaticResource DecrementButton}" />
-                              <Button Style="{StaticResource IncrementButton}" />
-                           </StackPanel>
-                        </DataTemplate>
-                     </DataGridTemplateColumn.CellTemplate>
-                  </DataGridTemplateColumn>
                   <DataGridTemplateColumn>
                      <DataGridTemplateColumn.Header>
                         <Button Command="{Binding DataContext.ClearReplaceTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
