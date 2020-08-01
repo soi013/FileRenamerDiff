@@ -205,6 +205,7 @@
                dd:DragDrop.IsDropTarget="True"
                ItemsSource="{Binding IgnoreExtensions}">
                <DataGrid.Columns>
+                  <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
                      Binding="{Binding Value}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
@@ -250,6 +251,7 @@
                RowHeaderWidth="30"
                SelectionMode="Extended">
                <DataGrid.Columns>
+                  <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
@@ -357,6 +359,7 @@
                dd:DragDrop.IsDropTarget="True"
                ItemsSource="{Binding ReplaceTexts}">
                <DataGrid.Columns>
+                  <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
                      Binding="{Binding TargetPattern}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
