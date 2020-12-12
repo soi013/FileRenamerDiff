@@ -246,4 +246,37 @@
   <data name="Setting_ImportSettingFile" xml:space="preserve">
     <value>Einstellungen importieren</value>
   </data>
+  <data name="Common_DeleteWindowsCopyTag" xml:space="preserve">
+    <value>Löschen Sie das "Kopie"-Tag in Windows</value>
+  </data>
+  <data name="Common_DeleteWindowsShortcutTag" xml:space="preserve">
+    <value>Löschen Sie das "Verknüpfung"-Tag in Windows</value>
+  </data>
+  <data name="Common_DeleteWindowsNumberTag" xml:space="preserve">
+    <value>Löschen Sie das "(Nummer)"-Tag in Windows</value>
+  </data>
+  <data name="Common_DeleteWhitespacesHeadTail" xml:space="preserve">
+    <value>Löschen Sie Leerzeichen am Kopf und am Ende</value>
+  </data>
+  <data name="Common_DeleteExtention" xml:space="preserve">
+    <value>Löschen Sie die Erweiterung</value>
+  </data>
+  <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
+    <value>Umgeben Sie ABC mit []</value>
+  </data>
+  <data name="Common_ReduceWhiteSpace" xml:space="preserve">
+    <value>Reduzieren Sie Leerzeichen auf ein einzelnes Leerzeichen</value>
+  </data>
+  <data name="Common_ReplaceWhiteSpacesWithUnderbar" xml:space="preserve">
+    <value>Ersetzen Sie Leerzeichen durch '_'</value>
+  </data>
+  <data name="Common_AddThreeZero" xml:space="preserve">
+    <value>Fügen Sie der Zahl drei '0' hinzu (dreistelliges Nullenauffüllen 1/2)</value>
+  </data>
+  <data name="Common_TakeNumberThreeDigits" xml:space="preserve">
+    <value>Reduzieren Sie die Zahl auf drei Ziffern (dreistelliges Nullenauffüllen 2/2)</value>
+  </data>
+  <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
+    <value>Ersetzen Sie die Erweiterung durch ABC</value>
+  </data>
 </root>

@@ -246,4 +246,37 @@
   <data name="Setting_ImportSettingFile" xml:space="preserve">
     <value>导入设置</value>
   </data>
+  <data name="Common_DeleteWindowsCopyTag" xml:space="preserve">
+    <value>删除Windows中的 "複製" 标签</value>
+  </data>
+  <data name="Common_DeleteWindowsShortcutTag" xml:space="preserve">
+    <value>删除Windows中的 "快捷方式" 标签</value>
+  </data>
+  <data name="Common_DeleteWindowsNumberTag" xml:space="preserve">
+    <value>删除Windows中的 "(数字)" 标签</value>
+  </data>
+  <data name="Common_DeleteWhitespacesHeadTail" xml:space="preserve">
+    <value>删除头部和尾部的空格</value>
+  </data>
+  <data name="Common_DeleteExtention" xml:space="preserve">
+    <value>删去扩展名</value>
+  </data>
+  <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
+    <value>用[]包围ABC</value>
+  </data>
+  <data name="Common_ReduceWhiteSpace" xml:space="preserve">
+    <value>将空间减少到一个单一空间</value>
+  </data>
+  <data name="Common_ReplaceWhiteSpacesWithUnderbar" xml:space="preserve">
+    <value>用'_'代替空格</value>
+  </data>
+  <data name="Common_AddThreeZero" xml:space="preserve">
+    <value>在数字上加3个 "0"（三位数的零垫1/2）</value>
+  </data>
+  <data name="Common_TakeNumberThreeDigits" xml:space="preserve">
+    <value>把数字减少到三位数（三位数的零垫2/2）</value>
+  </data>
+  <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
+    <value>将分机改为ABC</value>
+  </data>
 </root>

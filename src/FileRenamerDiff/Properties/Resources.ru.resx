@@ -246,4 +246,37 @@
   <data name="Setting_ExportSettingFile" xml:space="preserve">
     <value>Экспорт настроек</value>
   </data>
+  <data name="Common_DeleteWindowsCopyTag" xml:space="preserve">
+    <value>Удалить тэг "копия" в Windows</value>
+  </data>
+  <data name="Common_DeleteWindowsShortcutTag" xml:space="preserve">
+    <value>Удалить тэг "Ярлык" в Windows</value>
+  </data>
+  <data name="Common_DeleteWindowsNumberTag" xml:space="preserve">
+    <value>Удалить тэг "(номер)" в Windows</value>
+  </data>
+  <data name="Common_DeleteWhitespacesHeadTail" xml:space="preserve">
+    <value>Удалить пробелы из головы и хвоста</value>
+  </data>
+  <data name="Common_DeleteExtention" xml:space="preserve">
+    <value>Удалить расширение</value>
+  </data>
+  <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
+    <value>Окружите азбуку []</value>
+  </data>
+  <data name="Common_ReduceWhiteSpace" xml:space="preserve">
+    <value>Сократить пространство до одного места</value>
+  </data>
+  <data name="Common_ReplaceWhiteSpacesWithUnderbar" xml:space="preserve">
+    <value>Замените пробел на "_"</value>
+  </data>
+  <data name="Common_AddThreeZero" xml:space="preserve">
+    <value>Добавьте три '0' к числу (трехзначный нулевой отступ 1/2)</value>
+  </data>
+  <data name="Common_TakeNumberThreeDigits" xml:space="preserve">
+    <value>Уменьшите число до трех цифр (трехзначный нулевой отступ 2/2)</value>
+  </data>
+  <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
+    <value>Замените расширение на ABC</value>
+  </data>
 </root>

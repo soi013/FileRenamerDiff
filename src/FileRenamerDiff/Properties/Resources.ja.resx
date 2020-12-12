@@ -246,4 +246,37 @@
   <data name="Setting_ExportSettingFile" xml:space="preserve">
     <value>設定のエクスポート</value>
   </data>
+  <data name="Common_DeleteWindowsCopyTag" xml:space="preserve">
+    <value>Windowsのコピータグを削除する</value>
+  </data>
+  <data name="Common_DeleteWindowsShortcutTag" xml:space="preserve">
+    <value>Windowsのショートカットタグを削除する</value>
+  </data>
+  <data name="Common_DeleteWindowsNumberTag" xml:space="preserve">
+    <value>Windowsの(数字)タグを削除する</value>
+  </data>
+  <data name="Common_DeleteWhitespacesHeadTail" xml:space="preserve">
+    <value>先頭と末尾のスペースを削除する</value>
+  </data>
+  <data name="Common_DeleteExtention" xml:space="preserve">
+    <value>拡張子の削除</value>
+  </data>
+  <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
+    <value>ABCを[]で囲う</value>
+  </data>
+  <data name="Common_ReduceWhiteSpace" xml:space="preserve">
+    <value>スペースを1つの半角スペースに減らす</value>
+  </data>
+  <data name="Common_ReplaceWhiteSpacesWithUnderbar" xml:space="preserve">
+    <value>空白を'_'に置き換える</value>
+  </data>
+  <data name="Common_AddThreeZero" xml:space="preserve">
+    <value>数字に'0'を3つ追加する (3桁のゼロ埋め 1/2)</value>
+  </data>
+  <data name="Common_TakeNumberThreeDigits" xml:space="preserve">
+    <value>数字を3桁に減らす (3桁のゼロ埋め 2/2)</value>
+  </data>
+  <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
+    <value>拡張子をABCに置き換える</value>
+  </data>
 </root>

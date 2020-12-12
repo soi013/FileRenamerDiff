@@ -124,6 +124,105 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Add three &apos;0&apos; to the number (three-digit zero padding 1/2) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddThreeZero {
+            get {
+                return ResourceManager.GetString("Common_AddThreeZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete extension に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteExtention {
+            get {
+                return ResourceManager.GetString("Common_DeleteExtention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete whitespaces from the head and tail に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteWhitespacesHeadTail {
+            get {
+                return ResourceManager.GetString("Common_DeleteWhitespacesHeadTail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the &quot;copy&quot; tag in Windows に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteWindowsCopyTag {
+            get {
+                return ResourceManager.GetString("Common_DeleteWindowsCopyTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete Windows &quot;(number)&quot; tag に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteWindowsNumberTag {
+            get {
+                return ResourceManager.GetString("Common_DeleteWindowsNumberTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the &quot;shortcut&quot; tag in Windows に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteWindowsShortcutTag {
+            get {
+                return ResourceManager.GetString("Common_DeleteWindowsShortcutTag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reduce spaces to a single space に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReduceWhiteSpace {
+            get {
+                return ResourceManager.GetString("Common_ReduceWhiteSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Replace extension with ABC に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceAllExtentionToABC {
+            get {
+                return ResourceManager.GetString("Common_ReplaceAllExtentionToABC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Replace whitespace with &apos;_&apos; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceWhiteSpacesWithUnderbar {
+            get {
+                return ResourceManager.GetString("Common_ReplaceWhiteSpacesWithUnderbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Surround ABC with [] に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_SurroundWithSqureBrackets {
+            get {
+                return ResourceManager.GetString("Common_SurroundWithSqureBrackets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reduce the number to three digits (padding of three zeros 2/2) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_TakeNumberThreeDigits {
+            get {
+                return ResourceManager.GetString("Common_TakeNumberThreeDigits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Changed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_Changed {
@@ -226,11 +325,11 @@ namespace FileRenamerDiff.Properties {
         ///
         ///License: https://licenses.nuget.org/MIT
         ///
-        ///### MessagePack
+        ///### Utf8Json
         ///
-        ///Authors: neuecc, aarnott
+        ///Authors: neuecc
         ///
-        ///Project Site: https://github.com/neuecc/MessagePack-CSharp
+        ///Project Site: https://github.com/neuecc/Utf8Json/
         ///
         ///License: https://licenses.nuget.org/MIT
         ///
@@ -240,7 +339,7 @@ namespace FileRenamerDiff.Properties {
         ///
         ///Project Site: https://github.com/mmanela/diffplex/
         ///
-        ///License: https://github [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///License: https://github.com/mmanela/diffplex [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string License {
             get {

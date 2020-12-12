@@ -291,4 +291,48 @@
     <value>Export Settings</value>
     <comment>設定ファイル保存ボタン</comment>
   </data>
+  <data name="Common_DeleteWindowsCopyTag" xml:space="preserve">
+    <value>Delete the "copy" tag in Windows</value>
+    <comment>よくあるパターン説明_Windowsのコピータグを削除する</comment>
+  </data>
+  <data name="Common_DeleteWindowsShortcutTag" xml:space="preserve">
+    <value>Delete the "shortcut" tag in Windows</value>
+    <comment>よくあるパターン説明_Windowsのショートカットタグを削除する</comment>
+  </data>
+  <data name="Common_DeleteWindowsNumberTag" xml:space="preserve">
+    <value>Delete Windows "(number)" tag</value>
+    <comment>よくあるパターン説明_Windowsの(数字)タグを削除する</comment>
+  </data>
+  <data name="Common_DeleteWhitespacesHeadTail" xml:space="preserve">
+    <value>Delete whitespaces from the head and tail</value>
+    <comment>よくあるパターン説明_文の先頭と末尾の空白を削除する</comment>
+  </data>
+  <data name="Common_DeleteExtention" xml:space="preserve">
+    <value>Delete extension</value>
+    <comment>よくあるパターン説明_拡張子の削除</comment>
+  </data>
+  <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
+    <value>Surround ABC with []</value>
+    <comment>よくあるパターン説明_ABCを[]で囲う</comment>
+  </data>
+  <data name="Common_ReduceWhiteSpace" xml:space="preserve">
+    <value>Reduce spaces to a single space</value>
+    <comment>よくあるパターン説明_複数の空白を半角スペース1つに減らす</comment>
+  </data>
+  <data name="Common_ReplaceWhiteSpacesWithUnderbar" xml:space="preserve">
+    <value>Replace whitespace with '_'</value>
+    <comment>よくあるパターン説明_空白を'_'に置き換える</comment>
+  </data>
+  <data name="Common_AddThreeZero" xml:space="preserve">
+    <value>Add three '0' to the number (three-digit zero padding 1/2)</value>
+    <comment>よくあるパターン説明_数字に「0」を3つ追加する（3桁のゼロ埋め 1/2）</comment>
+  </data>
+  <data name="Common_TakeNumberThreeDigits" xml:space="preserve">
+    <value>Reduce the number to three digits (padding of three zeros 2/2)</value>
+    <comment>よくあるパターン説明_数字を3桁に削る（3桁のゼロ埋め 2/2）</comment>
+  </data>
+  <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
+    <value>Replace extension with ABC</value>
+    <comment>よくあるパターン説明_拡張子をABCに置き換える</comment>
+  </data>
 </root>
