@@ -182,7 +182,7 @@
                <DataGrid.Columns>
                   <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
-                     Binding="{Binding Value}"
+                     Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_IgnoreExtensions}" />
                   <DataGridTemplateColumn CanUserSort="False">
@@ -228,7 +228,7 @@
                <DataGrid.Columns>
                   <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
-                     Binding="{Binding TargetPattern}"
+                     Binding="{Binding TargetPattern, UpdateSourceTrigger=PropertyChanged}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
                   <DataGridCheckBoxColumn
@@ -326,7 +326,7 @@
                <DataGrid.Columns>
                   <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
-                     Binding="{Binding TargetPattern}"
+                     Binding="{Binding TargetPattern, UpdateSourceTrigger=PropertyChanged}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}" />
                   <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
@@ -337,7 +337,7 @@
                      </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
                   <DataGridTextColumn
-                     Binding="{Binding ReplaceText}"
+                     Binding="{Binding ReplaceText, UpdateSourceTrigger=PropertyChanged}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_ReplaceText}" />
                   <DataGridCheckBoxColumn
