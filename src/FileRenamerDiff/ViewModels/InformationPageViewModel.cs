@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
+using System.Resources;
+using System.Globalization;
 using System.Windows.Data;
 using System.Collections;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Reflection;
-using System.Reflection.Metadata;
 
 using Livet;
 using Livet.Commands;
@@ -17,13 +18,14 @@ using Livet.Messaging.IO;
 using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
-using System.Reactive.Linq;
 using Reactive.Bindings;
+using System.Reactive;
+using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
-using ps = System.Reactive.PlatformServices;
 using Anotar.Serilog;
 
 using FileRenamerDiff.Models;
+using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.ViewModels
 {

@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 
 using Livet;
 using Livet.Commands;
@@ -21,11 +22,10 @@ using Reactive.Bindings;
 using System.Reactive;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
+using Anotar.Serilog;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.Properties;
-using Reactive.Bindings.ObjectExtensions;
-using Anotar.Serilog;
 
 namespace FileRenamerDiff.ViewModels
 {
