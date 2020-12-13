@@ -77,7 +77,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// エクスプローラーで開くコマンド
         /// </summary>
-        public ReactiveCommand OpenInExploreCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand OpenInExploreCommand { get; } = new();
 
         /// <summary>
         /// ModelをもとにViewModelを作成

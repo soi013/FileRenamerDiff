@@ -39,12 +39,12 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// シングルトンなインスタンスを返す
         /// </summary>
-        public static Model Instance { get; } = new Model();
+        public static Model Instance { get; } = new();
 
         /// <summary>
         /// アプリケーションが待機状態か（変更用）
         /// </summary>
-        readonly ReactivePropertySlim<bool> isIdle = new ReactivePropertySlim<bool>(false);
+        readonly ReactivePropertySlim<bool> isIdle = new(false);
 
         /// <summary>
         /// アプリケーションが待機状態か（外部購読用）
@@ -66,7 +66,7 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _FileElementModels, value);
         }
 
-        private SettingAppModel _Setting = new SettingAppModel();
+        private SettingAppModel _Setting = new();
         /// <summary>
         /// アプリケーション設定
         /// </summary>
@@ -79,20 +79,20 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 前回保存設定ファイルパス
         /// </summary>
-        public ReactivePropertySlim<string> PreviousSettingFilePath { get; } = new ReactivePropertySlim<string>(SettingAppModel.DefaultFilePath);
+        public ReactivePropertySlim<string> PreviousSettingFilePath { get; } = new(SettingAppModel.DefaultFilePath);
 
         /// <summary>
         /// リネーム前後での変更があったファイル数
         /// </summary>
         public IReadOnlyReactiveProperty<int> CountReplaced => countReplaced;
-        private readonly ReactivePropertySlim<int> countReplaced = new ReactivePropertySlim<int>(0);
+        private readonly ReactivePropertySlim<int> countReplaced = new(0);
 
 
         /// <summary>
         /// ファイルパスの衝突しているファイル数
         /// </summary>
         public IReadOnlyReactiveProperty<int> CountConflicted => countConflicted;
-        private readonly ReactivePropertySlim<int> countConflicted = new ReactivePropertySlim<int>(0);
+        private readonly ReactivePropertySlim<int> countConflicted = new(0);
 
         /// <summary>
         /// アプリケーション内メッセージ読み取り専用
@@ -101,12 +101,12 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// アプリケーション内メッセージ変更用
         /// </summary>
-        internal ReactivePropertySlim<AppMessage> MessageEvent { get; } = new ReactivePropertySlim<AppMessage>();
+        internal ReactivePropertySlim<AppMessage> MessageEvent { get; } = new();
 
         /// <summary>
         /// 処理状態メッセージ通知
         /// </summary>
-        readonly ScheduledNotifier<ProgressInfo> progressNotifier = new ScheduledNotifier<ProgressInfo>();
+        readonly ScheduledNotifier<ProgressInfo> progressNotifier = new();
 
         /// <summary>
         /// 現在の処理状態メッセージ
@@ -164,7 +164,7 @@ namespace FileRenamerDiff.Models
                 }
                 catch (OperationCanceledException)
                 {
-                    progressNotifier.Report(new ProgressInfo(0, "canceled"));
+                    progressNotifier.Report(new(0, "canceled"));
                     this.FileElementModels = Array.Empty<FileElementModel>();
                 }
             }
@@ -202,12 +202,12 @@ namespace FileRenamerDiff.Models
                         //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
                         if ((i & 255) != 0)
                             return;
-                        progress?.Report(new ProgressInfo(i, $"File Loaded {x}"));
+                        progress?.Report(new(i, $"File Loaded {x}"));
                         cancellationToken.ThrowIfCancellationRequested();
                     })
                 .ToList();
 
-            progress?.Report(new ProgressInfo(loadedFileList.Count, "Files were Loaded. Creating FileList"));
+            progress?.Report(new(loadedFileList.Count, "Files were Loaded. Creating FileList"));
             //Rename時にエラーしないように、フォルダ階層が深い側から変更されるように並び替え
             loadedFileList.Sort();
             loadedFileList.Reverse();
@@ -380,7 +380,7 @@ namespace FileRenamerDiff.Models
                 }
                 catch (OperationCanceledException)
                 {
-                    progressNotifier.Report(new ProgressInfo(0, "canceled"));
+                    progressNotifier.Report(new(0, "canceled"));
                 }
             }
 
@@ -408,7 +408,7 @@ namespace FileRenamerDiff.Models
 
                 if (index % 16 == 0)
                 {
-                    progress.Report(new ProgressInfo(index, $"File Renamed {replaceElement.OutputFilePath}"));
+                    progress.Report(new(index, $"File Renamed {replaceElement.OutputFilePath}"));
                     cancellationToken.ThrowIfCancellationRequested();
                 }
             }

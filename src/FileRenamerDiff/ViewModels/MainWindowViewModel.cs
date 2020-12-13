@@ -40,16 +40,16 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ダイアログ表示VM
         /// </summary>
-        public ReactivePropertySlim<DialogBaseViewModel> DialogContentVM { get; set; } = new ReactivePropertySlim<DialogBaseViewModel>();
+        public ReactivePropertySlim<DialogBaseViewModel> DialogContentVM { get; } = new();
         /// <summary>
         /// ダイアログの外側をクリックした際に閉じられるか
         /// </summary>
-        public ReactivePropertySlim<bool> CloseOnClickAwayDialog { get; } = new ReactivePropertySlim<bool>(true);
+        public ReactivePropertySlim<bool> CloseOnClickAwayDialog { get; } = new(true);
 
         /// <summary>
         /// ファイルVMコレクションを含んだDataGrid用VM
         /// </summary>
-        public FileElementsGridViewModel GridVM { get; } = new FileElementsGridViewModel();
+        public FileElementsGridViewModel GridVM { get; } = new();
 
         /// <summary>
         /// フォルダ選択メッセージでのフォルダ読込コマンド
@@ -83,9 +83,6 @@ namespace FileRenamerDiff.ViewModels
         /// 設定情報ViewModel
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
-
-        public ReactivePropertySlim<SettingAppViewModel> SettingVM2 { get; } = new ReactivePropertySlim<SettingAppViewModel>();
-
 
         public MainWindowViewModel()
         {

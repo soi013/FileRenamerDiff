@@ -104,7 +104,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイル名に指定できない文字の検出器 (参考:https://dobon.net/vb/dotnet/file/invalidpathchars.html#section2)
         /// </summary>
-        private static readonly Regex invalidCharRegex = new Regex(
+        private static readonly Regex invalidCharRegex = new(
             "[\\x00-\\x1f<>:\"/\\\\|?*]" +
             "|^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9]|CLOCK\\$)(\\.|$)" +
             "|[\\. ]$",

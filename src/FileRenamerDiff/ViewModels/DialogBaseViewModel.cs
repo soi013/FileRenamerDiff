@@ -40,6 +40,6 @@ namespace FileRenamerDiff.ViewModels
         /// ダイアログが表示されているか
         /// Bindされるのは使用側のDialogHost
         /// </summary>
-        public ReactivePropertySlim<bool> IsDialogOpen { get; } = new ReactivePropertySlim<bool>(false);
+        public ReactivePropertySlim<bool> IsDialogOpen { get; } = new(false);
     }
 }

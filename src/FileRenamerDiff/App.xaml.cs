@@ -27,7 +27,7 @@ namespace FileRenamerDiff
         {
             SetupLoggerConfig();
             DispatcherHelper.UIDispatcher = Dispatcher;
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             LogTo.Information("App Start");
             ChangeTheme();

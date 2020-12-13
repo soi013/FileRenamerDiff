@@ -116,10 +116,10 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<ReplacePattern> ReplaceTexts { get; set; } =
             new ObservableCollection<ReplacePattern>
             {
-                new ReplacePattern(".jpeg$", ".jpg", true),
-                new ReplacePattern(".htm$", ".html", true),
+                new (".jpeg$", ".jpg", true),
+                new (".htm$", ".html", true),
                 //2以上の全・半角スペースを1つのスペースに変更
-                new ReplacePattern("\\s+", " ", true),
+                new ("\\s+", " ", true),
             };
 
         /// <summary>
@@ -229,11 +229,11 @@ namespace FileRenamerDiff.Models
         }
         private bool _IsAppDarkTheme = true;
 
-        internal void AddIgnoreExtensions() => IgnoreExtensions.Add(ValueHolderFactory.Create(""));
+        internal void AddIgnoreExtensions() => IgnoreExtensions.Add(ValueHolderFactory.Create(String.Empty));
 
-        internal void AddDeleteTexts() => DeleteTexts.Add(new ReplacePattern("", ""));
+        internal void AddDeleteTexts() => DeleteTexts.Add(ReplacePattern.CreateEmpty());
 
-        internal void AddReplaceTexts() => ReplaceTexts.Add(new ReplacePattern("", ""));
+        internal void AddReplaceTexts() => ReplaceTexts.Add(ReplacePattern.CreateEmpty());
 
         /// <summary>
         /// ファイルから設定ファイルをデシリアライズ

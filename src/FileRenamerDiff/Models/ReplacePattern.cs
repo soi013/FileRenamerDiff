@@ -65,6 +65,7 @@ namespace FileRenamerDiff.Models
                 : new ReplaceRegex(regex, ReplaceText);
         }
 
+        internal static ReplacePattern CreateEmpty() => new ReplacePattern(string.Empty, string.Empty);
 
         public override string ToString() => $"{TargetPattern}->{ReplaceText}";
     }

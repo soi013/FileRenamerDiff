@@ -55,7 +55,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 置換パターンへの変換
         /// </summary>
-        public ReplacePattern ToReplacePattern() => new ReplacePattern(TargetPattern, ReplaceText, AsExpression);
+        public ReplacePattern ToReplacePattern() => new(TargetPattern, ReplaceText, AsExpression);
 
 
         /// <summary>
@@ -63,31 +63,30 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static IReadOnlyList<CommonPattern> DeletePatterns { get; } =
             new (string comment, string target, string sample, bool exp)[]
-        {
-            (Resources.Common_DeleteWindowsCopyTag,     Resources.Windows_CopyFileSuffix,       $"Sample{Resources.Windows_CopyFileSuffix}.txt", false),
-            (Resources.Common_DeleteWindowsShortcutTag, Resources.Windows_ShortcutFileSuffix,   $"Sample.txt{Resources.Windows_ShortcutFileSuffix}", false),
-            (Resources.Common_DeleteWindowsNumberTag,         "\\s*\\([0-9]{0,3}\\)",                 "Sample (1).txt", true),
-            (Resources.Common_DeleteWhitespacesHeadTail, "^\\s+|\\s+$",                  " Sample .txt ", true),
-            (Resources.Common_DeleteExtention,            "\\.\\w+$",                             "sam.ple.txt",  true),
-        }
-        .Select(a => new CommonPattern(a.comment, a.target, "", a.sample, a.exp))
-        .ToArray();
+            {
+                (Resources.Common_DeleteWindowsCopyTag,     Resources.Windows_CopyFileSuffix,       $"Sample{Resources.Windows_CopyFileSuffix}.txt", false),
+                (Resources.Common_DeleteWindowsShortcutTag, Resources.Windows_ShortcutFileSuffix,   $"Sample.txt{Resources.Windows_ShortcutFileSuffix}", false),
+                (Resources.Common_DeleteWindowsNumberTag,         "\\s*\\([0-9]{0,3}\\)",                 "Sample (1).txt", true),
+                (Resources.Common_DeleteWhitespacesHeadTail, "^\\s+|\\s+$",                  " Sample .txt ", true),
+                (Resources.Common_DeleteExtention,            "\\.\\w+$",                             "sam.ple.txt",  true),
+            }
+            .Select(a => new CommonPattern(a.comment, a.target, "", a.sample, a.exp))
+            .ToArray();
 
         /// <summary>
         /// よく使う置換パターン集
         /// </summary>
         public static IReadOnlyList<CommonPattern> ReplacePatterns { get; } =
-            new (string comment, string target, string replace, string sample, bool exp)[]
-        {
-            (Resources.Common_SurroundWithSqureBrackets,    "ABC",      "[$0]",     "xABCx_AxBC.txt",   true),
-            (Resources.Common_ReduceWhiteSpace,             "\\s+",     " ",        "A  B　C.txt",   true),
-            (Resources.Common_ReplaceWhiteSpacesWithUnderbar,                "\\s+",     "_",        "A  B　C.txt",   true),
+            new CommonPattern[]
+            {
+                new(Resources.Common_SurroundWithSqureBrackets, "ABC", "[$0]", "xABCx_AxBC.txt", true),
+                new(Resources.Common_ReduceWhiteSpace,  "\\s+", " ", "A B　C.txt", true),
+                new(Resources.Common_ReplaceWhiteSpacesWithUnderbar,  "\\s+", "_", "A B　C.txt", true),
 
-            (Resources.Common_AddThreeZero,             "\\d+",         "00$0", "Sapmle-12.txt",    true),
-            (Resources.Common_TakeNumberThreeDigits,    "\\d*(\\d{3})", "$1",   "Sapmle-0012.txt",  true),
-            (Resources.Common_ReplaceAllExtentionToABC,                "\\.\\w+$", ".ABC",      "sam.ple.txt",  true),
-        }
-        .Select(a => new CommonPattern(a.comment, a.target, a.replace, a.sample, a.exp))
-        .ToArray();
+                new(Resources.Common_AddThreeZero,  "\\d+",  "00$0", "Sapmle-12.txt", true),
+                new(Resources.Common_TakeNumberThreeDigits, "\\d*(\\d{3})", "$1", "Sapmle-0012.txt", true),
+
+                new(Resources.Common_ReplaceAllExtentionToABC,  "\\.\\w+$", ".ABC", "sam.ple.txt", true),
+            };
     }
 }

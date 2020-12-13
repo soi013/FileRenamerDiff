@@ -65,7 +65,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// 現在の設定のパターンへの追加
         /// </summary>
-        public ReactiveCommand AddSettingCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand AddSettingCommand { get; } = new();
 
         /// <summary>
         /// 削除パターンか置換パターンか

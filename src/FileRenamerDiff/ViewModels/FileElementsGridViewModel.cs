@@ -52,7 +52,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// 置換前後で差があったファイルのみ表示するか
         /// </summary>
-        public ReactivePropertySlim<bool> IsVisibleReplacedOnly { get; } = new ReactivePropertySlim<bool>(false);
+        public ReactivePropertySlim<bool> IsVisibleReplacedOnly { get; } = new(false);
 
         /// <summary>
         /// ファイルパスの衝突しているファイル数
@@ -67,7 +67,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイルパスが衝突しているファイルのみ表示するか
         /// </summary>
-        public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new ReactivePropertySlim<bool>(false);
+        public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new(false);
 
         public FileElementsGridViewModel()
         {
@@ -98,7 +98,7 @@ namespace FileRenamerDiff.ViewModels
         }
 
         private static ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> fModels) =>
-             new ObservableCollection<FileElementViewModel>(fModels.Select(fModel => new FileElementViewModel(fModel)));
+             new(fModels.Select(fModel => new FileElementViewModel(fModel)));
 
         private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> fVMs)
         {

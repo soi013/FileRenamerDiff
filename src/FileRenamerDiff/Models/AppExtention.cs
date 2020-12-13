@@ -23,7 +23,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定したコレクションからコピーされた要素を格納するObservableCollectionを生成
         /// </summary>
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new ObservableCollection<T>(source);
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new (source);
 
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。

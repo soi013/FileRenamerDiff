@@ -53,7 +53,7 @@ namespace FileRenamerDiff.Views
                     .ToList(),
 
                 //ChangeType.Modified以外は行全体で同じ書式
-                _ => new List<Run> { ConvertPieceVmToRun(lineVM) },
+                _ => new() { ConvertPieceVmToRun(lineVM) },
             };
 
         private static Run ConvertPieceVmToRun(DiffPiece pieceVM) =>

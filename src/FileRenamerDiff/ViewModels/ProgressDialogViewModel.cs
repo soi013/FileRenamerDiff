@@ -38,7 +38,7 @@ namespace FileRenamerDiff.ViewModels
 
         public AsyncReactiveCommand CancelCommand { get; }
 
-        private readonly ReactivePropertySlim<bool> limitOneceCancel = new ReactivePropertySlim<bool>(true);
+        private readonly ReactivePropertySlim<bool> limitOneceCancel = new(true);
 
         public ProgressDialogViewModel()
         {

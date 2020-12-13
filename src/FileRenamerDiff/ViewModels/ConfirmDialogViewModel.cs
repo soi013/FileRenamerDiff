@@ -36,8 +36,8 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public bool? IsOK { get; private set; } = null;
 
-        public ReactiveCommand OkCommand { get; } = new ReactiveCommand();
-        public ReactiveCommand CancelCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand OkCommand { get; } = new();
+        public ReactiveCommand CancelCommand { get; } = new();
 
         public ConfirmDialogViewModel()
         {

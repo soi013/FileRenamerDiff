@@ -21,6 +21,6 @@ namespace FileRenamerDiff.Models
     }
     public static class ValueHolderFactory
     {
-        public static ValueHolder<T> Create<T>(T value) => new ValueHolder<T>(value);
+        public static ValueHolder<T> Create<T>(T value) => new(value);
     }
 }

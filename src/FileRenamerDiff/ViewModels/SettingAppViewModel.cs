@@ -97,7 +97,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// アプリケーションの表示言語
         /// </summary>
-        public ReactivePropertySlim<CultureInfo> SelectedLanguage { get; } = new ReactivePropertySlim<CultureInfo>();
+        public ReactivePropertySlim<CultureInfo> SelectedLanguage { get; } = new();
 
         /// <summary>
         /// アプリケーションの色テーマ
@@ -142,7 +142,7 @@ namespace FileRenamerDiff.ViewModels
         /// デザイナー用です　コードからは呼べません
         /// </summary>
         [Obsolete("Designer only", true)]
-        public SettingAppViewModel() : this(new SettingAppModel()) { }
+        public SettingAppViewModel() : this(new()) { }
 
         public SettingAppViewModel(SettingAppModel setting)
         {
