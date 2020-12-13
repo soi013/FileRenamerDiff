@@ -30,13 +30,12 @@ namespace FileRenamerDiff.Views
 
         private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is PackIconKind iconKind
-                && d is DataGridIconColumn iconColumn)
-            {
-                var iconFactory = new FrameworkElementFactory(typeof(PackIcon));
-                iconFactory.SetValue(PackIcon.KindProperty, iconKind);
-                iconColumn.CellTemplate = new DataTemplate() { VisualTree = iconFactory };
-            }
+            if (e.NewValue is not PackIconKind iconKind || d is not DataGridIconColumn iconColumn)
+                return;
+
+            var iconFactory = new FrameworkElementFactory(typeof(PackIcon));
+            iconFactory.SetValue(PackIcon.KindProperty, iconKind);
+            iconColumn.CellTemplate = new DataTemplate() { VisualTree = iconFactory };
         }
         #endregion
 

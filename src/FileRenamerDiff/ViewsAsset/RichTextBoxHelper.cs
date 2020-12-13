@@ -27,11 +27,11 @@ namespace FileRenamerDiff.Views
                 return;
 
             //まれに添付プロパティがnullのことがある。原因は不明
-            var attachedDocument = GetDocument(richTextBox)??new FlowDocument();
+            var attachedDocument = GetDocument(richTextBox) ?? new FlowDocument();
 
             //FlowDocumentは1つのRichTextBoxにしか設定できない。
             //すでに他のRichTextBoxに所属しているなら、コピーを作成・設定する
-            richTextBox.Document = attachedDocument?.Parent == null
+            richTextBox.Document = attachedDocument.Parent == null
                 ? attachedDocument
                 : CopyFlowDocument(attachedDocument);
         }

@@ -23,7 +23,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定したコレクションからコピーされた要素を格納するObservableCollectionを生成
         /// </summary>
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new (source);
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new(source);
 
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
@@ -160,17 +160,15 @@ namespace FileRenamerDiff.Models
         {
             //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
             //なので、大文字小文字だけの変更の場合は一度別のファイル名に変更する
-            if ((String.Compare(sourceFilePath, outputFilePath, true) == 0))
+            if (String.Compare(sourceFilePath, outputFilePath, true) == 0)
             {
                 var tempPath = GetSafeTempName(outputFilePath);
 
                 Directory.Move(sourceFilePath, tempPath);
-                Directory.Move(tempPath, outputFilePath);
+                sourceFilePath = tempPath;
             }
-            else
-            {
-                Directory.Move(sourceFilePath, outputFilePath);
-            }
+
+            Directory.Move(sourceFilePath, outputFilePath);
         }
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace FileRenamerDiff.Views
 
             //指定されたオブジェクトのVisualTree上の親を順番に探索し、ItemsControlを探す。
             //ただし、DataGridは中間にいるDataGridCellsPresenterは無視する
-            while (parent != null && !(parent is ItemsControl) || parent is DataGridCellsPresenter)
+            while (parent is not null and not ItemsControl or DataGridCellsPresenter)
             {
                 parent = VisualTreeHelper.GetParent(parent);
                 parentTree.Add(parent);

@@ -53,9 +53,6 @@ namespace FileRenamerDiff.Views
 
         private void OnDrop(object sender, System.Windows.DragEventArgs e)
         {
-            if (Command == null)
-                return;
-
             if (!Command.CanExecute(e))
                 return;
 

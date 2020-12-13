@@ -255,8 +255,8 @@ namespace FileRenamerDiff.ViewModels
             var rp = new ReactivePropertySlim<CultureInfo>(modelCultureInfo);
 
             rp.Select(c =>
-                    (c == null || c == CultureInfo.InvariantCulture)
-                        ? ""
+                    (c == CultureInfo.InvariantCulture)
+                        ? String.Empty
                         : c.Name)
                 .Subscribe(c => setting.AppLanguageCode = c);
 

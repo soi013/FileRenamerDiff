@@ -166,12 +166,7 @@ namespace FileRenamerDiff.ViewModels
             await innerVM.IsDialogOpen;
         }
 
-        private async Task LoadFileFromDialog(FolderSelectionMessage fsMessage)
-        {
-            if (fsMessage.Response == null)
-                return;
-            await LoadFileFromNewPath(fsMessage.Response);
-        }
+        private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) => LoadFileFromNewPath(fsMessage.Response);
 
         private async Task LoadFileFromNewPath(string targetPath)
         {

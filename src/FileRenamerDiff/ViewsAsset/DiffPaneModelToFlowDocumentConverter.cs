@@ -30,7 +30,7 @@ namespace FileRenamerDiff.Views
             if (value is not DiffPaneModel diffVM)
                 return Binding.DoNothing;
 
-            if (!diffVM.Lines.Any())
+            if (diffVM.Lines.IsEmpty())
                 return Binding.DoNothing;
 
             if (diffVM.Lines.Count > 1)
