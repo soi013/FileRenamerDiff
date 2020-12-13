@@ -37,8 +37,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class FileElementViewModel : ViewModel
     {
-        Model model = Model.Instance;
-        private readonly FileElementModel pathModel;
+        readonly FileElementModel pathModel;
 
         /// <summary>
         /// リネーム前後の差分比較情報

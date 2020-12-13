@@ -34,8 +34,8 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class SettingAppViewModel : ViewModel
     {
-        private Model model = Model.Instance;
-        private SettingAppModel setting;
+        readonly Model model = Model.Instance;
+        readonly SettingAppModel setting;
 
         /// <summary>
         /// リネームファイルを検索するターゲットパス

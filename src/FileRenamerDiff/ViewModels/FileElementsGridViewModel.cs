@@ -33,7 +33,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class FileElementsGridViewModel : ViewModel
     {
-        Model model = Model.Instance;
+        readonly Model model = Model.Instance;
 
         /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
@@ -97,7 +97,7 @@ namespace FileRenamerDiff.ViewModels
             .Subscribe(_ => RefleshCollectionViewSafe());
         }
 
-        private ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> fModels) =>
+        private static ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> fModels) =>
              new ObservableCollection<FileElementViewModel>(fModels.Select(fModel => new FileElementViewModel(fModel)));
 
         private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> fVMs)

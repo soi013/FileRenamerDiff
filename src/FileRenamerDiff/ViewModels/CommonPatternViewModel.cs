@@ -37,7 +37,7 @@ namespace FileRenamerDiff.ViewModels
     {
         protected Model model = Model.Instance;
 
-        private CommonPattern modelPattern;
+        readonly CommonPattern modelPattern;
 
         /// <summary>
         /// パターン説明
@@ -56,7 +56,7 @@ namespace FileRenamerDiff.ViewModels
         /// パターンを単純一致か正規表現とするか
         /// </summary>
         public bool AsExpression => modelPattern.AsExpression;
-        
+
         /// <summary>
         /// サンプル入出力の比較情報
         /// </summary>

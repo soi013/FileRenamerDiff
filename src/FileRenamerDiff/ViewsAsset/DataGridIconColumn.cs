@@ -26,9 +26,9 @@ namespace FileRenamerDiff.Views
             set => SetValue(PackIconProperty, value);
         }
         public static readonly DependencyProperty PackIconProperty =
-            DependencyProperty.Register(nameof(Kind), typeof(PackIconKind), typeof(DataGridIconColumn), new PropertyMetadata(default(PackIconKind), propertyChanged));
+            DependencyProperty.Register(nameof(Kind), typeof(PackIconKind), typeof(DataGridIconColumn), new PropertyMetadata(default(PackIconKind), PropertyChanged));
 
-        private static void propertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is PackIconKind iconKind
                 && d is DataGridIconColumn iconColumn)

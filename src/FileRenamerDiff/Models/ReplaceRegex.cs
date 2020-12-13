@@ -7,8 +7,8 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class ReplaceRegex
     {
-        private Regex regex;
-        private string replaceText;
+        readonly Regex regex;
+        readonly string replaceText;
 
         /// <summary>
         /// 置換パターンを組み立てる

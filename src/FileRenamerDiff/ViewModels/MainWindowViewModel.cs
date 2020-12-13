@@ -30,7 +30,7 @@ namespace FileRenamerDiff.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        Model model = Model.Instance;
+        readonly Model model = Model.Instance;
 
         /// <summary>
         /// アプリケーションが待機状態か

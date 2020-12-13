@@ -44,7 +44,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// アプリケーションが待機状態か（変更用）
         /// </summary>
-        private ReactivePropertySlim<bool> isIdle { get; } = new ReactivePropertySlim<bool>(false);
+        readonly ReactivePropertySlim<bool> isIdle = new ReactivePropertySlim<bool>(false);
 
         /// <summary>
         /// アプリケーションが待機状態か（外部購読用）
@@ -56,12 +56,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdleUI => isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
 
-        private IReadOnlyList<FileElementModel> _FileElementModels = new FileElementModel[]
-        {
-            //new FileElementModel(@"c:\abc\sample.txt"),
-            //new FileElementModel(@"c:\def\sample(1).txt"),
-        };
-
+        private IReadOnlyList<FileElementModel> _FileElementModels = Array.Empty<FileElementModel>();
         /// <summary>
         /// リネーム対象ファイル情報のコレクション
         /// </summary>
@@ -111,7 +106,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 処理状態メッセージ通知
         /// </summary>
-        private ScheduledNotifier<ProgressInfo> progressNotifier = new ScheduledNotifier<ProgressInfo>();
+        readonly ScheduledNotifier<ProgressInfo> progressNotifier = new ScheduledNotifier<ProgressInfo>();
 
         /// <summary>
         /// 現在の処理状態メッセージ
@@ -227,7 +222,7 @@ namespace FileRenamerDiff.Models
                 .ToArray();
         }
 
-        internal void UpdateLanguage(string langCode)
+        internal static void UpdateLanguage(string langCode)
         {
             if (String.IsNullOrWhiteSpace(langCode))
                 return;
