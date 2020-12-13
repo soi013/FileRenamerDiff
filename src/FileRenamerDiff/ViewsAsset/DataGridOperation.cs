@@ -24,25 +24,6 @@ namespace FileRenamerDiff.Views
         private static void RemoveItem(object sender, RoutedEventArgs e) => RemoveItemFromParent(sender as DependencyObject);
         #endregion
 
-        #region IncrementItem添付プロパティ
-        public static bool GetIncrementItem(DependencyObject obj) => (bool)obj.GetValue(IncrementItemProperty);
-        public static void SetIncrementItem(DependencyObject obj, bool value) => obj.SetValue(IncrementItemProperty, value);
-        public static readonly DependencyProperty IncrementItemProperty =
-            DependencyProperty.RegisterAttached("IncrementItem", typeof(bool), typeof(DataGridOperation),
-                new PropertyMetadata(false, (d, e) => OnPropertyChanged(d, e, IncrementItem)));
-
-        private static void IncrementItem(object sender, RoutedEventArgs e) => IncrementItemFromParent(sender as DependencyObject);
-        #endregion
-
-        #region DecrementItem添付プロパティ
-        public static bool GetDecrementItem(DependencyObject obj) => (bool)obj.GetValue(DecrementItemProperty);
-        public static void SetDecrementItem(DependencyObject obj, bool value) => obj.SetValue(DecrementItemProperty, value);
-        public static readonly DependencyProperty DecrementItemProperty =
-            DependencyProperty.RegisterAttached("DecrementItem", typeof(bool), typeof(DataGridOperation),
-                new PropertyMetadata(false, (d, e) => OnPropertyChanged(d, e, DecrementItem)));
-        private static void DecrementItem(object sender, RoutedEventArgs e) => DecrementItemFromParent(sender as DependencyObject);
-        #endregion
-
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e, RoutedEventHandler actionClick)
         {
             if (!(d is ButtonBase button))
@@ -55,46 +36,6 @@ namespace FileRenamerDiff.Views
                 button.Click += actionClick;
             else
                 button.Click -= actionClick;
-        }
-
-        /// <summary>
-        /// 指定されたオブジェクトを含む行のIndexを増やす = 下の行に移動する
-        /// </summary>
-        public static void IncrementItemFromParent(DependencyObject elementInItem)
-        {
-            var (targetList, index) = GetParentListAndIndex(elementInItem);
-
-            if (targetList == null || index < 0)
-                return;
-
-            //最後の行だったら何もしない
-            if ((index + 1) >= targetList.Count)
-                return;
-
-            //一度削除して、1つ大きいIndexに入れ直す
-            var targetElement = targetList[index];
-            targetList?.RemoveAt(index);
-            targetList?.Insert(index + 1, targetElement);
-        }
-
-        /// <summary>
-        /// 指定されたオブジェクトを含む行のIndexを減らす = 上の行に移動する
-        /// </summary>
-        public static void DecrementItemFromParent(DependencyObject elementInItem)
-        {
-            var (targetList, index) = GetParentListAndIndex(elementInItem);
-
-            if (targetList == null || index < 0)
-                return;
-
-            //最初の行だったら何もしない
-            if (index <= 0)
-                return;
-
-            //一度削除して、1つ少ないIndexに入れ直す
-            var targetElement = targetList[index];
-            targetList?.RemoveAt(index);
-            targetList?.Insert(index - 1, targetElement);
         }
 
         /// <summary>
