@@ -30,10 +30,10 @@ namespace FileRenamerDiff.Views
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e, RoutedEventHandler actionClick)
         {
-            if (!(d is ButtonBase button))
+            if (d is not ButtonBase button)
                 return;
 
-            if (!(e.NewValue is bool b))
+            if (e.NewValue is not bool b)
                 return;
 
             if (b)
@@ -52,7 +52,7 @@ namespace FileRenamerDiff.Views
             if (targetList == null || index < 0)
                 return;
 
-            targetList?.RemoveAt(index);
+            targetList.RemoveAt(index);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace FileRenamerDiff.Views
                 parent = VisualTreeHelper.GetParent(parent);
                 parentTree.Add(parent);
             }
-            if (!(parent is ItemsControl itemsControl))
+            if (parent is not ItemsControl itemsControl)
                 return (null, -1);
 
             //ItemsControlの行にあたるオブジェクトを探索履歴の後ろから検索

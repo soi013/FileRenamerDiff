@@ -23,7 +23,7 @@ namespace FileRenamerDiff.Views
 
         private static void Document_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is RichTextBox richTextBox))
+            if (d is not RichTextBox richTextBox)
                 return;
 
             //まれに添付プロパティがnullのことがある。原因は不明
