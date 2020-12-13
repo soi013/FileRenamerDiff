@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>FileRenamerDiff_icon.ico</ApplicationIcon>
     <Authors>soi</Authors>
@@ -35,7 +36,7 @@
     <PackageReference Include="MaterialDesignColors" Version="1.2.6" />
     <PackageReference Include="MaterialDesignThemes" Version="3.1.3" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.1.4" />
-    <PackageReference Include="ReactiveProperty" Version="6.2.0" />
+    <PackageReference Include="ReactiveProperty" Version="7.5.1" />
     <PackageReference Include="System.Interactive" Version="4.1.1" />
     <PackageReference Include="System.Reactive.Compatibility" Version="4.4.1" />
     <PackageReference Include="Anotar.Serilog.Fody" Version="5.1.3" PrivateAssets="all" />

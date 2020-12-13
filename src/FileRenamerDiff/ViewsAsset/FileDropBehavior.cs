@@ -46,7 +46,7 @@ namespace FileRenamerDiff.Views
             e.Handled = true;
         }
 
-        string ToFilePath(IDataObject data) =>
+        string? ToFilePath(IDataObject data) =>
             data.GetDataPresent(DataFormats.FileDrop)
             ? (data.GetData(DataFormats.FileDrop) as string[])?.FirstOrDefault()
             : null;
@@ -58,8 +58,6 @@ namespace FileRenamerDiff.Views
 
             if (!Command.CanExecute(e))
                 return;
-
-            var s = e.Data.GetData(DataFormats.FileDrop);
 
             var path = ToFilePath(e.Data);
             if (String.IsNullOrWhiteSpace(path))

@@ -21,7 +21,11 @@ namespace FileRenamerDiff.Views
         public static readonly DependencyProperty RemoveItemProperty =
             DependencyProperty.RegisterAttached("RemoveItem", typeof(bool), typeof(DataGridOperation),
                 new PropertyMetadata(false, (d, e) => OnPropertyChanged(d, e, RemoveItem)));
-        private static void RemoveItem(object sender, RoutedEventArgs e) => RemoveItemFromParent(sender as DependencyObject);
+        private static void RemoveItem(object sender, RoutedEventArgs e)
+        {
+            if (sender is DependencyObject dObj)
+                RemoveItemFromParent(dObj);
+        }
         #endregion
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e, RoutedEventHandler actionClick)
@@ -54,7 +58,7 @@ namespace FileRenamerDiff.Views
         /// <summary>
         /// 指定されたオブジェクトを含む親コレクションとインデックスを返す
         /// </summary>
-        private static (IList, int) GetParentListAndIndex(DependencyObject elementInItem)
+        private static (IList?, int) GetParentListAndIndex(DependencyObject elementInItem)
         {
             DependencyObject parent = elementInItem;
             var parentTree = new List<DependencyObject> { parent };

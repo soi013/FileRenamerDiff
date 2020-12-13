@@ -21,7 +21,7 @@ namespace FileRenamerDiff.Views
         /// <param name="parameter">使用するコンバーター パラメーター</param>
         /// <param name="culture">コンバーターで使用するカルチャ</param>
         /// <returns>変換された値</returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
             => Convert((TSource)value, parameter, culture);
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace FileRenamerDiff.Views
         /// <param name="parameter">使用するコンバーター パラメーター</param>
         /// <param name="culture">コンバーターで使用するカルチャ</param>
         /// <returns>変換された値</returns>
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
             => ConvertBack((TTarget)value, parameter, culture);
 
         /// <summary>

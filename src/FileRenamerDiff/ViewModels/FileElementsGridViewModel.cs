@@ -38,7 +38,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
         /// </summary>
-        public ReadOnlyReactivePropertySlim<ICollectionView> CViewFileElementVMs { get; }
+        public ReadOnlyReactivePropertySlim<ICollectionView?> CViewFileElementVMs { get; }
 
         /// <summary>
         /// リネーム前後での変更があったファイル数
@@ -98,15 +98,10 @@ namespace FileRenamerDiff.ViewModels
         }
 
         private ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> fModels) =>
-            fModels == null
-                ? null
-                : new ObservableCollection<FileElementViewModel>(fModels.Select(fModel => new FileElementViewModel(fModel)));
+             new ObservableCollection<FileElementViewModel>(fModels.Select(fModel => new FileElementViewModel(fModel)));
 
         private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> fVMs)
         {
-            if (fVMs == null)
-                return null;
-
             var cView = CollectionViewSource.GetDefaultView(fVMs);
             cView.Filter = (x => GetVisibleRow(x));
             return cView;

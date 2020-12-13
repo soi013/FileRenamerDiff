@@ -106,6 +106,13 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
 
+
+        /// <summary>
+        ///nullの要素を取り除いてnullが含まれていないことが保証されたWhere
+        /// </summary>
+        public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class =>
+            source.OfType<T>();
+
         /// <summary>
         /// CountプロパティをIObservableとして購読する
         /// </summary>
@@ -182,7 +189,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 正規表現を生成する、失敗したらnullを返す
         /// </summary>
-        public static Regex CreateRegexOrNull(string pattern)
+        public static Regex? CreateRegexOrNull(string pattern)
         {
             try
             {
@@ -198,7 +205,7 @@ namespace FileRenamerDiff.Models
 
         public static string GetExtentionCoreFromPath(string path) =>
             Path.HasExtension(path)
-            ? Path.GetExtension(path).Substring(1)
+            ? Path.GetExtension(path)[1..]
             : String.Empty;
 
 

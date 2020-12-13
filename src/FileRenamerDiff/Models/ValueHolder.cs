@@ -16,7 +16,7 @@ namespace FileRenamerDiff.Models
 
         public ValueHolder(T value)
         {
-            this.Value = value;
+            this._Value = value;
         }
     }
     public static class ValueHolderFactory

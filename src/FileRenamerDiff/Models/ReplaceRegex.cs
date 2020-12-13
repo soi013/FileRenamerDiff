@@ -13,14 +13,10 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 置換パターンを組み立てる
         /// </summary>
-        public ReplaceRegex(ReplacePattern rPattern)
+        public ReplaceRegex(Regex regex, string replaceText)
         {
-            var patternEx = rPattern.AsExpression
-                ? rPattern.TargetPattern
-                : Regex.Escape(rPattern.TargetPattern);
-
-            this.regex = AppExtention.CreateRegexOrNull(patternEx);
-            this.replaceText = rPattern.ReplaceText;
+            this.regex = regex;
+            this.replaceText = replaceText;
         }
 
         /// <summary>

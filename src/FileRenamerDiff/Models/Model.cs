@@ -116,17 +116,17 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 現在の処理状態メッセージ
         /// </summary>
-        public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
+        public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgessInfo { get; }
 
         /// <summary>
         /// 現在の処理のキャンセルトークン
         /// </summary>
-        public CancellationTokenSource CancelWork { get; private set; }
+        public CancellationTokenSource? CancelWork { get; private set; }
 
         /// <summary>
         /// ユーザー確認デリゲート
         /// </summary>
-        public Func<Task<bool>> ConfirmUser { get; set; }
+        public Func<Task<bool>> ConfirmUser { get; set; } = () => Task.FromResult(true);
 
         private Model()
         {
@@ -153,7 +153,7 @@ namespace FileRenamerDiff.Models
         {
             LogTo.Debug("File Load Start");
             this.isIdle.Value = false;
-            string sourceFilePath = Setting?.SearchFilePath;
+            string sourceFilePath = Setting.SearchFilePath;
             using (CancelWork = new CancellationTokenSource())
             {
                 try
@@ -340,7 +340,8 @@ namespace FileRenamerDiff.Models
             return totalReplaceTexts
                 .Where(a => !String.IsNullOrWhiteSpace(a.TargetPattern))
                 .Distinct(a => a.TargetPattern)
-                .Select(a => new ReplaceRegex(a))
+                .Select(a => a.ToReplaceRegex())
+                .WhereNotNull()
                 .ToList();
         }
 

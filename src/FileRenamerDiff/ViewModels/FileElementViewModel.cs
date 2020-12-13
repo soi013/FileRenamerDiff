@@ -43,7 +43,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// リネーム前後の差分比較情報
         /// </summary>
-        public ReadOnlyReactivePropertySlim<SideBySideDiffModel> Diff { get; }
+        public ReadOnlyReactivePropertySlim<SideBySideDiffModel?> Diff { get; }
 
         /// <summary>
         /// リネーム前後で差があったか

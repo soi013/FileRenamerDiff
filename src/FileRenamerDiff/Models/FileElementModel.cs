@@ -39,12 +39,12 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// リネーム前 フルファイルパス
         /// </summary>
-        public string InputFilePath => fileInfo?.FullName;
+        public string InputFilePath => fileInfo.FullName;
 
         /// <summary>
         /// リネーム前 ファイル名
         /// </summary>
-        public string InputFileName => fileInfo?.Name;
+        public string InputFileName => fileInfo.Name;
 
         private string outputFileName = "--.-";
         /// <summary>
@@ -79,7 +79,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイルの所属しているディレクトリ名
         /// </summary>
-        public string DirectoryPath => fileInfo.DirectoryName;
+        public string DirectoryPath => fileInfo.DirectoryName ?? string.Empty;
 
         /// <summary>
         /// ファイルのバイト数 （ディレクトリの場合は-1B）

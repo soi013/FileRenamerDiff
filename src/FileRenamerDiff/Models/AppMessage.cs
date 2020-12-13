@@ -34,14 +34,14 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public string MessageBody { get; set; }
 
-        public AppMessage() { }
-
         public AppMessage(AppMessageLevel level, string head, string body = "")
         {
             MessageLevel = level;
             MessageHead = head;
             MessageBody = body;
         }
+
+        public override string ToString() => $"{MessageLevel}_{MessageHead}_({MessageBody})";
     }
 
     /// <summary>
@@ -61,17 +61,13 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static IEnumerable<AppMessage> SumSameHead(this IEnumerable<AppMessage> messages)
         {
-            AppMessage currentMessage = null;
+            AppMessage currentMessage = messages.First();
             var stbBody = new StringBuilder();
+            stbBody.AppendLine(currentMessage.MessageBody);
 
-            foreach (var m in messages)
+            foreach (var m in messages.Skip(1))
             {
-                if (currentMessage == null)
-                {
-                    currentMessage = m;
-                    stbBody.AppendLine(m.MessageBody);
-                }
-                else if (currentMessage.MessageHead == m.MessageHead)
+                if (currentMessage.MessageHead == m.MessageHead)
                 {
                     stbBody.AppendLine(m.MessageBody);
                 }

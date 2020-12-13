@@ -34,7 +34,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class ProgressDialogViewModel : DialogBaseViewModel
     {
-        public IReadOnlyReactiveProperty<ProgressInfo> CurrentProgessInfo { get; }
+        public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgessInfo { get; }
 
         public AsyncReactiveCommand CancelCommand { get; }
 

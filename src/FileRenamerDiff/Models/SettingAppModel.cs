@@ -74,7 +74,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 検索時に無視される拡張子判定Regexの生成
         /// </summary>
-        public Regex CreateIgnoreExtensionsRegex()
+        public Regex? CreateIgnoreExtensionsRegex()
         {
             var ignorePattern = IgnoreExtensions
                 .Select(x => x.Value)
@@ -249,7 +249,10 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public void Serialize(string settingFilePath)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(settingFilePath));
+            string? dirPath = Path.GetDirectoryName(settingFilePath);
+            if (!String.IsNullOrWhiteSpace(dirPath))
+                Directory.CreateDirectory(dirPath);
+
             using var fileStream = new FileStream(settingFilePath, FileMode.Create);
 
             JsonSerializer.Serialize(fileStream, this);

@@ -1,5 +1,6 @@
 ﻿using Livet;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 namespace FileRenamerDiff.Models
 {
@@ -46,10 +47,25 @@ namespace FileRenamerDiff.Models
         /// <param name="asExpression">パターンを単純一致か正規表現とするか</param>
         public ReplacePattern(string targetPattern, string replaceText, bool asExpression = false)
         {
-            this.TargetPattern = targetPattern;
-            this.AsExpression = asExpression;
-            this.ReplaceText = replaceText;
+            this._TargetPattern = targetPattern;
+            this._AsExpression = asExpression;
+            this._ReplaceText = replaceText;
         }
+
+        public ReplaceRegex? ToReplaceRegex()
+        {
+            var patternEx = AsExpression
+                ? TargetPattern
+                : Regex.Escape(TargetPattern);
+
+            Regex? regex = AppExtention.CreateRegexOrNull(patternEx);
+
+            return regex == null
+                ? null
+                : new ReplaceRegex(regex, ReplaceText);
+        }
+
+
         public override string ToString() => $"{TargetPattern}->{ReplaceText}";
     }
 }

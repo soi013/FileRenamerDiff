@@ -84,6 +84,8 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
+        public ReactivePropertySlim<SettingAppViewModel> SettingVM2 { get; } = new ReactivePropertySlim<SettingAppViewModel>();
+
 
         public MainWindowViewModel()
         {
@@ -115,7 +117,7 @@ namespace FileRenamerDiff.ViewModels
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
                 .ObserveOnUIDispatcher()
-                .ToReadOnlyReactivePropertySlim();
+                .ToReadOnlyReactivePropertySlim<SettingAppViewModel>();
 
             this.LoadFilesFromDialogCommand = IsIdle
                 .ToAsyncReactiveCommand<FolderSelectionMessage>()

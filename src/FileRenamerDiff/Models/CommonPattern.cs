@@ -49,7 +49,7 @@ namespace FileRenamerDiff.Models
             this.AsExpression = asExpression;
 
             var pattern = ToReplacePattern();
-            this.SampleOutput = new ReplaceRegex(pattern).Replace(SampleInput);
+            this.SampleOutput = pattern.ToReplaceRegex()?.Replace(SampleInput) ?? String.Empty;
         }
 
         /// <summary>

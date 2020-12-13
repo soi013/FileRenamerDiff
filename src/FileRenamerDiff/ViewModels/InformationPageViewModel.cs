@@ -41,8 +41,8 @@ namespace FileRenamerDiff.ViewModels
 
         private static string CreateAppInfoText()
         {
-            string author = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
-            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string? author = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
+            string? version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
             string url = @"https://github.com/soi013/FileRenamerDiff";
             string regexUrl = @"https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes";
 
