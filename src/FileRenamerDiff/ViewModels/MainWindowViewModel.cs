@@ -91,7 +91,7 @@ namespace FileRenamerDiff.ViewModels
         {
             this.ReplaceCommand = new[]
                 {
-                    model.ObserveProperty(x => x.FileElementModels).Select(x => x?.Count() >= 1),
+                    model.ObserveProperty(x => x.FileElementModels).Select(x => x.Count >= 1),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()

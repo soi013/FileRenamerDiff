@@ -114,7 +114,7 @@ namespace FileRenamerDiff.ViewModels
         /// <returns>表示状態</returns>
         private bool GetVisibleRow(object row)
         {
-            if (!(row is FileElementViewModel pathVM))
+            if (row is not FileElementViewModel pathVM)
                 return true;
 
             var replacedVisible = !IsVisibleReplacedOnly.Value || pathVM.IsReplaced.Value;
@@ -125,7 +125,7 @@ namespace FileRenamerDiff.ViewModels
 
         private void RefleshCollectionViewSafe()
         {
-            if (!(CViewFileElementVMs?.Value is ListCollectionView currentView))
+            if (CViewFileElementVMs.Value is not ListCollectionView currentView)
                 return;
 
             //なぜかCollectionViewが追加中・編集中のことがある。

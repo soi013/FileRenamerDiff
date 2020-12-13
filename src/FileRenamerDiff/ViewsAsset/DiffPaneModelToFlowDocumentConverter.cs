@@ -27,7 +27,7 @@ namespace FileRenamerDiff.Views
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (!(value is DiffPaneModel diffVM))
+            if (value is not DiffPaneModel diffVM)
                 return Binding.DoNothing;
 
             if (!diffVM.Lines.Any())
