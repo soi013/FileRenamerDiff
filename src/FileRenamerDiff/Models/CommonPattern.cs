@@ -9,54 +9,24 @@ namespace FileRenamerDiff.Models
     /// <summary>
     /// よく使う設定パターン集
     /// </summary>
-    public class CommonPattern
+    /// <param name="Comment">パターン説明</param>
+    /// <param name="TargetPattern">置換される対象のパターン</param>
+    /// <param name="ReplaceText">置換後文字列</param>
+    /// <param name="SampleInput">サンプル入力例</param>
+    /// <param name="AsExpression">パターンを単純一致か正規表現とするか</param>
+    public record CommonPattern(string Comment, string TargetPattern, string ReplaceText, string SampleInput, bool AsExpression)
     {
-        /// <summary>
-        /// パターン説明
-        /// </summary>
-        public string Comment { get; }
-
-        /// <summary>
-        /// 置換される対象のパターン
-        /// </summary>
-        public string TargetPattern { get; }
-
-        /// <summary>
-        /// 置換後文字列
-        /// </summary>
-        public string ReplaceText { get; }
-
-        /// <summary>
-        /// サンプル入力例
-        /// </summary>
-        public string SampleInput { get; }
-        /// <summary>
-        /// サンプル出力例
-        /// </summary>
-        public string SampleOutput { get; }
-
-        /// <summary>
-        /// パターンを単純一致か正規表現とするか
-        /// </summary>
-        public bool AsExpression { get; }
-
-        public CommonPattern(string comment, string targetPattern, string replaceText, string sampleInput, bool asExpression)
-        {
-            this.Comment = comment;
-            this.TargetPattern = targetPattern;
-            this.ReplaceText = replaceText;
-            this.SampleInput = sampleInput;
-            this.AsExpression = asExpression;
-
-            var pattern = ToReplacePattern();
-            this.SampleOutput = pattern.ToReplaceRegex()?.Replace(SampleInput) ?? String.Empty;
-        }
-
         /// <summary>
         /// 置換パターンへの変換
         /// </summary>
         public ReplacePattern ToReplacePattern() => new(TargetPattern, ReplaceText, AsExpression);
 
+        /// <summary>
+        /// サンプル出力例
+        /// </summary>
+        public string SampleOutput { get; } = new ReplacePattern(TargetPattern, ReplaceText, AsExpression)
+            .ToReplaceRegex()?.Replace(SampleInput)
+            ?? String.Empty;
 
         /// <summary>
         /// よく使う削除パターン集

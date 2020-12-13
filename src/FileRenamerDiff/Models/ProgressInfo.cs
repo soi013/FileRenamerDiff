@@ -7,15 +7,7 @@ namespace FileRenamerDiff.Models
     /// <summary>
     /// 処理状態情報
     /// </summary>
-    public class ProgressInfo
-    {
-        public int Count { get; }
-        public string Message { get; }
-
-        public ProgressInfo(int count, string message)
-        {
-            Count = count;
-            Message = message;
-        }
-    }
+    /// <param name="Count">処理カウント</param>
+    /// <param name="Message">処理状態メッセージ</param>
+    public record ProgressInfo(int Count, string Message) { }
 }

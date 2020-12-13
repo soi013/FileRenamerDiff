@@ -17,7 +17,7 @@ namespace FileRenamerDiff.Models
     /// <summary>
     /// アプリケーション内メッセージ
     /// </summary>
-    public class AppMessage : NotificationObject
+    public class AppMessage
     {
         /// <summary>
         /// メッセージレベル
