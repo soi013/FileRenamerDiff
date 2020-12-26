@@ -66,7 +66,7 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<ValueHolder<string>> IgnoreExtensions { get; set; } =
             new[]
             {
-                "pdb", "db", "cache","tmp","ini",
+                "pdb", "db", "cache","tmp","ini","DS_STORE",
             }
             .Select(x => ValueHolderFactory.Create(x))
             .ToObservableCollection();
@@ -92,23 +92,14 @@ namespace FileRenamerDiff.Models
         /// 削除文字列パターン
         /// </summary>
         public ObservableCollection<ReplacePattern> DeleteTexts { get; set; } =
-            new[]
+            new ObservableCollection<ReplacePattern>
             {
                 //Windowsでその場でコピーしたときの文字(- コピー)、OSの言語によって変わる
-                Resources.Windows_CopyFileSuffix,
-                Resources.Windows_ShortcutFileSuffix,
-                "(1)",
-                "(2)",
-                "(3)",
-                "(4)",
-                "(5)",
-                "(6)",
-                "(7)",
-                "(8)",
-                "(9)",
-            }
-            .Select(x => new ReplacePattern(x, ""))
-            .ToObservableCollection();
+                new (Resources.Windows_CopyFileSuffix, ""),
+                new (Resources.Windows_ShortcutFileSuffix, ""),
+                //Windowsの(数字)タグ文字
+                new (@"\s*\([0-9]{0,3}\)", "",true),
+            };
 
         /// <summary>
         /// 置換文字列パターン
