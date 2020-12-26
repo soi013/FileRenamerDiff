@@ -33,6 +33,11 @@ namespace FileRenamerDiff.ViewModels
         readonly Model model = Model.Instance;
 
         /// <summary>
+        /// アプリケーションタイトル文字列
+        /// </summary>
+        public ReadOnlyReactivePropertySlim<string> WindowTitle { get; }
+
+        /// <summary>
         /// アプリケーションが待機状態か
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdle => model.IsIdleUI;
@@ -86,6 +91,13 @@ namespace FileRenamerDiff.ViewModels
 
         public MainWindowViewModel()
         {
+            this.WindowTitle = model
+                .ObserveProperty(x => x.FileElementModels)
+                .Select(x => x?.Count > 0 ? model.Setting.SearchFilePath : String.Empty)
+                .Select(x => $"FILE RENAMER DIFF | {x}")
+                .ObserveOnUIDispatcher()
+                .ToReadOnlyReactivePropertySlim<string>();
+
             this.ReplaceCommand = new[]
                 {
                     model.ObserveProperty(x => x.FileElementModels).Select(x => x.Count >= 1),

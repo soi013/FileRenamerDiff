@@ -9,7 +9,7 @@
    xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
    xmlns:v="clr-namespace:FileRenamerDiff.Views"
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
-   Title="FILE RENAMER DIFF"
+   Title="{Binding WindowTitle.Value}"
    Width="1600"
    Height="800"
    Background="{StaticResource MaterialDesignPaper}"
