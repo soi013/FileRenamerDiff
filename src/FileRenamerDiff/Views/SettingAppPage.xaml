@@ -98,7 +98,7 @@
          <Setter Property="CanUserSortColumns" Value="False" />
          <Setter Property="HeadersVisibility" Value="All" />
 
-         <!--DataGrid内でスクロールしても、親のパネルがスクロールするようになる-->
+         <!--  DataGrid内でスクロールしても、親のパネルがスクロールするようになる  -->
          <Setter Property="v:StyleBehaviorCollection.StyleBehaviors">
             <Setter.Value>
                <v:StyleBehaviorCollection>
@@ -129,6 +129,22 @@
          <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Regex}" />
          <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
       </Style>
+      <Style
+         x:Key="ShowExpressionReferenceButton"
+         x:Shared="False"
+         BasedOn="{StaticResource MaterialDesignFlatButton}"
+         TargetType="{x:Type Button}">
+         <Setter Property="Command" Value="{Binding ShowExpressionReferenceCommand, Mode=OneTime}" />
+         <Setter Property="Margin" Value="3,1" />
+         <Setter Property="Content">
+            <Setter.Value>
+               <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <materialDesign:PackIcon Kind="HelpCircleOutline" />
+                  <TextBlock Text="{x:Static properties:Resources.Setting_AsExpression}" />
+               </StackPanel>
+            </Setter.Value>
+         </Setter>
+      </Style>
 
       <!--  Common Popup  -->
       <Style
@@ -138,6 +154,7 @@
          TargetType="{x:Type materialDesign:PopupBox}">
          <Setter Property="Margin" Value="0,0,15,0" />
          <Setter Property="StaysOpen" Value="True" />
+         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_CommonPatterns}" />
          <Setter Property="ToggleContent">
             <Setter.Value>
                <materialDesign:PackIcon
@@ -260,14 +277,16 @@
                <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
                </Grid.ColumnDefinitions>
                <Button
                   Grid.Column="0"
                   Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
                   Style="{StaticResource AddButton}" />
+               <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
 
                <!--  よく使う削除パターン集  -->
-               <materialDesign:PopupBox Grid.Column="1" Style="{StaticResource commonPopup}">
+               <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
                   <StackPanel Margin="8">
                      <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
                      <DataGrid ItemsSource="{Binding CommonDeletePatternVMs}">
@@ -369,14 +388,17 @@
                <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
                </Grid.ColumnDefinitions>
                <Button
                   Grid.Column="0"
                   Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
                   Style="{StaticResource AddButton}" />
 
+               <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
+
                <!--  よく使う置換パターン集  -->
-               <materialDesign:PopupBox Grid.Column="1" Style="{StaticResource commonPopup}">
+               <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
                   <StackPanel Margin="8">
                      <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
                      <DataGrid ItemsSource="{Binding CommonReplacePatternVMs}">
@@ -425,6 +447,7 @@
          </Grid>
       </Expander>
       <Border Style="{StaticResource divider}" />
+      <!--  その他設定  -->
       <Expander IsExpanded="True">
          <Expander.Header>
             <StackPanel Orientation="Horizontal">

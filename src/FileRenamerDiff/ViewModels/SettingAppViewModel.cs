@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using Livet;
 using Livet.Commands;
@@ -113,6 +114,8 @@ namespace FileRenamerDiff.ViewModels
         public ReactiveCommand AddReplaceTextsCommand { get; }
         public AsyncReactiveCommand ClearReplaceTextsCommand { get; }
 
+        public AsyncReactiveCommand ShowExpressionReferenceCommand { get; }
+
         /// <summary>
         /// 設定初期化コマンド
         /// </summary>
@@ -210,6 +213,11 @@ namespace FileRenamerDiff.ViewModels
                         setting.ReplaceTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 
+            this.ShowExpressionReferenceCommand = model.IsIdleUI
+                .ToAsyncReactiveCommand()
+                .WithSubscribe(() => ShowExpressionReference())
+                .AddTo(this.CompositeDisposable);
+
             this.ResetSettingCommand = model.IsIdleUI
                 .ToReactiveCommand()
                 .WithSubscribe(() => model.ResetSetting())
@@ -229,6 +237,13 @@ namespace FileRenamerDiff.ViewModels
             this.PreviousSettingFileName = model.PreviousSettingFilePath
                 .Select(x => Path.GetFileName(x))
                 .ToReadOnlyReactivePropertySlim();
+        }
+
+        private static Task? ShowExpressionReference()
+        {
+            string regexUrl = @"https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes";
+            var pi = new ProcessStartInfo("cmd", $"/c start {regexUrl}") { CreateNoWindow = true };
+            return Process.Start(pi)?.WaitForExitAsync();
         }
 
         private static CultureInfo[] CreateAvailableLanguages()

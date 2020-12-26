@@ -343,4 +343,8 @@
     <value>Replace "ABC" with "x" in a case-insensitive</value>
     <comment>よくあるパターン説明_大文字小文字を区別せずに"ABC"を”x"に置換する。</comment>
   </data>
+  <data name="Setting_CommonPatterns" xml:space="preserve">
+    <value>A collection of common patterns</value>
+    <comment>よくあるパターン集</comment>
+  </data>
 </root>

@@ -285,4 +285,7 @@
   <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
     <value>将 "ABC "改为 "x"，不区分大小写</value>
   </data>
+  <data name="Setting_CommonPatterns" xml:space="preserve">
+    <value>常见模式的集合</value>
+  </data>
 </root>

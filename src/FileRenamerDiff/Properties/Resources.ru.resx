@@ -285,4 +285,7 @@
   <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
     <value>Замените "ABC" на "x" в случае нечувствительности к регистру</value>
   </data>
+  <data name="Setting_CommonPatterns" xml:space="preserve">
+    <value>Коллекция общих закономерностей</value>
+  </data>
 </root>

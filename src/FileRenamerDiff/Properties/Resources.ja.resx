@@ -285,4 +285,7 @@
   <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
     <value>大文字小文字を区別せずに"ABC"を”x"に置換する</value>
   </data>
+  <data name="Setting_CommonPatterns" xml:space="preserve">
+    <value>よくあるパターン集</value>
+  </data>
 </root>

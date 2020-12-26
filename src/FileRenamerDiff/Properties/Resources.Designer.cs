@@ -420,6 +420,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   A collection of common patterns に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_CommonPatterns {
+            get {
+                return ResourceManager.GetString("Setting_CommonPatterns", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete Texts に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_DeleteTexts {

@@ -285,4 +285,7 @@
   <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
     <value>Ersetzen Sie "ABC" durch "x" in einer case-insensitive</value>
   </data>
+  <data name="Setting_CommonPatterns" xml:space="preserve">
+    <value>Eine Sammlung von allgemeinen Mustern</value>
+  </data>
 </root>
