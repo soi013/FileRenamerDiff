@@ -262,7 +262,7 @@
     <value>拡張子の削除</value>
   </data>
   <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
-    <value>ABCを[]で囲う</value>
+    <value>"ABC"を[]で囲う</value>
   </data>
   <data name="Common_ReduceWhiteSpace" xml:space="preserve">
     <value>スペースを1つの半角スペースに減らす</value>
@@ -277,6 +277,12 @@
     <value>数字を3桁に減らす (3桁のゼロ埋め 2/2)</value>
   </data>
   <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
-    <value>拡張子をABCに置き換える</value>
+    <value>拡張子を"ABC"に置き換える</value>
+  </data>
+  <data name="Common_DeleteIgnoreCase" xml:space="preserve">
+    <value>大文字小文字を区別せずに"ABC"を削除する</value>
+  </data>
+  <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
+    <value>大文字小文字を区別せずに"ABC"を”x"に置換する</value>
   </data>
 </root>

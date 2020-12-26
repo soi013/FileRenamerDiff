@@ -312,7 +312,7 @@
     <comment>よくあるパターン説明_拡張子の削除</comment>
   </data>
   <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
-    <value>Surround ABC with []</value>
+    <value>Surround "ABC" with []</value>
     <comment>よくあるパターン説明_ABCを[]で囲う</comment>
   </data>
   <data name="Common_ReduceWhiteSpace" xml:space="preserve">
@@ -332,7 +332,15 @@
     <comment>よくあるパターン説明_数字を3桁に削る（3桁のゼロ埋め 2/2）</comment>
   </data>
   <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
-    <value>Replace extension with ABC</value>
+    <value>Replace extension with "ABC"</value>
     <comment>よくあるパターン説明_拡張子をABCに置き換える</comment>
+  </data>
+  <data name="Common_DeleteIgnoreCase" xml:space="preserve">
+    <value>Delete "ABC" in a case-insensitive</value>
+    <comment>よくあるパターン説明_大文字小文字を区別せずに"ABC"を削除する。</comment>
+  </data>
+  <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
+    <value>Replace "ABC" with "x" in a case-insensitive</value>
+    <comment>よくあるパターン説明_大文字小文字を区別せずに"ABC"を”x"に置換する。</comment>
   </data>
 </root>

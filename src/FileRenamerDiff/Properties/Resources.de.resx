@@ -262,7 +262,7 @@
     <value>Löschen Sie die Erweiterung</value>
   </data>
   <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
-    <value>Umgeben Sie ABC mit []</value>
+    <value>Umgeben Sie "ABC" mit []</value>
   </data>
   <data name="Common_ReduceWhiteSpace" xml:space="preserve">
     <value>Reduzieren Sie Leerzeichen auf ein einzelnes Leerzeichen</value>
@@ -277,6 +277,12 @@
     <value>Reduzieren Sie die Zahl auf drei Ziffern (dreistelliges Nullenauffüllen 2/2)</value>
   </data>
   <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
-    <value>Ersetzen Sie die Erweiterung durch ABC</value>
+    <value>Ersetzen Sie die Erweiterung durch "ABC"</value>
+  </data>
+  <data name="Common_DeleteIgnoreCase" xml:space="preserve">
+    <value>Löschen Sie "ABC" unter Beachtung der Groß- und Kleinschreibung</value>
+  </data>
+  <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
+    <value>Ersetzen Sie "ABC" durch "x" in einer case-insensitive</value>
   </data>
 </root>

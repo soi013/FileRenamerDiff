@@ -142,6 +142,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Delete &quot;ABC&quot; in a case-insensitive に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteIgnoreCase {
+            get {
+                return ResourceManager.GetString("Common_DeleteIgnoreCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete whitespaces from the head and tail に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_DeleteWhitespacesHeadTail {
@@ -187,11 +196,20 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Replace extension with ABC に類似しているローカライズされた文字列を検索します。
+        ///   Replace extension with &quot;ABC&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_ReplaceAllExtentionToABC {
             get {
                 return ResourceManager.GetString("Common_ReplaceAllExtentionToABC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Replace &quot;ABC&quot; with &quot;x&quot; in a case-insensitive に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceIgnoreCase {
+            get {
+                return ResourceManager.GetString("Common_ReplaceIgnoreCase", resourceCulture);
             }
         }
         
@@ -205,7 +223,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Surround ABC with [] に類似しているローカライズされた文字列を検索します。
+        ///   Surround &quot;ABC&quot; with [] に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_SurroundWithSqureBrackets {
             get {

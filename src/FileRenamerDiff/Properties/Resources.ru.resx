@@ -262,7 +262,7 @@
     <value>Удалить расширение</value>
   </data>
   <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
-    <value>Окружите азбуку []</value>
+    <value>Окружите "ABC" []</value>
   </data>
   <data name="Common_ReduceWhiteSpace" xml:space="preserve">
     <value>Сократить пространство до одного места</value>
@@ -277,6 +277,12 @@
     <value>Уменьшите число до трех цифр (трехзначный нулевой отступ 2/2)</value>
   </data>
   <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
-    <value>Замените расширение на ABC</value>
+    <value>Замените расширение на "ABC"</value>
+  </data>
+  <data name="Common_DeleteIgnoreCase" xml:space="preserve">
+    <value>Удалить "ABC" с учетом регистра</value>
+  </data>
+  <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
+    <value>Замените "ABC" на "x" в случае нечувствительности к регистру</value>
   </data>
 </root>

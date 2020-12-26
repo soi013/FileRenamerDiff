@@ -262,7 +262,7 @@
     <value>删去扩展名</value>
   </data>
   <data name="Common_SurroundWithSqureBrackets" xml:space="preserve">
-    <value>用[]包围ABC</value>
+    <value>用[]包围"ABC"</value>
   </data>
   <data name="Common_ReduceWhiteSpace" xml:space="preserve">
     <value>将空间减少到一个单一空间</value>
@@ -277,6 +277,12 @@
     <value>把数字减少到三位数（三位数的零垫2/2）</value>
   </data>
   <data name="Common_ReplaceAllExtentionToABC" xml:space="preserve">
-    <value>将分机改为ABC</value>
+    <value>将分机改为"ABC"</value>
+  </data>
+  <data name="Common_DeleteIgnoreCase" xml:space="preserve">
+    <value>删除不区分大小写的 "ABC"</value>
+  </data>
+  <data name="Common_ReplaceIgnoreCase" xml:space="preserve">
+    <value>将 "ABC "改为 "x"，不区分大小写</value>
   </data>
 </root>
