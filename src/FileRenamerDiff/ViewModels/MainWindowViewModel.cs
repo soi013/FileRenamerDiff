@@ -166,12 +166,15 @@ namespace FileRenamerDiff.ViewModels
             await innerVM.IsDialogOpen;
         }
 
-        private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) => LoadFileFromNewPath(fsMessage.Response);
+        private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) =>
+            String.IsNullOrWhiteSpace(fsMessage.Response)
+            ? Task.CompletedTask
+            : LoadFileFromNewPath(fsMessage.Response);
 
-        private async Task LoadFileFromNewPath(string targetPath)
+        private Task LoadFileFromNewPath(string targetPath)
         {
             SettingVM.Value.SearchFilePath.Value = targetPath;
-            await LoadFilesFromCurrentPath();
+            return LoadFilesFromCurrentPath();
         }
 
         private async Task LoadFilesFromCurrentPath()
