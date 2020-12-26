@@ -97,6 +97,15 @@
          <Setter Property="AutoGenerateColumns" Value="False" />
          <Setter Property="CanUserSortColumns" Value="False" />
          <Setter Property="HeadersVisibility" Value="All" />
+
+         <!--DataGrid内でスクロールしても、親のパネルがスクロールするようになる-->
+         <Setter Property="v:StyleBehaviorCollection.StyleBehaviors">
+            <Setter.Value>
+               <v:StyleBehaviorCollection>
+                  <v:BubbleScrollEvent />
+               </v:StyleBehaviorCollection>
+            </Setter.Value>
+         </Setter>
       </Style>
       <Style BasedOn="{StaticResource MaterialDesignLightCheckBox}" TargetType="{x:Type CheckBox}">
          <Setter Property="Margin" Value="30,5" />
