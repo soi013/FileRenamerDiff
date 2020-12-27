@@ -33,6 +33,14 @@
          TargetType="{x:Type TextBlock}">
          <Setter Property="Margin" Value="5,0" />
       </Style>
+      <Style
+         x:Key="ExpanderHeaderLabel"
+         BasedOn="{StaticResource IconTagLabel}"
+         TargetType="{x:Type Label}">
+         <Setter Property="Margin" Value="0,2" />
+         <Setter Property="FontSize" Value="16" />
+         <Setter Property="FontWeight" Value="Regular" />
+      </Style>
 
       <!--  追加ボタン スタイル  -->
       <Style
@@ -42,10 +50,10 @@
          TargetType="{x:Type Button}">
          <Setter Property="Content">
             <Setter.Value>
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="TableRowAddAfter" />
-                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_Add}" />
-               </StackPanel>
+               <Label
+                  v:IconHeadder.IconKind="TableRowAddAfter"
+                  Content="{x:Static properties:Resources.Setting_Add}"
+                  Style="{StaticResource IconTagLabel}" />
             </Setter.Value>
          </Setter>
          <Setter Property="Margin" Value="30,5" />
@@ -174,10 +182,10 @@
    <StackPanel x:Name="rootObj">
       <Expander>
          <Expander.Header>
-            <StackPanel Orientation="Horizontal">
-               <materialDesign:PackIcon Kind="FolderSettingsOutline" />
-               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_FileSearch}" />
-            </StackPanel>
+            <Label
+               v:IconHeadder.IconKind="FolderSettingsOutline"
+               Content="{x:Static properties:Resources.Setting_FileSearch}"
+               Style="{StaticResource ExpanderHeaderLabel}" />
          </Expander.Header>
          <Grid>
             <Grid.RowDefinitions>
@@ -235,10 +243,10 @@
       <Border Style="{StaticResource divider}" />
       <Expander>
          <Expander.Header>
-            <StackPanel Orientation="Horizontal">
-               <materialDesign:PackIcon Kind="FormatStrikethrough" />
-               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_DeleteTexts}" />
-            </StackPanel>
+            <Label
+               v:IconHeadder.IconKind="FormatStrikethrough"
+               Content="{x:Static properties:Resources.Setting_DeleteTexts}"
+               Style="{StaticResource ExpanderHeaderLabel}" />
          </Expander.Header>
          <Grid>
             <Grid.RowDefinitions>
@@ -336,10 +344,10 @@
       <Border Style="{StaticResource divider}" />
       <Expander>
          <Expander.Header>
-            <StackPanel Orientation="Horizontal">
-               <materialDesign:PackIcon Kind="AbTesting" />
-               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_ReplacePatterns}" />
-            </StackPanel>
+            <Label
+               v:IconHeadder.IconKind="AbTesting"
+               Content="{x:Static properties:Resources.Setting_ReplacePatterns}"
+               Style="{StaticResource ExpanderHeaderLabel}" />
          </Expander.Header>
          <Grid>
             <Grid.RowDefinitions>
@@ -453,10 +461,10 @@
       <!--  その他設定  -->
       <Expander IsExpanded="True">
          <Expander.Header>
-            <StackPanel Orientation="Horizontal">
-               <materialDesign:PackIcon Kind="Tune" />
-               <TextBlock Style="{StaticResource ExpanderHeader}" Text="{x:Static properties:Resources.Setting_Other}" />
-            </StackPanel>
+            <Label
+               v:IconHeadder.IconKind="Tune"
+               Content="{x:Static properties:Resources.Setting_Other}"
+               Style="{StaticResource ExpanderHeaderLabel}" />
          </Expander.Header>
          <StackPanel>
             <materialDesign:Card Margin="30,5" Padding="15,10,15,5">
@@ -510,10 +518,10 @@
                      </l:OpenFileDialogInteractionMessageAction>
                   </behaviors:EventTrigger>
                </behaviors:Interaction.Triggers>
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="FileImport" />
-                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ImportSettingFile}" />
-               </StackPanel>
+               <Label
+                  v:IconHeadder.IconKind="FileImport"
+                  Content="{x:Static properties:Resources.Setting_ImportSettingFile}"
+                  Style="{StaticResource IconTagLabel}" />
             </Button>
             <Button Margin="30,5">
                <behaviors:Interaction.Triggers>
@@ -529,19 +537,19 @@
                      </l:SaveFileDialogInteractionMessageAction>
                   </behaviors:EventTrigger>
                </behaviors:Interaction.Triggers>
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="FileExport" />
-                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ExportSettingFile}" />
-               </StackPanel>
+               <Label
+                  v:IconHeadder.IconKind="FileExport"
+                  Content="{x:Static properties:Resources.Setting_ExportSettingFile}"
+                  Style="{StaticResource IconTagLabel}" />
             </Button>
             <Button
                Margin="30,5"
                Command="{Binding ResetSettingCommand, Mode=OneTime}"
                Style="{StaticResource MaterialDesignRaisedAccentButton}">
-               <StackPanel Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="Autorenew" />
-                  <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Setting_ResetAllSetting}" />
-               </StackPanel>
+               <Label
+                  v:IconHeadder.IconKind="Autorenew"
+                  Content="{x:Static properties:Resources.Setting_ResetAllSetting}"
+                  Style="{StaticResource IconTagLabel}" />
             </Button>
          </StackPanel>
       </Expander>

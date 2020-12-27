@@ -132,10 +132,10 @@
                      Margin="8,0,0,0"
                      Command="{Binding LoadFilesFromCurrentPathCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedLightButton}">
-                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="FolderSearchOutline" />
-                        <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_SearchFiles}" />
-                     </StackPanel>
+                     <Label
+                        v:IconHeadder.IconKind="FolderSearchOutline"
+                        Content="{x:Static properties:Resources.Menu_SearchFiles}"
+                        Style="{StaticResource IconTagLabel}" />
                   </Button>
 
                   <!--  リネームプレビューボタン  -->
@@ -143,10 +143,10 @@
                      Margin="20,0,0,0"
                      Command="{Binding ReplaceCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedAccentButton}">
-                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="RenameBox" />
-                        <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_DryRun}" />
-                     </StackPanel>
+                     <Label
+                        v:IconHeadder.IconKind="RenameBox"
+                        Content="{x:Static properties:Resources.Menu_DryRun}"
+                        Style="{StaticResource IconTagLabel}" />
                   </Button>
 
                   <!--  リネーム実行ボタン  -->
@@ -154,10 +154,10 @@
                      Margin="8,0"
                      Command="{Binding RenameExcuteCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedAccentButton}">
-                     <StackPanel Orientation="Horizontal">
-                        <materialDesign:PackIcon Kind="ContentSaveAllOutline" />
-                        <TextBlock Margin="5,0" Text="{x:Static properties:Resources.Menu_Save}" />
-                     </StackPanel>
+                     <Label
+                        v:IconHeadder.IconKind="ContentSaveAllOutline"
+                        Content="{x:Static properties:Resources.Menu_Save}"
+                        Style="{StaticResource IconTagLabel}" />
                   </Button>
                </StackPanel>
             </DockPanel>
