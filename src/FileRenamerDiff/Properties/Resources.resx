@@ -347,4 +347,12 @@
     <value>A collection of common patterns</value>
     <comment>よくあるパターン集</comment>
   </data>
+  <data name="Common_DeleteWhitespacesBeforeSymbol" xml:space="preserve">
+    <value>Delete spaces before a symbol</value>
+    <comment>よくあるパターン説明_" ."や" ]"など記号の前の空白を削除する</comment>
+  </data>
+  <data name="Common_DeleteWhitespacesInsideBrace" xml:space="preserve">
+    <value>Delete the spaces inside the brackets</value>
+    <comment>よくあるパターン説明_"[ "や" )"などカッコの内側の空白を削除する</comment>
+  </data>
 </root>

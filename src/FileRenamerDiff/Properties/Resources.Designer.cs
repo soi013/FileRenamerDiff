@@ -151,11 +151,29 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Delete spaces before a symbol に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteWhitespacesBeforeSymbol {
+            get {
+                return ResourceManager.GetString("Common_DeleteWhitespacesBeforeSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete whitespaces from the head and tail に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_DeleteWhitespacesHeadTail {
             get {
                 return ResourceManager.GetString("Common_DeleteWhitespacesHeadTail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the spaces inside the brackets に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteWhitespacesInsideBrace {
+            get {
+                return ResourceManager.GetString("Common_DeleteWhitespacesInsideBrace", resourceCulture);
             }
         }
         

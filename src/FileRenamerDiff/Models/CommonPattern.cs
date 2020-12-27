@@ -40,6 +40,8 @@ namespace FileRenamerDiff.Models
                 (Resources.Common_DeleteWhitespacesHeadTail, "^\\s+|\\s+$",                  " Sample .txt ", true),
                 (Resources.Common_DeleteExtention,            "\\.\\w+$",                             "sam.ple.txt",  true),
                 (Resources.Common_DeleteIgnoreCase,            "(?i)abc",                             "ABC_abc_AbC.txt",  true),
+                (Resources.Common_DeleteWhitespacesBeforeSymbol,        "\\s+(?=(\\.|,|;))",              "s .a ,m ;p le.txt",  true),
+                (Resources.Common_DeleteWhitespacesInsideBrace,          "(?<=(\\(|\\[))\\s+|\\s+(?=(\\)|]))",              "samp [ l ] ( e ).txt",  true),
             }
             .Select(a => new CommonPattern(a.comment, a.target, "", a.sample, a.exp))
             .ToArray();
