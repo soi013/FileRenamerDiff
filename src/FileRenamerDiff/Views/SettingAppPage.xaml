@@ -129,6 +129,8 @@
          <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Regex}" />
          <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
       </Style>
+
+      <!--  正規表現リファレンスButton Style  -->
       <Style
          x:Key="ShowExpressionReferenceButton"
          x:Shared="False"
@@ -138,12 +140,13 @@
          <Setter Property="Margin" Value="3,1" />
          <Setter Property="Content">
             <Setter.Value>
-               <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+               <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                   <materialDesign:PackIcon Kind="HelpCircleOutline" />
-                  <TextBlock Text="{x:Static properties:Resources.Setting_AsExpression}" />
+                  <materialDesign:PackIcon Kind="Regex" />
                </StackPanel>
             </Setter.Value>
          </Setter>
+         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
       </Style>
 
       <!--  Common Popup  -->
