@@ -225,11 +225,11 @@ namespace FileRenamerDiff.ViewModels
 
             this.LoadSettingFileDialogCommand = model.IsIdleUI
                 .ToReactiveCommand<FileSelectionMessage>()
-                .WithSubscribe(x => model.LoadSettingFile(x.Response.FirstOrDefault() ?? String.Empty));
+                .WithSubscribe(x => model.LoadSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
 
             this.SaveSettingFileDialogCommand = model.IsIdleUI
                 .ToReactiveCommand<FileSelectionMessage>()
-                .WithSubscribe(x => model.SaveSettingFile(x.Response.FirstOrDefault() ?? String.Empty));
+                .WithSubscribe(x => model.SaveSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
 
             this.PreviousSettingFileDirectory = model.PreviousSettingFilePath
                 .Select(x => Path.GetDirectoryName(x))
