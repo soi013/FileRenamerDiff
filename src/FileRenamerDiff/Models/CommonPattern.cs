@@ -36,12 +36,14 @@ namespace FileRenamerDiff.Models
             {
                 (Resources.Common_DeleteWindowsCopyTag,     Resources.Windows_CopyFileSuffix,       $"Sample{Resources.Windows_CopyFileSuffix}.txt", false),
                 (Resources.Common_DeleteWindowsShortcutTag, Resources.Windows_ShortcutFileSuffix,   $"Sample.txt{Resources.Windows_ShortcutFileSuffix}", false),
-                (Resources.Common_DeleteWindowsNumberTag,         "\\s*\\([0-9]{0,3}\\)",                 "Sample (1).txt", true),
-                (Resources.Common_DeleteWhitespacesHeadTail, "^\\s+|\\s+$",                  " Sample .txt ", true),
-                (Resources.Common_DeleteExtention,            "\\.\\w+$",                             "sam.ple.txt",  true),
+                (Resources.Common_DeleteWindowsNumberTag,         @"\s*\([0-9]{0,3}\)",                 "Sample (1).txt", true),
+                (Resources.Common_DeleteWhitespacesHeadTail, @"^\s+|\s+$",                  " Sample .txt ", true),
+                (Resources.Common_DeleteExtention,            @"\.\w+$",                             "sam.ple.txt",  true),
                 (Resources.Common_DeleteIgnoreCase,            "(?i)abc",                             "ABC_abc_AbC.txt",  true),
-                (Resources.Common_DeleteWhitespacesBeforeSymbol,        "\\s+(?=(\\.|,|;))",              "s .a ,m ;p le.txt",  true),
-                (Resources.Common_DeleteWhitespacesInsideBrace,          "(?<=(\\(|\\[))\\s+|\\s+(?=(\\)|]))",              "samp [ l ] ( e ).txt",  true),
+                (Resources.Common_DeleteWhitespacesBeforeSymbol,        @"\s+(?=(\.|,|;))",              "s .a ,m ;p le.txt",  true),
+                (Resources.Common_DeleteWhitespacesInsideBrace,          @"(?<=(\(|\[))\s+|\s+(?=(\)|]))",              "samp [ l ] ( e ).txt",  true),
+                (Resources.Common_DeleteBeforeExtension,        @".*(?=\.\w+$)",              "sam.ple.txt",  true),
+                (Resources.Common_DeleteAll,        @".*",              "sam.ple.txt",  true),
             }
             .Select(a => new CommonPattern(a.comment, a.target, "", a.sample, a.exp))
             .ToArray();

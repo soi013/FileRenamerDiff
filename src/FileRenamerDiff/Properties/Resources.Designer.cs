@@ -133,6 +133,24 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Delete all characters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteAll {
+            get {
+                return ResourceManager.GetString("Common_DeleteAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete characters before the extension に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_DeleteBeforeExtension {
+            get {
+                return ResourceManager.GetString("Common_DeleteBeforeExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete extension に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_DeleteExtention {

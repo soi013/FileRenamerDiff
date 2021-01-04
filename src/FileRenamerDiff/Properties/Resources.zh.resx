@@ -294,4 +294,10 @@
   <data name="Common_DeleteWhitespacesInsideBrace" xml:space="preserve">
     <value>删除括号内的空格</value>
   </data>
+  <data name="Common_DeleteBeforeExtension" xml:space="preserve">
+    <value>删除扩展名前的字符</value>
+  </data>
+  <data name="Common_DeleteAll" xml:space="preserve">
+    <value>删除所有字符</value>
+  </data>
 </root>

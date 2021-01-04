@@ -294,4 +294,10 @@
   <data name="Common_DeleteWhitespacesInsideBrace" xml:space="preserve">
     <value>括弧の内側の空白を削除する</value>
   </data>
+  <data name="Common_DeleteBeforeExtension" xml:space="preserve">
+    <value>拡張子より前の文字を削除する</value>
+  </data>
+  <data name="Common_DeleteAll" xml:space="preserve">
+    <value>全ての文字を削除する</value>
+  </data>
 </root>

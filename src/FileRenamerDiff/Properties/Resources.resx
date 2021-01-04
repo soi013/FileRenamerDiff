@@ -355,4 +355,12 @@
     <value>Delete the spaces inside the brackets</value>
     <comment>よくあるパターン説明_"[ "や" )"などカッコの内側の空白を削除する</comment>
   </data>
+  <data name="Common_DeleteBeforeExtension" xml:space="preserve">
+    <value>Delete characters before the extension</value>
+    <comment>よくあるパターン説明_拡張子より前の文字を削除する</comment>
+  </data>
+  <data name="Common_DeleteAll" xml:space="preserve">
+    <value>Delete all characters</value>
+    <comment>よくあるパターン説明_全ての文字を削除する</comment>
+  </data>
 </root>
