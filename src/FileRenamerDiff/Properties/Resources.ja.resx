@@ -300,4 +300,7 @@
   <data name="Common_DeleteAll" xml:space="preserve">
     <value>全ての文字を削除する</value>
   </data>
+  <data name="Setting_IsCreateRenameLog" xml:space="preserve">
+    <value>リネーム時にログファイルを作成する</value>
+  </data>
 </root>

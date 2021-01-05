@@ -392,19 +392,9 @@ namespace FileRenamerDiff.Models
 
         private void RenameExcuteCore(IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
-            var failFileElements = new List<FileElementModel>();
-
             foreach (var (replaceElement, index) in FileElementModels.Where(x => x.IsReplaced).WithIndex())
             {
-                try
-                {
-                    replaceElement.Rename();
-                }
-                catch (Exception ex)
-                {
-                    LogTo.Warning(ex, "Fail to Rename {@fileElement}", replaceElement);
-                    failFileElements.Add(replaceElement);
-                }
+                replaceElement.Rename();
 
                 if (index % 16 == 0)
                 {
@@ -413,15 +403,63 @@ namespace FileRenamerDiff.Models
                 }
             }
 
-            if (!failFileElements.Any())
+            if (Setting.IsCreateRenameLog)
+                SaveReplaceLog();
+
+            string failElementsText = FileElementModels
+                .Where(x => x.State == RenameState.FailedToRename)
+                .Select(x => $"{x.InputFileName} -> {x.OutputFileName} ({x.DirectoryPath})")
+                .ConcatenateString(Environment.NewLine);
+
+            if (String.IsNullOrWhiteSpace(failElementsText))
                 return;
 
             MessageEvent.Value = new AppMessage(
                 AppMessageLevel.Error,
                 head: Resources.Alert_FailSaveRename,
-                body: failFileElements
-                    .Select(x => $"{x.InputFileName} -> {x.OutputFileName} ({x.DirectoryPath})")
-                    .ConcatenateString(Environment.NewLine));
+                body: failElementsText);
+        }
+
+        /// <summary>
+        /// リネーム前後の履歴ファイルのヘッダ文字列リスト
+        /// </summary>
+        static readonly string renameLogHeadderTexts = new[] { "State", "InputFilePath", "OutputFilePath" }.ConcatenateString(',');
+
+        /// <summary>
+        /// リネーム前後の履歴の保存
+        /// </summary>
+        private void SaveReplaceLog()
+        {
+            if (CountReplaced.Value <= 0)
+                return;
+            string logFilePath = CreateLogFilePath();
+
+            using var sw = new StreamWriter(logFilePath);
+            sw.WriteLine(renameLogHeadderTexts);
+
+            foreach (var fileElem in FileElementModels.Where(x => x.State != RenameState.None))
+            {
+                var lineText = new[]
+                {
+                    fileElem.State.ToString(),
+                    //ファイルパスにはカンマが含まれる可能性があるので、ダブルクオーテーションで囲う
+                    '"' + fileElem.PreviousInputFilePath + '"',
+                    '"' + fileElem.OutputFilePath + '"',
+                }
+                .ConcatenateString(',');
+
+                sw.WriteLine(lineText);
+            }
+        }
+
+        private string CreateLogFilePath()
+        {
+            string logFilePath = Path.Combine(Setting.SearchFilePath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
+            while (File.Exists(logFilePath))
+            {
+                logFilePath = AppExtention.GetFilePathWithoutExtension(logFilePath) + "_.csv";
+            }
+            return logFilePath;
         }
 
         internal async Task ExcuteAfterConfirm(Action actionIfConfirmed)

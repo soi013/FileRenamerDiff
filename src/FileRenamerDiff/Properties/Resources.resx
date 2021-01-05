@@ -363,4 +363,8 @@
     <value>Delete all characters</value>
     <comment>よくあるパターン説明_全ての文字を削除する</comment>
   </data>
+  <data name="Setting_IsCreateRenameLog" xml:space="preserve">
+    <value>Create a log file when renaming</value>
+    <comment>リネーム時にログファイルを作成するか</comment>
+  </data>
 </root>

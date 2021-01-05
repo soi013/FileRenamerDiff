@@ -105,6 +105,10 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactiveProperty<bool> IsAppDarkTheme { get; }
 
+        /// <summary>
+        /// 変更時に変更前後の履歴を保存するか
+        /// </summary>
+        public ReactiveProperty<bool> IsCreateRenameLog { get; }
         public ReactiveCommand AddIgnoreExtensionsCommand { get; }
 
         public AsyncReactiveCommand ClearIgnoreExtensionsCommand { get; }
@@ -157,6 +161,7 @@ namespace FileRenamerDiff.ViewModels
             this.IsFileRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsFileRenameTarget);
             this.IsHiddenRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsHiddenRenameTarget);
             this.IsAppDarkTheme = setting.ToReactivePropertyAsSynchronized(x => x.IsAppDarkTheme);
+            this.IsCreateRenameLog = setting.ToReactivePropertyAsSynchronized(x => x.IsCreateRenameLog);
 
             this.AvailableLanguages = CreateAvailableLanguages();
             this.SelectedLanguage = CreateAppLanguageRp();

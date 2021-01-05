@@ -504,6 +504,9 @@
                   </StackPanel>
                </StackPanel>
             </materialDesign:Card>
+            <materialDesign:Card Margin="30,5">
+               <CheckBox Content="{x:Static properties:Resources.Setting_IsCreateRenameLog}" IsChecked="{Binding IsCreateRenameLog.Value}" />
+            </materialDesign:Card>
             <Button Margin="30,5">
                <behaviors:Interaction.Triggers>
                   <behaviors:EventTrigger EventName="Click">

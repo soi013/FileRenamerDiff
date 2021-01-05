@@ -224,6 +224,18 @@ namespace FileRenamerDiff.Models
         }
         private bool _IsAppDarkTheme = true;
 
+
+        /// <summary>
+        /// 変更時に変更前後の履歴を保存するか
+        /// </summary>
+        public bool IsCreateRenameLog
+        {
+            get => _IsCreateRenameLog;
+            set => RaisePropertyChangedIfSet(ref _IsCreateRenameLog, value);
+        }
+        private bool _IsCreateRenameLog;
+
+
         internal void AddIgnoreExtensions() => IgnoreExtensions.Add(ValueHolderFactory.Create(String.Empty));
 
         internal void AddDeleteTexts() => DeleteTexts.Add(ReplacePattern.CreateEmpty());

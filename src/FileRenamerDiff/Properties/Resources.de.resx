@@ -300,4 +300,7 @@
   <data name="Common_DeleteAll" xml:space="preserve">
     <value>Löschen Sie alle Zeichen</value>
   </data>
+  <data name="Setting_IsCreateRenameLog" xml:space="preserve">
+    <value>Erstellen Sie beim umbenennen eine Protokolldatei</value>
+  </data>
 </root>

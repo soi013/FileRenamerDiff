@@ -30,6 +30,25 @@ using FileRenamerDiff.Properties;
 namespace FileRenamerDiff.Models
 {
     /// <summary>
+    /// リネーム処理状態
+    /// </summary>
+    public enum RenameState
+    {
+        /// <summary>
+        /// 未リネーム
+        /// </summary>
+        None,
+        /// <summary>
+        /// リネーム済み
+        /// </summary>
+        Renamed,
+        /// <summary>
+        /// リネーム失敗
+        /// </summary>
+        FailedToRename,
+    }
+
+    /// <summary>
     /// リネーム前後のファイル名を含むファイル情報モデル
     /// </summary>
     public class FileElementModel : NotificationObject
@@ -101,6 +120,27 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public FileAttributes Attributes => fileInfo.Attributes;
 
+
+        private RenameState _State = RenameState.None;
+        /// <summary>
+        /// リネーム状態
+        /// </summary>
+        public RenameState State
+        {
+            get => _State;
+            set => RaisePropertyChangedIfSet(ref _State, value);
+        }
+
+        private string _PreviousInputFilePath;
+        /// <summary>
+        /// Rename前のファイルパス
+        /// </summary>
+        public string PreviousInputFilePath
+        {
+            get => _PreviousInputFilePath;
+            set => RaisePropertyChangedIfSet(ref _PreviousInputFilePath, value);
+        }
+
         /// <summary>
         /// ファイル名に指定できない文字の検出器 (参考:https://dobon.net/vb/dotnet/file/invalidpathchars.html#section2)
         /// </summary>
@@ -115,6 +155,7 @@ namespace FileRenamerDiff.Models
             this.fileInfo = fileInfo;
 
             this.outputFileName = InputFileName;
+            this._PreviousInputFilePath = InputFilePath;
         }
 
         /// <summary>
@@ -151,8 +192,21 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal void Rename()
         {
-            LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
-            fileInfo.Rename(OutputFilePath);
+            try
+            {
+                LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
+                PreviousInputFilePath = InputFilePath;
+                fileInfo.Rename(OutputFilePath);
+                //rename時にFileInfoが変更されるので、通知を上げておく
+                RaisePropertyChanged(nameof(InputFileName));
+                RaisePropertyChanged(nameof(InputFilePath));
+                State = RenameState.Renamed;
+            }
+            catch (Exception ex)
+            {
+                LogTo.Warning(ex, "Fail to Rename {@fileElement}", this);
+                State = RenameState.FailedToRename;
+            }
         }
         public override string ToString() => $"{InputFileName}->{OutputFileName}";
     }

@@ -174,15 +174,22 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定したファイルパスが他のファイルパスとかぶらなくなるまで"_"を足して返す
         /// </summary>
-        private static string GetSafeTempName(string outputFilePath)
+        internal static string GetSafeTempName(string filePath)
         {
-            outputFilePath += "_";
-            while (File.Exists(outputFilePath))
+            while (true)
             {
-                outputFilePath += "_";
+                filePath += "_";
+
+                if (!File.Exists(filePath))
+                    return filePath;
             }
-            return outputFilePath;
         }
+
+        /// <summary>
+        /// 拡張子より前のファイルパスを返す（ex. "C:dirrr\\abc.txt"→"C:dirrr\\abc")
+        /// </summary>
+        internal static string GetFilePathWithoutExtension(string filePath) =>
+            Path.Combine(Path.GetDirectoryName(filePath) ?? String.Empty, Path.GetFileNameWithoutExtension(filePath));
 
         /// <summary>
         /// 正規表現を生成する、失敗したらnullを返す

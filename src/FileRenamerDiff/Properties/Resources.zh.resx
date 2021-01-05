@@ -300,4 +300,7 @@
   <data name="Common_DeleteAll" xml:space="preserve">
     <value>删除所有字符</value>
   </data>
+  <data name="Setting_IsCreateRenameLog" xml:space="preserve">
+    <value>重命名时创建一个日志文件</value>
+  </data>
 </root>

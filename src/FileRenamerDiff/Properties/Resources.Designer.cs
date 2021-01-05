@@ -564,6 +564,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Create a log file when renaming に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_IsCreateRenameLog {
+            get {
+                return ResourceManager.GetString("Setting_IsCreateRenameLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Other に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_Other {

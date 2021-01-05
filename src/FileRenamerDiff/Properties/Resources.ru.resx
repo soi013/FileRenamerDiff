@@ -300,4 +300,7 @@
   <data name="Common_DeleteAll" xml:space="preserve">
     <value>Удалить все символы</value>
   </data>
+  <data name="Setting_IsCreateRenameLog" xml:space="preserve">
+    <value>Создайте лог-файл при переименовании</value>
+  </data>
 </root>
