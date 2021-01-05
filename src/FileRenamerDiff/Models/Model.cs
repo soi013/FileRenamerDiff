@@ -148,14 +148,13 @@ namespace FileRenamerDiff.Models
         {
             LogTo.Debug("File Load Start");
             this.isIdle.Value = false;
-            string sourceFilePath = Setting.SearchFilePath;
             using (CancelWork = new CancellationTokenSource())
             {
                 try
                 {
                     await Task.Run(() =>
                         this.FileElementModels =
-                            LoadFileElementsCore(sourceFilePath, Setting, progressNotifier, CancelWork.Token))
+                            LoadFileElementsCore(Setting, progressNotifier, CancelWork.Token))
                         .ConfigureAwait(false);
 
 
@@ -169,14 +168,15 @@ namespace FileRenamerDiff.Models
                 }
             }
 
-            this.countReplaced.Value = 0;
-            this.countConflicted.Value = 0;
+            UpdateCountReplacedAndConflicted();
             this.isIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
 
-        private static FileElementModel[] LoadFileElementsCore(string sourceFilePath, SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
+        private static FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
+            string sourceFilePath = setting.SearchFilePath;
+
             if (!Directory.Exists(sourceFilePath) || setting.IsNoFileRenameTarget())
                 return Array.Empty<FileElementModel>();
 
@@ -236,6 +236,9 @@ namespace FileRenamerDiff.Models
         internal void ResetSetting()
         {
             this.Setting = new SettingAppModel();
+            this.FileElementModels = Array.Empty<FileElementModel>();
+            UpdateCountReplacedAndConflicted();
+
             LogTo.Information("Reset Setting");
             MessageEvent.Value = new AppMessage(AppMessageLevel.Info, head: Resources.Info_SettingsReset);
         }
@@ -252,6 +255,8 @@ namespace FileRenamerDiff.Models
             {
                 Setting = SettingAppModel.Deserialize(filePath);
                 PreviousSettingFilePath.Value = filePath;
+                FileElementModels = Array.Empty<FileElementModel>();
+                UpdateCountReplacedAndConflicted();
             }
             catch (Exception ex)
             {
@@ -292,10 +297,7 @@ namespace FileRenamerDiff.Models
                 Parallel.ForEach(FileElementModels,
                     x => x.Replace(regexes));
 
-                this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
-
-                UpdateFilePathConflict();
-                this.countConflicted.Value = FileElementModels.Count(x => x.IsConflicted);
+                UpdateCountReplacedAndConflicted();
             });
 
             if (CountConflicted.Value >= 1)
@@ -312,6 +314,14 @@ namespace FileRenamerDiff.Models
 
             this.isIdle.Value = true;
             LogTo.Information("Replace Ended");
+        }
+
+        private void UpdateCountReplacedAndConflicted()
+        {
+            this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
+
+            UpdateFilePathConflict();
+            this.countConflicted.Value = FileElementModels.Count(x => x.IsConflicted);
         }
 
         /// <summary>
