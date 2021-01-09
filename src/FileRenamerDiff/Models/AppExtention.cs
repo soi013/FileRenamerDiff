@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.IO;
 using System.Text.RegularExpressions;
 
+using Reactive.Bindings;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
@@ -20,11 +21,6 @@ namespace FileRenamerDiff.Models
 {
     public static class AppExtention
     {
-        /// <summary>
-        /// 指定したコレクションからコピーされた要素を格納するObservableCollectionを生成
-        /// </summary>
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new(source);
-
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
         /// </summary>
@@ -112,25 +108,6 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class =>
             source.OfType<T>();
-
-        /// <summary>
-        /// CountプロパティをIObservableとして購読する
-        /// </summary>
-        public static IObservable<int> ObserveCount<T>(this ObservableCollection<T> source) =>
-            source.ObserveProperty(x => x.Count);
-
-        /// <summary>
-        /// シークエンスに要素が含まれているかをIObservableとして購読する
-        /// </summary>
-        public static IObservable<bool> ObserveIsAny<T>(this ObservableCollection<T> source) =>
-            source.ObserveCount().Select(x => x >= 1);
-
-        /// <summary>
-        /// シークエンスが空かをIObservableとして購読する
-        /// </summary>
-        public static IObservable<bool> ObserveIsEmpty<T>(this ObservableCollection<T> source) =>
-            source.ObserveCount().Select(x => x <= 0);
-
 
         /// <summary>
         /// 確実にファイル／ディレクトリの名前を変更する

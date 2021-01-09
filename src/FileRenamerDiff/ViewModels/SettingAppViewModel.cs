@@ -62,7 +62,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// 置換文字列パターン
         /// </summary>
-        public ObservableCollection<ReplacePattern> ReplaceTexts => setting.ReplaceTexts;
+        public ObservableCollection<ReplacePatternViewModel> ReplaceTexts { get; }
 
         /// <summary>
         /// よく使う置換パターン集
@@ -154,6 +154,9 @@ namespace FileRenamerDiff.ViewModels
         public SettingAppViewModel(SettingAppModel setting)
         {
             this.setting = setting;
+
+            this.ReplaceTexts = setting.ReplaceTexts
+                .ToObservableCollctionSynced(x => new ReplacePatternViewModel(x), x => x.ToReplacePattern());
 
             this.SearchFilePath = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePath);
             this.IsSearchSubDirectories = setting.ToReactivePropertyAsSynchronized(x => x.IsSearchSubDirectories);
