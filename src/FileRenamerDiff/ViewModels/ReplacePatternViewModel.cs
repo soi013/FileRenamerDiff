@@ -41,17 +41,23 @@ namespace FileRenamerDiff.ViewModels
         public ReplacePatternViewModel(ReplacePattern replacePattern)
         {
             this.replacePattern = replacePattern;
+
+            AsExpression = replacePattern
+                .ToReactivePropertyAsSynchronized(x => x.AsExpression)
+                .AddTo(this.CompositeDisposable);
+
+
             TargetPattern = replacePattern
-                .ToReactivePropertyAsSynchronized(x => x.TargetPattern)
+                .ToReactivePropertyAsSynchronized(x => x.TargetPattern, mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+                .SetValidateNotifyError(x => AppExtention.IsValidRegexPattern(x,AsExpression.Value) ? null : "Invalid Pattern")
                 .AddTo(this.CompositeDisposable);
 
             ReplaceText = replacePattern
                 .ToReactivePropertyAsSynchronized(x => x.ReplaceText)
                 .AddTo(this.CompositeDisposable);
 
-            AsExpression = replacePattern
-                .ToReactivePropertyAsSynchronized(x => x.AsExpression)
-                .AddTo(this.CompositeDisposable);
+            AsExpression
+                .Subscribe(x => TargetPattern.ForceValidate());
         }
 
         public ReplacePattern ToReplacePattern() => replacePattern;

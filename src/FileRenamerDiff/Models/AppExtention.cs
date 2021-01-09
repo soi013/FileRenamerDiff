@@ -205,5 +205,33 @@ namespace FileRenamerDiff.Models
             var diff = new SideBySideDiffBuilder(new Differ(), wordSeparaters);
             return diff.BuildDiffModel(inputText, outText);
         }
+
+        /// <summary>
+        /// ターゲットパターンが正しい形式か判定
+        /// </summary>
+        /// <param name="pattern">パターン</param>
+        /// <param name="asExpression">正規表現パターンか</param>
+        internal static bool IsValidRegexPattern(string pattern, bool asExpression)
+        {
+            if (String.IsNullOrWhiteSpace(pattern))
+            {
+                LogTo.Debug("TargetPattern '{@pattern}' is NOT valid. The pattern may not be empty or null.", pattern);
+                return false;
+            }
+
+            if (!asExpression)
+                return true;
+
+            try
+            {
+                _ = new Regex(pattern);
+                return true;
+            }
+            catch (ArgumentException ex)
+            {
+                LogTo.Debug("TargetPattern '{@pattern}' is NOT valid: {@msg}", pattern, ex.Message);
+                return false;
+            }
+        }
     }
 }
