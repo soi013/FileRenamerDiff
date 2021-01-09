@@ -269,7 +269,7 @@
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
                   <DataGridCheckBoxColumn
-                     Binding="{Binding AsExpression.Value}"
+                     Binding="{Binding AsExpression.Value, UpdateSourceTrigger=PropertyChanged}"
                      ElementStyle="{StaticResource regexCheckBox}"
                      HeaderStyle="{StaticResource regexHeader}" />
                   <DataGridTemplateColumn>
@@ -380,7 +380,7 @@
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_ReplaceText}" />
                   <DataGridCheckBoxColumn
-                     Binding="{Binding AsExpression.Value}"
+                     Binding="{Binding AsExpression.Value, UpdateSourceTrigger=PropertyChanged}"
                      ElementStyle="{StaticResource regexCheckBox}"
                      HeaderStyle="{StaticResource regexHeader}" />
                   <DataGridTemplateColumn>
