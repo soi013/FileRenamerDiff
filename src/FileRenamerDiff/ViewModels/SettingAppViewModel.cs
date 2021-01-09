@@ -51,7 +51,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// 削除文字列パターン
         /// </summary>
-        public ObservableCollection<ReplacePattern> DeleteTexts => setting.DeleteTexts;
+        public ObservableCollection<ReplacePatternViewModel> DeleteTexts { get; }
 
         /// <summary>
         /// よく使う削除パターン集
@@ -156,7 +156,14 @@ namespace FileRenamerDiff.ViewModels
             this.setting = setting;
 
             this.ReplaceTexts = setting.ReplaceTexts
-                .ToObservableCollctionSynced(x => new ReplacePatternViewModel(x), x => x.ToReplacePattern());
+                .ToObservableCollctionSynced(
+                x => new ReplacePatternViewModel(x),
+                x => x.ToReplacePattern());
+
+            this.DeleteTexts = setting.DeleteTexts
+                .ToObservableCollctionSynced(
+                x => new ReplacePatternViewModel(x),
+                x => x.ToReplacePattern());
 
             this.SearchFilePath = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePath);
             this.IsSearchSubDirectories = setting.ToReactivePropertyAsSynchronized(x => x.IsSearchSubDirectories);

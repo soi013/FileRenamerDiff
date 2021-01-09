@@ -265,11 +265,11 @@
                <DataGrid.Columns>
                   <v:DataGridIconColumn Kind="DragVertical" />
                   <DataGridTextColumn
-                     Binding="{Binding TargetPattern, UpdateSourceTrigger=PropertyChanged}"
+                     Binding="{Binding TargetPattern.Value, UpdateSourceTrigger=PropertyChanged}"
                      EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                      Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
                   <DataGridCheckBoxColumn
-                     Binding="{Binding AsExpression}"
+                     Binding="{Binding AsExpression.Value}"
                      ElementStyle="{StaticResource regexCheckBox}"
                      HeaderStyle="{StaticResource regexHeader}" />
                   <DataGridTemplateColumn>
