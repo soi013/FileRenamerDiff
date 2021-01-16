@@ -39,9 +39,9 @@ namespace FileRenamerDiff.ViewModels
         readonly SettingAppModel setting;
 
         /// <summary>
-        /// リネームファイルを検索するターゲットパス
+        /// 連結されたリネームファイルを検索するターゲットパスリスト
         /// </summary>
-        public ReactiveProperty<string> SearchFilePath { get; }
+        public ReactiveProperty<string> ConcatedSearchFilePaths { get; }
 
         /// <summary>
         /// 検索時に無視される拡張子コレクション
@@ -165,7 +165,7 @@ namespace FileRenamerDiff.ViewModels
                 x => new ReplacePatternViewModel(x),
                 x => x.ToReplacePattern());
 
-            this.SearchFilePath = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePath);
+            this.ConcatedSearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.ConcatedSearchFilePaths);
             this.IsSearchSubDirectories = setting.ToReactivePropertyAsSynchronized(x => x.IsSearchSubDirectories);
             this.IsDirectoryRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsDirectoryRenameTarget);
             this.IsFileRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsFileRenameTarget);

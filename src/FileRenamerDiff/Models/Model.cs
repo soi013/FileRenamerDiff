@@ -175,9 +175,9 @@ namespace FileRenamerDiff.Models
 
         private static FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
-            string sourceFilePath = setting.SearchFilePath;
+            IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths;
 
-            if (!Directory.Exists(sourceFilePath) || setting.IsNoFileRenameTarget())
+            if (sourceFilePaths.All(x => !Directory.Exists(x)) || setting.IsNoFileRenameTarget())
                 return Array.Empty<FileElementModel>();
 
             var ignoreRegex = setting.CreateIgnoreExtensionsRegex();
@@ -192,7 +192,9 @@ namespace FileRenamerDiff.Models
                 AttributesToSkip = setting.GetSkipAttribute()
             };
 
-            IEnumerable<string> fileEnums = Directory.EnumerateFileSystemEntries(sourceFilePath, "*", option);
+            IEnumerable<string> fileEnums = sourceFilePaths
+                .SelectMany(x => Directory.EnumerateFileSystemEntries(x, "*", option))
+                .Distinct();
 
             var loadedFileList = fileEnums
                 //無視する拡張子が無い、または一致しないだけ残す
@@ -464,7 +466,15 @@ namespace FileRenamerDiff.Models
 
         private string CreateLogFilePath()
         {
-            string logFilePath = Path.Combine(Setting.SearchFilePath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
+
+            string dirPath = FileElementModels
+                           .Select(x => x.DirectoryPath)
+                           .MinBy(x => x.Length)
+                           .FirstOrDefault() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(dirPath))
+                return string.Empty;
+
+            string logFilePath = Path.Combine(dirPath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
             while (File.Exists(logFilePath))
             {
                 logFilePath = AppExtention.GetFilePathWithoutExtension(logFilePath) + "_.csv";

@@ -63,7 +63,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// パス指定でのフォルダ読込コマンド
         /// </summary>
-        public AsyncReactiveCommand<string> LoadFilesFromNewPathCommand { get; }
+        public AsyncReactiveCommand<IReadOnlyList<string>> LoadFilesFromNewPathCommand { get; }
         /// <summary>
         /// フォルダ読み込みコマンド
         /// </summary>
@@ -93,7 +93,7 @@ namespace FileRenamerDiff.ViewModels
         {
             this.WindowTitle = model
                 .ObserveProperty(x => x.FileElementModels)
-                .Select(x => x?.Count > 0 ? model.Setting.SearchFilePath : String.Empty)
+                .Select(x => x?.Count > 0 ? model.Setting.ConcatedSearchFilePaths : String.Empty)
                 .Select(x => $"FILE RENAMER DIFF | {x}")
                 .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim<string>();
@@ -133,7 +133,7 @@ namespace FileRenamerDiff.ViewModels
                 .WithSubscribe(async x => await LoadFileFromDialog(x));
 
             this.LoadFilesFromNewPathCommand = IsIdle
-                .ToAsyncReactiveCommand<string>()
+                .ToAsyncReactiveCommand<IReadOnlyList<string>>()
                 .WithSubscribe(async x => await LoadFileFromNewPath(x));
 
             this.LoadFilesFromCurrentPathCommand = IsIdle
@@ -179,13 +179,13 @@ namespace FileRenamerDiff.ViewModels
         }
 
         private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) =>
-            String.IsNullOrWhiteSpace(fsMessage.Response)
+          String.IsNullOrWhiteSpace(fsMessage.Response)
             ? Task.CompletedTask
-            : LoadFileFromNewPath(fsMessage.Response);
+            : LoadFileFromNewPath(new[] { fsMessage.Response });
 
-        private Task LoadFileFromNewPath(string targetPath)
+        private Task LoadFileFromNewPath(IReadOnlyList<string> targetPaths)
         {
-            SettingVM.Value.SearchFilePath.Value = targetPath;
+            model.Setting.SearchFilePaths = targetPaths;
             return LoadFilesFromCurrentPath();
         }
 

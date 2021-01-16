@@ -46,21 +46,22 @@ namespace FileRenamerDiff.Views
             e.Handled = true;
         }
 
-        static string? ToFilePath(IDataObject data) =>
-            data.GetDataPresent(DataFormats.FileDrop)
-            ? (data.GetData(DataFormats.FileDrop) as string[])?.FirstOrDefault()
-            : null;
+        static string[]? ToFilePaths(IDataObject data) =>
+            !data.GetDataPresent(DataFormats.FileDrop)
+            ? null
+            : (data.GetData(DataFormats.FileDrop) as string[]);
 
         private void OnDrop(object sender, System.Windows.DragEventArgs e)
         {
             if (!Command.CanExecute(e))
                 return;
 
-            var path = ToFilePath(e.Data);
-            if (String.IsNullOrWhiteSpace(path))
-                return;
+            var paths = ToFilePaths(e.Data)
+                ?.Where(x => !String.IsNullOrWhiteSpace(x))
+                .ToArray();
 
-            Command.Execute(path);
+            if (paths is not null)
+                Command.Execute(paths);
         }
     }
 }

@@ -12,6 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization;
 
 using Livet;
 using Livet.Commands;
@@ -51,14 +52,24 @@ namespace FileRenamerDiff.Models
         private static readonly string myDocPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         /// <summary>
-        /// リネームファイルを検索するターゲットパス
+        /// リネームファイルを検索するターゲットパスリスト
         /// </summary>
-        public string SearchFilePath
+        public IReadOnlyList<string> SearchFilePaths
         {
             get => _SearchFilePath;
-            set => RaisePropertyChangedIfSet(ref _SearchFilePath, value);
+            set => RaisePropertyChangedIfSet(ref _SearchFilePath, value, relatedProperty: nameof(ConcatedSearchFilePaths));
         }
-        private string _SearchFilePath = "C:\\";
+        private IReadOnlyList<string> _SearchFilePath = new[] { "C:\\" };
+
+        /// <summary>
+        /// 連結されたリネームファイルを検索するターゲットパスリスト
+        /// </summary>
+        [IgnoreDataMember]
+        public string ConcatedSearchFilePaths
+        {
+            get => SearchFilePaths.ConcatenateString('|');
+            set => SearchFilePaths = value.Split('|');
+        }
 
         /// <summary>
         /// 検索時に無視される拡張子コレクション
