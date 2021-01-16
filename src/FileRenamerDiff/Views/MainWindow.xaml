@@ -104,9 +104,9 @@
                                  <l:FolderBrowserDialogInteractionMessageAction>
                                     <l:DirectInteractionMessage CallbackCommand="{Binding LoadFilesFromDialogCommand, Mode=OneTime}">
                                        <l:FolderSelectionMessage
-                                          Description="Select Target Folder"
+                                          Title="Select Target Folder"
                                           DialogPreference="None"
-                                          SelectedPath="{Binding SettingVM.Value.SearchFilePath.Value}" />
+                                          SelectedPath="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}" />
                                        <!--  MultiSelect="True"  -->
                                     </l:DirectInteractionMessage>
                                  </l:FolderBrowserDialogInteractionMessageAction>
