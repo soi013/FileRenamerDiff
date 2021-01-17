@@ -37,7 +37,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class FileElementViewModel : ViewModel
     {
-        readonly FileElementModel pathModel;
+        public FileElementModel PathModel { get; }
 
         /// <summary>
         /// リネーム前後の差分比較情報
@@ -57,22 +57,22 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイルの所属しているディレクトリ名
         /// </summary>
-        public string DirectoryPath => pathModel.DirectoryPath;
+        public string DirectoryPath => PathModel.DirectoryPath;
 
         /// <summary>
         /// ファイルのバイト数
         /// </summary>
-        public long LengthByte => pathModel.LengthByte;
+        public long LengthByte => PathModel.LengthByte;
 
         /// <summary>
         /// ファイル更新日時の現在のカルチャでの文字列
         /// </summary>
-        public string LastWriteTime => pathModel.LastWriteTime.ToString();
+        public string LastWriteTime => PathModel.LastWriteTime.ToString();
 
         /// <summary>
         /// ファイル作成日時の現在のカルチャでの文字列
         /// </summary>
-        public string CreationTime => pathModel.CreationTime.ToString();
+        public string CreationTime => PathModel.CreationTime.ToString();
 
         /// <summary>
         /// エクスプローラーで開くコマンド
@@ -84,7 +84,7 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public FileElementViewModel(FileElementModel pathModel)
         {
-            this.pathModel = pathModel;
+            this.PathModel = pathModel;
 
             this.Diff = Observable.CombineLatest(
                     pathModel.ObserveProperty(x => x.InputFileName),

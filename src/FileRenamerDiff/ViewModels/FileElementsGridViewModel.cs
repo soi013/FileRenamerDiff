@@ -70,6 +70,8 @@ namespace FileRenamerDiff.ViewModels
         public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new(false);
 
         public ReactiveCommand<IReadOnlyList<string>> AddTargetFilesCommand { get; }
+        public ReactiveCommand ClearFileElementsCommand { get; }
+        public ReactiveCommand<FileElementViewModel> RemoveItemCommand { get; } = new();
 
         public FileElementsGridViewModel()
         {
@@ -78,10 +80,10 @@ namespace FileRenamerDiff.ViewModels
             this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
-            var fVMs = model.FileElementModels
+            var fileElementVMs = model.FileElementModels
                 .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x), ReactivePropertyScheduler.Default);
 
-            this.CViewFileElementVMs = CreateCollectionViewFilePathVMs(fVMs);
+            this.CViewFileElementVMs = CreateCollectionViewFilePathVMs(fileElementVMs);
 
             //表示基準に変更があったら、表示判定対象に変更があったら、CollectionViewの表示を更新する
             new[]
@@ -99,6 +101,23 @@ namespace FileRenamerDiff.ViewModels
             AddTargetFilesCommand = model.IsIdleUI
                 .ToReactiveCommand<IReadOnlyList<string>>()
                 .WithSubscribe(x => model.AddTargetFiles(x));
+
+            this.ClearFileElementsCommand =
+                new[]
+                {
+                    model.IsIdle,
+                    model.FileElementModels.ObserveIsAny(),
+                }
+                .CombineLatestValuesAreAllTrue()
+                .ObserveOnUIDispatcher()
+                .ToReactiveCommand()
+                .WithSubscribe(() => model.FileElementModels.Clear());
+
+
+            RemoveItemCommand = model.IsIdleUI
+                .ToReactiveCommand<FileElementViewModel>()
+                .WithSubscribe(x =>
+                    model.FileElementModels.Remove(x.PathModel));
         }
 
         private ICollectionView CreateCollectionViewFilePathVMs(object fVMs)
@@ -140,7 +159,6 @@ namespace FileRenamerDiff.ViewModels
                 LogTo.Warning("CollectionView is Editing");
                 currentView.CommitEdit();
             }
-
             currentView.Refresh();
         }
     }

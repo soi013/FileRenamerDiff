@@ -29,7 +29,7 @@
          materialDesign:DataGridAssist.ColumnHeaderPadding="4,2,2,2"
          AutoGenerateColumns="False"
          EnableRowVirtualization="True"
-         ItemsSource="{Binding CViewFileElementVMs, Mode=OneTime}">
+         ItemsSource="{Binding CViewFileElementVMs, Mode=TwoWay}">
          <DataGrid.Resources>
             <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
                <Setter Property="Template">
@@ -53,7 +53,22 @@
             </Style>
          </DataGrid.Resources>
 
+         <!--  削除列  -->
          <DataGrid.Columns>
+            <DataGridTemplateColumn>
+               <DataGridTemplateColumn.Header>
+                  <Button Command="{Binding DataContext.ClearFileElementsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+               </DataGridTemplateColumn.Header>
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <Button
+                        v:DataGridOperation.RemoveItem="False"
+                        Command="{Binding DataContext.RemoveItemCommand, ElementName=rootObj}"
+                        CommandParameter="{Binding Mode=OneWay}"
+                        Style="{StaticResource RemoveButton}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
             <!--  変更前後の表示列  -->
             <DataGridTemplateColumn Width="400" Header="{x:Static properties:Resources.Grid_OldText}">
                <DataGridTemplateColumn.CellTemplate>

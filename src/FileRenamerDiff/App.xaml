@@ -139,6 +139,41 @@
             </Setter>
          </Style>
 
+         <!--  全消去ボタン スタイル  -->
+         <Style
+            x:Key="ClearButton"
+            x:Shared="False"
+            BasedOn="{StaticResource MaterialDesignIconButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Content">
+               <Setter.Value>
+                  <materialDesign:PackIcon Kind="RemoveCircleMultiple" />
+               </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{StaticResource SecondaryAccentBrush}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="ToolTip" Value="Clear the list" />
+         </Style>
+
+         <Style
+            x:Key="DataGridMiniButton"
+            BasedOn="{StaticResource MaterialDesignIconButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+         </Style>
+
+         <!--  行削除ボタン スタイル  -->
+         <Style
+            x:Key="RemoveButton"
+            x:Shared="False"
+            BasedOn="{StaticResource DataGridMiniButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Content" Value="{materialDesign:PackIcon Kind=RemoveCircle}" />
+            <Setter Property="v:DataGridOperation.RemoveItem" Value="True" />
+            <Setter Property="ToolTip" Value="Remove from the list" />
+         </Style>
+
          <l:VisibilityAndBooleanConverter x:Key="VisibilityCollapsedConverter" ConvertWhenFalse="Collapsed" />
          <l:VisibilityAndBooleanConverter
             x:Key="VisibilityCollapsedReverseConverter"

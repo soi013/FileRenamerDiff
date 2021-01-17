@@ -52,25 +52,34 @@ namespace FileRenamerDiff.Views
             if (targetList == null || index < 0)
                 return;
 
-            targetList.RemoveAt(index);
+            switch (targetList)
+            {
+                case IList x:
+                    x.RemoveAt(index);
+                    return;
+                case IEditableCollectionView x:
+                    if (x.CanRemove)
+                        x.RemoveAt(index);
+                    return;
+            }
         }
 
         /// <summary>
         /// 指定されたオブジェクトを含む親コレクションとインデックスを返す
         /// </summary>
-        private static (IList?, int) GetParentListAndIndex(DependencyObject elementInItem)
+        private static (IEnumerable?, int) GetParentListAndIndex(DependencyObject elementInItem)
         {
             DependencyObject parent = elementInItem;
             var parentTree = new List<DependencyObject> { parent };
 
             //指定されたオブジェクトのVisualTree上の親を順番に探索し、ItemsControlを探す。
             //ただし、DataGridは中間にいるDataGridCellsPresenterは無視する
-            while (parent is not null and not ItemsControl or DataGridCellsPresenter)
+            while (parent != null && !(parent is ItemsControl) || parent is DataGridCellsPresenter)
             {
                 parent = VisualTreeHelper.GetParent(parent);
                 parentTree.Add(parent);
             }
-            if (parent is not ItemsControl itemsControl)
+            if (!(parent is ItemsControl itemsControl))
                 return (null, -1);
 
             //ItemsControlの行にあたるオブジェクトを探索履歴の後ろから検索
@@ -82,7 +91,7 @@ namespace FileRenamerDiff.Views
                 ?? -1;
 
             //Bindingしていた場合はItemsSource、違うならItemsから削除する
-            IList targetList = ((itemsControl.ItemsSource as IList) ?? itemsControl.Items);
+            IEnumerable targetList = (itemsControl.ItemsSource ?? itemsControl.Items);
 
             return (targetList, removeIndex);
         }
