@@ -56,15 +56,10 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdleUI => isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
 
-        private IReadOnlyList<FileElementModel> _FileElementModels = Array.Empty<FileElementModel>();
         /// <summary>
         /// リネーム対象ファイル情報のコレクション
         /// </summary>
-        public IReadOnlyList<FileElementModel> FileElementModels
-        {
-            get => _FileElementModels;
-            set => RaisePropertyChangedIfSet(ref _FileElementModels, value);
-        }
+        public ObservableCollection<FileElementModel> FileElementModels { get; } = new();
 
         private SettingAppModel _Setting = new();
         /// <summary>
@@ -125,12 +120,47 @@ namespace FileRenamerDiff.Models
 
         private Model()
         {
+            FileElementModels
+                .CollectionChangedAsObservable()
+                .Subscribe(_ => UpdateCountReplacedAndConflicted());
+
             CurrentProgessInfo = progressNotifier
                 .ToReadOnlyReactivePropertySlim();
 
             LoadSettingFile(SettingAppModel.DefaultFilePath);
             //設定に応じてアプリケーションの言語を変更する
             UpdateLanguage(Setting.AppLanguageCode);
+        }
+
+        private void UpdateCountReplacedAndConflicted()
+        {
+            this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
+
+            UpdateFilePathConflict();
+            this.countConflicted.Value = FileElementModels.Count(x => x.IsConflicted);
+        }
+        private void UpdateFilePathConflict()
+        {
+            var lowerAllPaths = FileElementModels
+                .SelectMany(x =>
+                    //大文字小文字を区別せず一致していたら、Inputのみ返す
+                    (String.Compare(x.InputFilePath, x.OutputFilePath, true) == 0)
+                     ? new[] { x.InputFilePath }
+                     : new[] { x.InputFilePath, x.OutputFilePath })
+                //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
+                .Select(x => x.ToLower())
+                .ToArray();
+
+            foreach (var fileElement in FileElementModels)
+            {
+                //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
+                string lowPath = fileElement.OutputFilePath.ToLower();
+                int matchPathCount = lowerAllPaths
+                    .Where(x => x == lowPath)
+                    .Count();
+                //もともとのファイルパスがあるので、2以上のときは衝突していると判定
+                fileElement.IsConflicted = matchPathCount >= 2;
+            }
         }
 
         /// <summary>
@@ -153,9 +183,11 @@ namespace FileRenamerDiff.Models
                 try
                 {
                     await Task.Run(() =>
-                        this.FileElementModels =
-                            LoadFileElementsCore(Setting, progressNotifier, CancelWork.Token))
-                        .ConfigureAwait(false);
+                    {
+                        this.FileElementModels.Clear();
+                        FileElementModel[] addFileElements = LoadFileElementsCore(Setting, progressNotifier, CancelWork.Token);
+                        this.FileElementModels.AddRange(addFileElements);
+                    });
 
 
                     if (!FileElementModels.Any())
@@ -164,11 +196,10 @@ namespace FileRenamerDiff.Models
                 catch (OperationCanceledException)
                 {
                     progressNotifier.Report(new(0, "canceled"));
-                    this.FileElementModels = Array.Empty<FileElementModel>();
+                    this.FileElementModels.Clear();
                 }
             }
 
-            UpdateCountReplacedAndConflicted();
             this.isIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
@@ -224,6 +255,18 @@ namespace FileRenamerDiff.Models
                 .ToArray();
         }
 
+        internal void AddTargetFiles(IEnumerable<string> paths)
+        {
+            var addSource = paths
+                .Select(x => new FileInfo(x))
+                //直接追加の場合は設定に応じた隠しファイルの除外などは行わない。
+                .Select(x => new FileElementModel(x));
+
+            this.FileElementModels.AddRange(addSource);
+
+            this.isIdle.Value = true;
+        }
+
         internal static void UpdateLanguage(string langCode)
         {
             if (String.IsNullOrWhiteSpace(langCode))
@@ -238,8 +281,7 @@ namespace FileRenamerDiff.Models
         internal void ResetSetting()
         {
             this.Setting = new SettingAppModel();
-            this.FileElementModels = Array.Empty<FileElementModel>();
-            UpdateCountReplacedAndConflicted();
+            this.FileElementModels.Clear();
 
             LogTo.Information("Reset Setting");
             MessageEvent.Value = new AppMessage(AppMessageLevel.Info, head: Resources.Info_SettingsReset);
@@ -257,8 +299,7 @@ namespace FileRenamerDiff.Models
             {
                 Setting = SettingAppModel.Deserialize(filePath);
                 PreviousSettingFilePath.Value = filePath;
-                FileElementModels = Array.Empty<FileElementModel>();
-                UpdateCountReplacedAndConflicted();
+                FileElementModels.Clear();
             }
             catch (Exception ex)
             {
@@ -299,6 +340,7 @@ namespace FileRenamerDiff.Models
                 Parallel.ForEach(FileElementModels,
                     x => x.Replace(regexes));
 
+                //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
                 UpdateCountReplacedAndConflicted();
             });
 
@@ -316,14 +358,6 @@ namespace FileRenamerDiff.Models
 
             this.isIdle.Value = true;
             LogTo.Information("Replace Ended");
-        }
-
-        private void UpdateCountReplacedAndConflicted()
-        {
-            this.countReplaced.Value = FileElementModels.Count(x => x.IsReplaced);
-
-            UpdateFilePathConflict();
-            this.countConflicted.Value = FileElementModels.Count(x => x.IsConflicted);
         }
 
         /// <summary>
@@ -352,30 +386,6 @@ namespace FileRenamerDiff.Models
                 .ToList();
         }
 
-        private void UpdateFilePathConflict()
-        {
-            var lowerAllPaths = FileElementModels
-                .SelectMany(x =>
-                //大文字小文字を区別せず一致していたら、Inputのみ返す
-                    (String.Compare(x.InputFilePath, x.OutputFilePath, true) == 0)
-                     ? new[] { x.InputFilePath }
-                     : new[] { x.InputFilePath, x.OutputFilePath })
-                //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
-                .Select(x => x.ToLower())
-                .ToArray();
-
-            foreach (var fileElement in FileElementModels)
-            {
-                //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
-                string lowPath = fileElement.OutputFilePath.ToLower();
-                int matchPathCount = lowerAllPaths
-                    .Where(x => x == lowPath)
-                    .Count();
-                //もともとのファイルパスがあるので、2以上のときは衝突していると判定
-                fileElement.IsConflicted = matchPathCount >= 2;
-            }
-        }
-
         /// <summary>
         /// リネームを実行（ストレージに保存される）
         /// </summary>
@@ -396,7 +406,8 @@ namespace FileRenamerDiff.Models
                 }
             }
 
-            await LoadFileElements().ConfigureAwait(false);
+            //TODO 再ロード　await LoadFileElements().ConfigureAwait(false);
+            this.FileElementModels.Clear();
 
             isIdle.Value = true;
             LogTo.Information("Renamed File Save Ended");

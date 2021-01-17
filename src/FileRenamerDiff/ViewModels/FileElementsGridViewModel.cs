@@ -38,7 +38,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
         /// </summary>
-        public ReadOnlyReactivePropertySlim<ICollectionView?> CViewFileElementVMs { get; }
+        public ICollectionView CViewFileElementVMs { get; }
 
         /// <summary>
         /// リネーム前後での変更があったファイル数
@@ -69,6 +69,8 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new(false);
 
+        public ReactiveCommand<IReadOnlyList<string>> AddTargetFilesCommand { get; }
+
         public FileElementsGridViewModel()
         {
             this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
@@ -76,12 +78,10 @@ namespace FileRenamerDiff.ViewModels
             this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
-            this.CViewFileElementVMs = model
-                .ObserveProperty(x => x.FileElementModels)
-                .Select(x => CreateFilePathVMs(x))
-                .ObserveOnUIDispatcher()
-                .Select(x => CreateCollectionViewFilePathVMs(x))
-                .ToReadOnlyReactivePropertySlim();
+            var fVMs = model.FileElementModels
+                .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x), ReactivePropertyScheduler.Default);
+
+            this.CViewFileElementVMs = CreateCollectionViewFilePathVMs(fVMs);
 
             //表示基準に変更があったら、表示判定対象に変更があったら、CollectionViewの表示を更新する
             new[]
@@ -95,12 +95,13 @@ namespace FileRenamerDiff.ViewModels
             .Throttle(TimeSpan.FromMilliseconds(100))
             .ObserveOnUIDispatcher()
             .Subscribe(_ => RefleshCollectionViewSafe());
+
+            AddTargetFilesCommand = model.IsIdleUI
+                .ToReactiveCommand<IReadOnlyList<string>>()
+                .WithSubscribe(x => model.AddTargetFiles(x));
         }
 
-        private static ObservableCollection<FileElementViewModel> CreateFilePathVMs(IEnumerable<FileElementModel> fModels) =>
-             new(fModels.Select(fModel => new FileElementViewModel(fModel)));
-
-        private ICollectionView CreateCollectionViewFilePathVMs(ObservableCollection<FileElementViewModel> fVMs)
+        private ICollectionView CreateCollectionViewFilePathVMs(object fVMs)
         {
             var cView = CollectionViewSource.GetDefaultView(fVMs);
             cView.Filter = (x => GetVisibleRow(x));
@@ -125,7 +126,7 @@ namespace FileRenamerDiff.ViewModels
 
         private void RefleshCollectionViewSafe()
         {
-            if (CViewFileElementVMs.Value is not ListCollectionView currentView)
+            if (CViewFileElementVMs is not ListCollectionView currentView)
                 return;
 
             //なぜかCollectionViewが追加中・編集中のことがある。

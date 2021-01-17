@@ -20,13 +20,16 @@
    <UserControl.Resources>
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
    </UserControl.Resources>
+   <behaviors:Interaction.Behaviors>
+      <v:FileDropBehavior Command="{Binding AddTargetFilesCommand}" />
+   </behaviors:Interaction.Behaviors>
    <Grid x:Name="rootObj">
       <DataGrid
          Margin="10"
          materialDesign:DataGridAssist.ColumnHeaderPadding="4,2,2,2"
          AutoGenerateColumns="False"
          EnableRowVirtualization="True"
-         ItemsSource="{Binding CViewFileElementVMs.Value, Mode=OneWay}">
+         ItemsSource="{Binding CViewFileElementVMs, Mode=OneTime}">
          <DataGrid.Resources>
             <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
                <Setter Property="Template">

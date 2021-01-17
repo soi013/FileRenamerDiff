@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Collections.Specialized;
 
 using Livet;
 using Livet.Commands;
@@ -91,16 +92,17 @@ namespace FileRenamerDiff.ViewModels
 
         public MainWindowViewModel()
         {
-            this.WindowTitle = model
-                .ObserveProperty(x => x.FileElementModels)
-                .Select(x => x?.Count > 0 ? model.Setting.ConcatedSearchFilePaths : String.Empty)
+            this.WindowTitle = model.FileElementModels.CollectionChangedAsObservable()
+                //起動時にはCollectionChangedが動かないので、ダミーの初期値を入れておく
+                .StartWith(default(NotifyCollectionChangedEventArgs))
+                .Select(_ => model.FileElementModels.Count > 0 ? model.Setting.ConcatedSearchFilePaths : String.Empty)
                 .Select(x => $"FILE RENAMER DIFF | {x}")
                 .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim<string>();
 
             this.ReplaceCommand = new[]
                 {
-                    model.ObserveProperty(x => x.FileElementModels).Select(x => x.Count >= 1),
+                    model.FileElementModels.ObserveIsAny(),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()

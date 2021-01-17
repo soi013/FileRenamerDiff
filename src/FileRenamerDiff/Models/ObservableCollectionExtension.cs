@@ -25,6 +25,17 @@ namespace FileRenamerDiff.Models
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source) => new(source);
 
         /// <summary>
+        /// 複数の要素をまとめて追加
+        /// </summary>
+        public static void AddRange<T>(this ObservableCollection<T> source, IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                source.Add(item);
+            }
+        }
+
+        /// <summary>
         /// CountプロパティをIObservableとして購読する
         /// </summary>
         public static IObservable<int> ObserveCount<T>(this ObservableCollection<T> source) =>
