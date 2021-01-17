@@ -181,5 +181,16 @@
                IsReadOnly="True" />
          </DataGrid.Columns>
       </DataGrid>
+      <Grid Margin="50,100" Visibility="{Binding CViewFileElementVMs.IsEmpty, Converter={StaticResource VisibilityCollapsedConverter}}">
+         <Rectangle
+            Stroke="{StaticResource HighContrastBrush}"
+            StrokeDashArray="3"
+            StrokeThickness="2" />
+         <TextBlock
+            Margin="10"
+            HorizontalAlignment="Center"
+            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+            Text="{x:Static properties:Resources.Grid_DropDescription}" />
+      </Grid>
    </Grid>
 </UserControl>

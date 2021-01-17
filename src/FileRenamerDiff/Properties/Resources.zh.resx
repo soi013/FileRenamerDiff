@@ -145,7 +145,7 @@
     <value>試執行</value>
   </data>
   <data name="Menu_SearchFiles" xml:space="preserve">
-    <value>檔案搜尋</value>
+    <value>搜索文件</value>
   </data>
   <data name="Setting_Other" xml:space="preserve">
     <value>其他</value>
@@ -308,5 +308,8 @@
   </data>
   <data name="Menu_AddFiles" xml:space="preserve">
     <value>添加文件</value>
+  </data>
+  <data name="Grid_DropDescription" xml:space="preserve">
+    <value>在这里拖放文件或从特定目录中进行 "文件搜索"</value>
   </data>
 </root>

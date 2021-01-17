@@ -309,4 +309,7 @@
   <data name="Menu_AddFiles" xml:space="preserve">
     <value>Dateien hinzufügen</value>
   </data>
+  <data name="Grid_DropDescription" xml:space="preserve">
+    <value>Ziehen Sie Dateien hierher oder führen Sie eine "Dateien Durchsuchen" in einem bestimmten Verzeichnis durch</value>
+  </data>
 </root>

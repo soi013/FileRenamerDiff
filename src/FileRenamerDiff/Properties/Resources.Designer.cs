@@ -322,6 +322,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Drag and Drop files here or do &quot;Search Files&quot; from a specific directory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Grid_DropDescription {
+            get {
+                return ResourceManager.GetString("Grid_DropDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   NEW File Name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_NewText {

@@ -375,4 +375,8 @@
     <value>Add Files</value>
     <comment>リネームするファイルを直接指定するボタン</comment>
   </data>
+  <data name="Grid_DropDescription" xml:space="preserve">
+    <value>Drag and Drop files here or do "Search Files" from a specific directory</value>
+    <comment>ファイル追加方法の説明</comment>
+  </data>
 </root>

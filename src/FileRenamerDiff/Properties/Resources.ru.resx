@@ -309,4 +309,7 @@
   <data name="Menu_AddFiles" xml:space="preserve">
     <value>Добавить Файлы</value>
   </data>
+  <data name="Grid_DropDescription" xml:space="preserve">
+    <value>Перетащите сюда файлы или выполните "Выполнить поиск файлов" из определенного каталога.</value>
+  </data>
 </root>
