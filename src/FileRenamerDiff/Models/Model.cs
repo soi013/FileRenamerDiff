@@ -423,6 +423,9 @@ namespace FileRenamerDiff.Models
                     body: body);
             }
 
+            //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
+            UpdateCountReplacedAndConflicted();
+
             isIdle.Value = true;
             LogTo.Information("Renamed File Save Ended");
         }

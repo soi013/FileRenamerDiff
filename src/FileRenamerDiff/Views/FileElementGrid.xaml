@@ -181,7 +181,7 @@
                IsReadOnly="True" />
          </DataGrid.Columns>
       </DataGrid>
-      <Grid Margin="50,100" Visibility="{Binding CViewFileElementVMs.IsEmpty, Converter={StaticResource VisibilityCollapsedConverter}}">
+      <Grid Margin="50,100" Visibility="{Binding IsAnyFiles.Value, Converter={StaticResource VisibilityCollapsedReverseConverter}}">
          <Rectangle
             Stroke="{StaticResource HighContrastBrush}"
             StrokeDashArray="3"

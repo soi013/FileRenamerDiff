@@ -69,6 +69,8 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new(false);
 
+        public ReadOnlyReactivePropertySlim<bool> IsAnyFiles { get; }
+
         public ReactiveCommand<IReadOnlyList<string>> AddTargetFilesCommand { get; }
         public ReactiveCommand ClearFileElementsCommand { get; }
         public ReactiveCommand<FileElementViewModel> RemoveItemCommand { get; } = new();
@@ -98,16 +100,23 @@ namespace FileRenamerDiff.ViewModels
             .ObserveOnUIDispatcher()
             .Subscribe(_ => RefleshCollectionViewSafe());
 
+            this.IsReplacedAny
+                .Where(x => x == false)
+                .Subscribe(_ =>
+                    this.IsVisibleReplacedOnly.Value = false);
+
             AddTargetFilesCommand = model.IsIdleUI
                 .ToReactiveCommand<IReadOnlyList<string>>()
                 .WithSubscribe(x => model.AddTargetFiles(x));
 
+            this.IsAnyFiles = model.FileElementModels.ObserveIsAny().ToReadOnlyReactivePropertySlim();
+
             this.ClearFileElementsCommand =
-                new[]
+                (new[]
                 {
                     model.IsIdle,
-                    model.FileElementModels.ObserveIsAny(),
-                }
+                    IsAnyFiles,
+                })
                 .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()
                 .ToReactiveCommand()
