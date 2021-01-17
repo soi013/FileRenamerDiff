@@ -29,7 +29,7 @@
          materialDesign:DataGridAssist.ColumnHeaderPadding="4,2,2,2"
          AutoGenerateColumns="False"
          EnableRowVirtualization="True"
-         ItemsSource="{Binding CViewFileElementVMs, Mode=TwoWay}">
+         ItemsSource="{Binding CViewFileElementVMs, Mode=OneWay}">
          <DataGrid.Resources>
             <Style BasedOn="{StaticResource {x:Type DataGridCell}}" TargetType="{x:Type DataGridCell}">
                <Setter Property="Template">

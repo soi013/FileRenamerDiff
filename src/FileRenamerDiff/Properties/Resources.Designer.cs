@@ -411,6 +411,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Add Files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Menu_AddFiles {
+            get {
+                return ResourceManager.GetString("Menu_AddFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   DRY RUN に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Menu_DryRun {

@@ -139,6 +139,26 @@
                         Style="{StaticResource IconTagLabel}" />
                   </Button>
 
+                  <!--  ファイル直接追加開始ボタン  -->
+                  <Button Margin="8,0,0,0">
+                     <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="Click">
+                           <l:OpenFileDialogInteractionMessageAction>
+                              <l:DirectInteractionMessage CallbackCommand="{Binding AddFilesFromDialogCommand, Mode=OneTime}">
+                                 <l:OpeningFileSelectionMessage
+                                    Title="Select Add File"
+                                    InitialDirectory="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}"
+                                    MultiSelect="True" />
+                              </l:DirectInteractionMessage>
+                           </l:OpenFileDialogInteractionMessageAction>
+                        </behaviors:EventTrigger>
+                     </behaviors:Interaction.Triggers>
+                     <Label
+                        v:IconHeadder.IconKind="FileOutline"
+                        Content="{x:Static properties:Resources.Menu_AddFiles}"
+                        Style="{StaticResource IconTagLabel}" />
+                  </Button>
+
                   <!--  リネームプレビューボタン  -->
                   <Button
                      Margin="20,0,0,0"

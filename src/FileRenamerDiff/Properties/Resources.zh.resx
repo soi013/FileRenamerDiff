@@ -306,4 +306,7 @@
   <data name="Info_FileRemoved" xml:space="preserve">
     <value>保存重命名后，一些文件被从列表中删除。</value>
   </data>
+  <data name="Menu_AddFiles" xml:space="preserve">
+    <value>添加文件</value>
+  </data>
 </root>

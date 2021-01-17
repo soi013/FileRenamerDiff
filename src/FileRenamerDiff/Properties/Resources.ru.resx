@@ -306,4 +306,7 @@
   <data name="Info_FileRemoved" xml:space="preserve">
     <value>После сохранения переименования некоторые файлы были удалены из списка.</value>
   </data>
+  <data name="Menu_AddFiles" xml:space="preserve">
+    <value>Добавить Файлы</value>
+  </data>
 </root>

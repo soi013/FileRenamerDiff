@@ -306,4 +306,7 @@
   <data name="Info_FileRemoved" xml:space="preserve">
     <value>Nach dem Speichern des Umbenennens wurden einige Dateien aus der Liste entfernt.</value>
   </data>
+  <data name="Menu_AddFiles" xml:space="preserve">
+    <value>Dateien hinzufügen</value>
+  </data>
 </root>

@@ -371,4 +371,8 @@
     <value>After saving the rename, some files were removed from the list.</value>
     <comment>いくつかのファイルがリストからされたときのメッセージ文章</comment>
   </data>
+  <data name="Menu_AddFiles" xml:space="preserve">
+    <value>Add Files</value>
+    <comment>リネームするファイルを直接指定するボタン</comment>
+  </data>
 </root>

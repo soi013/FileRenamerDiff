@@ -306,4 +306,7 @@
   <data name="Info_FileRemoved" xml:space="preserve">
     <value>リネーム保存後に、一部のファイルがリストから除かれました。</value>
   </data>
+  <data name="Menu_AddFiles" xml:space="preserve">
+    <value>ファイル追加</value>
+  </data>
 </root>

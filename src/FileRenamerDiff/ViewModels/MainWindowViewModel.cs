@@ -70,6 +70,8 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public AsyncReactiveCommand LoadFilesFromCurrentPathCommand { get; }
 
+        public ReactiveCommand<OpeningFileSelectionMessage> AddFilesFromDialogCommand { get; }
+
         /// <summary>
         /// 置換実行コマンド
         /// </summary>
@@ -141,6 +143,10 @@ namespace FileRenamerDiff.ViewModels
             this.LoadFilesFromCurrentPathCommand = IsIdle
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(LoadFilesFromCurrentPath);
+
+            this.AddFilesFromDialogCommand = IsIdle
+                .ToReactiveCommand<OpeningFileSelectionMessage>()
+                .WithSubscribe(x => model.AddTargetFiles(x.Response ?? Array.Empty<string>()));
 
             //アプリケーション内メッセージをダイアログで表示する
             model.MessageEventStream

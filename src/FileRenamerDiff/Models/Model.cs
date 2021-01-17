@@ -256,6 +256,8 @@ namespace FileRenamerDiff.Models
 
         internal void AddTargetFiles(IEnumerable<string> paths)
         {
+            this.isIdle.Value = false;
+
             var addSource = paths
                 //直接追加の場合は設定に応じた隠しファイルの除外などは行わない。
                 .Select(x => new FileElementModel(x));
