@@ -109,43 +109,56 @@ namespace FileRenamerDiff.Models
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class =>
             source.OfType<T>();
 
+        public static string? GetDirectoryPath(this FileSystemInfo fsInfo) => fsInfo switch
+        {
+            FileInfo fi => fi.DirectoryName,
+            DirectoryInfo di => di.Parent?.FullName,
+            _ => string.Empty
+        };
+
+        public static bool GetExistWithReflesh(this FileSystemInfo fsInfo)
+        {
+            fsInfo.Refresh();
+            return fsInfo.Exists;
+        }
+
         /// <summary>
         /// 確実にファイル／ディレクトリの名前を変更する
         /// </summary>
-        /// <param name="fileInfo">変更元ファイル</param>
+        /// <param name="fsInfo">変更元ファイル</param>
         /// <param name="outputFilePath">変更後ファイルパス</param>
-        public static void Rename(this FileInfo fileInfo, string outputFilePath)
+        public static void Rename(this FileSystemInfo fsInfo, string outputFilePath)
         {
-            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+            switch (fsInfo)
             {
-                //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
-                //なので、大文字小文字だけの変更の場合は一度別のファイル名に変更する
-                RenameDirectory(fileInfo.FullName, outputFilePath);
-            }
-            else
-            {
-                fileInfo.MoveTo(outputFilePath);
+                case FileInfo fi:
+                    fi.MoveTo(outputFilePath);
+                    return;
+                case DirectoryInfo di:
+                    di.RenameSafely(outputFilePath);
+                    return;
+
             }
         }
 
         /// <summary>
         /// 確実にディレクトリの名前を変更する
         /// </summary>
-        /// <param name="sourceFilePath">変更元ファイルパス</param>
+        /// <param name="di">変更元ディレクトリ情報/param>
         /// <param name="outputFilePath">変更後ファイルパス</param>
-        public static void RenameDirectory(string sourceFilePath, string outputFilePath)
+        public static void RenameSafely(this DirectoryInfo di, string outputFilePath)
         {
+            string sourceFilePath = di.FullName;
             //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
             //なので、大文字小文字だけの変更の場合は一度別のファイル名に変更する
             if (String.Compare(sourceFilePath, outputFilePath, true) == 0)
             {
                 var tempPath = GetSafeTempName(outputFilePath);
 
-                Directory.Move(sourceFilePath, tempPath);
-                sourceFilePath = tempPath;
+                di.MoveTo(tempPath);
             }
 
-            Directory.Move(sourceFilePath, outputFilePath);
+            di.MoveTo(outputFilePath);
         }
 
         /// <summary>

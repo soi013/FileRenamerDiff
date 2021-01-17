@@ -36,6 +36,23 @@ namespace FileRenamerDiff.Models
         }
 
         /// <summary>
+        /// 条件に当てはまる要素を除く
+        /// </summary>
+        /// <returns>1つでも除くものがあったか</returns>
+        public static T[] RemoveAll<T>(this ObservableCollection<T> source, Predicate<T> match)
+        {
+            var removeItems = source
+             .Where(x => match(x))
+             .ToArray();
+
+            foreach (var item in removeItems)
+            {
+                source.Remove(item);
+            }
+            return removeItems;
+        }
+
+        /// <summary>
         /// CountプロパティをIObservableとして購読する
         /// </summary>
         public static IObservable<int> ObserveCount<T>(this ObservableCollection<T> source) =>

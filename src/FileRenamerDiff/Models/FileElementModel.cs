@@ -53,17 +53,18 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class FileElementModel : NotificationObject
     {
-        private readonly FileInfo fileInfo;
+        private readonly bool isDirectory;
+        private readonly FileSystemInfo fsInfo;
 
         /// <summary>
         /// リネーム前 フルファイルパス
         /// </summary>
-        public string InputFilePath => fileInfo.FullName;
+        public string InputFilePath => fsInfo.FullName;
 
         /// <summary>
         /// リネーム前 ファイル名
         /// </summary>
-        public string InputFileName => fileInfo.Name;
+        public string InputFileName => fsInfo.Name;
 
         private string outputFileName = "--.-";
         /// <summary>
@@ -98,27 +99,27 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイルの所属しているディレクトリ名
         /// </summary>
-        public string DirectoryPath => fileInfo.DirectoryName ?? string.Empty;
+        public string DirectoryPath => fsInfo.GetDirectoryPath() ?? string.Empty;
 
         /// <summary>
         /// ファイルのバイト数 （ディレクトリの場合は-1B）
         /// </summary>
-        public long LengthByte => fileInfo.Exists ? fileInfo.Length : -1;
+        public long LengthByte => (fsInfo.Exists && !isDirectory) ? ((FileInfo)fsInfo).Length : -1;
 
         /// <summary>
         /// ファイル更新日時
         /// </summary>
-        public DateTime LastWriteTime => fileInfo.LastWriteTime;
+        public DateTime LastWriteTime => fsInfo.LastWriteTime;
 
         /// <summary>
         /// ファイル作成日時
         /// </summary>
-        public DateTime CreationTime => fileInfo.CreationTime;
+        public DateTime CreationTime => fsInfo.CreationTime;
 
         /// <summary>
         /// ファイル属性
         /// </summary>
-        public FileAttributes Attributes => fileInfo.Attributes;
+        public FileAttributes Attributes => fsInfo.Attributes;
 
 
         private RenameState _State = RenameState.None;
@@ -142,17 +143,27 @@ namespace FileRenamerDiff.Models
         }
 
         /// <summary>
+        /// 存在するか
+        /// </summary>
+        public bool Exists => fsInfo.GetExistWithReflesh();
+
+        /// <summary>
         /// ファイル名に指定できない文字の検出器 (参考:https://dobon.net/vb/dotnet/file/invalidpathchars.html#section2)
         /// </summary>
         private static readonly Regex invalidCharRegex = new(
-            "[\\x00-\\x1f<>:\"/\\\\|?*]" +
-            "|^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9]|CLOCK\\$)(\\.|$)" +
-            "|[\\. ]$",
-            RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        "[\\x00-\\x1f<>:\"/\\\\|?*]" +
+        "|^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9]|CLOCK\\$)(\\.|$)" +
+        "|[\\. ]$",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public FileElementModel(FileInfo fileInfo)
+        public FileElementModel(string filePath)
         {
-            this.fileInfo = fileInfo;
+            this.isDirectory = File.GetAttributes(filePath)
+                .HasFlag(FileAttributes.Directory);
+
+            this.fsInfo = isDirectory
+                ? new DirectoryInfo(filePath)
+                : new FileInfo(filePath);
 
             this.outputFileName = InputFileName;
             this._PreviousInputFilePath = InputFilePath;
@@ -196,10 +207,12 @@ namespace FileRenamerDiff.Models
             {
                 LogTo.Debug("Save {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
                 PreviousInputFilePath = InputFilePath;
-                fileInfo.Rename(OutputFilePath);
+                fsInfo.Rename(OutputFilePath);
+                fsInfo.Refresh();
                 //rename時にFileInfoが変更されるので、通知を上げておく
-                RaisePropertyChanged(nameof(InputFileName));
-                RaisePropertyChanged(nameof(InputFilePath));
+                foreach (var name in new[] { nameof(InputFileName), nameof(InputFilePath), nameof(IsReplaced), nameof(Exists), })
+                    RaisePropertyChanged(name);
+
                 State = RenameState.Renamed;
             }
             catch (Exception ex)

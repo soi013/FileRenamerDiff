@@ -303,4 +303,7 @@
   <data name="Setting_IsCreateRenameLog" xml:space="preserve">
     <value>リネーム時にログファイルを作成する</value>
   </data>
+  <data name="Info_FileRemoved" xml:space="preserve">
+    <value>リネーム保存後に、一部のファイルがリストから除かれました。</value>
+  </data>
 </root>

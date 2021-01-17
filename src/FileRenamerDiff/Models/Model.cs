@@ -248,7 +248,6 @@ namespace FileRenamerDiff.Models
             cancellationToken.ThrowIfCancellationRequested();
 
             return loadedFileList
-                .Select(x => new FileInfo(x))
                 //設定に応じて、ディレクトリ・ファイル・隠しファイルの表示状態を変更
                 .Where(x => setting.IsTargetFile(x))
                 .Select(x => new FileElementModel(x))
@@ -258,7 +257,6 @@ namespace FileRenamerDiff.Models
         internal void AddTargetFiles(IEnumerable<string> paths)
         {
             var addSource = paths
-                .Select(x => new FileInfo(x))
                 //直接追加の場合は設定に応じた隠しファイルの除外などは行わない。
                 .Select(x => new FileElementModel(x));
 
@@ -406,8 +404,22 @@ namespace FileRenamerDiff.Models
                 }
             }
 
-            //TODO 再ロード　await LoadFileElements().ConfigureAwait(false);
-            this.FileElementModels.Clear();
+            //FileInfoは直接のリネーム処理は追跡できるが、親ディレクトリをリネームされた場合などは追跡できない
+            //したがって、全てのリネーム処理が終わった後に、存在しなくなったFileInfoを持つ要素はリストから除く
+            var removedElements = this.FileElementModels
+                   .RemoveAll(x => !x.Exists);
+
+            if (removedElements.Any())
+            {
+                string body = removedElements
+                    .Select(x => x.InputFilePath)
+                    .ConcatenateString(Environment.NewLine);
+
+                MessageEvent.Value = new AppMessage(
+                    AppMessageLevel.Info,
+                    head: Resources.Info_FileRemoved,
+                    body: body);
+            }
 
             isIdle.Value = true;
             LogTo.Information("Renamed File Save Ended");

@@ -358,6 +358,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   After saving the rename, some files were removed from the list. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Info_FileRemoved {
+            get {
+                return ResourceManager.GetString("Info_FileRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Settings were reset. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Info_SettingsReset {

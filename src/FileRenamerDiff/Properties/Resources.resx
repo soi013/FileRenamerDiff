@@ -367,4 +367,8 @@
     <value>Create a log file when renaming</value>
     <comment>リネーム時にログファイルを作成するか</comment>
   </data>
+  <data name="Info_FileRemoved" xml:space="preserve">
+    <value>After saving the rename, some files were removed from the list.</value>
+    <comment>いくつかのファイルがリストからされたときのメッセージ文章</comment>
+  </data>
 </root>

@@ -175,18 +175,19 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// リネーム対象となるファイル種類か
         /// </summary>
-        public bool IsTargetFile(FileInfo fileInfo)
+        public bool IsTargetFile(string filePath)
         {
+            var fileAttributes = File.GetAttributes(filePath);
             //隠しファイルが対象外の設定で、隠しファイルだったらリネームしない
-            if (!IsHiddenRenameTarget && fileInfo.Attributes.HasFlag(FileAttributes.Hidden))
+            if (!IsHiddenRenameTarget && fileAttributes.HasFlag(FileAttributes.Hidden))
                 return false;
 
             //ディレクトリが対象外の設定で、ディレクトリだったらリネームしない
-            if (!IsDirectoryRenameTarget && fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+            if (!IsDirectoryRenameTarget && fileAttributes.HasFlag(FileAttributes.Directory))
                 return false;
 
             //ファイルが対象外の設定で、ファイルだったらリネームしない
-            if (!IsFileRenameTarget && !fileInfo.Attributes.HasFlag(FileAttributes.Directory))
+            if (!IsFileRenameTarget && !fileAttributes.HasFlag(FileAttributes.Directory))
                 return false;
 
             //それ以外はリネームする

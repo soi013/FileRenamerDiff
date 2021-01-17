@@ -303,4 +303,7 @@
   <data name="Setting_IsCreateRenameLog" xml:space="preserve">
     <value>Erstellen Sie beim umbenennen eine Protokolldatei</value>
   </data>
+  <data name="Info_FileRemoved" xml:space="preserve">
+    <value>Nach dem Speichern des Umbenennens wurden einige Dateien aus der Liste entfernt.</value>
+  </data>
 </root>
