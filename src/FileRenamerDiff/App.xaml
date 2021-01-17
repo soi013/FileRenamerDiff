@@ -120,14 +120,11 @@
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         SnapsToDevicePixels="true">
-                        <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                           <materialDesign:PackIcon
-                              Margin="1,1,4,3"
-                              VerticalAlignment="Center"
-                              Kind="{TemplateBinding v:IconHeadder.IconKind}" />
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                           <materialDesign:PackIcon Margin="1,1,4,4" Kind="{TemplateBinding v:IconHeadder.IconKind}" />
                            <ContentPresenter
                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalAlignment="Bottom"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                               RecognizesAccessKey="True"
                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </StackPanel>
