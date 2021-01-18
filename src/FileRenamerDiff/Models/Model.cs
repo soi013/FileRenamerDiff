@@ -122,6 +122,8 @@ namespace FileRenamerDiff.Models
         {
             FileElementModels
                 .CollectionChangedAsObservable()
+                //ファイルをまとめて追加し終わってから、更新する
+                .Throttle(TimeSpan.FromMilliseconds(500))
                 .Subscribe(_ => UpdateCountReplacedAndConflicted());
 
             CurrentProgessInfo = progressNotifier
