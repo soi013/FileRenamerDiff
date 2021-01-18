@@ -40,7 +40,7 @@ A File Renamer App featuring a difference display before and after the change fo
 
 <a href='//www.microsoft.com/store/apps/9PH9DKV5XVDB?cid=storebadge&ocid=badge'><img src=images/MicrosoftStoreLogo.png width=152px></a>
 
-### Portable version
+### Portable version (Windows 7, 8.1, 10)
 
 Download from [LATEST RELEASE](https://github.com/soi013/filerenamerdiff/releases).
 
