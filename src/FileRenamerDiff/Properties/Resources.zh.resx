@@ -310,6 +310,18 @@
     <value>添加文件</value>
   </data>
   <data name="Grid_DropDescription" xml:space="preserve">
-    <value>在这里拖放文件或从特定目录中进行 "文件搜索"</value>
+    <value>在这里拖放文件或从特定目录中进行 "文件搜索"。</value>
+  </data>
+  <data name="Menu_SearchFilesHint" xml:space="preserve">
+    <value>在左边的目标目录中搜索文件。</value>
+  </data>
+  <data name="Menu_AddFilesHint" xml:space="preserve">
+    <value>直接指定要重命名的文件。</value>
+  </data>
+  <data name="Menu_DryRunHint" xml:space="preserve">
+    <value>只在下面的列表中更改，还没有保存到存储。</value>
+  </data>
+  <data name="Menu_SaveHint" xml:space="preserve">
+    <value>保存到存储。</value>
   </data>
 </root>

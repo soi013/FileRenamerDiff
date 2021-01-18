@@ -188,9 +188,10 @@
             StrokeThickness="2" />
          <TextBlock
             Margin="10"
+            TextAlignment="Center"
             HorizontalAlignment="Center"
             Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-            Text="{x:Static properties:Resources.Grid_DropDescription}" />
+            Text="{x:Static properties:Resources.Grid_DropDescription}" TextWrapping="Wrap" />
       </Grid>
    </Grid>
 </UserControl>

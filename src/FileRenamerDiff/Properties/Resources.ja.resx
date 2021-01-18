@@ -310,6 +310,18 @@
     <value>ファイル追加</value>
   </data>
   <data name="Grid_DropDescription" xml:space="preserve">
-    <value>ここにファイルをドラッグ＆ドロップしたり、特定のディレクトリから「ファイル検索実行」ができます</value>
+    <value>ここにファイルをドラッグ＆ドロップしたり、特定のディレクトリから「ファイル検索実行」ができます。</value>
+  </data>
+  <data name="Menu_SearchFilesHint" xml:space="preserve">
+    <value>左側の対象ディレクトリ内のファイルを検索します。</value>
+  </data>
+  <data name="Menu_AddFilesHint" xml:space="preserve">
+    <value>リネームするファイルを直接指定する。</value>
+  </data>
+  <data name="Menu_DryRunHint" xml:space="preserve">
+    <value>下のリスト上でのみ変更し、ストレージにはまだ保存しない。</value>
+  </data>
+  <data name="Menu_SaveHint" xml:space="preserve">
+    <value>ストレージに保存する。</value>
   </data>
 </root>

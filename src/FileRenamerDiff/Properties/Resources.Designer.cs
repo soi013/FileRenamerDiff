@@ -322,7 +322,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Drag and Drop files here or do &quot;Search Files&quot; from a specific directory に類似しているローカライズされた文字列を検索します。
+        ///   Drag and Drop files here or do &quot;Search Files&quot; from a specific directory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_DropDescription {
             get {
@@ -429,11 +429,29 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Directly specify the files to be renamed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Menu_AddFilesHint {
+            get {
+                return ResourceManager.GetString("Menu_AddFilesHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   DRY RUN に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Menu_DryRun {
             get {
                 return ResourceManager.GetString("Menu_DryRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Change only on the list below, do not save to storage yet. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Menu_DryRunHint {
+            get {
+                return ResourceManager.GetString("Menu_DryRunHint", resourceCulture);
             }
         }
         
@@ -447,11 +465,29 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Save to storage. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Menu_SaveHint {
+            get {
+                return ResourceManager.GetString("Menu_SaveHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Search Files に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Menu_SearchFiles {
             get {
                 return ResourceManager.GetString("Menu_SearchFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search files in the target directory on the left. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Menu_SearchFilesHint {
+            get {
+                return ResourceManager.GetString("Menu_SearchFilesHint", resourceCulture);
             }
         }
         

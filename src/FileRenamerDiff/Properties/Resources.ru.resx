@@ -312,4 +312,16 @@
   <data name="Grid_DropDescription" xml:space="preserve">
     <value>Перетащите сюда файлы или выполните "Выполнить поиск файлов" из определенного каталога.</value>
   </data>
+  <data name="Menu_SearchFilesHint" xml:space="preserve">
+    <value>Поиск файлов в целевом каталоге слева.</value>
+  </data>
+  <data name="Menu_AddFilesHint" xml:space="preserve">
+    <value>Непосредственно укажите файлы для переименования.</value>
+  </data>
+  <data name="Menu_DryRunHint" xml:space="preserve">
+    <value>Изменяйте только в списке ниже, пока не сохраняйте в память.</value>
+  </data>
+  <data name="Menu_SaveHint" xml:space="preserve">
+    <value>Сохранить на хранение.</value>
+  </data>
 </root>

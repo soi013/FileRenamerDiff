@@ -132,7 +132,8 @@
                   <Button
                      Margin="8,0,0,0"
                      Command="{Binding LoadFilesFromCurrentPathCommand, Mode=OneTime}"
-                     Style="{StaticResource MaterialDesignRaisedLightButton}">
+                     Style="{StaticResource MaterialDesignRaisedLightButton}"
+                     ToolTip="{x:Static properties:Resources.Menu_SearchFilesHint}">
                      <Label
                         v:IconHeadder.IconKind="FolderSearchOutline"
                         Content="{x:Static properties:Resources.Menu_SearchFiles}"
@@ -140,7 +141,7 @@
                   </Button>
 
                   <!--  ファイル直接追加開始ボタン  -->
-                  <Button Margin="8,0,0,0">
+                  <Button Margin="8,0,0,0" ToolTip="{x:Static properties:Resources.Menu_AddFilesHint}">
                      <behaviors:Interaction.Triggers>
                         <behaviors:EventTrigger EventName="Click">
                            <l:OpenFileDialogInteractionMessageAction>
@@ -163,7 +164,8 @@
                   <Button
                      Margin="20,0,0,0"
                      Command="{Binding ReplaceCommand, Mode=OneTime}"
-                     Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                     ToolTip="{x:Static properties:Resources.Menu_DryRunHint}">
                      <Label
                         v:IconHeadder.IconKind="RenameBox"
                         Content="{x:Static properties:Resources.Menu_DryRun}"
@@ -174,7 +176,8 @@
                   <Button
                      Margin="8,0"
                      Command="{Binding RenameExcuteCommand, Mode=OneTime}"
-                     Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                     ToolTip="{x:Static properties:Resources.Menu_SaveHint}">
                      <Label
                         v:IconHeadder.IconKind="ContentSaveAllOutline"
                         Content="{x:Static properties:Resources.Menu_Save}"

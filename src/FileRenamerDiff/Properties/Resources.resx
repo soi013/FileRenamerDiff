@@ -376,7 +376,23 @@
     <comment>リネームするファイルを直接指定するボタン</comment>
   </data>
   <data name="Grid_DropDescription" xml:space="preserve">
-    <value>Drag and Drop files here or do "Search Files" from a specific directory</value>
+    <value>Drag and Drop files here or do "Search Files" from a specific directory.</value>
     <comment>ファイル追加方法の説明</comment>
+  </data>
+  <data name="Menu_SearchFilesHint" xml:space="preserve">
+    <value>Search files in the target directory on the left.</value>
+    <comment>ファイル探索を開始するボタンのヒント</comment>
+  </data>
+  <data name="Menu_AddFilesHint" xml:space="preserve">
+    <value>Directly specify the files to be renamed.</value>
+    <comment>リネームするファイルを直接指定するボタンのヒント</comment>
+  </data>
+  <data name="Menu_DryRunHint" xml:space="preserve">
+    <value>Change only on the list below, do not save to storage yet.</value>
+    <comment>リネーム処理のプレビュー（まだストレージに保存はされない）ボタンのヒント</comment>
+  </data>
+  <data name="Menu_SaveHint" xml:space="preserve">
+    <value>Save to storage.</value>
+    <comment>リネーム処理の実行（ストレージに保存される）ボタンのヒント</comment>
   </data>
 </root>
