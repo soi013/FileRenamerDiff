@@ -91,6 +91,11 @@ namespace FileRenamerDiff.ViewModels
         public ReactiveProperty<bool> IsHiddenRenameTarget { get; }
 
         /// <summary>
+        /// 拡張子をリネームするか
+        /// </summary>
+        public ReactiveProperty<bool> IsRenameExt { get; }
+
+        /// <summary>
         /// 選択可能な言語一覧
         /// </summary>
         public IReadOnlyList<CultureInfo> AvailableLanguages { get; }
@@ -170,6 +175,8 @@ namespace FileRenamerDiff.ViewModels
             this.IsDirectoryRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsDirectoryRenameTarget);
             this.IsFileRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsFileRenameTarget);
             this.IsHiddenRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsHiddenRenameTarget);
+            this.IsRenameExt = setting.ToReactivePropertyAsSynchronized(x => x.IsRenameExt);
+            
             this.IsAppDarkTheme = setting.ToReactivePropertyAsSynchronized(x => x.IsAppDarkTheme);
             this.IsCreateRenameLog = setting.ToReactivePropertyAsSynchronized(x => x.IsCreateRenameLog);
 

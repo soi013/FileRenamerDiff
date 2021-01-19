@@ -636,6 +636,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Rename file extensions as well に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Setting_IsRenameExt {
+            get {
+                return ResourceManager.GetString("Setting_IsRenameExt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Other に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Setting_Other {

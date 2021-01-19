@@ -324,4 +324,7 @@
   <data name="Menu_SaveHint" xml:space="preserve">
     <value>In den Speicher speichern.</value>
   </data>
+  <data name="Setting_IsRenameExt" xml:space="preserve">
+    <value>Auch Dateierweiterungen umbenennen</value>
+  </data>
 </root>

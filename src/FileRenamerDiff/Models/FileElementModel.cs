@@ -172,9 +172,12 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定された置換パターンで、ファイル名を置換する（ストレージに保存はされない）
         /// </summary>
-        internal void Replace(IReadOnlyList<ReplaceRegex> repRegexes)
+        internal void Replace(IReadOnlyList<ReplaceRegex> repRegexes, bool isRenameExt)
         {
-            var outFileName = InputFileName;
+            //設定によって拡張子をリネームするかを決定
+            string outFileName = isRenameExt || isDirectory
+                ? InputFileName
+                : Path.GetFileNameWithoutExtension(InputFileName);
 
             foreach (var reg in repRegexes)
             {
@@ -192,7 +195,10 @@ namespace FileRenamerDiff.Models
                 outFileName = invalidCharRegex.Replace(outFileName, "_");
             }
 
-            OutputFileName = outFileName;
+            //拡張子をリネームしない設定であったら、元の拡張子文字列を連結
+            OutputFileName = isRenameExt || isDirectory
+                ? outFileName
+                : outFileName + fsInfo.Extension;
 
             if (IsReplaced)
                 LogTo.Debug("Replaced {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);

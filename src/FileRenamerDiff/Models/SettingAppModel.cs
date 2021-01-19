@@ -214,6 +214,15 @@ namespace FileRenamerDiff.Models
             return fa;
         }
 
+        /// <summary>
+        /// リネーム時に拡張子を無視するか
+        /// </summary>
+        public bool IsRenameExt
+        {
+            get => _IsIgnoreExt;
+            set => RaisePropertyChangedIfSet(ref _IsIgnoreExt, value);
+        }
+        private bool _IsIgnoreExt = true;
 
         /// <summary>
         /// アプリケーションの表示言語

@@ -144,7 +144,9 @@
             </Setter.Value>
          </Setter>
       </Style>
-
+      <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="{x:Type materialDesign:Card}">
+         <Setter Property="Margin" Value="15,5,15,10" />
+      </Style>
    </UserControl.Resources>
 
    <StackPanel x:Name="rootObj">
@@ -162,7 +164,7 @@
                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
-               <materialDesign:Card Margin="15,5,15,10">
+               <materialDesign:Card>
                   <CheckBox Content="{x:Static properties:Resources.Setting_SearchSubDirectories}" IsChecked="{Binding IsSearchSubDirectories.Value}" />
                </materialDesign:Card>
                <GroupBox
@@ -435,7 +437,7 @@
                Style="{StaticResource ExpanderHeaderLabel}" />
          </Expander.Header>
          <StackPanel>
-            <materialDesign:Card Margin="30,5" Padding="15,10,15,5">
+            <materialDesign:Card Padding="15,10,15,5">
                <StackPanel>
                   <TextBlock Foreground="{StaticResource HighContrastBrush}" Text="App language: Changed AFTER RESTART" />
                   <ComboBox
@@ -454,7 +456,7 @@
                </StackPanel>
             </materialDesign:Card>
 
-            <materialDesign:Card Margin="30,5" Padding="15,10,15,5">
+            <materialDesign:Card Padding="15,10,15,5">
                <StackPanel>
                   <TextBlock Foreground="{StaticResource HighContrastBrush}" Text="App Theme: Changed AFTER RESTART" />
                   <StackPanel Margin="5" Orientation="Horizontal">
@@ -472,7 +474,12 @@
                   </StackPanel>
                </StackPanel>
             </materialDesign:Card>
-            <materialDesign:Card Margin="30,5">
+
+            <materialDesign:Card>
+               <CheckBox Content="{x:Static properties:Resources.Setting_IsRenameExt}" IsChecked="{Binding IsRenameExt.Value}" />
+            </materialDesign:Card>
+            
+            <materialDesign:Card>
                <CheckBox Content="{x:Static properties:Resources.Setting_IsCreateRenameLog}" IsChecked="{Binding IsCreateRenameLog.Value}" />
             </materialDesign:Card>
             <Button Margin="30,5">

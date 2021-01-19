@@ -340,7 +340,7 @@ namespace FileRenamerDiff.Models
             {
                 var regexes = CreateRegexes();
                 Parallel.ForEach(FileElementModels,
-                    x => x.Replace(regexes));
+                    x => x.Replace(regexes, Setting.IsRenameExt));
 
                 //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
                 UpdateCountReplacedAndConflicted();
@@ -496,7 +496,6 @@ namespace FileRenamerDiff.Models
 
         private string CreateLogFilePath()
         {
-
             string dirPath = FileElementModels
                            .Select(x => x.DirectoryPath)
                            .MinBy(x => x.Length)

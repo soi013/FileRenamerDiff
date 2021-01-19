@@ -365,7 +365,7 @@
   </data>
   <data name="Setting_IsCreateRenameLog" xml:space="preserve">
     <value>Create a log file when renaming</value>
-    <comment>リネーム時にログファイルを作成するか</comment>
+    <comment>リネーム時にログファイルを作成するか、チェックボックス</comment>
   </data>
   <data name="Info_FileRemoved" xml:space="preserve">
     <value>After saving the rename, some files were removed from the list.</value>
@@ -394,5 +394,9 @@
   <data name="Menu_SaveHint" xml:space="preserve">
     <value>Save to storage.</value>
     <comment>リネーム処理の実行（ストレージに保存される）ボタンのヒント</comment>
+  </data>
+  <data name="Setting_IsRenameExt" xml:space="preserve">
+    <value>Rename file extensions as well</value>
+    <comment>拡張子をリネームするか、チェックボックス</comment>
   </data>
 </root>
