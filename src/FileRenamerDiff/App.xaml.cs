@@ -51,8 +51,8 @@ namespace FileRenamerDiff
             theme.PrimaryMid = new ColorPair((Color)Current.Resources["Primary500"], Colors.White);
             theme.PrimaryLight = (Color)Current.Resources["Primary300"];
             theme.Paper = AppExtention.ToColorOrDefault(isDark
-                ? "#272E33"
-                : "#E6EDF2");
+                ? "#1e242a"
+                : "#E8EDF2");
 
             //ベース色とのコントラストが
             Current.Resources["HighContrastBrush"] =
