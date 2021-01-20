@@ -184,6 +184,10 @@ namespace FileRenamerDiff.Models
                 outFileName = reg.Replace(outFileName);
             }
 
+            //拡張子をリネームしない設定であったら、元の拡張子文字列を連結
+            if (!isRenameExt && !isDirectory)
+                outFileName += fsInfo.Extension;
+
             //ファイル名に指定できない文字は"_"に置き換える
             if (invalidCharRegex.IsMatch(outFileName))
             {
@@ -195,10 +199,7 @@ namespace FileRenamerDiff.Models
                 outFileName = invalidCharRegex.Replace(outFileName, "_");
             }
 
-            //拡張子をリネームしない設定であったら、元の拡張子文字列を連結
-            OutputFileName = isRenameExt || isDirectory
-                ? outFileName
-                : outFileName + fsInfo.Extension;
+            OutputFileName = outFileName;
 
             if (IsReplaced)
                 LogTo.Debug("Replaced {@Input} -> {@Output} in {@DirectoryPath}", InputFileName, OutputFileName, DirectoryPath);
