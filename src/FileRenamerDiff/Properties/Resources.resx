@@ -399,4 +399,16 @@
     <value>Rename file extensions as well</value>
     <comment>拡張子をリネームするか、チェックボックス</comment>
   </data>
+  <data name="Common_ReplaceUpperCase" xml:space="preserve">
+    <value>Convert all text to upper-case</value>
+    <comment>よくあるパターン説明_全てのアルファベットを大文字にする。</comment>
+  </data>
+  <data name="Common_ReplaceLowerCase" xml:space="preserve">
+    <value>Convert all text to lower-case</value>
+    <comment>よくあるパターン説明_全てのアルファベットを小文字にする。</comment>
+  </data>
+  <data name="Common_ReplaceTitleCase" xml:space="preserve">
+    <value>Convert all text to title-case</value>
+    <comment>よくあるパターン説明_全てのアルファベットをTitle-caseにする。</comment>
+  </data>
 </root>

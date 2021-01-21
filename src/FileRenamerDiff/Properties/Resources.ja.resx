@@ -327,4 +327,13 @@
   <data name="Setting_IsRenameExt" xml:space="preserve">
     <value>ファイルの拡張子もリネームする</value>
   </data>
+  <data name="Common_ReplaceLowerCase" xml:space="preserve">
+    <value>すべてのテキストを小文字に変換する</value>
+  </data>
+  <data name="Common_ReplaceUpperCase" xml:space="preserve">
+    <value>すべてのテキストを大文字に変換する</value>
+  </data>
+  <data name="Common_ReplaceTitleCase" xml:space="preserve">
+    <value>すべてのテキストをタイトルケースに変換する</value>
+  </data>
 </root>

@@ -23,8 +23,25 @@ namespace FileRenamerDiff.Models
         /// 置換実行
         /// </summary>
         internal string Replace(string input) =>
-            regex?.Replace(input, replaceText)
-            ?? input;
+            regex?.Replace(input, ConvertToMatchEvaluator(replaceText))
+                ?? input;
+
+        /// <summary>
+        /// 特殊置換
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        static MatchEvaluator ConvertToMatchEvaluator(string s)
+        {
+            var m = Regex.Match(s, @"^\\([uU])\$(\d+)");
+            if (!m.Success)
+                return _ => s;
+
+            var group = int.Parse(m.Groups[2].Value);
+            return m.Groups[1].Value == "U"
+                ? (MatchEvaluator)(match => match.Groups[group].Value.ToUpper())
+                : (match => match.Groups[group].Value.ToLower());
+        }
 
         public override string ToString() => $"{regex}->{replaceText}";
     }

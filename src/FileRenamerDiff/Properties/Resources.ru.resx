@@ -327,4 +327,13 @@
   <data name="Setting_IsRenameExt" xml:space="preserve">
     <value>Переименовать и расширения файлов</value>
   </data>
+  <data name="Common_ReplaceLowerCase" xml:space="preserve">
+    <value>Преобразовать весь текст в нижний регистр</value>
+  </data>
+  <data name="Common_ReplaceUpperCase" xml:space="preserve">
+    <value>Конвертировать весь текст в верхний регистр</value>
+  </data>
+  <data name="Common_ReplaceTitleCase" xml:space="preserve">
+    <value>Конвертировать весь текст в заголовок</value>
+  </data>
 </root>

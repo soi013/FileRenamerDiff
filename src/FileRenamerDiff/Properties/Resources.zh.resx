@@ -327,4 +327,13 @@
   <data name="Setting_IsRenameExt" xml:space="preserve">
     <value>重命名文件扩展名</value>
   </data>
+  <data name="Common_ReplaceUpperCase" xml:space="preserve">
+    <value>将所有文本转换为大写</value>
+  </data>
+  <data name="Common_ReplaceLowerCase" xml:space="preserve">
+    <value>将所有文本转换为小写</value>
+  </data>
+  <data name="Common_ReplaceTitleCase" xml:space="preserve">
+    <value>将所有文本转换为标题大小写</value>
+  </data>
 </root>

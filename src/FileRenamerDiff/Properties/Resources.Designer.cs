@@ -250,6 +250,33 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Convert all text to lower-case に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceLowerCase {
+            get {
+                return ResourceManager.GetString("Common_ReplaceLowerCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Convert all text to title-case に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceTitleCase {
+            get {
+                return ResourceManager.GetString("Common_ReplaceTitleCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Convert all text to upper-case に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceUpperCase {
+            get {
+                return ResourceManager.GetString("Common_ReplaceUpperCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Replace whitespace with &apos;_&apos; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_ReplaceWhiteSpacesWithUnderbar {
