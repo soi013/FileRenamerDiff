@@ -9,6 +9,7 @@ namespace FileRenamerDiff.Models
     {
         readonly Regex regex;
         readonly string replaceText;
+        readonly MatchEvaluator? matchEvaluator;
 
         /// <summary>
         /// 置換パターンを組み立てる
@@ -17,29 +18,31 @@ namespace FileRenamerDiff.Models
         {
             this.regex = regex;
             this.replaceText = replaceText;
+            this.matchEvaluator = ConvertToMatchEvaluator(replaceText);
         }
 
         /// <summary>
         /// 置換実行
         /// </summary>
         internal string Replace(string input) =>
-            regex?.Replace(input, ConvertToMatchEvaluator(replaceText))
-                ?? input;
+            regex == null ? input
+            : matchEvaluator == null ? regex.Replace(input, replaceText)
+            : regex.Replace(input, matchEvaluator);
 
         /// <summary>
-        /// 特殊置換
+        /// 特殊置換へ変換
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        static MatchEvaluator ConvertToMatchEvaluator(string s)
+        /// <param name="replaceText">置換文字列</param>
+        /// <returns>特殊置換、なければnull</returns>
+        MatchEvaluator? ConvertToMatchEvaluator(string replaceText)
         {
-            var m = Regex.Match(s, @"^\\([uU])\$(\d+)");
+            var m = Regex.Match(replaceText, @"^\\([uU])\$(\d+)");
             if (!m.Success)
-                return _ => s;
+                return null;
 
             var group = int.Parse(m.Groups[2].Value);
             return m.Groups[1].Value == "U"
-                ? (MatchEvaluator)(match => match.Groups[group].Value.ToUpper())
+                ? (match => match.Groups[group].Value.ToUpper())
                 : (match => match.Groups[group].Value.ToLower());
         }
 
