@@ -64,9 +64,9 @@ namespace FileRenamerDiff.Models
                 new(Resources.Common_ReplaceAllExtentionToABC,  "\\.\\w+$", ".ABC", "sam.ple.txt", true),
                 new(Resources.Common_ReplaceIgnoreCase,  "(?i)abc", "x", "ABC_abc_AbC.txt", true),
 
-                new(Resources.Common_ReplaceUpperCase,  "[a-z]", "\\U$0", "low UPP Pas.txt", true),
-                new(Resources.Common_ReplaceLowerCase,  "[A-Z]", "\\u$0", "low UPP Pas.txt", true),
-                new(Resources.Common_ReplaceTitleCase,  "\\b[a-z]", "\\U$0", "low UPP Pas.txt", true),
+                new(Resources.Common_ReplaceUpperCase,  "[a-z]", "\\u$0", "low UPP Pas.txt", true),
+                new(Resources.Common_ReplaceLowerCase,  "[A-Z]", "\\l$0", "low UPP Pas.txt", true),
+                new(Resources.Common_ReplaceTitleCase,  "\\b[a-z]", "\\u$0", "low UPP Pas.txt", true),
             };
     }
 }

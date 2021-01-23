@@ -36,12 +36,12 @@ namespace FileRenamerDiff.Models
         /// <returns>特殊置換、なければnull</returns>
         MatchEvaluator? ConvertToMatchEvaluator(string replaceText)
         {
-            var m = Regex.Match(replaceText, @"^\\([uU])\$(\d+)");
+            var m = Regex.Match(replaceText, @"^\\([ul])\$(\d+)");
             if (!m.Success)
                 return null;
 
             var group = int.Parse(m.Groups[2].Value);
-            return m.Groups[1].Value == "U"
+            return m.Groups[1].Value == "u"
                 ? (match => match.Groups[group].Value.ToUpper())
                 : (match => match.Groups[group].Value.ToLower());
         }
