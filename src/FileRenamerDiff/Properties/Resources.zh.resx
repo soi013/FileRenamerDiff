@@ -336,4 +336,10 @@
   <data name="Common_ReplaceTitleCase" xml:space="preserve">
     <value>将所有文本转换为标题大小写</value>
   </data>
+  <data name="Common_ReplaceHalf" xml:space="preserve">
+    <value>将所有字母和数字转换为半角字符</value>
+  </data>
+  <data name="Common_ReplaceWide" xml:space="preserve">
+    <value>将所有字母和数字转换为全角字符</value>
+  </data>
 </root>

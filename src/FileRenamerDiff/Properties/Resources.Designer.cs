@@ -241,6 +241,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Convert all letters and numbers to Half-width characters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceHalf {
+            get {
+                return ResourceManager.GetString("Common_ReplaceHalf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Replace &quot;ABC&quot; with &quot;x&quot; in a case-insensitive に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_ReplaceIgnoreCase {
@@ -282,6 +291,15 @@ namespace FileRenamerDiff.Properties {
         public static string Common_ReplaceWhiteSpacesWithUnderbar {
             get {
                 return ResourceManager.GetString("Common_ReplaceWhiteSpacesWithUnderbar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Convert all letters and numbers to Full-width characters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceWide {
+            get {
+                return ResourceManager.GetString("Common_ReplaceWide", resourceCulture);
             }
         }
         

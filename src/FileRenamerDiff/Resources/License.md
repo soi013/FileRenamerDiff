@@ -145,3 +145,11 @@ Authors: Jan Karger, Steven Kirk, mitchell.jon
 Project Site: https://github.com/punker76/gong-wpf-dragdrop
 
 License: https://www.nuget.org/packages/gong-wpf-dragdrop/2.2.0/license
+
+### Zipangu 
+
+Authors: sakapon
+
+Project Site: https://github.com/sakapon/Zipangu
+
+License: https://github.com/sakapon/Zipangu/blob/master/LICENSE

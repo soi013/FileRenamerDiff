@@ -401,14 +401,22 @@
   </data>
   <data name="Common_ReplaceUpperCase" xml:space="preserve">
     <value>Convert all text to upper-case</value>
-    <comment>よくあるパターン説明_全てのアルファベットを大文字にする。</comment>
+    <comment>よくあるパターン説明_全ての英字を大文字にする。</comment>
   </data>
   <data name="Common_ReplaceLowerCase" xml:space="preserve">
     <value>Convert all text to lower-case</value>
-    <comment>よくあるパターン説明_全てのアルファベットを小文字にする。</comment>
+    <comment>よくあるパターン説明_全ての英字を小文字にする。</comment>
   </data>
   <data name="Common_ReplaceTitleCase" xml:space="preserve">
     <value>Convert all text to title-case</value>
-    <comment>よくあるパターン説明_全てのアルファベットをTitle-caseにする。</comment>
+    <comment>よくあるパターン説明_全ての英字をTitle-caseにする。</comment>
+  </data>
+  <data name="Common_ReplaceHalf" xml:space="preserve">
+    <value>Convert all letters and numbers to Half-width characters</value>
+    <comment>よくあるパターン説明_全角の英字と数字を小文字にする。</comment>
+  </data>
+  <data name="Common_ReplaceWide" xml:space="preserve">
+    <value>Convert all letters and numbers to Full-width characters</value>
+    <comment>よくあるパターン説明_半角の英字と数字を小文字にする。</comment>
   </data>
 </root>

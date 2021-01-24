@@ -48,6 +48,7 @@
     <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Utf8Json" Version="1.3.7" />
+    <PackageReference Include="Zipangu" Version="1.1.8" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FileRenamerDiff_icon.ico" />

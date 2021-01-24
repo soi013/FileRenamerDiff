@@ -336,4 +336,10 @@
   <data name="Common_ReplaceTitleCase" xml:space="preserve">
     <value>Konvertiert den gesamten Text in Großbuchstaben</value>
   </data>
+  <data name="Common_ReplaceHalf" xml:space="preserve">
+    <value>Konvertiert alle Buchstaben und Zahlen in Zeichen halber Breite</value>
+  </data>
+  <data name="Common_ReplaceWide" xml:space="preserve">
+    <value>Konvertiert alle Buchstaben und Zahlen in Zeichen normaler Breite</value>
+  </data>
 </root>

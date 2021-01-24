@@ -336,4 +336,10 @@
   <data name="Common_ReplaceTitleCase" xml:space="preserve">
     <value>すべてのテキストをタイトルケースに変換する</value>
   </data>
+  <data name="Common_ReplaceWide" xml:space="preserve">
+    <value>すべての英数字を全角に変換する</value>
+  </data>
+  <data name="Common_ReplaceHalf" xml:space="preserve">
+    <value>すべての英数字を半角に変換する</value>
+  </data>
 </root>

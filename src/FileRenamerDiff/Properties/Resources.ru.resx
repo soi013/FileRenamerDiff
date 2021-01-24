@@ -336,4 +336,10 @@
   <data name="Common_ReplaceTitleCase" xml:space="preserve">
     <value>Конвертировать весь текст в заголовок</value>
   </data>
+  <data name="Common_ReplaceHalf" xml:space="preserve">
+    <value>Преобразовать все буквы и цифры в символы полуширины</value>
+  </data>
+  <data name="Common_ReplaceWide" xml:space="preserve">
+    <value>Преобразовать все буквы и цифры в символы полной ширины</value>
+  </data>
 </root>
