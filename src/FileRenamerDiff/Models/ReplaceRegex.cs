@@ -18,7 +18,7 @@ namespace FileRenamerDiff.Models
         {
             this.regex = regex;
             this.replaceText = replaceText;
-            this.matchEvaluator = ConvertToMatchEvaluator(replaceText);
+            this.matchEvaluator = SpecialReplacePattern.FindEvaluator(replaceText);
         }
 
         /// <summary>
@@ -29,23 +29,7 @@ namespace FileRenamerDiff.Models
             : matchEvaluator == null ? regex.Replace(input, replaceText)
             : regex.Replace(input, matchEvaluator);
 
-        /// <summary>
-        /// 特殊置換へ変換
-        /// </summary>
-        /// <param name="replaceText">置換文字列</param>
-        /// <returns>特殊置換、なければnull</returns>
-        MatchEvaluator? ConvertToMatchEvaluator(string replaceText)
-        {
-            var m = Regex.Match(replaceText, @"^\\([ul])\$(\d+)");
-            if (!m.Success)
-                return null;
 
-            var group = int.Parse(m.Groups[2].Value);
-            return m.Groups[1].Value == "u"
-                ? (match => match.Groups[group].Value.ToUpper())
-                : (match => match.Groups[group].Value.ToLower());
-        }
-
-        public override string ToString() => $"{regex}->{replaceText}";
-    }
+    public override string ToString() => $"{regex}->{replaceText}";
+}
 }
