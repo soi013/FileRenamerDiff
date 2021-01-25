@@ -71,6 +71,8 @@ namespace FileRenamerDiff.Models
 
                 new(Resources.Common_ReplaceHalf,  "[Ａ-ｚ]|[０-９]", "\\h$0", "Ha14 Ｆｕ１７", true),
                 new(Resources.Common_ReplaceWide,  "[A-z]|[0-9]", "\\f$0", "Ha14 Ｆｕ１７", true),
+
+                new(Resources.Common_ReplaceUmulaut,  "\\w?(ä|ö|ü|ß|Ä|Ö|Ü|ẞ)\\w?", "\\n$0", "Äb ÖL mül ÜẞN", true),
             };
     }
 }

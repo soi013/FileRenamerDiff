@@ -342,4 +342,7 @@
   <data name="Common_ReplaceHalf" xml:space="preserve">
     <value>すべての英数字を半角に変換する</value>
   </data>
+  <data name="Common_ReplaceUmulaut" xml:space="preserve">
+    <value>ウムラウトをASCII英字に変換する</value>
+  </data>
 </root>

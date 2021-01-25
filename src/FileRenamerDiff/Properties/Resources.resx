@@ -419,4 +419,8 @@
     <value>Convert all letters and numbers to Full-width characters</value>
     <comment>よくあるパターン説明_半角の英字と数字を小文字にする。</comment>
   </data>
+  <data name="Common_ReplaceUmulaut" xml:space="preserve">
+    <value>Convert umlauts to plain-ascii characters</value>
+    <comment>よくあるパターン説明_全てのウムラウトをASCII英字にする。</comment>
+  </data>
 </root>

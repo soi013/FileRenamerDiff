@@ -277,6 +277,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Convert umlauts to plain-ascii characters に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceUmulaut {
+            get {
+                return ResourceManager.GetString("Common_ReplaceUmulaut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Convert all text to upper-case に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_ReplaceUpperCase {

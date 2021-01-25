@@ -342,4 +342,7 @@
   <data name="Common_ReplaceWide" xml:space="preserve">
     <value>将所有字母和数字转换为全角字符</value>
   </data>
+  <data name="Common_ReplaceUmulaut" xml:space="preserve">
+    <value>将umlauts转换为纯正的ascii字符</value>
+  </data>
 </root>

@@ -52,8 +52,8 @@ namespace FileRenamerDiff.Models
                 new SpecialReplacePattern(@"^\\(l)\$(\d+)",x=>x.ToLower()),
                 new SpecialReplacePattern(@"^\\(h)\$(\d+)",x=>x.AsciiToNarrow()),
                 new SpecialReplacePattern(@"^\\(f)\$(\d+)",x=>x.AsciiToWide()),
+                new SpecialReplacePattern(@"^\\(n)\$(\d+)",x=>NormalizeParaAlphabet(x)),
             };
-
 
         /// <summary>
         /// 特殊置換MatchEvaluatorへ変換
@@ -65,5 +65,33 @@ namespace FileRenamerDiff.Models
                 .Select(p => p.ConvertToEvaluator(replaceText))
                 .WhereNotNull()
                 .FirstOrDefault();
+
+        private static IReadOnlyList<ReplaceRegex> regexesNormalize = new ReplacePattern[]
+            {
+               new (@"(?<=\p{Lu})Ä|Ä(?=\p{Lu})", "AE", true),
+               new ("Ä", "Ae"),
+               new ("ä", "ae"),
+               new (@"(?<=\p{Lu})Ö|Ö(?=\p{Lu})", "OE", true),
+               new ("Ö", "Oe"),
+               new ("ö", "oe"),
+               new (@"(?<=\p{Lu})Ü|Ü(?=\p{Lu})", "UE", true),
+               new ("Ü", "Ue"),
+               new ("ü", "ue"),
+               new (@"(?<=\p{Lu})ẞ|ẞ(?=\p{Lu})", "SS", true),
+               new ("ẞ", "Ss"),
+               new ("ß", "ss"),
+            }
+            .Select(x => x.ToReplaceRegex())
+            .WhereNotNull()
+            .ToArray();
+
+        private static string NormalizeParaAlphabet(string inputText)
+        {
+            foreach (var regex in regexesNormalize)
+            {
+                inputText = regex.Replace(inputText);
+            }
+            return inputText;
+        }
     }
 }

@@ -328,7 +328,7 @@
     <value>Переименовать и расширения файлов</value>
   </data>
   <data name="Common_ReplaceLowerCase" xml:space="preserve">
-    <value>Преобразовать весь текст в нижний регистр</value>
+    <value>Конвертировать весь текст в нижний регистр</value>
   </data>
   <data name="Common_ReplaceUpperCase" xml:space="preserve">
     <value>Конвертировать весь текст в верхний регистр</value>
@@ -341,5 +341,8 @@
   </data>
   <data name="Common_ReplaceWide" xml:space="preserve">
     <value>Преобразовать все буквы и цифры в символы полной ширины</value>
+  </data>
+  <data name="Common_ReplaceUmulaut" xml:space="preserve">
+    <value>Конвертировать умлауты в обычные символы</value>
   </data>
 </root>

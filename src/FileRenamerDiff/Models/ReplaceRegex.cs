@@ -29,7 +29,6 @@ namespace FileRenamerDiff.Models
             : matchEvaluator == null ? regex.Replace(input, replaceText)
             : regex.Replace(input, matchEvaluator);
 
-
-    public override string ToString() => $"{regex}->{replaceText}";
-}
+        public override string ToString() => $"{regex}->{replaceText}";
+    }
 }

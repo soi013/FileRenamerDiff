@@ -342,4 +342,7 @@
   <data name="Common_ReplaceWide" xml:space="preserve">
     <value>Konvertiert alle Buchstaben und Zahlen in Zeichen normaler Breite</value>
   </data>
+  <data name="Common_ReplaceUmulaut" xml:space="preserve">
+    <value>Konvertiert Umlaute in Plain-Ascii Zeichen</value>
+  </data>
 </root>
