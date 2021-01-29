@@ -181,17 +181,26 @@
                IsReadOnly="True" />
          </DataGrid.Columns>
       </DataGrid>
-      <Grid Margin="50,100" Visibility="{Binding IsAnyFiles.Value, Converter={StaticResource VisibilityCollapsedReverseConverter}}">
+      <Grid Margin="30,100" Visibility="{Binding IsAnyFiles.Value, Converter={StaticResource VisibilityCollapsedReverseConverter}}">
+
          <Rectangle
             Stroke="{StaticResource HighContrastBrush}"
             StrokeDashArray="3"
             StrokeThickness="2" />
-         <TextBlock
-            Margin="10"
-            TextAlignment="Center"
-            HorizontalAlignment="Center"
-            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-            Text="{x:Static properties:Resources.Grid_DropDescription}" TextWrapping="Wrap" />
+         <StackPanel Margin="10" VerticalAlignment="Center">
+            <TextBlock
+               Margin="10"
+               Foreground="{DynamicResource MaterialDesignBodyLight}"
+               Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+               Text="HOW TO USE"
+               TextAlignment="Center" />
+            <TextBlock
+               Foreground="{DynamicResource MaterialDesignBodyLight}"
+               Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+               Text="{x:Static properties:Resources.Grid_DropDescription}"
+               TextAlignment="Center"
+               TextWrapping="Wrap" />
+         </StackPanel>
       </Grid>
    </Grid>
 </UserControl>

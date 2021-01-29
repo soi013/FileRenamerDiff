@@ -309,9 +309,6 @@
   <data name="Menu_AddFiles" xml:space="preserve">
     <value>添加文件</value>
   </data>
-  <data name="Grid_DropDescription" xml:space="preserve">
-    <value>在这里拖放文件或从特定目录中进行 "文件搜索"。</value>
-  </data>
   <data name="Menu_SearchFilesHint" xml:space="preserve">
     <value>在左边的目标目录中搜索文件。</value>
   </data>
@@ -344,5 +341,18 @@
   </data>
   <data name="Common_ReplaceUmulaut" xml:space="preserve">
     <value>将umlauts转换为纯正的ascii字符</value>
+  </data>
+  <data name="Grid_DropDescription" xml:space="preserve">
+    <value>1. 目标文件规格
+您可以在这里拖放文件，或者从特定目录中 "檔案搜尋"。
+
+2. 设置重命名模式
+从 "设置 "中设置删除/替换模式。
+
+3. 确认重命名
+执行 "試執行"，确认重命名。
+
+4. 执行 "重命名"。
+执行 "保存重命名"来重命名实际文件。</value>
   </data>
 </root>

@@ -376,7 +376,17 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Drag and Drop files here or do &quot;Search Files&quot; from a specific directory. に類似しているローカライズされた文字列を検索します。
+        ///   1. Target file specification
+        ///You can drag and drop files here, or &quot;Search Files&quot; from a specific directory.
+        ///
+        ///2. Set rename pattern
+        ///Set the Delete/Replace pattern from &quot;Settings&quot;.
+        ///
+        ///3. Confirm rename
+        ///Execute &quot;DRY RUN&quot; to confirm the renaming.
+        ///
+        ///4. Execute rename.
+        ///Execute &quot;SAVE&quot; to rename the actual file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_DropDescription {
             get {

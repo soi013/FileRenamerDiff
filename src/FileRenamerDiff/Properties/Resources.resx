@@ -376,7 +376,17 @@
     <comment>リネームするファイルを直接指定するボタン</comment>
   </data>
   <data name="Grid_DropDescription" xml:space="preserve">
-    <value>Drag and Drop files here or do "Search Files" from a specific directory.</value>
+    <value>1. Target file specification
+You can drag and drop files here, or "Search Files" from a specific directory.
+
+2. Set rename pattern
+Set the Delete/Replace pattern from "Settings".
+
+3. Confirm rename
+Execute "DRY RUN" to confirm the renaming.
+
+4. Execute rename.
+Execute "SAVE" to rename the actual file.</value>
     <comment>ファイル追加方法の説明</comment>
   </data>
   <data name="Menu_SearchFilesHint" xml:space="preserve">
