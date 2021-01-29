@@ -106,7 +106,7 @@
                                        <l:FolderSelectionMessage
                                           Title="Select Target Folder"
                                           DialogPreference="None"
-                                          SelectedPath="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}" />
+                                          SelectedPaths="{Binding SettingVM.Value.SearchFilePaths.Value}" Multiselect="True" />
                                        <!--  MultiSelect="True"  -->
                                     </l:DirectInteractionMessage>
                                  </l:FolderBrowserDialogInteractionMessageAction>

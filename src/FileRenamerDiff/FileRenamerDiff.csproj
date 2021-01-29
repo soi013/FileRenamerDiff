@@ -28,8 +28,8 @@
   <ItemGroup>
     <PackageReference Include="DiffPlex" Version="1.6.3" />
     <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
-    <PackageReference Include="LivetCask" Version="3.2.3.1" />
-    <PackageReference Include="LivetExtensions" Version="3.2.3.1" />
+    <PackageReference Include="LivetCask" Version="3.2.3.2" />
+    <PackageReference Include="LivetExtensions" Version="3.2.3.2" />
     <PackageReference Include="MahApps.Metro" Version="2.1.1" />
     <PackageReference Include="Markdig" Version="0.18.0" />
     <PackageReference Include="Markdig.Wpf" Version="0.3.1" />

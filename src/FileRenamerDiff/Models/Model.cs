@@ -208,9 +208,11 @@ namespace FileRenamerDiff.Models
 
         private static FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
-            IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths;
+            IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths
+                .Where(x=> Directory.Exists(x))
+                .ToArray();
 
-            if (sourceFilePaths.All(x => !Directory.Exists(x)) || setting.IsNoFileRenameTarget())
+            if (!sourceFilePaths.Any() || setting.IsNoFileRenameTarget())
                 return Array.Empty<FileElementModel>();
 
             var ignoreRegex = setting.CreateIgnoreExtensionsRegex();
