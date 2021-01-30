@@ -355,4 +355,7 @@
   <data name="Common_ReplaceUmulaut" xml:space="preserve">
     <value>Конвертировать умлауты в обычные символы</value>
   </data>
+  <data name="Common_ReplaceHanKana" xml:space="preserve">
+    <value>Преобразовать всю Катакана полуширины в полную ширину</value>
+  </data>
 </root>

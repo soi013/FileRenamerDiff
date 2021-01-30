@@ -355,4 +355,7 @@
   <data name="Common_ReplaceUmulaut" xml:space="preserve">
     <value>ウムラウトをASCII英字に変換する</value>
   </data>
+  <data name="Common_ReplaceHanKana" xml:space="preserve">
+    <value>すべての半角カタカナを全角に変換する</value>
+  </data>
 </root>

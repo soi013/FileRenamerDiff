@@ -51,7 +51,7 @@ namespace FileRenamerDiff.Models
                 new SpecialReplacePattern(@"^\\(u)\$(\d+)",x=>x.ToUpper()),
                 new SpecialReplacePattern(@"^\\(l)\$(\d+)",x=>x.ToLower()),
                 new SpecialReplacePattern(@"^\\(h)\$(\d+)",x=>x.AsciiToNarrow()),
-                new SpecialReplacePattern(@"^\\(f)\$(\d+)",x=>x.AsciiToWide()),
+                new SpecialReplacePattern(@"^\\(f)\$(\d+)",x=>x.AsciiToWide().HalfKatakanaToKatakana()),
                 new SpecialReplacePattern(@"^\\(n)\$(\d+)",x=>NormalizeParaAlphabet(x)),
             };
 

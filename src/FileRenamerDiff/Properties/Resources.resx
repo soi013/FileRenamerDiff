@@ -433,4 +433,8 @@ Execute "SAVE" to rename the actual file.</value>
     <value>Convert umlauts to plain-ascii characters</value>
     <comment>よくあるパターン説明_全てのウムラウトをASCII英字にする。</comment>
   </data>
+  <data name="Common_ReplaceHanKana" xml:space="preserve">
+    <value>Convert all Half-width Katakana to full-width</value>
+    <comment>よくあるパターン説明_半角カタカナを全角にする。</comment>
+  </data>
 </root>

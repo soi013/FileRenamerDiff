@@ -355,4 +355,7 @@
 4. 执行 "重命名"。
 执行 "保存重命名"来重命名实际文件。</value>
   </data>
+  <data name="Common_ReplaceHanKana" xml:space="preserve">
+    <value>将所有半幅片假名转换为全幅</value>
+  </data>
 </root>

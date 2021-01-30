@@ -355,4 +355,7 @@ Führen Sie "Umbenennen Speichern" aus, um die aktuelle Datei umzubenennen.</val
   <data name="Common_ReplaceUmulaut" xml:space="preserve">
     <value>Konvertiert Umlaute in Plain-Ascii Zeichen</value>
   </data>
+  <data name="Common_ReplaceHanKana" xml:space="preserve">
+    <value>Konvertiert alle Katakana halber Breite in volle Breite.</value>
+  </data>
 </root>

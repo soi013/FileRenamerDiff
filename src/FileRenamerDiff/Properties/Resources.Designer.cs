@@ -250,6 +250,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Convert all Half-width Katakana to full-width に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_ReplaceHanKana {
+            get {
+                return ResourceManager.GetString("Common_ReplaceHanKana", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Replace &quot;ABC&quot; with &quot;x&quot; in a case-insensitive に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_ReplaceIgnoreCase {

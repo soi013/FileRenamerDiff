@@ -72,6 +72,7 @@ namespace FileRenamerDiff.Models
                 new(Resources.Common_ReplaceWide,  "[A-z]|[0-9]", "\\f$0", "Ha14 Ｆｕ１７", true),
 
                 new(Resources.Common_ReplaceUmulaut,  "\\w?(ä|ö|ü|ß|Ä|Ö|Ü|ẞ)\\w?", "\\n$0", "süß ÖL Ära.txt", true),
+                new(Resources.Common_ReplaceHanKana,  "[ｦ-ﾟ]+", "\\f$0", "ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", true),
             };
     }
 }
