@@ -223,6 +223,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Insert &quot;XYZ&quot; as the third character. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_InsertIndex {
+            get {
+                return ResourceManager.GetString("Common_InsertIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Reduce spaces to a single space に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_ReduceWhiteSpace {

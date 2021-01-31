@@ -358,4 +358,7 @@
   <data name="Common_ReplaceHanKana" xml:space="preserve">
     <value>Преобразовать всю Катакана полуширины в полную ширину</value>
   </data>
+  <data name="Common_InsertIndex" xml:space="preserve">
+    <value>Вставьте "XYZ" в качестве третьего символа</value>
+  </data>
 </root>

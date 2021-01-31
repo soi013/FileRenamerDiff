@@ -358,4 +358,7 @@
   <data name="Common_ReplaceHanKana" xml:space="preserve">
     <value>すべての半角カタカナを全角に変換する</value>
   </data>
+  <data name="Common_InsertIndex" xml:space="preserve">
+    <value>3文字目に「XYZ」を挿入する</value>
+  </data>
 </root>

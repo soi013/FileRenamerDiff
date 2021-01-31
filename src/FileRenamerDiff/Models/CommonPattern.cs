@@ -63,6 +63,7 @@ namespace FileRenamerDiff.Models
 
                 new(Resources.Common_ReplaceAllExtentionToABC,  "\\.\\w+$", ".ABC", "sam.ple.txt", true),
                 new(Resources.Common_ReplaceIgnoreCase,  "(?i)abc", "x", "ABC_abc_AbC.txt", true),
+                new(Resources.Common_InsertIndex, "^.{4}", "$0XYZ", "sample.txt", true),
 
                 new(Resources.Common_ReplaceUpperCase,  "[a-z]", "\\u$0", "low UPP Pas.txt", true),
                 new(Resources.Common_ReplaceLowerCase,  "[A-Z]", "\\l$0", "low UPP Pas.txt", true),
