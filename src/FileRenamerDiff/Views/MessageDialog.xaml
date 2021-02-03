@@ -23,8 +23,13 @@
       <v:LogEventLevelToBrushConverter x:Key="LogEventLevelToBrushConverter" />
       <v:LogEventLevelToPackIconKindConverter x:Key="LogEventLevelToPackIconKindConverter" />
    </UserControl.Resources>
-   <StackPanel Margin="15">
-      <StackPanel Orientation="Horizontal">
+   <Grid Margin="15">
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition Height="Auto"/>
+         <RowDefinition/>
+      </Grid.RowDefinitions>
+      <StackPanel Orientation="Horizontal" Grid.Row="0">
          <materialDesign:PackIcon
             Width="64"
             Height="64"
@@ -38,10 +43,12 @@
             Style="{StaticResource MaterialDesignHeadline4TextBlock}"
             Text="{Binding AppMessage.MessageHead}" />
       </StackPanel>
-      <Border Style="{StaticResource divider}"/>
-      <TextBlock
+      <Border Style="{StaticResource divider}" Grid.Row="1"/>
+      <ScrollViewer Grid.Row="2">
+         <TextBlock
          Style="{StaticResource MaterialDesignHeadline6TextBlock}"
          Text="{Binding AppMessage.MessageBody}"
          TextWrapping="Wrap" />
-   </StackPanel>
+      </ScrollViewer>
+   </Grid>
 </UserControl>
