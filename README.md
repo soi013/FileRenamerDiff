@@ -53,11 +53,16 @@ This means that you don't need to install .NET Framework or .NET Core.
 # How to use
 The basic usage is as follows.
 
-1. Specify the folder you want to rename by dragging and dropping the file or by using the dialog.
-1. Set the file name deletion/replacement pattern.
-1. Check the changes in the preview.
-1. Save the actual file name.
+1. Target file specification
+   You can drag and drop files here, or "Search Files" from a specific directory.
+1. Set rename pattern
+   Set the Delete/Replace pattern from "Settings".
+1. Confirm rename
+   Execute "DRY RUN" to confirm the renaming.
+1. Execute rename
+   Execute "SAVE" to rename the actual file.
 
+[More document](https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use.md")
 
 # Environment
 

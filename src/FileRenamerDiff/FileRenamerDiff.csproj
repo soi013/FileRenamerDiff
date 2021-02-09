@@ -17,6 +17,13 @@
     <None Remove="FileRenamerDiff_icon.ico" />
     <None Remove="License.md" />
     <None Remove="Resources\FileRenamerDiff_icon.png" />
+    <None Remove="Resources\how_to_use.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\how_to_use.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -66,4 +73,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell -ExecutionPolicy Unrestricted &quot;$(ProjectDir)\HowToUse\CreateHtmlPandoc.ps1&quot;" />
+  </Target>
 </Project>

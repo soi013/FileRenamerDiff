@@ -242,7 +242,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.ShowExpressionReferenceCommand = model.IsIdleUI
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => ShowExpressionReference())
+                .WithSubscribe(() => model.ShowHelpHtml())
                 .AddTo(this.CompositeDisposable);
 
             this.ResetSettingCommand = model.IsIdleUI
@@ -264,13 +264,6 @@ namespace FileRenamerDiff.ViewModels
             this.PreviousSettingFileName = model.PreviousSettingFilePath
                 .Select(x => Path.GetFileName(x))
                 .ToReadOnlyReactivePropertySlim();
-        }
-
-        private static Task? ShowExpressionReference()
-        {
-            string regexUrl = @"https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes";
-            var pi = new ProcessStartInfo("cmd", $"/c start {regexUrl}") { CreateNoWindow = true };
-            return Process.Start(pi)?.WaitForExitAsync();
         }
 
         private static CultureInfo[] CreateAvailableLanguages()

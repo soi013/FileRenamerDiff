@@ -12,6 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 using Livet;
 using Livet.Commands;
@@ -209,7 +210,7 @@ namespace FileRenamerDiff.Models
         private static FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
             IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths
-                .Where(x=> Directory.Exists(x))
+                .Where(x => Directory.Exists(x))
                 .ToArray();
 
             if (!sourceFilePaths.Any() || setting.IsNoFileRenameTarget())
@@ -518,6 +519,13 @@ namespace FileRenamerDiff.Models
             bool isConfirmed = await ConfirmUser();
             if (isConfirmed)
                 actionIfConfirmed();
+        }
+
+        internal Task? ShowHelpHtml()
+        {
+            string htmlFilePath = @$".\Resources\how_to_use.html";
+            var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };
+            return Process.Start(pi)?.WaitForExitAsync();
         }
     }
 }

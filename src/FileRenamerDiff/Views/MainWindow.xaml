@@ -79,12 +79,18 @@
                <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
             </behaviors:Interaction.Behaviors>
             <DockPanel>
-               <!--  アプリケーション情報ボタン（右端）  -->
-               <Button
-                  Command="{Binding ShowInformationPageCommand}"
-                  Content="{materialDesign:PackIcon InfoCircle}"
-                  DockPanel.Dock="Right"
-                  Style="{StaticResource MaterialDesignIconForegroundButton}" />
+               <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                  <!--  Helpボタン（右端）  -->
+                  <Button
+                     Command="{Binding ShowHelpPageCommand}"
+                     Content="{materialDesign:PackIcon HelpCircle}"
+                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
+                  <!--  アプリケーション情報ボタン（右端）  -->
+                  <Button
+                     Command="{Binding ShowInformationPageCommand}"
+                     Content="{materialDesign:PackIcon InfoCircle}"
+                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
+               </StackPanel>
 
                <StackPanel
                   VerticalAlignment="Center"

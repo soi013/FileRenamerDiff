@@ -86,7 +86,11 @@ namespace FileRenamerDiff.ViewModels
         /// アプリケーション情報表示コマンド
         /// </summary>
         public ReactiveCommand ShowInformationPageCommand { get; }
-
+        /// <summary>
+        /// ヘルプ表示コマンド
+        /// </summary>
+        public AsyncReactiveCommand ShowHelpPageCommand { get; }
+        
         /// <summary>
         /// 設定情報ViewModel
         /// </summary>
@@ -126,6 +130,10 @@ namespace FileRenamerDiff.ViewModels
             this.ShowInformationPageCommand = IsIdle
                 .ToReactiveCommand()
                 .WithSubscribe(() => ShowDialog(new InformationPageViewModel()));
+
+            this.ShowHelpPageCommand = IsIdle
+                .ToAsyncReactiveCommand()
+                .WithSubscribe(() => model.ShowHelpHtml() );
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
