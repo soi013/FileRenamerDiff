@@ -521,9 +521,17 @@ namespace FileRenamerDiff.Models
                 actionIfConfirmed();
         }
 
+        /// <summary>
+        /// マニュアルをブラウザで表示
+        /// </summary>
         internal Task? ShowHelpHtml()
         {
-            string htmlFilePath = @$".\Resources\how_to_use.html";
+            //マニュアルはMarkdownファイルからhtmlファイルへ変換して、Resourcesに配置してある
+            //変換はPowerShellファイル(.ps1)をビルド前イベントから呼び出して使う
+
+            //現在の設定のアプリケーションコードを取得する
+            string code = Setting.AppLanguageCode;
+            string htmlFilePath = @$".\Resources\how_to_use.{code}.html";
             var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };
             return Process.Start(pi)?.WaitForExitAsync();
         }

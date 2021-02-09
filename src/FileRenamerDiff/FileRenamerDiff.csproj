@@ -17,11 +17,27 @@
     <None Remove="FileRenamerDiff_icon.ico" />
     <None Remove="License.md" />
     <None Remove="Resources\FileRenamerDiff_icon.png" />
+    <None Remove="Resources\how_to_use.de.html" />
     <None Remove="Resources\how_to_use.html" />
+    <None Remove="Resources\how_to_use.ja.html" />
+    <None Remove="Resources\how_to_use.ru.html" />
+    <None Remove="Resources\how_to_use.zh.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\how_to_use.de.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\how_to_use.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\how_to_use.ja.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\how_to_use.ru.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\how_to_use.zh.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

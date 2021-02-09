@@ -7,7 +7,7 @@
 # Quick 
 
 1. Target file specification
-   You can drag and drop files here, or <kbd>Search Files</kbd> from a specific directory.
+   You can drag and drop files into the file list or search for <kbd>Search Files</kbd> from a specific directory.
 2. Set rename pattern
    Set the Delete/Replace pattern from <kbd>Settings</kbd>.
 3. Confirm rename
@@ -17,7 +17,7 @@
 
 # Specify the target file
 
-You can specify the target file to be renamed in two ways: <kbd>File Search</kbd> or <kbd>Direct Specification</kbd>.
+You can specify the target file to be renamed in two ways: "File Search" or "Direct Specification".
 
 To remove a file from the target file list, click the button on the left side of the line. You can also empty the file list by clicking the upper left button.
 
@@ -60,7 +60,7 @@ If the Regular Expression checkbox is checked, you can specify the characters to
 
 ### Regular Expression
 
-The regular expression (Regex) used in this software are those of Microsoft . The typical ones are listed below. For more detailed explanation, please refer to the following links.
+The regular expressions(Regex) in this software use "Microsoft .NET" regular expressions. The following is a list of typical ones. For a more detailed explanation, please refer to the following links.
 
 [Regex Quick Reference - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
 
@@ -105,7 +105,7 @@ There are also regular expression that can be used after the replacement. Some o
 
 ### FileRenamerDiff Original Regex
 
-This is a regular expression unique to this application that is not found in the Microsoft .
+This is a regular expression unique to this application that is not found in the "Microsoft .NET".
 
 | Regex | Description                      | Input          | Output             |
 | -------- | ------------------------------------ | -------------- | ------------------ |
