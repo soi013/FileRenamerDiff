@@ -2,6 +2,8 @@
 % soi
 % 2021/02/08
 
+[View Online](https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use.md)
+
 # Quick 
 
 1. Target file specification

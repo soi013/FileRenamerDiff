@@ -62,7 +62,7 @@ The basic usage is as follows.
 1. Execute rename
    Execute "SAVE" to rename the actual file.
 
-[More document](https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use.md")
+[More document](./src/FileRenamerDiff/HowToUse/how_to_use.md)
 
 # Environment
 
