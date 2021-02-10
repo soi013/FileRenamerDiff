@@ -32,10 +32,21 @@ namespace FileRenamerDiff.ViewModels
 {
     public class ReplacePatternViewModel : ViewModel
     {
-        private ReplacePattern replacePattern;
+        private readonly ReplacePattern replacePattern;
 
+        /// <summary>
+        /// 置換される対象のパターン
+        /// </summary>
         public ReactiveProperty<string> TargetPattern { get; }
+
+        /// <summary>
+        /// 置換後文字列
+        /// </summary>
         public ReactiveProperty<string> ReplaceText { get; }
+
+        /// <summary>
+        /// パターンを単純一致か正規表現とするか
+        /// </summary>
         public ReactiveProperty<bool> AsExpression { get; }
 
         public ReplacePatternViewModel(ReplacePattern replacePattern)
@@ -60,6 +71,9 @@ namespace FileRenamerDiff.ViewModels
                 .Subscribe(x => TargetPattern.ForceValidate());
         }
 
+        /// <summary>
+        /// ReplacePatternの取り出し
+        /// </summary>
         public ReplacePattern ToReplacePattern() => replacePattern;
 
         public override string ToString() => replacePattern.ToString();

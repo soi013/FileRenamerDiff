@@ -438,7 +438,7 @@ Execute "SAVE" to rename the actual file.</value>
     <comment>よくあるパターン説明_半角カタカナを全角にする。</comment>
   </data>
   <data name="Common_InsertIndex" xml:space="preserve">
-    <value>Insert "XYZ" as the third character.</value>
+    <value>Insert "XYZ" as the third character</value>
     <comment>よくあるパターン説明_3文字目に「XYZ」を挿入する</comment>
   </data>
 </root>

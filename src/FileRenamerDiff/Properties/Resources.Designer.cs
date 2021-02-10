@@ -223,7 +223,7 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Insert &quot;XYZ&quot; as the third character. に類似しているローカライズされた文字列を検索します。
+        ///   Insert &quot;XYZ&quot; as the third character に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_InsertIndex {
             get {

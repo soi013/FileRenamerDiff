@@ -79,7 +79,7 @@ namespace FileRenamerDiff.Views
                 parent = VisualTreeHelper.GetParent(parent);
                 parentTree.Add(parent);
             }
-            if (!(parent is ItemsControl itemsControl))
+            if (parent is not ItemsControl itemsControl)
                 return (null, -1);
 
             //ItemsControlの行にあたるオブジェクトを探索履歴の後ろから検索
