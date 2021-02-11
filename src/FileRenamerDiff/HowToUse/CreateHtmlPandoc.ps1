@@ -27,7 +27,7 @@ foreach($langCode in $langCodes)
     {
         echo "Start Create $nameHeader$langCode.html"
         # Pandocを使用してMarkdownからHTMLファイルを生成する。cssなどを指定する
-        & 'C:\Program Files\Pandoc\pandoc' -s ./$nameHeader$langCode.md -o ../Resources/$nameHeader$langCode.html --toc --template=./elegant_bootstrap_menu.html --self-contained -t html5 -c github.css
+        & 'C:\Program Files\Pandoc\pandoc' -s ./$nameHeader$langCode.md -o ../Resources/$nameHeader$langCode.html --toc --template=./elegant_bootstrap_menu.html --self-contained -t html5 -c my_markdown.css
         echo "Finished Create $nameHeader$langCode.html"
     }
 } 
