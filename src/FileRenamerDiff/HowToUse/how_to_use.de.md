@@ -77,7 +77,7 @@ Die regulären Ausdrücke (Regex) in dieser Software verwenden "Microsoft .NET" 
 | `+`              | Entspricht dem vorhergehenden Element ein oder mehrere Male | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Stimmt mit dem vorherigen Element null oder ein Mal überein | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
 | `{`n`}` | Passt genau *n* Mal auf das vorhergehende Element | [or]{2} | d**oo**r,**or**,o,lr | dr,,o,lr |
-| `\`escape | Erkennen von Escape-Zeichen wie z. B. `. ` und `*` als normale Zeichen. | \\d+\.\\d+ | 1\.2\_3\_45\_67\.8        | \_3\_45\_ |
+| `\`escape | Erkennen von Escape-Zeichen wie z. B. `. ` und `*` als normale Zeichen. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
 
 
 ## Ersetzungsmuster
