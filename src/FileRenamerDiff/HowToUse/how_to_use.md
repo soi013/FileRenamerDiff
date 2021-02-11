@@ -6,14 +6,10 @@
 
 # Quick 
 
-1. Target file specification
-   You can drag and drop files into the file list or search for <kbd>Search Files</kbd> from a specific directory.
-2. Set rename pattern
-   Set the Delete/Replace pattern from <kbd>Settings</kbd>.
-3. Confirm rename
-   Execute <kbd>DRY RUN</kbd> to confirm the renaming.
-4. Execute rename
-   Execute <kbd>SAVE</kbd> to rename the actual file.
+1. Target file specification: You can drag and drop files into the file list or search for <kbd>Search Files</kbd> from a specific directory.
+2. Set rename pattern: Set the Delete/Replace pattern from <kbd>Settings</kbd>.
+3. Confirm rename: Execute <kbd>DRY RUN</kbd> to confirm the renaming.
+4. Execute rename: Execute <kbd>SAVE</kbd> to rename the actual file.
 
 # Specify the target file
 
@@ -78,7 +74,7 @@ The regular expressions(Regex) in this software use "Microsoft .NET" regular exp
 | `+`              | Matches the previous element one or more time | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Matches the previous element zero or one time | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
 | `{`n`}` | Matches the previous element exactly *n* times | [or]{2} | d**oo**r,**or**,o,lr | dr,,o,lr |
-| `\`escape | Recognize escape characters such as `. ` and `*` as normal characters. | \\\. | d**.**o**.**t | dot |
+| `\`escape | Recognize escape characters such as `. ` and `*` as normal characters. | \\\. | d**\.**o**\.**t | dot |
 
 ## Replace Pattern
 
@@ -100,7 +96,7 @@ There are also regular expression that can be used after the replacement. Some o
 
 | Regex  | Description                                                  | Target Text | Replace Text | Input          | Output           |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
-| `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**[ABC]**x_AxBC  |
+| `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**\[ABC\]**x_AxBC |
 | `$num` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
 
 ### FileRenamerDiff Original Regex

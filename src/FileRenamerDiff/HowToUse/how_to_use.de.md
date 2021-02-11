@@ -6,18 +6,13 @@
 
 # Schnell 
 
-1. Spezifikation der Zieldatei
+1. Spezifikation der Zieldatei: Sie können Dateien per Drag & Drop in die Dateiliste ziehen oder nach <kbd>Filesuche</kbd> aus einem bestimmten Verzeichnis suchen.
 
-  Sie können Dateien per Drag & Drop in die Dateiliste ziehen oder nach <kbd>Filesuche</kbd> aus einem bestimmten Verzeichnis suchen.
+2. Muster für das Umbenennen einstellen: Stellen Sie das Muster "Löschen/Ersetzen" unter <kbd>Einstellungen</kbd> ein.
 
-2. Muster für das Umbenennen einstellen
-Stellen Sie das Muster "Löschen/Ersetzen" unter <kbd>Einstellungen</kbd> ein.
+3. Umbenennen bestätigen: Führen Sie <kbd>Trockenlauf</kbd> aus, um das Umbenennen zu bestätigen.
 
-3. Umbenennen bestätigen
-Führen Sie <kbd>Trockenlauf</kbd> aus, um das Umbenennen zu bestätigen.
-
-4. Umbenennen ausführen.
-Führen Sie <kbd>Umbenennen Speichern</kbd> aus, um die aktuelle Datei umzubenennen.
+4. Umbenennen ausführen: Führen Sie <kbd>Umbenennen Speichern</kbd> aus, um die aktuelle Datei umzubenennen.
 
 # Geben Sie die Zieldatei an.
 
@@ -82,7 +77,7 @@ Die regulären Ausdrücke (Regex) in dieser Software verwenden "Microsoft .NET" 
 | `+`              | Entspricht dem vorhergehenden Element ein oder mehrere Male | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Stimmt mit dem vorherigen Element null oder ein Mal überein | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
 | `{`n`}` | Passt genau *n* Mal auf das vorhergehende Element | [or]{2} | d**oo**r,**or**,o,lr | dr,,o,lr |
-| `\`escape | Erkennen von Escape-Zeichen wie z. B. `. ` und `*` als normale Zeichen. | \\\. | d**.**o**.**t | dot |
+| `\`escape | Erkennen von Escape-Zeichen wie z. B. `. ` und `*` als normale Zeichen. | \\\. | d**\.**o**\.**t | dot |
 
 
 ## Ersetzungsmuster
@@ -105,7 +100,7 @@ Es gibt auch reguläre Ausdrücke, die nach der Ersetzung verwendet werden könn
 
 | Regex  | Beschreibung                                      | Zieltext | Text ersetzen | Eingabe        | Ausgabe          |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
-| `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**[ABC]**x_AxBC  |
+| `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**\[ABC\]**x_AxBC |
 | `$num` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
 
 ### FileRenamerDiff Original Regex
