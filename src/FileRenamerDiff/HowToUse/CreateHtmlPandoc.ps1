@@ -1,11 +1,11 @@
-# HowToUse htmlƒtƒ@ƒCƒ‹¶¬ƒXƒNƒŠƒvƒg
-# Markdown‚©‚çHTMLƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚é
+# HowToUse htmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆã‚¹ã‚¯ãƒªãƒ—ãƒˆ
+# Markdownã‹ã‚‰HTMLãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹
 cd 'HowToUse'
 $nameHeader = 'how_to_use'
-# ŠeŒ¾Œê‚²‚Æ‚ÌƒR[ƒh
+# å„è¨€èªã”ã¨ã®ã‚³ãƒ¼ãƒ‰
 $langCodes = @('','.de','.ru','.zh','.ja')
 
-# ŠeŒ¾Œê‚²‚Æ‚É1‚Â‚ÌHTMLƒtƒ@ƒCƒ‹‚ª‚Å‚«‚é
+# å„è¨€èªã”ã¨ã«1ã¤ã®HTMLãƒ•ã‚¡ã‚¤ãƒ«ãŒã§ãã‚‹
 foreach($langCode in $langCodes)
 {
     $sourcePath = ".\$nameHeader$langCode.md"
@@ -22,11 +22,11 @@ foreach($langCode in $langCodes)
 
     echo "Creation $nameHeader$langCode.html: sourceTime is $sourceTime, targetTime is $targetTime"
 
-    # ¶¬‚µ‚½HTMLƒtƒ@ƒCƒ‹‚ªŒ³‚ÌMarkdownƒtƒ@ƒCƒ‹‚æ‚èXV“ú‚ªV‚µ‚¢‚Æ‚«‚Ì‚İƒRƒ“ƒo[ƒg‚·‚é
+    # ç”Ÿæˆã—ãŸHTMLãƒ•ã‚¡ã‚¤ãƒ«ãŒå…ƒã®Markdownãƒ•ã‚¡ã‚¤ãƒ«ã‚ˆã‚Šæ›´æ–°æ—¥æ™‚ãŒæ–°ã—ã„ã¨ãã®ã¿ã‚³ãƒ³ãƒãƒ¼ãƒˆã™ã‚‹
     if ( $sourceTime -gt   $targetTime )
     {
         echo "Start Create $nameHeader$langCode.html"
-        # Pandoc‚ğg—p‚µ‚ÄMarkdown‚©‚çHTMLƒtƒ@ƒCƒ‹‚ğ¶¬‚·‚éBcss‚È‚Ç‚ğw’è‚·‚é
+        # Pandocã‚’ä½¿ç”¨ã—ã¦Markdownã‹ã‚‰HTMLãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”Ÿæˆã™ã‚‹ã€‚cssãªã©ã‚’æŒ‡å®šã™ã‚‹
         & 'C:\Program Files\Pandoc\pandoc' -s ./$nameHeader$langCode.md -o ../Resources/$nameHeader$langCode.html --toc --template=./elegant_bootstrap_menu.html --self-contained -t html5 -c my_markdown.css
         echo "Finished Create $nameHeader$langCode.html"
     }
