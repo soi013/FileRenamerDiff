@@ -74,7 +74,7 @@ The regular expressions(Regex) in this software use "Microsoft .NET" regular exp
 | `+`              | Matches the previous element one or more time | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Matches the previous element zero or one time | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
 | `{`n`}` | Matches the previous element exactly *n* times | [or]{2} | d**oo**r,**or**,o,lr | dr,,o,lr |
-| `\`escape | Recognize escape characters such as `. ` and `*` as normal characters. | \\\. | d**\.**o**\.**t | dot |
+| `\`escape | Recognize escape characters such as `. ` and `*` as normal characters. | \\d+\.\\d+ | 1\.2\_3\_45\_67\.8        | \_3\_45\_ |
 
 ## Replace Pattern
 
