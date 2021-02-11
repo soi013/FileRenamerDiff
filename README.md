@@ -27,7 +27,7 @@ A File Renamer App featuring a difference display before and after the change fo
 - English 
 - Japanese
 - Germany (machine translation)
-- Russia (machine translation)
+- Russian (machine translation)
 - Chinese (machine translation)
 
 ## Light / Dark Theme Switching
@@ -54,15 +54,24 @@ This means that you don't need to install .NET Framework or .NET Core.
 The basic usage is as follows.
 
 1. Target file specification
-   You can drag and drop files here, or "Search Files" from a specific directory.
+   You can drag and drop files into the file list or search for <kbd>Search Files</kbd> from a specific directory.
+   
 1. Set rename pattern
-   Set the Delete/Replace pattern from "Settings".
-1. Confirm rename
-   Execute "DRY RUN" to confirm the renaming.
-1. Execute rename
-   Execute "SAVE" to rename the actual file.
+   Set the Delete/Replace pattern from <kbd>Settings</kbd>.
 
-[More document](./src/FileRenamerDiff/HowToUse/how_to_use.md)
+1. Confirm rename
+   Execute <kbd>DRY RUN</kbd> to confirm the renaming.
+
+1. Execute rename
+   Execute <kbd>SAVE</kbd> to rename the actual file.
+
+   
+
+- [More document -English](./src/FileRenamerDiff/HowToUse/how_to_use.md)
+- [More document -Japanese](./src/FileRenamerDiff/HowToUse/how_to_use.ja.md)
+- [More document -Germany](./src/FileRenamerDiff/HowToUse/how_to_use.de.md)
+- [More document -Russian](./src/FileRenamerDiff/HowToUse/how_to_use.ru.md)
+- [More document -Chinese](./src/FileRenamerDiff/HowToUse/how_to_use.zh.md)
 
 # Environment
 
