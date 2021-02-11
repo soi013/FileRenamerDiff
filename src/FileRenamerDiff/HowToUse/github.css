@@ -423,3 +423,16 @@ pre tt {
     background-color: transparent;
     border: none;
 }
+
+kbd {
+    margin: 0px 0.1em;
+    padding: 3px;
+    font-size: 13px;
+    color: rgb(36, 39, 41);
+    background: rgb(255, 255, 255);
+    border: 1px solid rgb(173, 179, 185);
+    border-radius: 3px;
+    box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset;
+    white-space: nowrap;
+    vertical-align: middle;
+}
