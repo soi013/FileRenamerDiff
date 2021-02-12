@@ -25,11 +25,11 @@
    </UserControl.Resources>
    <Grid Margin="15">
       <Grid.RowDefinitions>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition Height="Auto"/>
-         <RowDefinition/>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="Auto" />
+         <RowDefinition />
       </Grid.RowDefinitions>
-      <StackPanel Orientation="Horizontal" Grid.Row="0">
+      <StackPanel Grid.Row="0" Orientation="Horizontal">
          <materialDesign:PackIcon
             Width="64"
             Height="64"
@@ -37,18 +37,18 @@
             Foreground="{Binding AppMessage.MessageLevel, Converter={StaticResource LogEventLevelToBrushConverter}}"
             Kind="{Binding AppMessage.MessageLevel, Converter={StaticResource LogEventLevelToPackIconKindConverter}}" />
          <TextBlock
-            VerticalAlignment="Center"
             Margin="10,0"
+            VerticalAlignment="Center"
             Foreground="{Binding AppMessage.MessageLevel, Converter={StaticResource LogEventLevelToBrushConverter}}"
             Style="{StaticResource MaterialDesignHeadline4TextBlock}"
             Text="{Binding AppMessage.MessageHead}" />
       </StackPanel>
-      <Border Style="{StaticResource divider}" Grid.Row="1"/>
-      <ScrollViewer Grid.Row="2">
+      <Border Grid.Row="1" Style="{StaticResource divider}" />
+      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
          <TextBlock
-         Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-         Text="{Binding AppMessage.MessageBody}"
-         TextWrapping="Wrap" />
+            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+            Text="{Binding AppMessage.MessageBody}"
+            TextWrapping="Wrap" />
       </ScrollViewer>
    </Grid>
 </UserControl>
