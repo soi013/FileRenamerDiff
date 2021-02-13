@@ -78,23 +78,14 @@
             <behaviors:Interaction.Behaviors>
                <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
             </behaviors:Interaction.Behaviors>
-            <DockPanel>
-               <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                  <!--  Helpボタン（右端）  -->
-                  <Button
-                     Command="{Binding ShowHelpPageCommand}"
-                     Content="{materialDesign:PackIcon HelpCircle}"
-                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
-                  <!--  アプリケーション情報ボタン（右端）  -->
-                  <Button
-                     Command="{Binding ShowInformationPageCommand}"
-                     Content="{materialDesign:PackIcon InfoCircle}"
-                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
-               </StackPanel>
-
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+               </Grid.ColumnDefinitions>
                <StackPanel
+                  Grid.Column="0"
                   VerticalAlignment="Center"
-                  DockPanel.Dock="Left"
                   Orientation="Horizontal">
 
                   <!--  ターゲットファイルパス選択  -->
@@ -102,9 +93,17 @@
                      Margin="16,0,0,0"
                      Padding="8,4,8,4"
                      materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                     v:LimitSizeHelper.LimitMaxWidth="0.9"
                      CornerRadius="2">
-                     <StackPanel Orientation="Horizontal">
-                        <Button Padding="8,2" Style="{StaticResource MaterialDesignRaisedButton}">
+                     <Grid>
+                        <Grid.ColumnDefinitions>
+                           <ColumnDefinition Width="Auto" />
+                           <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                           Grid.Column="0"
+                           Padding="8,2"
+                           Style="{StaticResource MaterialDesignRaisedButton}">
                            <behaviors:Interaction.Triggers>
                               <behaviors:EventTrigger EventName="Click">
                                  <l:FolderBrowserDialogInteractionMessageAction>
@@ -112,7 +111,8 @@
                                        <l:FolderSelectionMessage
                                           Title="Select Target Folder"
                                           DialogPreference="None"
-                                          SelectedPaths="{Binding SettingVM.Value.SearchFilePaths.Value}" Multiselect="True" />
+                                          Multiselect="True"
+                                          SelectedPaths="{Binding SettingVM.Value.SearchFilePaths.Value}" />
                                        <!--  MultiSelect="True"  -->
                                     </l:DirectInteractionMessage>
                                  </l:FolderBrowserDialogInteractionMessageAction>
@@ -124,14 +124,15 @@
                               Kind="FolderOpen" />
                         </Button>
                         <TextBox
-                           MinWidth="250"
+                           Grid.Column="1"
+                           MinWidth="200"
                            Margin="5,0"
                            materialDesign:HintAssist.Foreground="{StaticResource HighContrastBrush}"
                            materialDesign:HintAssist.Hint="{x:Static properties:Resources.Hint_SelectTargetDirectory}"
                            FontSize="14"
                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                            Text="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}" />
-                     </StackPanel>
+                     </Grid>
                   </materialDesign:ColorZone>
 
                   <!--  ファイル読み込み開始ボタン  -->
@@ -190,7 +191,19 @@
                         Style="{StaticResource IconTagLabel}" />
                   </Button>
                </StackPanel>
-            </DockPanel>
+               <StackPanel Orientation="Horizontal" Grid.Column="1">
+                  <!--  Helpボタン（右端）  -->
+                  <Button
+                     Command="{Binding ShowHelpPageCommand}"
+                     Content="{materialDesign:PackIcon HelpCircle}"
+                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
+                  <!--  アプリケーション情報ボタン（右端）  -->
+                  <Button
+                     Command="{Binding ShowInformationPageCommand}"
+                     Content="{materialDesign:PackIcon InfoCircle}"
+                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
+               </StackPanel>
+            </Grid>
          </materialDesign:ColorZone>
          <v:FileElementGrid
             Grid.Row="1"
