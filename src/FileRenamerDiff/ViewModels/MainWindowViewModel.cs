@@ -90,7 +90,7 @@ namespace FileRenamerDiff.ViewModels
         /// ヘルプ表示コマンド
         /// </summary>
         public AsyncReactiveCommand ShowHelpPageCommand { get; }
-        
+
         /// <summary>
         /// 設定情報ViewModel
         /// </summary>
@@ -133,7 +133,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.ShowHelpPageCommand = IsIdle
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.ShowHelpHtml() );
+                .WithSubscribe(() => model.ShowHelpHtml());
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
                 .Select(x => new SettingAppViewModel(x))
@@ -195,7 +195,7 @@ namespace FileRenamerDiff.ViewModels
         }
 
         private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) =>
-            fsMessage.SelectedPaths.Any(x => !String.IsNullOrWhiteSpace(x))
+           !String.IsNullOrWhiteSpace(fsMessage.Response) && fsMessage.SelectedPaths.Any(x => !String.IsNullOrWhiteSpace(x))
                 ? LoadFileFromNewPath(fsMessage.SelectedPaths)
                 : Task.CompletedTask;
 
