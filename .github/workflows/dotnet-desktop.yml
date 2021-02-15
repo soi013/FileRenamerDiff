@@ -78,6 +78,10 @@ jobs:
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
 
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: src/FileRenamerDiff
+
     # Execute all unit tests in the solution
     #- name: Execute unit tests
     #  run: dotnet test $env:Test_Project_Path
