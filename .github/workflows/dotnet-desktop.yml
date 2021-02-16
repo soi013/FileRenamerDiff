@@ -75,12 +75,17 @@ jobs:
         dotnet-version: 5.0.x
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v1.0.2
+    # - name: Setup MSBuild.exe
+    #   uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Install dependencies
-      run: dotnet restore
-      working-directory: src/FileRenamerDiff
+    # - name: Install dependencies
+    #   run: dotnet restore
+    #   working-directory: src/FileRenamerDiff
+
+    - name: Build with dotnet
+      run: dotnet build --configuration Release
+    - name: dotnet publish
+      run: dotnet publish -c Release -r win-x86 --self-contained -o myapp
 
     # Execute all unit tests in the solution
     #- name: Execute unit tests
