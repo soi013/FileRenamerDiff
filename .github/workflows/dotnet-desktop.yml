@@ -78,14 +78,14 @@ jobs:
     # - name: Setup MSBuild.exe
     #   uses: microsoft/setup-msbuild@v1.0.2
 
-    # - name: Install dependencies
-    #   run: dotnet restore
-    #   working-directory: src/FileRenamerDiff
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: src/FileRenamerDiff
 
     - name: Build with dotnet
       run: dotnet build --configuration Release
     - name: dotnet publish
-      run: dotnet publish -c Release -r win-x86 --self-contained -o myapp
+      run: dotnet publish -c Release -r win-x86 --self-contained -o FileRenamerDiff
 
     # Execute all unit tests in the solution
     #- name: Execute unit tests
@@ -93,7 +93,7 @@ jobs:
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+      run: msbuild $env:Solution_Path /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
