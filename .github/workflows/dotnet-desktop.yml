@@ -56,6 +56,7 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
+      App_Name: FileRenamerDiff
       Solution_Directory: src/FileRenamerDiff
       Solution_Path: src/FileRenamerDiff.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
       App_Project_Path: src/FileRenamerDiff/FileRenamerDiff.csproj
@@ -87,8 +88,10 @@ jobs:
 
     - name: Build with dotnet
       run: dotnet build $env:App_Project_Path --configuration Release
-    - name: dotnet publish
-      run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained -o
+    - name: dotnet publish x86
+      run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained -o FileRenamerDiff_x86
+    - name: dotnet publish x64
+      run: dotnet publish $env:App_Project_Path -c Release -r win-x64 --self-contained -o FileRenamerDiff_x64
 
     # Execute all unit tests in the solution
     #- name: Execute unit tests
