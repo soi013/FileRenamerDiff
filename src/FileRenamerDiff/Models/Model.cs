@@ -529,9 +529,15 @@ namespace FileRenamerDiff.Models
             //マニュアルはMarkdownファイルからhtmlファイルへ変換して、Resourcesに配置してある
             //変換はPowerShellファイル(.ps1)をビルド前イベントから呼び出して使う
 
-            //現在の設定のアプリケーションコードを取得する
-            string code = Setting.AppLanguageCode;
+            //設定で言語が指定されていれば、そのヘルプを、自動なら現在のスレッドのカルチャを取得する
+            string code = String.IsNullOrWhiteSpace(Setting.AppLanguageCode)
+                ? Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName
+                : Setting.AppLanguageCode;
+
             string htmlFilePath = @$".\Resources\how_to_use.{code}.html";
+            if (!File.Exists(htmlFilePath))
+                htmlFilePath = @$".\Resources\how_to_use.html";
+
             var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };
             return Process.Start(pi)?.WaitForExitAsync();
         }
