@@ -93,16 +93,17 @@ jobs:
     #- name: Execute unit tests
     #  run: dotnet test $env:Test_Project_Path
 
-    - name: Copy publish files
+    - name: Copy artifact
       run: |
-        mkdir ouputs
-        Copy-Item (Get-ChildItem -Path "FileRenamerDiff_x86" -Recurse) -Destination ouputs
+        mkdir -p ouputs
+        # Copy-Item (Get-ChildItem -Path "FileRenamerDiff_x86" -Recurse) -Destination ouputs
         Copy-Item (Get-ChildItem -Path "FileRenamerDiff_x64" -Recurse) -Destination ouputs
       shell: pwsh
+
     - name: Archive publish files
       uses: actions/upload-artifact@v1
       with:
-        name: ouputs
+        name: FileRenamerDiff_${{ github.sha }}_
         path: ouputs
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
