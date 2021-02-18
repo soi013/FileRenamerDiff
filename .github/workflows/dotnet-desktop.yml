@@ -80,9 +80,9 @@ jobs:
     - name: Build with dotnet
       run: dotnet build $env:App_Project_Path --configuration Release
     - name: dotnet publish x86
-      run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained -o FileRenamerDiff_x86
+      run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
     - name: dotnet publish x64
-      run: dotnet publish $env:App_Project_Path -c Release -r win-x64 --self-contained -o FileRenamerDiff_x64
+      run: dotnet publish $env:App_Project_Path -c Release -r win-x64 --self-contained -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
 
     # Execute all unit tests in the solution
     #- name: Execute unit tests
@@ -91,14 +91,14 @@ jobs:
     - name: Copy artifact
       run: |
         mkdir -p ouputs
-        # Copy-Item (Get-ChildItem -Path "FileRenamerDiff_x86" -Recurse) -Destination ouputs
-        Copy-Item (Get-ChildItem -Path "FileRenamerDiff_x64" -Recurse) -Destination ouputs
+        cp -Literal "FileRenamerDiff_app_win-x86" -Recurse -Destination "ouputs\FileRenamerDiff_app_win-x86"
+        cp -Literal "FileRenamerDiff_app_win-x64" -Recurse -Destination "ouputs\FileRenamerDiff_app_win-x64"
       shell: pwsh
 
     - name: Archive publish files
       uses: actions/upload-artifact@v1
       with:
-        name: FileRenamerDiff_${{ github.sha }}_
+        name: FileRenamerDiff_apps
         path: ouputs
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
