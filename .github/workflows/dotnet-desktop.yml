@@ -77,11 +77,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
 
-    - name: Install dependencies
-      run: dotnet restore
-      working-directory: src/FileRenamerDiff
-      # working-directory: $env:Solution_Directory
-
     - name: Build with dotnet
       run: dotnet build $env:App_Project_Path --configuration Release
     - name: dotnet publish x86
