@@ -106,7 +106,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           tag_name: ${{github.ref}}
-          release_name: Ver ${{github.ref}}
+          release_name: Ver_ ${{ needs.build.outputs.version }}
           body: |
             - Change design
             - Bug fix
@@ -114,15 +114,14 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset x64
-        uses: actions/upload-release-asset@v1.0.1
+        uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url}}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: .\ouputs\FileRenamerDiff_app_win-x64
           asset_name: FileRenamerDiff_app_win-x64.zip
           asset_content_type: application/zip
-    
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     # - name: Decode the pfx
     #   run: |
@@ -143,9 +142,9 @@ jobs:
     # - name: Remove the pfx
     #   run: Remove-Item -path $env:Wap_Project_Directory\$env:Signing_Certificate
 #
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: MSIX Package
-    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
+# Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
+# - name: Upload build artifacts
+#   uses: actions/upload-artifact@v2
+#   with:
+#     name: MSIX Package
+#     path: ${{ env.Wap_Project_Directory }}\AppPackages
