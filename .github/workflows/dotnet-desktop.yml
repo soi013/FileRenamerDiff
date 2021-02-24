@@ -85,9 +85,21 @@ jobs:
           echo REF1_$GITHUB_REF
           echo REF2_${ GITHUB_REF }
           echo REF3_${GITHUB_REF##*/}
-          raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw/master\/}
-          echo ::set-env name=BRANCH::$branch
+
+      - name: Check output bash
+        shell: bash
+        id: version
+        run: |
+          echo $RELEASE_VERSION
+          echo repo_${{ github.repository }}
+          echo ref_${{ github.ref }}
+          echo href_${{ github.head_ref }}
+          echo sha_${{ github.sha }}
+          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
+          VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
+          echo ::set-output name=version::$VERSION
+          echo ::set-output name=filename::$REPOSITORY-$VERSION
+          echo "Version $VERSION"
 
       # Install the .NET Core workload
       - name: Install .NET Core
