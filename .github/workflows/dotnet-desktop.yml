@@ -109,7 +109,17 @@ jobs:
         with:
           name: FileRenamerDiff_apps
           path: outputs
-          
+
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ steps.vars.outputs.tag }}
+        
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -117,7 +127,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
           tag_name: ${{github.ref}}
-          release_name: Ver_ ${{ needs.build.outputs.version }}
+          release_name: Ver_ ${{ steps.vars.outputs.tag }}
           body: |
             - Change design
             - Bug fix
@@ -137,7 +147,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: FileRenamerDiff_app_win-x86.zip
-          asset_name: FileRenamerDiff_app_win-x86.ver${{ needs.build.outputs.version }}.zip
+          asset_name: FileRenamerDiff_app_win-x86.ver${{ steps.vars.outputs.tag }}.zip
           asset_content_type: application/zip
 
       - name: Upload Release Asset x64
@@ -147,7 +157,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: FileRenamerDiff_app_win-x64.zip
-          asset_name: FileRenamerDiff_app_win-x64.ver${{ needs.build.outputs.version }}.zip
+          asset_name: FileRenamerDiff_app_win-x64.ver${{ steps.vars.outputs.tag }}.zip
           asset_content_type: application/zip
     #
     # Decode the base 64 encoded pfx and save the Signing_Certificate
