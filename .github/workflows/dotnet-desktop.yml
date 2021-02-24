@@ -78,6 +78,9 @@ jobs:
           echo $RELEASE_VERSION
           echo repo_${{ github.repository }}
           echo ref_${{ github.ref }}
+          echo href_${{ github.head_ref }}
+          echo sha_${{ github.sha }}
+          echo workspace_${{ github.workspace }}
           echo tag_${GITHUB_REF#refs/*/}
           echo REF1_$GITHUB_REF
           echo REF2_${ GITHUB_REF }
