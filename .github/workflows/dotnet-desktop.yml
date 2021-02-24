@@ -104,6 +104,12 @@ jobs:
     runs-on: windows-latest
     needs: [build]
     steps:
+      - name: Download archives
+        uses: actions/download-artifact@v2
+        with:
+          name: FileRenamerDiff_apps
+          path: outputs
+          
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
