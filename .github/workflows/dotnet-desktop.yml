@@ -89,16 +89,16 @@ jobs:
 
       - name: Copy artifact
         run: |
-          mkdir -p ouputs
-          cp -Literal "FileRenamerDiff_app_win-x86" -Recurse -Destination "ouputs\FileRenamerDiff_app_win-x86"
-          cp -Literal "FileRenamerDiff_app_win-x64" -Recurse -Destination "ouputs\FileRenamerDiff_app_win-x64"
+          mkdir -p outputs
+          cp -Literal "FileRenamerDiff_app_win-x86" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x86"
+          cp -Literal "FileRenamerDiff_app_win-x64" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x64"
         shell: pwsh
 
       - name: Archive publish files
         uses: actions/upload-artifact@v1
         with:
           name: FileRenamerDiff_apps
-          path: ouputs
+          path: outputs
 
       - name: Create release
         uses: actions/create-release@v1
@@ -116,7 +116,7 @@ jobs:
       - name: Archive packages
         shell: pwsh
         run: |
-          Compress-Archive -Path ouputs\FileRenamerDiff_app_win-x64 -DestinationPath FileRenamerDiff_app_win-x64.zip
+          Compress-Archive -Path outputs\FileRenamerDiff_app_win-x64 -DestinationPath FileRenamerDiff_app_win-x64.zip
 
       - name: Upload Release Asset x64
         uses: actions/upload-release-asset@v1
@@ -127,6 +127,7 @@ jobs:
           asset_path: FileRenamerDiff_app_win-x64.zip
           asset_name: FileRenamerDiff_app_win-x64-${{ needs.build.outputs.version }}.zip
           asset_content_type: application/zip
+          
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     # - name: Decode the pfx
     #   run: |
