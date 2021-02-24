@@ -120,6 +120,7 @@ jobs:
         shell: pwsh
         run: |
           echo $RELEASE_VERSION
+          echo ${{ github.ref }}
           echo ${{ steps.vars.outputs.tag }}
         
       - name: Create release
