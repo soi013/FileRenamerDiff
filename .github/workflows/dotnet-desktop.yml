@@ -112,6 +112,11 @@ jobs:
             - Bug fix
           draft: true
           prerelease: false
+      
+      - name: Archive packages
+        shell: pwsh
+        run: |
+          Compress-Archive -Path ouputs\FileRenamerDiff_app_win-x64 -DestinationPath ouputs\FileRenamerDiff_app_win-x64.zip
 
       - name: Upload Release Asset x64
         uses: actions/upload-release-asset@v1
@@ -119,8 +124,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .\ouputs\FileRenamerDiff_app_win-x64
-          asset_name: FileRenamerDiff_app_win-x64.zip
+          asset_path: ouputs\FileRenamerDiff_app_win-x64.zip
+          asset_name: FileRenamerDiff_app_win-x64-${{ needs.build.outputs.version }}.zip
           asset_content_type: application/zip
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     # - name: Decode the pfx
