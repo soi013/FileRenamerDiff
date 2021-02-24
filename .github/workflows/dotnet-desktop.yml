@@ -82,6 +82,9 @@ jobs:
           echo REF1_$GITHUB_REF
           echo REF2_${ GITHUB_REF }
           echo REF3_${GITHUB_REF##*/}
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw/master\/}
+          echo ::set-env name=BRANCH::$branch
 
       # Install the .NET Core workload
       - name: Install .NET Core
