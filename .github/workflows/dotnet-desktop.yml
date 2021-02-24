@@ -79,7 +79,7 @@ jobs:
           echo repo_${{ github.repository }}
           echo ref_${{ github.ref }}
           echo tag_${GITHUB_REF#refs/*/}
-          echo REF1_${{ GITHUB_REF }}
+          echo REF1_$GITHUB_REF
           echo REF2_${ GITHUB_REF }
           echo REF3_${GITHUB_REF##*/}
 
