@@ -70,6 +70,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Check output
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+        shell: pwsh
+        run: |
+          echo $RELEASE_VERSION
+          echo repo_${{ github.repository }}
+          echo ref_${{ github.ref }}
+          echo tag_${{ steps.vars.outputs.tag }}
+
       # Install the .NET Core workload
       - name: Install .NET Core
         uses: actions/setup-dotnet@v1
@@ -120,6 +130,7 @@ jobs:
         shell: pwsh
         run: |
           echo $RELEASE_VERSION
+          echo ${{ github.repository }}
           echo ${{ github.ref }}
           echo ${{ steps.vars.outputs.tag }}
         
