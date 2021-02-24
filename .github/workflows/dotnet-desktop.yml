@@ -118,6 +118,17 @@ jobs:
         shell: pwsh
         run: |
           Compress-Archive -Path outputs\FileRenamerDiff_app_win-x64 -DestinationPath FileRenamerDiff_app_win-x64.zip
+          Compress-Archive -Path outputs\FileRenamerDiff_app_win-x86 -DestinationPath FileRenamerDiff_app_win-x86.zip
+
+      - name: Upload Release Asset x86
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: FileRenamerDiff_app_win-x86.zip
+          asset_name: FileRenamerDiff_app_win-x86.ver${{ needs.build.outputs.version }}.zip
+          asset_content_type: application/zip
 
       - name: Upload Release Asset x64
         uses: actions/upload-release-asset@v1
@@ -126,7 +137,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: FileRenamerDiff_app_win-x64.zip
-          asset_name: FileRenamerDiff_app_win-x64-${{ needs.build.outputs.version }}.zip
+          asset_name: FileRenamerDiff_app_win-x64.ver${{ needs.build.outputs.version }}.zip
           asset_content_type: application/zip
           
     # Decode the base 64 encoded pfx and save the Signing_Certificate
