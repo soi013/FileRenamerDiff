@@ -127,10 +127,12 @@
     <value>修改日期</value>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>重复的</value>
+    <value>重复标记
+如果有重复的文件，会显示重复的标记。</value>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
-    <value>已更改</value>
+    <value>复选标记
+如有更改，则显示复选标记。</value>
   </data>
   <data name="Grid_NewText" xml:space="preserve">
     <value>新文件名</value>

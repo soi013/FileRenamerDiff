@@ -127,7 +127,7 @@
     <value>Регулярное выражение</value>
   </data>
   <data name="Setting_ReplacePatterns" xml:space="preserve">
-    <value>Заменить Шаблоны</value>
+    <value>Модели замещения</value>
   </data>
   <data name="Setting_DeleteTextTarget" xml:space="preserve">
     <value>Текст</value>
@@ -166,19 +166,21 @@
     <value>Старое имя файла</value>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
-    <value>Изменено</value>
+    <value>Знак наличия изменений
+При наличии изменений отображается флажок.</value>
   </data>
   <data name="Grid_NewText" xml:space="preserve">
     <value>Новое имя файла</value>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>Дублировано</value>
+    <value>Знак наличия дубликатов
+Если дубликаты есть, то отображается знак дубликата.</value>
   </data>
   <data name="Grid_CreatedDate" xml:space="preserve">
     <value>Дата создания</value>
   </data>
   <data name="Setting_SettingTab" xml:space="preserve">
-    <value>настройка</value>
+    <value>Настройки</value>
   </data>
   <data name="Grid_Directory" xml:space="preserve">
     <value>каталог</value>

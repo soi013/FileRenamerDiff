@@ -169,10 +169,12 @@
     <value>Neuer Dateiname</value>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>Verdoppelt</value>
+    <value>Mit Duplikat markieren
+Wenn es Duplikate gibt, wird eine Duplikatmarkierung angezeigt.</value>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
-    <value>Geändert</value>
+    <value>Häkchen
+Ein Häkchen wird angezeigt, wenn es Änderungen gibt.</value>
   </data>
   <data name="Grid_DateModified" xml:space="preserve">
     <value>Änderungsdatum</value>

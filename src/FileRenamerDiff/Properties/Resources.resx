@@ -194,11 +194,13 @@
     <comment>リネーム後の予定ファイル名リスト</comment>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
-    <value>Changed</value>
+    <value>Mark with change
+A check mark is displayed if there are any changes.</value>
     <comment>リネーム前後で変更があったかどうかの表示</comment>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>Duplicated</value>
+    <value>Mark with duplicate
+If there are duplicates, a duplicate mark is displayed.</value>
     <comment>ファイル名が重複していたかどうかの表示</comment>
   </data>
   <data name="Grid_DateModified" xml:space="preserve">

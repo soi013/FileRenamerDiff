@@ -123,7 +123,7 @@ The description of each column in the file list is as follows.
 | Delete button       | Delete button                                                | Delete the line. The button in the header deletes all files. |
 | OLD File Name       | File name before renaming. The changed part becomes a pink background. |                                                              |
 | NEW File Name       | File name after renaming. The changed part becomes a green background. |                                                              |
-| Check mark          | A check mark is displayed if there are any changes.          | The button in the header makes the file list only with changes. |
+| Mark with change    | A check mark is displayed if there are any changes.          | The button in the header makes the file list only with changes. |
 | Mark with duplicate | If there are duplicates, a duplicate mark is displayed.      | The button in the header makes the file list only with duplicates. |
 | Directory           | Directory to which the file belongs                          | Click to display the file in the explorer                    |
 | Size                | Size of the file                                             |                                                              |

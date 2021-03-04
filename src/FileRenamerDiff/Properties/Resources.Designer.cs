@@ -349,7 +349,8 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Changed に類似しているローカライズされた文字列を検索します。
+        ///   Mark with change
+        ///A check mark is displayed if there are any changes. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_Changed {
             get {
@@ -358,7 +359,8 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
-        ///   Duplicated に類似しているローカライズされた文字列を検索します。
+        ///   Mark with duplicate
+        ///If there are duplicates, a duplicate mark is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_Conflicted {
             get {

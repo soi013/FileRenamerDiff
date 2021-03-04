@@ -169,10 +169,12 @@
     <value>新しいファイル名</value>
   </data>
   <data name="Grid_Changed" xml:space="preserve">
-    <value>変更あり</value>
+    <value>変更ありマーク
+変更があれば、チェックマークが表示される。</value>
   </data>
   <data name="Grid_Conflicted" xml:space="preserve">
-    <value>重複あり</value>
+    <value>重複ありマーク
+重複があれば、重複マークが表示される。</value>
   </data>
   <data name="Grid_DateModified" xml:space="preserve">
     <value>更新日時</value>
