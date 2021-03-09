@@ -71,35 +71,13 @@ jobs:
           fetch-depth: 0
 
       - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
         shell: pwsh
         run: |
-          echo $RELEASE_VERSION
-          echo repo_${{ github.repository }}
-          echo ref_${{ github.ref }}
-          echo href_${{ github.head_ref }}
-          echo sha_${{ github.sha }}
-          echo workspace_${{ github.workspace }}
-          echo tag_${GITHUB_REF#refs/*/}
-          echo REF1_$GITHUB_REF
-          echo REF2_${ GITHUB_REF }
-          echo REF3_${GITHUB_REF##*/}
-
-      - name: Check output bash
-        shell: bash
-        id: version
-        run: |
-          echo $RELEASE_VERSION
-          echo repo_${{ github.repository }}
-          echo ref_${{ github.ref }}
-          echo href_${{ github.head_ref }}
-          echo sha_${{ github.sha }}
-          REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")
-          VERSION=$(echo ${{ github.ref }} | sed -e "s#refs/tags/##g")
-          echo ::set-output name=version::$VERSION
-          echo ::set-output name=filename::$REPOSITORY-$VERSION
-          echo "Version $VERSION"
+          echo Print Repository and Version
+          echo "repo=${{ github.event.repository.name }}" >> $GITHUB_ENV
+          echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+          echo REPOSITORY=${{ env.repo }}"
+          echo VERSION=${{ env.version }}"
 
       # Install the .NET Core workload
       - name: Install .NET Core
@@ -140,20 +118,6 @@ jobs:
         with:
           name: FileRenamerDiff_apps
           path: outputs
-
-      - name: Set output
-        id: vars
-        shell: pwsh
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - name: Check output
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
-        shell: pwsh
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ github.repository }}
-          echo ${{ github.ref }}
-          echo ${{ steps.vars.outputs.tag }}
         
       - name: Create release
         id: create_release
@@ -161,8 +125,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         with:
-          tag_name: ${{github.ref}}
-          release_name: Ver_ ${{ steps.vars.outputs.tag }}
+          tag_name: v${{ env.version }}
+          release_name: Ver ${{ env.version }}
           body: |
             - Change design
             - Bug fix
@@ -182,7 +146,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: FileRenamerDiff_app_win-x86.zip
-          asset_name: FileRenamerDiff_app_win-x86.ver${{ steps.vars.outputs.tag }}.zip
+          asset_name: FileRenamerDiff_app_win-x86.ver${{ env.version }}.zip
           asset_content_type: application/zip
 
       - name: Upload Release Asset x64
@@ -192,7 +156,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: FileRenamerDiff_app_win-x64.zip
-          asset_name: FileRenamerDiff_app_win-x64.ver${{ steps.vars.outputs.tag }}.zip
+          asset_name: FileRenamerDiff_app_win-x64.ver${{ env.version }}.zip
           asset_content_type: application/zip
     #
     # Decode the base 64 encoded pfx and save the Signing_Certificate
