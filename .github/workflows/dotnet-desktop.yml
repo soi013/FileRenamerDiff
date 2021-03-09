@@ -70,14 +70,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: echo output
+      - name: echos
         shell: bash
         run: |
-          echo Print_Repository_and_Version
+          echo $RELEASE_VERSION
+          echo repo1=${{ github.repository }}
+          echo repo2=${{ github.event.repository.name }}
+          echo ref_=${{ github.ref }}
+          echo sha_=${{ github.sha }}
+          echo REF4=${GITHUB_REF/refs\/tags\/v/}
           echo "repo=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
           echo REPOSITORY=${{ env.repo }}"
           echo VERSION=${{ env.version }}"
+
+      - name: echos2
+        shell: bash
+        run: |
+          echo $RELEASE_VERSION
+          echo "REPOSITORY=${{ env.repo }}"
+          echo "VERSION=${{ env.version }}"
 
       # Install the .NET Core workload
       - name: Install .NET Core
