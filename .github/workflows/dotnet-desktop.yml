@@ -70,10 +70,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check output
-        shell: pwsh
+      - name: echo output
+        shell: bash
         run: |
-          echo Print Repository and Version
+          echo Print_Repository_and_Version
           echo "repo=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
           echo REPOSITORY=${{ env.repo }}"
