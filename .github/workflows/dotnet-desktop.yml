@@ -65,10 +65,10 @@ jobs:
       Signing_Certificate: GitHubActionsWorkflow.pfx
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      # - name: Checkout
+      #   uses: actions/checkout@v2
+      #   with:
+      #     fetch-depth: 0
 
       - name: echos
         shell: bash
