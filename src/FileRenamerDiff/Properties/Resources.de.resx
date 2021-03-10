@@ -148,7 +148,7 @@
     <value>Zieltext</value>
   </data>
   <data name="Setting_ReplaceText" xml:space="preserve">
-    <value>Text ersetzen</value>
+    <value>Text-ersetzen</value>
   </data>
   <data name="Setting_ResetAllSetting" xml:space="preserve">
     <value>Initialisierung aller Einstellungen</value>

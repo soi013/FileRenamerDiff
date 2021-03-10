@@ -4,7 +4,7 @@
 
 [View Online](https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use.de.md)
 
-# Schnell 
+# Schnellanleitung 
 
 1. Spezifikation der Zieldatei: Sie können Dateien per Drag & Drop in die Dateiliste ziehen oder nach <kbd>Filesuche</kbd> aus einem bestimmten Verzeichnis suchen.
 
@@ -45,7 +45,7 @@ Es gibt zwei Möglichkeiten, die Dateien direkt anzugeben.
 
 Legen Sie die Bedingungen für das Umbenennen von Dateien fest.
 
-Die Ausführungsreihenfolge der Bedingungen ist "Löschen" → "Ersetzen". Wenn Sie die Datei nach "Ersetzen" löschen möchten, lassen Sie <kbd>Text ersetzen</kbd> in <kbd>Ersetzungsmuster</kbd> leer, was dem "Löschen" entspricht.
+Die Ausführungsreihenfolge der Bedingungen ist "Löschen" → "Ersetzen". Wenn Sie die Datei nach "Ersetzen" löschen möchten, lassen Sie <kbd>Text-ersetzen</kbd> in <kbd>Ersetzungsmuster</kbd> leer, was dem "Löschen" entspricht.
 
 ## Texte löschen
 
@@ -98,7 +98,7 @@ Es gibt auch reguläre Ausdrücke, die nach der Ersetzung verwendet werden könn
 
 [Substitutions In Regular Expressions - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
 
-| Regex  | Beschreibung                                      | Zieltext | Text ersetzen | Eingabe        | Ausgabe          |
+| Regex  | Beschreibung                                      | Zieltext | Text-ersetzen | Eingabe        | Ausgabe          |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
 | `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**\[ABC\]**x_AxBC |
 | `$num` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
