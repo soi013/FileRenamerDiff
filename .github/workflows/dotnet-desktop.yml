@@ -37,7 +37,10 @@
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
 name: .NET Core Desktop
-on: [push]
+on:
+ push:
+  tags:
+    - v*
 jobs:
   build:
     strategy:
