@@ -530,13 +530,23 @@ namespace FileRenamerDiff.Models
             //変換はPowerShellファイル(.ps1)をビルド前イベントから呼び出して使う
 
             //設定で言語が指定されていれば、そのヘルプを、自動なら現在のスレッドのカルチャを取得する
-            string code = String.IsNullOrWhiteSpace(Setting.AppLanguageCode)
-                ? Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName
-                : Setting.AppLanguageCode;
+            string code = "." + (String.IsNullOrWhiteSpace(Setting.AppLanguageCode)
+                    ? Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName
+                    : Setting.AppLanguageCode);
 
-            string htmlFilePath = @$".\Resources\how_to_use.{code}.html";
+            //デフォルトの言語は英語なので、その場合はファイル名に文字コードが入らない
+            if (code == ".en")
+                code = "";
+
+            string htmlFileName = $"how_to_use{code}.html";
+            string htmlFilePath = @$".\Resources\" + htmlFileName;
+            //設定言語のファイルが無かった場合は英語のマニュアルに変更する
             if (!File.Exists(htmlFilePath))
                 htmlFilePath = @$".\Resources\how_to_use.html";
+
+            //それでもなかったら、オンラインのマニュアルを表示させる
+            if (!File.Exists(htmlFilePath))
+                htmlFilePath = @$"https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use{code}.md";
 
             var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };
             return Process.Start(pi)?.WaitForExitAsync();
