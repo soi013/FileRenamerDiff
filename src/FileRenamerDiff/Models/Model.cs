@@ -55,7 +55,9 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// アプリケーションが待機状態か（UI購読用）
         /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsIdleUI => isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+        public IReadOnlyReactiveProperty<bool> IsIdleUI =>
+           isIdleUI ??= isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+        private IReadOnlyReactiveProperty<bool> isIdleUI;
 
         /// <summary>
         /// リネーム対象ファイル情報のコレクション
@@ -63,6 +65,7 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<FileElementModel> FileElementModels { get; } = new();
 
         private SettingAppModel _Setting = new();
+
         /// <summary>
         /// アプリケーション設定
         /// </summary>
