@@ -27,6 +27,7 @@ using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Notifiers;
 using Anotar.Serilog;
+using Microsoft.Extensions.DependencyInjection;
 
 using FileRenamerDiff.Properties;
 
@@ -40,7 +41,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// シングルトンなインスタンスを返す
         /// </summary>
-        public static Model Instance { get; } = new();
+        public static Model Instance { get; } = App.Services.GetService<Model>()!;
 
         /// <summary>
         /// アプリケーションが待機状態か（変更用）
@@ -122,7 +123,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public Func<Task<bool>> ConfirmUser { get; set; } = () => Task.FromResult(true);
 
-        private Model()
+        public Model()
         {
             FileElementModels
                 .CollectionChangedAsObservable()

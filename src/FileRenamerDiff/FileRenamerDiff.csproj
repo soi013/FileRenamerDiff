@@ -14,6 +14,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>UnitTests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="FileRenamerDiff_icon.ico" />
     <None Remove="License.md" />
     <None Remove="Resources\FileRenamerDiff_icon.png" />
@@ -72,6 +78,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Utf8Json" Version="1.3.7" />
     <PackageReference Include="Zipangu" Version="1.1.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FileRenamerDiff_icon.ico" />

@@ -15,6 +15,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
+using Microsoft.Extensions.DependencyInjection;
 
 using FileRenamerDiff.Models;
 using MaterialDesignColors;
@@ -23,6 +24,17 @@ namespace FileRenamerDiff
 {
     public partial class App : Application
     {
+        public static IServiceProvider Services { get; } = ConfigureServices();
+
+        private static IServiceProvider ConfigureServices()
+        {
+            IServiceCollection? services = new ServiceCollection()
+                //.AddTransient<IFilesService, FilesService>()
+                .AddSingleton<Model>();
+
+            return services.BuildServiceProvider();
+        }
+
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             SetupLoggerConfig();
