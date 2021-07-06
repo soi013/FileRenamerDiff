@@ -22,17 +22,17 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// メッセージレベル
         /// </summary>
-        public AppMessageLevel MessageLevel { get; set; }
+        public AppMessageLevel MessageLevel { get; }
 
         /// <summary>
         /// メッセージタイトル
         /// </summary>
-        public string MessageHead { get; set; }
+        public string MessageHead { get; }
 
         /// <summary>
         /// メッセージ本体
         /// </summary>
-        public string MessageBody { get; set; }
+        public string MessageBody { get; }
 
         public AppMessage(AppMessageLevel level, string head, string body = "")
         {
@@ -73,15 +73,20 @@ namespace FileRenamerDiff.Models
                 }
                 else
                 {
-                    currentMessage.MessageBody = stbBody.ToString();
-                    yield return currentMessage;
+                    yield return CreateMessage(currentMessage, stbBody);
                     stbBody.Clear();
                     currentMessage = m;
                     stbBody.AppendLine(m.MessageBody);
                 }
             }
-            currentMessage.MessageBody = stbBody.ToString();
-            yield return currentMessage;
+            yield return CreateMessage(currentMessage, stbBody);
+
+
+            static AppMessage CreateMessage(AppMessage currentMessage, StringBuilder stbBody) =>
+                new AppMessage(
+                        currentMessage.MessageLevel,
+                        currentMessage.MessageHead,
+                        stbBody.ToString().TrimEnd('\r', '\n'));
         }
     }
 }
