@@ -36,10 +36,15 @@ namespace UnitTests
                     .Should().Be(nameof(ValueHolder<string>.Value), "Valueプロパティの変更通知があったはず");
         }
 
-        [Fact]
-        public void Test_FileElement()
+        [Theory]
+        [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt", false)]
+        [InlineData("abc.txt", "txt", "csv", "abc.csv", true)]
+        [InlineData("LargeYChange.txt", "Y", "", "LargeChange.txt", false)]
+        [InlineData("xABCx_AxBC.txt", "ABC", "[$0]", "x[ABC]x_AxBC.txt", false)]
+        //[InlineData("deleteBeforeExt.txt", @".*(?=\.\w+$)", "", ".txt", false)]
+        [InlineData("deleteBeforeExt.txt", @".*(?=\.\w+$)", "", ".txt", true)]
+        public void Test_FileElement(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         {
-            string targetFileName = "coopy -copy.txt";
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
@@ -50,6 +55,7 @@ namespace UnitTests
             var queuePropertyChanged = new Queue<string?>();
             fileElem.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
 
+            //TEST1 初期状態
             fileElem.OutputFileName
                     .Should().Be(targetFileName, "まだ元のファイル名のまま");
 
@@ -62,14 +68,14 @@ namespace UnitTests
             queuePropertyChanged
                 .Should().BeEmpty("まだ通知は来ていないはず");
 
+            //TEST2 Replace
             //ファイル名の一部をXXXに変更する置換パターンを作成
-            var regex = new Regex(" -copy", RegexOptions.Compiled);
-            var rpRegex = new ReplaceRegex(regex, "XXX");
+            var regex = new Regex(regexPattern, RegexOptions.Compiled);
+            var rpRegex = new ReplaceRegex(regex, replaceText);
 
             //リネームプレビュー実行
-            fileElem.Replace(new[] { rpRegex }, false);
+            fileElem.Replace(new[] { rpRegex }, isRenameExt);
 
-            const string expectedRenamedFileName = "coopyXXX.txt";
 
             fileElem.OutputFileName
                 .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
@@ -87,7 +93,7 @@ namespace UnitTests
                 .Select(p => Path.GetFileName(p))
                 .Should().BeEquivalentTo(new[] { targetFileName }, "ファイルシステム上はまだ前の名前のはず");
 
-            //リネーム保存実行
+            //TEST3 Rename
             fileElem.Rename();
 
             fileElem.State
