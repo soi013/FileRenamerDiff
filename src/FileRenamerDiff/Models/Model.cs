@@ -30,6 +30,7 @@ using Anotar.Serilog;
 using Microsoft.Extensions.DependencyInjection;
 
 using FileRenamerDiff.Properties;
+using System.IO.Abstractions;
 
 namespace FileRenamerDiff.Models
 {
@@ -38,6 +39,8 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class Model : NotificationObject
     {
+        private readonly IFileSystem fileSystem;
+
         /// <summary>
         /// シングルトンなインスタンスを返す
         /// </summary>
@@ -58,7 +61,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdleUI =>
            isIdleUI ??= isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
-        private IReadOnlyReactiveProperty<bool> isIdleUI;
+        private IReadOnlyReactiveProperty<bool>? isIdleUI;
 
         /// <summary>
         /// リネーム対象ファイル情報のコレクション
@@ -123,8 +126,9 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public Func<Task<bool>> ConfirmUser { get; set; } = () => Task.FromResult(true);
 
-        public Model()
+        public Model(IFileSystem fileSystem)
         {
+            this.fileSystem = fileSystem;
             FileElementModels
                 .CollectionChangedAsObservable()
                 //ファイルをまとめて追加し終わってから、更新する
@@ -211,7 +215,7 @@ namespace FileRenamerDiff.Models
             LogTo.Debug("File Load Ended");
         }
 
-        private static FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
+        private FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
             IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths
                 .Where(x => Directory.Exists(x))
@@ -259,7 +263,7 @@ namespace FileRenamerDiff.Models
             return loadedFileList
                 //設定に応じて、ディレクトリ・ファイル・隠しファイルの表示状態を変更
                 .Where(x => setting.IsTargetFile(x))
-                .Select(x => new FileElementModel(x))
+                .Select(x => new FileElementModel(fileSystem, x))
                 .ToArray();
         }
 
@@ -269,7 +273,7 @@ namespace FileRenamerDiff.Models
 
             var addSource = paths
                 //直接追加の場合は設定に応じた隠しファイルの除外などは行わない。
-                .Select(x => new FileElementModel(x));
+                .Select(x => new FileElementModel(fileSystem, x));
 
             this.FileElementModels.AddRange(addSource);
 

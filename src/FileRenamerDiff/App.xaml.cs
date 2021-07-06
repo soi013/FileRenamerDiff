@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using FileRenamerDiff.Models;
 using MaterialDesignColors;
+using System.IO.Abstractions;
 
 namespace FileRenamerDiff
 {
@@ -29,7 +30,7 @@ namespace FileRenamerDiff
         private static IServiceProvider ConfigureServices()
         {
             IServiceCollection? services = new ServiceCollection()
-                //.AddTransient<IFilesService, FilesService>()
+                .AddTransient<IFileSystem, FileSystem>()
                 .AddSingleton<Model>();
 
             return services.BuildServiceProvider();

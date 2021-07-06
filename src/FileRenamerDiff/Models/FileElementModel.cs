@@ -26,6 +26,7 @@ using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
 
 using FileRenamerDiff.Properties;
+using System.IO.Abstractions;
 
 namespace FileRenamerDiff.Models
 {
@@ -53,8 +54,10 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class FileElementModel : NotificationObject
     {
+        private readonly IFileSystem fileSystem;
+
         private readonly bool isDirectory;
-        private readonly FileSystemInfo fsInfo;
+        private readonly IFileSystemInfo fsInfo;
 
         /// <summary>
         /// リネーム前 フルファイルパス
@@ -104,7 +107,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイルのバイト数 （ディレクトリの場合は-1B）
         /// </summary>
-        public long LengthByte => (fsInfo.Exists && !isDirectory) ? ((FileInfo)fsInfo).Length : -1;
+        public long LengthByte => (fsInfo.Exists && !isDirectory) ? ((FileInfoBase)fsInfo).Length : -1;
 
         /// <summary>
         /// ファイル更新日時
@@ -156,14 +159,15 @@ namespace FileRenamerDiff.Models
         "|[\\. ]$",
         RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public FileElementModel(string filePath)
+        public FileElementModel(IFileSystem fileSystem, string filePath)
         {
-            this.isDirectory = File.GetAttributes(filePath)
+            this.fileSystem = fileSystem;
+            this.isDirectory = fileSystem.File.GetAttributes(filePath)
                 .HasFlag(FileAttributes.Directory);
 
             this.fsInfo = isDirectory
-                ? new DirectoryInfo(filePath)
-                : new FileInfo(filePath);
+                ? fileSystem.DirectoryInfo.FromDirectoryName(filePath)
+                : fileSystem.FileInfo.FromFileName(filePath);
 
             this.outputFileName = InputFileName;
             this._PreviousInputFilePath = InputFilePath;

@@ -16,6 +16,7 @@ using Anotar.Serilog;
 using DiffPlex.DiffBuilder.Model;
 using DiffPlex.DiffBuilder;
 using DiffPlex;
+using System.IO.Abstractions;
 
 namespace FileRenamerDiff.Models
 {
@@ -109,14 +110,14 @@ namespace FileRenamerDiff.Models
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class =>
             source.OfType<T>();
 
-        public static string? GetDirectoryPath(this FileSystemInfo fsInfo) => fsInfo switch
+        public static string? GetDirectoryPath(this IFileSystemInfo fsInfo) => fsInfo switch
         {
-            FileInfo fi => fi.DirectoryName,
-            DirectoryInfo di => di.Parent?.FullName,
+            FileInfoBase fi => fi.DirectoryName,
+            DirectoryInfoBase di => di.Parent?.FullName,
             _ => string.Empty
         };
 
-        public static bool GetExistWithReflesh(this FileSystemInfo fsInfo)
+        public static bool GetExistWithReflesh(this IFileSystemInfo fsInfo)
         {
             fsInfo.Refresh();
             return fsInfo.Exists;
@@ -127,14 +128,14 @@ namespace FileRenamerDiff.Models
         /// </summary>
         /// <param name="fsInfo">変更元ファイル</param>
         /// <param name="outputFilePath">変更後ファイルパス</param>
-        public static void Rename(this FileSystemInfo fsInfo, string outputFilePath)
+        public static void Rename(this IFileSystemInfo fsInfo, string outputFilePath)
         {
             switch (fsInfo)
             {
-                case FileInfo fi:
+                case FileInfoBase fi:
                     fi.MoveTo(outputFilePath);
                     return;
-                case DirectoryInfo di:
+                case DirectoryInfoBase di:
                     di.RenameSafely(outputFilePath);
                     return;
 
@@ -146,15 +147,14 @@ namespace FileRenamerDiff.Models
         /// </summary>
         /// <param name="di">変更元ディレクトリ情報/param>
         /// <param name="outputFilePath">変更後ファイルパス</param>
-        public static void RenameSafely(this DirectoryInfo di, string outputFilePath)
+        public static void RenameSafely(this DirectoryInfoBase di, string outputFilePath)
         {
             string sourceFilePath = di.FullName;
             //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
             //なので、大文字小文字だけの変更の場合は一度別のファイル名に変更する
-            if (String.Compare(sourceFilePath, outputFilePath, true) == 0)
+            if (string.Compare(sourceFilePath, outputFilePath, true) == 0)
             {
-                var tempPath = GetSafeTempName(outputFilePath);
-
+                var tempPath = GetSafeTempName(di.FileSystem, outputFilePath);
                 di.MoveTo(tempPath);
             }
 
@@ -164,13 +164,13 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定したファイルパスが他のファイルパスとかぶらなくなるまで"_"を足して返す
         /// </summary>
-        internal static string GetSafeTempName(string filePath)
+        internal static string GetSafeTempName(IFileSystem fileSystem, string filePath)
         {
             while (true)
             {
                 filePath += "_";
 
-                if (!File.Exists(filePath))
+                if (!fileSystem.File.Exists(filePath))
                     return filePath;
             }
         }
@@ -201,7 +201,7 @@ namespace FileRenamerDiff.Models
         public static string GetExtentionCoreFromPath(string path) =>
             Path.HasExtension(path)
             ? Path.GetExtension(path)[1..]
-            : String.Empty;
+            : string.Empty;
 
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace FileRenamerDiff.Models
         /// <param name="asExpression">正規表現パターンか</param>
         internal static bool IsValidRegexPattern(string pattern, bool asExpression)
         {
-            if (String.IsNullOrWhiteSpace(pattern))
+            if (string.IsNullOrWhiteSpace(pattern))
             {
                 LogTo.Debug("TargetPattern '{@pattern}' is NOT valid. The pattern may not be empty or null.", pattern);
                 return false;
