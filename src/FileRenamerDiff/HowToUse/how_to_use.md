@@ -62,14 +62,14 @@ The regular expressions(Regex) in this software use "Microsoft .NET" regular exp
 
 | Regex              | description                                                       | pattern | Input          | Output             |
 | ------------------ | ---------------------------------------------------------- | ------- | -------------- | ------------------ |
-| `[`ch_group`]`       | Matches any single character in *ch_group*. | [ae]    | gr**a**y, L**A**N**E** | gry,LN             |
+| `[`ch_group`]`       | Matches any single character in *ch_group*. | [ae]    | Gr**a**y,S**ea**,Gr**ee**n | Gry,S,Grn  |
 | `[`first`-`last`]` | Character range: Matches any single character in the range from *first* to *last*. | [A-Z]   | **R**ocky4 | ocky4           |
 | `.`                | Wildcard: Matches any single character        | a.e     | w**ate**r      | wr                 |
 | `\w`                 | Matches any word character      | \\w | **A**.**a** **あ**~**ä**- | . ~- |
 | `\s`               | Matches any white-space character                  | \\s     | A B　C | ABC    |
 | `\d`               | Matches any decimal digit                              | \\d     | Rocky**4** | Rocky |
 | `^`              | Match must start at the beginning of the file name | ^r    | **r**ear rock | ear rock |
-| `$`              | Match must occur at the end of the file name | $r      | rock rea**r** | rock rea |
+| `$`              | Match must occur at the end of the file name | r$      | rock rea**r** | rock rea |
 | `*`            | Matches the previous element zero or more times | o*r | d**oor**,**or**,o,l**r** | d,,o,l |
 | `+`              | Matches the previous element one or more time | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Matches the previous element zero or one time | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
@@ -96,8 +96,8 @@ There are also regular expression that can be used after the replacement. Some o
 
 | Regex  | Description                                                  | Target Text | Replace Text | Input          | Output           |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
-| `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**\[ABC\]**x_AxBC |
-| `$num` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
+| ` $0 ` | Include all matching strings in the replacement string | ABC         |  X$0X  | abc **ABC** AnBC | abc **XABCX** AnBC |
+| ` $num ` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
 
 ### FileRenamerDiff Original Regex
 

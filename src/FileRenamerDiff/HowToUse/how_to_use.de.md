@@ -65,14 +65,14 @@ Die regulären Ausdrücke (Regex) in dieser Software verwenden "Microsoft .NET" 
 
 | Regex              | Beschreibung                                           | Muster | Eingabe   | Ausgabe      |
 | ------------------ | ---------------------------------------------------------- | ------- | -------------- | ------------------ |
-| `[`ch_group`]`       | Passt auf jedes einzelne Zeichen in *ch_group*. | [ae]    | gr**a**y, L**A**N**E** | gry,LN             |
+| `[`ch_group`]`       | Passt auf jedes einzelne Zeichen in *ch_group*. | [ae]    | Gr**a**y,S**ea**,Gr**ee**n | Gry,S,Grn | 
 | `[`first`-`last`]` | Zeichenbereich: Passt auf jedes einzelne Zeichen im Bereich von *first* bis *last*. | [A-Z]   | **R**ocky4 | ocky4           |
 | `.`                | Platzhalterzeichen: Passt auf jedes einzelne Zeichen | a.e     | w**ate**r      | wr                 |
 | `\w`                 | Entspricht einem beliebigen Wortzeichen | \\w | **A**.**a** **あ**~**ä**- | . ~- |
 | `\s`               | Entspricht einem beliebigen Zeichen mit Leerzeichen | \\s     | A B　C | ABC    |
 | `\d`               | Entspricht einer beliebigen Dezimalziffer | \\d     | Rocky**4** | Rocky |
 | `^`              | Die Suche muss am Anfang des Dateinamens beginnen | ^r    | **r**ear rock | ear rock |
-| `$`              | Übereinstimmung muss am Ende des Dateinamens stehen | $r      | rock rea**r** | rock rea |
+| `$`              | Übereinstimmung muss am Ende des Dateinamens stehen | r$      | rock rea**r** | rock rea |
 | `*`            | Entspricht dem vorherigen Element null oder mehr Mal | o*r | d**oor**,**or**,o,l**r** | d,,o,l |
 | `+`              | Entspricht dem vorhergehenden Element ein oder mehrere Male | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Stimmt mit dem vorherigen Element null oder ein Mal überein | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
@@ -100,8 +100,8 @@ Es gibt auch reguläre Ausdrücke, die nach der Ersetzung verwendet werden könn
 
 | Regex  | Beschreibung                                      | Zieltext | Text-ersetzen | Eingabe        | Ausgabe          |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
-| `$0` | Include all matching strings in the replacement string       | ABC         |  \[\$0\]  |  x**ABC**x_AxBC | x**\[ABC\]**x_AxBC |
-| `$num` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
+| ` $0 ` | Include all matching strings in the replacement string       | ABC         |  X$0X  | abc **ABC** AnBC | abc **XABCX** AnBC |
+| ` $num ` | Includes the last substring matched by the capturing group that is identified by *num* | \\d\*\(\\d{3}\) | \$1       | A**0012** 34   | A**012** 34      |
 
 ### FileRenamerDiff Original Regex
 
