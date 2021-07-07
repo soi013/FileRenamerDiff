@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using Xunit;
 using FileRenamerDiff.Models;
 using System.Collections.Generic;
@@ -21,19 +21,19 @@ namespace UnitTests
             holder.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
 
             holder.Value
-                .Should().BeEmpty("‰Šú’l‚Í‹ó‚Ì‚Í‚¸");
+                .Should().BeEmpty("åˆæœŸå€¤ã¯ç©ºã®ã¯ãš");
 
             queuePropertyChanged
-                .Should().BeEmpty("‚Ü‚¾’Ê’m‚Í—ˆ‚Ä‚¢‚È‚¢‚Í‚¸");
+                .Should().BeEmpty("ã¾ã é€šçŸ¥ã¯æ¥ã¦ã„ãªã„ã¯ãš");
 
             const string newValue = "NEW_VALUE";
             holder.Value = newValue;
 
             holder.Value
-                .Should().Be(newValue, "V‚µ‚¢’l‚É•Ï‚í‚Á‚Ä‚¢‚é‚Í‚¸");
+                .Should().Be(newValue, "æ–°ã—ã„å€¤ã«å¤‰ã‚ã£ã¦ã„ã‚‹ã¯ãš");
 
             queuePropertyChanged.Dequeue()
-                    .Should().Be(nameof(ValueHolder<string>.Value), "ValueƒvƒƒpƒeƒB‚Ì•ÏX’Ê’m‚ª‚ ‚Á‚½‚Í‚¸");
+                    .Should().Be(nameof(ValueHolder<string>.Value), "Valueãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®å¤‰æ›´é€šçŸ¥ãŒã‚ã£ãŸã¯ãš");
         }
 
         [Theory]
@@ -43,6 +43,28 @@ namespace UnitTests
         [InlineData("xABCx_AxBC.txt", "ABC", "[$0]", "x[ABC]x_AxBC.txt", false)]
         //[InlineData("deleteBeforeExt.txt", @".*(?=\.\w+$)", "", ".txt", false)]
         [InlineData("deleteBeforeExt.txt", @".*(?=\.\w+$)", "", ".txt", true)]
+        [InlineData("Gray,Sea,Green", "[ae]", "", "Gry,S,Grn", true)]
+        [InlineData("Rocky4", "[A-Z]", "", "ocky4", true)]
+        [InlineData("water", "a.e", "", "wr", true)]
+        [InlineData("A.a ã‚~Ã¤-", "\\w", "", ". ~-", true)]
+        [InlineData("A Bã€€C", "\\s", "", "ABC", true)]
+        [InlineData("Rocky4", "\\d", "", "Rocky", true)]
+        [InlineData("rear rock", "^r", "", "ear rock", true)]
+        [InlineData("rock rear", "r$", "", "rock rea", true)]
+        [InlineData("door,or,o,lr", "o*r", "", "d,,o,l", true)]
+        [InlineData("door,or,o,lr", "o+r", "", "d,,o,lr", true)]
+        [InlineData("door,or,o,lr", "o?r", "", "do,,o,l", true)]
+        [InlineData("door,or,o,lr", "[or]{2}", "", "dr,,o,lr", true)]
+        [InlineData("1_2.3_45", "\\d\\.\\d", "", "1__45", true)]
+        [InlineData("abc ABC AnBC", "ABC", "X$0X", "abc XABCX AnBC", true)]
+        [InlineData("A0012 34", "\\d*(\\d{3})", "$1", "A012 34", true)]
+        //[InlineData("low UPP Pas", "[A-z]", "\\u$0", "LOW UPP PAS", true)] //SIAbstractionsã®ãƒã‚°ï¼Ÿã§å¤±æ•—ã™ã‚‹
+        //[InlineData("low UPP Pas", "[A-z]", "\\l$0", "low upp pas", true)] //SIAbstractionsã®ãƒã‚°ï¼Ÿã§å¤±æ•—ã™ã‚‹
+        [InlineData("Ha14 ï¼¦ï½•ï¼‘ï¼—", ".", "\\h$0", "Ha14 Fu17", true)]
+        [InlineData("Ha14 ï¼¦ï½•ï¼‘ï¼—", ".", "\\f$0", "ï¼¨ï½ï¼‘ï¼” ï¼¦ï½•ï¼‘ï¼—", true)]
+        [InlineData("ï½±ï¾ï¾Šï¾Ÿï¾ ï¾Šï¾ï½²ï½·ï¾", "[ï½¦-ï¾Ÿ]+", "\\f$0", "ã‚¢ãƒ³ãƒ‘ãƒ³ ãƒã‚¤ã‚­ãƒ³", true)]
+        [InlineData("sÃ¼ÃŸ Ã–L Ã„ra", "\\w?[Ã¤Ã¶Ã¼ÃŸÃ„Ã–Ãœáº]\\w?", "\\n$0", "suess OEL Aera", true)]
+
         public void Test_FileElement(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
@@ -55,56 +77,56 @@ namespace UnitTests
             var queuePropertyChanged = new Queue<string?>();
             fileElem.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
 
-            //TEST1 ‰Šúó‘Ô
+            //TEST1 åˆæœŸçŠ¶æ…‹
             fileElem.OutputFileName
-                    .Should().Be(targetFileName, "‚Ü‚¾Œ³‚Ìƒtƒ@ƒCƒ‹–¼‚Ì‚Ü‚Ü");
+                    .Should().Be(targetFileName, "ã¾ã å…ƒã®ãƒ•ã‚¡ã‚¤ãƒ«åã®ã¾ã¾");
 
             fileElem.IsReplaced
-                .Should().BeFalse("‚Ü‚¾ƒŠƒl[ƒ€•ÏX‚³‚ê‚Ä‚¢‚È‚¢‚Í‚¸");
+                .Should().BeFalse("ã¾ã ãƒªãƒãƒ¼ãƒ å¤‰æ›´ã•ã‚Œã¦ã„ãªã„ã¯ãš");
 
             fileElem.State
-                .Should().Be(RenameState.None, "‚Ü‚¾ƒŠƒl[ƒ€•Û‘¶‚µ‚Ä‚¢‚È‚¢");
+                .Should().Be(RenameState.None, "ã¾ã ãƒªãƒãƒ¼ãƒ ä¿å­˜ã—ã¦ã„ãªã„");
 
             queuePropertyChanged
-                .Should().BeEmpty("‚Ü‚¾’Ê’m‚Í—ˆ‚Ä‚¢‚È‚¢‚Í‚¸");
+                .Should().BeEmpty("ã¾ã é€šçŸ¥ã¯æ¥ã¦ã„ãªã„ã¯ãš");
 
             //TEST2 Replace
-            //ƒtƒ@ƒCƒ‹–¼‚Ìˆê•”‚ğXXX‚É•ÏX‚·‚é’uŠ·ƒpƒ^[ƒ“‚ğì¬
+            //ãƒ•ã‚¡ã‚¤ãƒ«åã®ä¸€éƒ¨ã‚’XXXã«å¤‰æ›´ã™ã‚‹ç½®æ›ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’ä½œæˆ
             var regex = new Regex(regexPattern, RegexOptions.Compiled);
             var rpRegex = new ReplaceRegex(regex, replaceText);
 
-            //ƒŠƒl[ƒ€ƒvƒŒƒrƒ…[Às
+            //ãƒªãƒãƒ¼ãƒ ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼å®Ÿè¡Œ
             fileElem.Replace(new[] { rpRegex }, isRenameExt);
 
 
             fileElem.OutputFileName
-                .Should().Be(expectedRenamedFileName, "ƒŠƒl[ƒ€•ÏXŒã‚Ìƒtƒ@ƒCƒ‹–¼‚É‚È‚Á‚½‚Í‚¸");
+                .Should().Be(expectedRenamedFileName, "ãƒªãƒãƒ¼ãƒ å¤‰æ›´å¾Œã®ãƒ•ã‚¡ã‚¤ãƒ«åã«ãªã£ãŸã¯ãš");
 
             fileElem.IsReplaced
-                .Should().BeTrue("ƒŠƒl[ƒ€•ÏX‚³‚ê‚½‚Í‚¸");
+                .Should().BeTrue("ãƒªãƒãƒ¼ãƒ å¤‰æ›´ã•ã‚ŒãŸã¯ãš");
 
             queuePropertyChanged
                 .Should().Contain(new[] { nameof(FileElementModel.OutputFileName), nameof(FileElementModel.OutputFilePath), nameof(FileElementModel.IsReplaced) });
 
             fileElem.State
-                .Should().Be(RenameState.None, "ƒŠƒl[ƒ€•ÏX‚Í‚µ‚½‚ªA‚Ü‚¾ƒŠƒl[ƒ€•Û‘¶‚µ‚Ä‚¢‚È‚¢");
+                .Should().Be(RenameState.None, "ãƒªãƒãƒ¼ãƒ å¤‰æ›´ã¯ã—ãŸãŒã€ã¾ã ãƒªãƒãƒ¼ãƒ ä¿å­˜ã—ã¦ã„ãªã„");
 
             fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
                 .Select(p => Path.GetFileName(p))
-                .Should().BeEquivalentTo(new[] { targetFileName }, "ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚Í‚Ü‚¾‘O‚Ì–¼‘O‚Ì‚Í‚¸");
+                .Should().BeEquivalentTo(new[] { targetFileName }, "ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ä¸Šã¯ã¾ã å‰ã®åå‰ã®ã¯ãš");
 
             //TEST3 Rename
             fileElem.Rename();
 
             fileElem.State
-                .Should().Be(RenameState.Renamed, "ƒŠƒl[ƒ€•Û‘¶‚³‚ê‚½‚Í‚¸");
+                .Should().Be(RenameState.Renamed, "ãƒªãƒãƒ¼ãƒ ä¿å­˜ã•ã‚ŒãŸã¯ãš");
 
             fileElem.InputFileName
-                .Should().Be(expectedRenamedFileName, "ƒŠƒl[ƒ€•Û‘¶Œã‚Ìƒtƒ@ƒCƒ‹–¼‚É‚È‚Á‚½‚Í‚¸");
+                .Should().Be(expectedRenamedFileName, "ãƒªãƒãƒ¼ãƒ ä¿å­˜å¾Œã®ãƒ•ã‚¡ã‚¤ãƒ«åã«ãªã£ãŸã¯ãš");
 
             fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
                 .Select(p => Path.GetFileName(p))
-                .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ã‚à–¼‘O‚ª•Ï‚í‚Á‚½‚Í‚¸");
+                .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ä¸Šã‚‚åå‰ãŒå¤‰ã‚ã£ãŸã¯ãš");
         }
 
         [Fact]
