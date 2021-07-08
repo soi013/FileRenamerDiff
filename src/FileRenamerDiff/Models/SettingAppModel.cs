@@ -28,6 +28,7 @@ using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
 using Utf8Json;
 using Utf8Json.Resolvers;
+using System.IO.Abstractions;
 
 using FileRenamerDiff.Properties;
 
@@ -175,9 +176,9 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// リネーム対象となるファイル種類か
         /// </summary>
-        public bool IsTargetFile(string filePath)
+        public bool IsTargetFile(IFileSystem fileSystem, string filePath)
         {
-            var fileAttributes = File.GetAttributes(filePath);
+            var fileAttributes = fileSystem.File.GetAttributes(filePath);
             //隠しファイルが対象外の設定で、隠しファイルだったらリネームしない
             if (!IsHiddenRenameTarget && fileAttributes.HasFlag(FileAttributes.Hidden))
                 return false;

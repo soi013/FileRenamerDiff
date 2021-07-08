@@ -60,7 +60,7 @@ namespace FileRenamerDiff.Models
         /// アプリケーションが待機状態か（UI購読用）
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdleUI =>
-           isIdleUI ??= isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            isIdleUI ??= isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
         private IReadOnlyReactiveProperty<bool>? isIdleUI;
 
         /// <summary>
@@ -156,8 +156,8 @@ namespace FileRenamerDiff.Models
                 .SelectMany(x =>
                     //大文字小文字を区別せず一致していたら、Inputのみ返す
                     (String.Compare(x.InputFilePath, x.OutputFilePath, true) == 0)
-                     ? new[] { x.InputFilePath }
-                     : new[] { x.InputFilePath, x.OutputFilePath })
+                        ? new[] { x.InputFilePath }
+                        : new[] { x.InputFilePath, x.OutputFilePath })
                 //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
                 .Select(x => x.ToLower())
                 .ToArray();
@@ -218,7 +218,7 @@ namespace FileRenamerDiff.Models
         private FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
             IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths
-                .Where(x => Directory.Exists(x))
+                .Where(x => fileSystem.Directory.Exists(x))
                 .ToArray();
 
             if (!sourceFilePaths.Any() || setting.IsNoFileRenameTarget())
@@ -237,7 +237,7 @@ namespace FileRenamerDiff.Models
             };
 
             IEnumerable<string> fileEnums = sourceFilePaths
-                .SelectMany(x => Directory.EnumerateFileSystemEntries(x, "*", option))
+                .SelectMany(x => fileSystem.Directory.EnumerateFileSystemEntries(x, "*", option))
                 .Distinct();
 
             var loadedFileList = fileEnums
@@ -262,7 +262,7 @@ namespace FileRenamerDiff.Models
 
             return loadedFileList
                 //設定に応じて、ディレクトリ・ファイル・隠しファイルの表示状態を変更
-                .Where(x => setting.IsTargetFile(x))
+                .Where(x => setting.IsTargetFile(fileSystem, x))
                 .Select(x => new FileElementModel(fileSystem, x))
                 .ToArray();
         }
@@ -422,7 +422,7 @@ namespace FileRenamerDiff.Models
             //FileInfoは直接のリネーム処理は追跡できるが、親ディレクトリをリネームされた場合などは追跡できない
             //したがって、全てのリネーム処理が終わった後に、存在しなくなったFileInfoを持つ要素はリストから除く
             var removedElements = this.FileElementModels
-                   .RemoveAll(x => !x.Exists);
+                    .RemoveAll(x => !x.Exists);
 
             if (removedElements.Any())
             {
@@ -494,11 +494,11 @@ namespace FileRenamerDiff.Models
             {
                 var lineText = new[]
                 {
-                    fileElem.State.ToString(),
-                    //ファイルパスにはカンマが含まれる可能性があるので、ダブルクオーテーションで囲う
-                    '"' + fileElem.PreviousInputFilePath + '"',
-                    '"' + fileElem.OutputFilePath + '"',
-                }
+                fileElem.State.ToString(),
+                //ファイルパスにはカンマが含まれる可能性があるので、ダブルクオーテーションで囲う
+                '"' + fileElem.PreviousInputFilePath + '"',
+                '"' + fileElem.OutputFilePath + '"',
+            }
                 .ConcatenateString(',');
 
                 sw.WriteLine(lineText);
@@ -508,14 +508,14 @@ namespace FileRenamerDiff.Models
         private string CreateLogFilePath()
         {
             string dirPath = FileElementModels
-                           .Select(x => x.DirectoryPath)
-                           .MinBy(x => x.Length)
-                           .FirstOrDefault() ?? string.Empty;
+                            .Select(x => x.DirectoryPath)
+                            .MinBy(x => x.Length)
+                            .FirstOrDefault() ?? string.Empty;
             if (string.IsNullOrWhiteSpace(dirPath))
                 return string.Empty;
 
             string logFilePath = Path.Combine(dirPath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
-            while (File.Exists(logFilePath))
+            while (fileSystem.File.Exists(logFilePath))
             {
                 logFilePath = AppExtention.GetFilePathWithoutExtension(logFilePath) + "_.csv";
             }
@@ -549,11 +549,11 @@ namespace FileRenamerDiff.Models
             string htmlFileName = $"how_to_use{code}.html";
             string htmlFilePath = @$".\Resources\" + htmlFileName;
             //設定言語のファイルが無かった場合は英語のマニュアルに変更する
-            if (!File.Exists(htmlFilePath))
+            if (!fileSystem.File.Exists(htmlFilePath))
                 htmlFilePath = @$".\Resources\how_to_use.html";
 
             //それでもなかったら、オンラインのマニュアルを表示させる
-            if (!File.Exists(htmlFilePath))
+            if (!fileSystem.File.Exists(htmlFilePath))
                 htmlFilePath = @$"https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use{code}.md";
 
             var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };

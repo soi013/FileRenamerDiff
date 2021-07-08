@@ -23,20 +23,20 @@ using System.IO.Abstractions;
 
 namespace FileRenamerDiff
 {
-    public partial class App : Application
+public partial class App : Application
+{
+    public static IServiceProvider Services { get; } = ConfigureServices();
+
+    private static IServiceProvider ConfigureServices()
     {
-        public static IServiceProvider Services { get; } = ConfigureServices();
+        IServiceCollection? services = new ServiceCollection()
+            .AddTransient<IFileSystem, FileSystem>()
+            .AddSingleton<Model>();
 
-        private static IServiceProvider ConfigureServices()
-        {
-            IServiceCollection? services = new ServiceCollection()
-                .AddTransient<IFileSystem, FileSystem>()
-                .AddSingleton<Model>();
+        return services.BuildServiceProvider();
+    }
 
-            return services.BuildServiceProvider();
-        }
-
-        private void Application_Startup(object sender, StartupEventArgs e)
+    private void Application_Startup(object sender, StartupEventArgs e)
         {
             SetupLoggerConfig();
             DispatcherHelper.UIDispatcher = Dispatcher;

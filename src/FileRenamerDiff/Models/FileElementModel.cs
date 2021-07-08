@@ -198,7 +198,7 @@ namespace FileRenamerDiff.Models
                 LogTo.Warning("Invalid Char included {@outFileName}", outFileName);
                 Model.Instance.MessageEvent.Value = new AppMessage(AppMessageLevel.Alert,
                     head: Resources.Alert_InvalidFileName,
-                   body: $"{InputFileName} -> {outFileName}");
+                    body: $"{InputFileName} -> {outFileName}");
 
                 outFileName = invalidCharRegex.Replace(outFileName, "_");
             }
