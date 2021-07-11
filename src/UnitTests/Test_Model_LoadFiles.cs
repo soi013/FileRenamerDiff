@@ -49,7 +49,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFileDefaultSetting_OnlyTopOnlyFileIgnoreIniHidden()
+        public async Task Test_LoadFileDefaultSetting_IgnoreIniHidden()
         {
             Model model = CreateDefaultSettingModel();
 
@@ -58,7 +58,7 @@ namespace UnitTests
             model.FileElementModels
                 .Select(f => f.InputFilePath)
                 .Should().BeEquivalentTo(
-                    new[] { filePathA, filePathB, },
+                    new[] { filePathA, filePathB, filePathDSubDir, filePathE, filePathGSubSubDir },
                     "iniファイルを除いた、トップ階層のファイルのみが列挙されるはず");
         }
 
