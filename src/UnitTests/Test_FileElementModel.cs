@@ -28,7 +28,7 @@ namespace UnitTests
         [InlineData("süß ÖL Ära", "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "suess OEL Aera", true)]
 
         public void ReplacePattern(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
-            => Test_FileElementCore(targetFileName, regexPattern, replaceText, expectedRenamedFileName, isRenameExt);
+            => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
         [Theory]
         [InlineData("LargeYChange.txt", "Y", "LargeChange.txt", false)]
@@ -48,9 +48,18 @@ namespace UnitTests
         [InlineData("door,or,o,lr", "[or]{2}", "dr,,o,lr", true)]
         [InlineData("1_2.3_45", "\\d\\.\\d", "1__45", true)]
         public void DeletePattern(string targetFileName, string regexPattern, string expectedRenamedFileName, bool isRenameExt)
-            => Test_FileElementCore(targetFileName, regexPattern, "", expectedRenamedFileName, isRenameExt);
+            => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { string.Empty }, expectedRenamedFileName, isRenameExt);
 
-        internal void Test_FileElementCore(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
+        [Theory]
+        [InlineData("Sapmle-1.txt", new[] { "\\d+", "0*(\\d{3})" }, new[] { "00$0", "$1" }, "Sapmle-001.txt", false)]
+        [InlineData("Sapmle-12.txt", new[] { "\\d+", "0*(\\d{3})" }, new[] { "00$0", "$1" }, "Sapmle-012.txt", false)]
+        [InlineData("Sapmle-123.txt", new[] { "\\d+", "0*(\\d{3})" }, new[] { "00$0", "$1" }, "Sapmle-123.txt", false)]
+        [InlineData("Sapmle-1234.txt", new[] { "\\d+", "0*(\\d{3})" }, new[] { "00$0", "$1" }, "Sapmle-1234.txt", false)]
+        [InlineData("Sapmle-N.txt", new[] { "\\d+", "0*(\\d{3})" }, new[] { "00$0", "$1" }, "Sapmle-N.txt", false)]
+        public void ReplacePatternComplex(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
+            => Test_FileElementCore(targetFileName, regexPatterns, replaceTexts, expectedRenamedFileName, isRenameExt);
+
+        internal void Test_FileElementCore(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
@@ -76,22 +85,30 @@ namespace UnitTests
                 .Should().BeEmpty("まだ通知は来ていないはず");
 
             //TEST2 Replace
-            //ファイル名の一部をXXXに変更する置換パターンを作成
-            var regex = new Regex(regexPattern, RegexOptions.Compiled);
-            var rpRegex = new ReplaceRegex(regex, replaceText);
+            //ファイル名の一部を変更する置換パターンを作成
+            var replaceRegexes = Enumerable
+                .Zip(regexPatterns, replaceTexts,
+                    (regex, replaceText) =>
+                        new ReplaceRegex(new Regex(regex, RegexOptions.Compiled), replaceText))
+                .ToArray();
 
             //リネームプレビュー実行
-            fileElem.Replace(new[] { rpRegex }, isRenameExt);
+            fileElem.Replace(replaceRegexes, isRenameExt);
 
 
             fileElem.OutputFileName
                 .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
 
+            bool shouldRename = targetFileName != expectedRenamedFileName;
             fileElem.IsReplaced
-                .Should().BeTrue("リネーム変更されたはず");
+                .Should().Be(shouldRename, "リネーム後の名前と前の名前が違うなら、リネーム変更されたはず");
 
-            queuePropertyChanged
-                .Should().Contain(new[] { nameof(FileElementModel.OutputFileName), nameof(FileElementModel.OutputFilePath), nameof(FileElementModel.IsReplaced) });
+            if (shouldRename)
+                queuePropertyChanged
+                    .Should().Contain(new[] { nameof(FileElementModel.OutputFileName), nameof(FileElementModel.OutputFilePath), nameof(FileElementModel.IsReplaced) });
+            else
+                queuePropertyChanged
+                    .Should().BeEmpty();
 
             fileElem.State
                 .Should().Be(RenameState.None, "リネーム変更はしたが、まだリネーム保存していない");
