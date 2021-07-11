@@ -267,22 +267,22 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイルから設定ファイルをデシリアライズ
         /// </summary>
-        public static SettingAppModel Deserialize(string settingFilePath)
+        public static SettingAppModel Deserialize(IFileSystem fileSystem, string settingFilePath)
         {
-            using var fileStream = new FileStream(settingFilePath, FileMode.Open);
+            using var fileStream = fileSystem.FileStream.Create(settingFilePath, FileMode.Open);
             return JsonSerializer.Deserialize<SettingAppModel>(fileStream);
         }
 
         /// <summary>
         /// ファイルに設定ファイルをシリアライズ
         /// </summary>
-        public void Serialize(string settingFilePath)
+        public void Serialize(IFileSystem fileSystem, string settingFilePath)
         {
             string? dirPath = Path.GetDirectoryName(settingFilePath);
             if (!String.IsNullOrWhiteSpace(dirPath))
-                Directory.CreateDirectory(dirPath);
+                fileSystem.Directory.CreateDirectory(dirPath);
 
-            using var fileStream = new FileStream(settingFilePath, FileMode.Create);
+            using var fileStream = fileSystem.FileStream.Create(settingFilePath, FileMode.Create);
 
             JsonSerializer.Serialize(fileStream, this);
         }

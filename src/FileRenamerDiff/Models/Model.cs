@@ -310,7 +310,7 @@ namespace FileRenamerDiff.Models
 
             try
             {
-                Setting = SettingAppModel.Deserialize(filePath);
+                Setting = SettingAppModel.Deserialize(fileSystem, filePath);
                 PreviousSettingFilePath.Value = filePath;
                 FileElementModels.Clear();
             }
@@ -330,7 +330,7 @@ namespace FileRenamerDiff.Models
 
             try
             {
-                Setting.Serialize(filePath);
+                Setting.Serialize(fileSystem, filePath);
                 PreviousSettingFilePath.Value = filePath;
             }
             catch (Exception ex)
