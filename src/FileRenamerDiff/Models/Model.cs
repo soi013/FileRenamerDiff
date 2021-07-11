@@ -159,13 +159,13 @@ namespace FileRenamerDiff.Models
                         ? new[] { x.InputFilePath }
                         : new[] { x.InputFilePath, x.OutputFilePath })
                 //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
-                .Select(x => x.ToLower())
+                .Select(x => x.ToLowerInvariant())
                 .ToArray();
 
             foreach (var fileElement in FileElementModels)
             {
                 //Windowsの場合、ファイルパスの衝突は大文字小文字を区別しないので、小文字にしておく
-                string lowPath = fileElement.OutputFilePath.ToLower();
+                string lowPath = fileElement.OutputFilePath.ToLowerInvariant();
                 int matchPathCount = lowerAllPaths
                     .Where(x => x == lowPath)
                     .Count();

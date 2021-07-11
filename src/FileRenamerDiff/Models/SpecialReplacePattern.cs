@@ -48,8 +48,8 @@ namespace FileRenamerDiff.Models
         public static IReadOnlyList<SpecialReplacePattern> Patterns { get; } =
             new SpecialReplacePattern[]
             {
-                new SpecialReplacePattern(@"^\\(u)\$(\d+)",x=>x.ToUpper()),
-                new SpecialReplacePattern(@"^\\(l)\$(\d+)",x=>x.ToLower()),
+                new SpecialReplacePattern(@"^\\(u)\$(\d+)",x=>x.ToUpperInvariant()),
+                new SpecialReplacePattern(@"^\\(l)\$(\d+)",x=>x.ToLowerInvariant()),
                 new SpecialReplacePattern(@"^\\(h)\$(\d+)",x=>x.AsciiToNarrow()),
                 new SpecialReplacePattern(@"^\\(f)\$(\d+)",x=>x.AsciiToWide().HalfKatakanaToKatakana()),
                 new SpecialReplacePattern(@"^\\(n)\$(\d+)",x=>NormalizeParaAlphabet(x)),
