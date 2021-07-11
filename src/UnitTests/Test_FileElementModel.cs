@@ -22,8 +22,8 @@ namespace UnitTests
         [InlineData("A0012 34", "\\d*(\\d{3})", "$1", "A012 34", true)]
         //[InlineData("low UPP Pas", "[A-z]", "\\u$0", "LOW UPP PAS", true)] //SIAbstractionsのバグ？で失敗する
         //[InlineData("low UPP Pas", "[A-z]", "\\l$0", "low upp pas", true)] //SIAbstractionsのバグ？で失敗する
-        [InlineData("Ha14 Ｆｕ１７", ".", "\\h$0", "Ha14 Fu17", true)]
-        [InlineData("Ha14 Ｆｕ１７", ".", "\\f$0", "Ｈａ１４ Ｆｕ１７", true)]
+        [InlineData("Ha14 Ｆｕ１７", "[Ａ-ｚ]|[０-９]", "\\h$0", "Ha14 Fu17", true)]
+        [InlineData("Ha14 Ｆｕ１７", "[A-z]|[0-9]", "\\f$0", "Ｈａ１４ Ｆｕ１７", true)]
         [InlineData("ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", "[ｦ-ﾟ]+", "\\f$0", "アンパン バイキン", true)]
         [InlineData("süß ÖL Ära", "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "suess OEL Aera", true)]
 
