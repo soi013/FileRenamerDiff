@@ -59,7 +59,7 @@ namespace FileRenamerDiff.Models
                 new(Resources.Common_ReplaceWhiteSpacesWithUnderbar,  "\\s+", "_", "A B　C.txt", true),
 
                 new(Resources.Common_AddThreeZero,  "\\d+",  "00$0", "Sapmle-12.txt", true),
-                new(Resources.Common_TakeNumberThreeDigits, "\\d*(\\d{3})", "$1", "Sapmle-0012.txt", true),
+                new(Resources.Common_TakeNumberThreeDigits, "0*(\\d{3})", "$1", "Sapmle-0012.txt", true),
 
                 new(Resources.Common_ReplaceAllExtentionToABC,  "\\.\\w+$", ".ABC", "sam.ple.txt", true),
                 new(Resources.Common_ReplaceIgnoreCase,  "(?i)abc", "x", "ABC_abc_AbC.txt", true),
