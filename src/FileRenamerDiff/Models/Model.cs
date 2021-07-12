@@ -487,7 +487,7 @@ namespace FileRenamerDiff.Models
                 return;
             string logFilePath = CreateLogFilePath();
 
-            using var sw = new StreamWriter(logFilePath);
+            using var sw = new StreamWriter(fileSystem.FileStream.Create(logFilePath, FileMode.Create));
             sw.WriteLine(renameLogHeadderTexts);
 
             foreach (var fileElem in FileElementModels.Where(x => x.State != RenameState.None))
