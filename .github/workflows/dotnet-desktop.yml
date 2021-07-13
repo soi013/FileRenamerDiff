@@ -78,23 +78,6 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build $env:App_Project_Path --configuration Release
-      - name: dotnet publish x86
-        run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
-      - name: dotnet publish x64
-        run: dotnet publish $env:App_Project_Path -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
-
-      - name: Copy artifact
-        run: |
-          mkdir -p outputs
-          cp -Literal "FileRenamerDiff_app_win-x86" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x86"
-          cp -Literal "FileRenamerDiff_app_win-x64" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x64"
-        shell: pwsh
-
-      - name: Archive publish files
-        uses: actions/upload-artifact@v1
-        with:
-          name: FileRenamerDiff_apps
-          path: outputs
 
   create-release:
     runs-on: windows-latest
@@ -118,7 +101,24 @@ jobs:
         run: |
           echo "env.repo=${{ env.repo }}"
           echo "env.version=${{ env.version }}"
+      - name: dotnet publish x86
+        run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
+      - name: dotnet publish x64
+        run: dotnet publish $env:App_Project_Path -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
 
+      - name: Copy artifact
+        run: |
+          mkdir -p outputs
+          cp -Literal "FileRenamerDiff_app_win-x86" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x86"
+          cp -Literal "FileRenamerDiff_app_win-x64" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x64"
+        shell: pwsh
+
+      - name: Archive publish files
+        uses: actions/upload-artifact@v1
+        with:
+          name: FileRenamerDiff_apps
+          path: outputs
+          
       - name: Download archives
         uses: actions/download-artifact@v2
         with:
