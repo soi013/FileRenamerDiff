@@ -39,8 +39,7 @@
 name: .NET Core Desktop
 on:
  push:
-  tags:
-    - v*
+
 jobs:
   build:
     strategy:
@@ -73,16 +72,16 @@ jobs:
         with:
           dotnet-version: 5.0.x
 
+      # Execute all unit tests in the solution
+      - name: Execute unit tests
+        run: dotnet test $env:Test_Project_Path
+
       - name: Build with dotnet
         run: dotnet build $env:App_Project_Path --configuration Release
       - name: dotnet publish x86
         run: dotnet publish $env:App_Project_Path -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
       - name: dotnet publish x64
         run: dotnet publish $env:App_Project_Path -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
-
-      # Execute all unit tests in the solution
-      - name: Execute unit tests
-        run: dotnet test $env:Test_Project_Path
 
       - name: Copy artifact
         run: |
@@ -100,6 +99,7 @@ jobs:
   create-release:
     runs-on: windows-latest
     needs: [build]
+    if: "contains( github.ref , 'v')"
     steps:
       - name: echos
         shell: bash
