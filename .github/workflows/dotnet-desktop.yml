@@ -86,7 +86,6 @@ jobs:
       - name: echos
         shell: bash
         run: |
-          echo "pwd= " ${pwd}
           echo $RELEASE_VERSION
           echo repo_full=${{ github.repository }}
           echo repo=${{ github.event.repository.name }}
@@ -95,6 +94,7 @@ jobs:
           echo version=${GITHUB_REF/refs\/tags\/v/}
           echo "repo=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+          pwd
 
       - name: confirm env value
         shell: bash
