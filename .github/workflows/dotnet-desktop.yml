@@ -110,6 +110,11 @@ jobs:
           echo "env.repo=${{ env.repo }}"
           echo "env.version=${{ env.version }}"
 
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          
       # Install the .NET Core workload
       - name: Install .NET Core
         uses: actions/setup-dotnet@v1
