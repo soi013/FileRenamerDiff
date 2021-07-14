@@ -101,9 +101,9 @@ jobs:
           echo "env.repo=${{ env.repo }}"
           echo "env.version=${{ env.version }}"
       - name: dotnet publish x86
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
+        run: dotnet publish -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
       - name: dotnet publish x64
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
+        run: dotnet publish -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
 
       - name: Copy artifact
         run: |
