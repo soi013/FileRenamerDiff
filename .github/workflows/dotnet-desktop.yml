@@ -60,6 +60,11 @@ jobs:
       # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     steps:
+      - name: Dump Github Context
+        env:
+          GitHub_Context: ${{ toJson(github) }}
+        run: echo "${GitHub_Context}"
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
