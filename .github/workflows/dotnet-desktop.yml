@@ -51,10 +51,6 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        configuration: [Release]
-
     runs-on:
       windows-latest # For a list of available runner types, refer to
       # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -84,12 +80,10 @@ jobs:
         run: dotnet build ${{ env.App_Project_Path }} --configuration Release
 
   create-release:
-    strategy:
-      matrix:
-        configuration: [Release]
     runs-on: windows-latest
     needs: [build]
     if: "contains( github.ref , 'v')"
+    
     steps:
       - name: echos
         shell: bash
@@ -114,7 +108,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          
+
       - name: dotnet publish x86
         run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
       - name: dotnet publish x64
