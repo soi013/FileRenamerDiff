@@ -153,3 +153,30 @@ Authors: sakapon
 Project Site: https://github.com/sakapon/Zipangu
 
 License: https://github.com/sakapon/Zipangu/blob/master/LICENSE
+
+
+### coverlet
+
+Authors: tonerdo
+
+Project Site: https://github.com/coverlet-coverage/coverlet
+
+License: https://licenses.nuget.org/MIT
+
+
+### System.IO.Abstractions
+
+Authors: Tatham Oddie & friends
+
+Project Site: https://github.com/System-IO-Abstractions/System.IO.Abstractions
+
+License: https://licenses.nuget.org/MIT
+
+
+### xunit
+
+Authors: James Newkirk,Brad Wilson
+
+Project Site: https://github.com/xunit/xunit
+
+License: https://raw.githubusercontent.com/xunit/xunit/master/license.txt
