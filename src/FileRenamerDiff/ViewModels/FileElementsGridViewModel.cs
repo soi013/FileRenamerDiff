@@ -33,8 +33,6 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class FileElementsGridViewModel : ViewModel
     {
-        readonly Model model = Model.Instance;
-
         /// <summary>
         /// ファイル情報コレクションのDataGrid用のICollectionView
         /// </summary>
@@ -75,7 +73,7 @@ namespace FileRenamerDiff.ViewModels
         public ReactiveCommand ClearFileElementsCommand { get; }
         public ReactiveCommand<FileElementViewModel> RemoveItemCommand { get; } = new();
 
-        public FileElementsGridViewModel()
+        public FileElementsGridViewModel(Model model)
         {
             this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();

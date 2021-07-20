@@ -1,13 +1,15 @@
 ﻿using System;
-using Xunit;
-using FileRenamerDiff.Models;
 using System.Collections.Generic;
-using FluentAssertions;
 using System.Text.RegularExpressions;
-using System.IO.Abstractions.TestingHelpers;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO.Abstractions.TestingHelpers;
+using System.Reactive.Subjects;
+using Xunit;
+using FluentAssertions;
+
+using FileRenamerDiff.Models;
 
 namespace UnitTests
 {
@@ -67,7 +69,8 @@ namespace UnitTests
                 [targetFilePath] = new MockFileData(targetFilePath)
             });
 
-            var fileElem = new FileElementModel(fileSystem, targetFilePath);
+            var messageEvent = new Subject<AppMessage>();
+            var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
             var queuePropertyChanged = new Queue<string?>();
             fileElem.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
 
@@ -129,6 +132,112 @@ namespace UnitTests
             fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
                 .Select(p => Path.GetFileName(p))
                 .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ファイルシステム上も名前が変わったはず");
+        }
+
+        [Fact]
+        public void Test_FileElement_WarningMessageInvalid()
+        {
+            string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+            {
+                [targetFilePath] = new MockFileData("ABC")
+            });
+
+            var messages = new List<AppMessage>();
+            var messageEvent = new Subject<AppMessage>();
+            messageEvent.Subscribe(x => messages.Add(x));
+
+            var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
+
+            //TEST1 初期状態
+            messages
+                .Should().BeEmpty("まだなんの警告もきていないはず");
+
+            //TEST2 Replace
+            //無効文字の置換パターン
+
+            //リネームプレビュー実行
+            fileElem.Replace(new[] { new ReplaceRegex(new Regex("A"), ":") }, false);
+
+            const string expectedFileName = "_BC.txt";
+
+            fileElem.OutputFileName
+                .Should().Be(expectedFileName, "無効文字が[_]に置き換わった置換後文字列になっているはず");
+
+            fileElem.IsReplaced
+                .Should().BeTrue("リネーム変更されたはず");
+
+            fileElem.State
+                .Should().Be(RenameState.None, "リネーム変更はしたが、まだリネーム保存していない");
+
+            messages
+                .Should().HaveCount(1, "無効文字が含まれていた警告があるはず");
+
+            //TEST3 Rename
+            fileElem.Rename();
+
+            fileElem.State
+                .Should().Be(RenameState.Renamed, "リネーム保存されたはず");
+
+            fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
+                .Select(p => Path.GetFileName(p))
+                .Should().BeEquivalentTo(new[] { expectedFileName }, "ファイルシステム上も名前が変わったはず");
+        }
+
+        [Fact]
+        public void Test_FileElement_WarningMessageCannotChange()
+        {
+            string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+            {
+                [targetFilePath] = new MockFileData("ABC") { AllowedFileShare = FileShare.Read }
+            });
+
+            var messages = new List<AppMessage>();
+            var messageEvent = new Subject<AppMessage>();
+            messageEvent.Subscribe(x => messages.Add(x));
+
+            var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
+
+            //TEST1 初期状態
+            messages
+                .Should().BeEmpty("まだなんの警告もきていないはず");
+
+            //TEST2 Replace
+            //無効文字の置換パターン
+
+            //リネームプレビュー実行
+            fileElem.Replace(new[] { new ReplaceRegex(new Regex("ABC"), "abc") }, false);
+
+            const string expectedFileName = "abc.txt";
+
+            fileElem.OutputFileName
+                .Should().Be(expectedFileName, "置換後文字列になっているはず");
+
+            fileElem.IsReplaced
+                .Should().BeTrue("リネーム変更されたはず");
+
+            fileElem.State
+                .Should().Be(RenameState.None, "リネーム変更はしたが、まだリネーム保存していない");
+
+            messages
+                .Should().BeEmpty("まだなんの警告もきていないはず");
+
+            //TEST3 Rename
+            fileElem.Rename();
+
+            fileElem.State
+                .Should().Be(RenameState.FailedToRename, "リネーム失敗したはず");
+
+            messages
+                .Should().HaveCount(1, "ファイルがリネーム失敗した警告があるはず");
+
+            fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
+                .Select(p => Path.GetFileName(p))
+                .Should().NotContain(new[] { expectedFileName }, "ファイルシステム上では変わっていないはず");
+
+            fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
+                .Should().Contain(new[] { targetFilePath }, "ファイルシステム上では変わっていないはず");
         }
     }
 }

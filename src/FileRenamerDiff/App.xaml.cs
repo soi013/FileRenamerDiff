@@ -54,7 +54,7 @@ public partial class App : Application
             var paletteHelper = new PaletteHelper();
             var theme = paletteHelper.GetTheme();
 
-            bool isDark = Model.Instance.Setting.IsAppDarkTheme;
+            bool isDark = Services.GetService<Model>()!.Setting.IsAppDarkTheme;
             theme.SetBaseTheme(
                 isDark
                     ? Theme.Dark

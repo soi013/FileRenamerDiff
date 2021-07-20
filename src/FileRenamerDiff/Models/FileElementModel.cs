@@ -23,10 +23,11 @@ using Reactive.Bindings;
 using System.Reactive;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
+using System.Reactive.Subjects;
 using Anotar.Serilog;
+using System.IO.Abstractions;
 
 using FileRenamerDiff.Properties;
-using System.IO.Abstractions;
 
 namespace FileRenamerDiff.Models
 {
@@ -55,7 +56,7 @@ namespace FileRenamerDiff.Models
     public class FileElementModel : NotificationObject
     {
         private readonly IFileSystem fileSystem;
-
+        private readonly IObserver<AppMessage> warningMessageObserver;
         private readonly bool isDirectory;
         private readonly IFileSystemInfo fsInfo;
 
@@ -159,9 +160,10 @@ namespace FileRenamerDiff.Models
         "|[\\. ]$",
         RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        public FileElementModel(IFileSystem fileSystem, string filePath)
+        public FileElementModel(IFileSystem fileSystem, string filePath, IObserver<AppMessage> warningMessageObserver)
         {
             this.fileSystem = fileSystem;
+            this.warningMessageObserver = warningMessageObserver;
             this.isDirectory = fileSystem.File.GetAttributes(filePath)
                 .HasFlag(FileAttributes.Directory);
 
@@ -196,7 +198,7 @@ namespace FileRenamerDiff.Models
             if (invalidCharRegex.IsMatch(outFileName))
             {
                 LogTo.Warning("Invalid Char included {@outFileName}", outFileName);
-                Model.Instance.MessageEvent.OnNext(new AppMessage(AppMessageLevel.Alert,
+                warningMessageObserver.OnNext(new AppMessage(AppMessageLevel.Alert,
                     head: Resources.Alert_InvalidFileName,
                     body: $"{InputFileName} -> {outFileName}"));
 
@@ -230,6 +232,11 @@ namespace FileRenamerDiff.Models
             {
                 LogTo.Warning(ex, "Fail to Rename {@fileElement}", this);
                 State = RenameState.FailedToRename;
+
+                warningMessageObserver.OnNext(new AppMessage(
+                    AppMessageLevel.Error,
+                    head: Resources.Alert_FailSaveRename,
+                    body: $"{InputFileName} -> {OutputFileName} ({DirectoryPath})"));
             }
         }
         public override string ToString() => $"{InputFileName}->{OutputFileName}";

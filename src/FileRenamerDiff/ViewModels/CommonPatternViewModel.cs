@@ -35,9 +35,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class CommonPatternViewModel
     {
-        protected Model model = Model.Instance;
-
-        readonly CommonPattern modelPattern;
+        private readonly CommonPattern modelPattern;
 
         /// <summary>
         /// パターン説明
@@ -72,7 +70,7 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public bool IsDelete { get; }
 
-        public CommonPatternViewModel(CommonPattern modelPattern, bool isDelete)
+        public CommonPatternViewModel(Model model, CommonPattern modelPattern, bool isDelete)
         {
             this.modelPattern = modelPattern;
             this.SampleDiff = AppExtention.CreateDiff(modelPattern.SampleInput, modelPattern.SampleOutput);

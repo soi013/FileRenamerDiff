@@ -40,7 +40,7 @@ namespace FileRenamerDiff.ViewModels
 
         private readonly ReactivePropertySlim<bool> limitOneceCancel = new(true);
 
-        public ProgressDialogViewModel()
+        public ProgressDialogViewModel(Model model)
         {
             this.CurrentProgessInfo = model.CurrentProgessInfo
                 .Buffer(TimeSpan.FromMilliseconds(500))

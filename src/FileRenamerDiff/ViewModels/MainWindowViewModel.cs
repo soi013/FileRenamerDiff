@@ -23,6 +23,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
+using Microsoft.Extensions.DependencyInjection;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.Properties;
@@ -31,7 +32,7 @@ namespace FileRenamerDiff.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        readonly Model model = Model.Instance;
+        private readonly Model model;
 
         /// <summary>
         /// アプリケーションタイトル文字列
@@ -55,7 +56,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ファイルVMコレクションを含んだDataGrid用VM
         /// </summary>
-        public FileElementsGridViewModel GridVM { get; } = new();
+        public FileElementsGridViewModel GridVM { get; }
 
         /// <summary>
         /// フォルダ選択メッセージでのフォルダ読込コマンド
@@ -96,8 +97,11 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel() : this(App.Services.GetService<Model>()!) { }
+        public MainWindowViewModel(Model model)
         {
+            this.model = model;
+            this.GridVM = new(model);
             this.WindowTitle = model.FileElementModels.CollectionChangedAsObservable()
                 //起動時にはCollectionChangedが動かないので、ダミーの初期値を入れておく
                 .StartWith(default(NotifyCollectionChangedEventArgs))
@@ -136,7 +140,7 @@ namespace FileRenamerDiff.ViewModels
                 .WithSubscribe(() => model.ShowHelpHtml());
 
             this.SettingVM = model.ObserveProperty(x => x.Setting)
-                .Select(x => new SettingAppViewModel(x))
+                .Select(_ => new SettingAppViewModel(model))
                 .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim<SettingAppViewModel>();
 
@@ -215,7 +219,7 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             //進行ダイアログを表示
-            var innerVM = new ProgressDialogViewModel();
+            var innerVM = new ProgressDialogViewModel(model);
             ShowDialog(innerVM, false);
             await taskLoad;
             //読込が終わったらダイアログを閉じる
@@ -233,7 +237,7 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             //進行ダイアログを表示
-            var innerVM = new ProgressDialogViewModel();
+            var innerVM = new ProgressDialogViewModel(model);
             ShowDialog(innerVM, false);
             await taskRename;
             //読込が終わったらダイアログを閉じる

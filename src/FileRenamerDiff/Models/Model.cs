@@ -28,7 +28,6 @@ using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Notifiers;
 using System.Reactive.Subjects;
 using Anotar.Serilog;
-using Microsoft.Extensions.DependencyInjection;
 using System.IO.Abstractions;
 
 using FileRenamerDiff.Properties;
@@ -41,11 +40,6 @@ namespace FileRenamerDiff.Models
     public class Model : NotificationObject
     {
         private readonly IFileSystem fileSystem;
-
-        /// <summary>
-        /// シングルトンなインスタンスを返す
-        /// </summary>
-        public static Model Instance { get; } = App.Services.GetService<Model>()!;
 
         /// <summary>
         /// アプリケーションが待機状態か（変更用）
@@ -264,7 +258,7 @@ namespace FileRenamerDiff.Models
             return loadedFileList
                 //設定に応じて、ディレクトリ・ファイル・隠しファイルの表示状態を変更
                 .Where(x => setting.IsTargetFile(fileSystem, x))
-                .Select(x => new FileElementModel(fileSystem, x))
+                .Select(x => new FileElementModel(fileSystem, x, MessageEvent))
                 .ToArray();
         }
 
@@ -274,7 +268,7 @@ namespace FileRenamerDiff.Models
 
             var addSource = paths
                 //直接追加の場合は設定に応じた隠しファイルの除外などは行わない。
-                .Select(x => new FileElementModel(fileSystem, x));
+                .Select(x => new FileElementModel(fileSystem, x, MessageEvent));
 
             this.FileElementModels.AddRange(addSource);
 
@@ -459,19 +453,6 @@ namespace FileRenamerDiff.Models
 
             if (Setting.IsCreateRenameLog)
                 SaveReplaceLog();
-
-            string failElementsText = FileElementModels
-                .Where(x => x.State == RenameState.FailedToRename)
-                .Select(x => $"{x.InputFileName} -> {x.OutputFileName} ({x.DirectoryPath})")
-                .ConcatenateString(Environment.NewLine);
-
-            if (String.IsNullOrWhiteSpace(failElementsText))
-                return;
-
-            MessageEvent.OnNext(new AppMessage(
-                AppMessageLevel.Error,
-                head: Resources.Alert_FailSaveRename,
-                body: failElementsText));
         }
 
         /// <summary>

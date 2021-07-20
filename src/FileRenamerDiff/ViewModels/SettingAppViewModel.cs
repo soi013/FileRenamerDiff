@@ -24,6 +24,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
+using Microsoft.Extensions.DependencyInjection;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.Properties;
@@ -35,8 +36,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class SettingAppViewModel : ViewModel
     {
-        readonly Model model = Model.Instance;
-        readonly SettingAppModel setting;
+        private readonly SettingAppModel setting;
 
         /// <summary>
         /// リネームファイルを検索するターゲットパスリスト
@@ -61,7 +61,6 @@ namespace FileRenamerDiff.ViewModels
         /// よく使う削除パターン集
         /// </summary>
         public IReadOnlyList<CommonPatternViewModel> CommonDeletePatternVMs { get; }
-            = CommonPattern.DeletePatterns.Select(x => new CommonPatternViewModel(x, true)).ToArray();
 
         /// <summary>
         /// 置換文字列パターン
@@ -72,7 +71,6 @@ namespace FileRenamerDiff.ViewModels
         /// よく使う置換パターン集
         /// </summary>
         public IReadOnlyList<CommonPatternViewModel> CommonReplacePatternVMs { get; }
-            = CommonPattern.ReplacePatterns.Select(x => new CommonPatternViewModel(x, false)).ToArray();
 
         /// <summary>
         /// ファイル探索時にサブディレクトリを探索するか
@@ -158,21 +156,29 @@ namespace FileRenamerDiff.ViewModels
         /// デザイナー用です　コードからは呼べません
         /// </summary>
         [Obsolete("Designer only", true)]
-        public SettingAppViewModel() : this(new()) { }
+        public SettingAppViewModel() : this(App.Services.GetService<Model>()!) { }
 
-        public SettingAppViewModel(SettingAppModel setting)
+        public SettingAppViewModel(Model model)
         {
-            this.setting = setting;
+            this.setting = model.Setting;
+
+            this.DeleteTexts = setting.DeleteTexts
+                    .ToObservableCollctionSynced(
+                        x => new ReplacePatternViewModel(x),
+                        x => x.ToReplacePattern());
+
+            this.CommonDeletePatternVMs = CommonPattern.DeletePatterns
+                    .Select(x => new CommonPatternViewModel(model, x, true))
+                    .ToArray();
 
             this.ReplaceTexts = setting.ReplaceTexts
                 .ToObservableCollctionSynced(
-                x => new ReplacePatternViewModel(x),
-                x => x.ToReplacePattern());
+                    x => new ReplacePatternViewModel(x),
+                    x => x.ToReplacePattern());
 
-            this.DeleteTexts = setting.DeleteTexts
-                .ToObservableCollctionSynced(
-                x => new ReplacePatternViewModel(x),
-                x => x.ToReplacePattern());
+            this.CommonReplacePatternVMs = CommonPattern.ReplacePatterns
+                .Select(x => new CommonPatternViewModel(model, x, false))
+                .ToArray();
 
             this.SearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePaths);
             this.ConcatedSearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.ConcatedSearchFilePaths);

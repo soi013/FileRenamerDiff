@@ -34,8 +34,6 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class DialogBaseViewModel : ViewModel
     {
-        protected Model model = Model.Instance;
-
         /// <summary>
         /// ダイアログが表示されているか
         /// Bindされるのは使用側のDialogHost
