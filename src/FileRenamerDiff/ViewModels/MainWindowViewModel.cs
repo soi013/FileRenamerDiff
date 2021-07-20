@@ -158,7 +158,6 @@ namespace FileRenamerDiff.ViewModels
 
             //アプリケーション内メッセージをダイアログで表示する
             model.MessageEventStream
-                .Where(m => m != null)
                 //同種類の警告をまとめるため、時間でバッファ
                 .Buffer(TimeSpan.FromMilliseconds(100))
                 .Where(ms => ms.Any())

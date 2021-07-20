@@ -26,11 +26,12 @@ using System.Reactive;
 using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Notifiers;
+using System.Reactive.Subjects;
 using Anotar.Serilog;
 using Microsoft.Extensions.DependencyInjection;
+using System.IO.Abstractions;
 
 using FileRenamerDiff.Properties;
-using System.IO.Abstractions;
 
 namespace FileRenamerDiff.Models
 {
@@ -100,11 +101,11 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// アプリケーション内メッセージ読み取り専用
         /// </summary>
-        public IReadOnlyReactiveProperty<AppMessage> MessageEventStream => MessageEvent;
+        public IObservable<AppMessage> MessageEventStream => MessageEvent;
         /// <summary>
         /// アプリケーション内メッセージ変更用
         /// </summary>
-        internal ReactivePropertySlim<AppMessage> MessageEvent { get; } = new();
+        internal Subject<AppMessage> MessageEvent { get; } = new();
 
         /// <summary>
         /// 処理状態メッセージ通知
@@ -202,7 +203,7 @@ namespace FileRenamerDiff.Models
 
 
                     if (!FileElementModels.Any())
-                        MessageEvent.Value = new AppMessage(AppMessageLevel.Alert, "NOT FOUND", Resources.Alert_NotFoundFileBody);
+                        MessageEvent.OnNext(new AppMessage(AppMessageLevel.Alert, "NOT FOUND", Resources.Alert_NotFoundFileBody));
                 }
                 catch (OperationCanceledException)
                 {
@@ -297,7 +298,7 @@ namespace FileRenamerDiff.Models
             this.FileElementModels.Clear();
 
             LogTo.Information("Reset Setting");
-            MessageEvent.Value = new AppMessage(AppMessageLevel.Info, head: Resources.Info_SettingsReset);
+            MessageEvent.OnNext(new AppMessage(AppMessageLevel.Info, head: Resources.Info_SettingsReset));
         }
 
         /// <summary>
@@ -336,7 +337,7 @@ namespace FileRenamerDiff.Models
             catch (Exception ex)
             {
                 LogTo.Error(ex, "Fail to Save Setting");
-                MessageEvent.Value = new AppMessage(AppMessageLevel.Error, head: Resources.Alert_FailSaveSetting, body: ex.Message);
+                MessageEvent.OnNext(new AppMessage(AppMessageLevel.Error, head: Resources.Alert_FailSaveSetting, body: ex.Message));
             }
         }
 
@@ -360,13 +361,13 @@ namespace FileRenamerDiff.Models
             if (CountConflicted.Value >= 1)
             {
                 LogTo.Warning("Some fileNames are DUPLICATED {@count}", CountConflicted.Value);
-                MessageEvent.Value = new AppMessage(
+                MessageEvent.OnNext(new AppMessage(
                     AppMessageLevel.Alert,
                     head: Resources.Alert_FileNamesDuplicated,
                     body: FileElementModels
                         .Where(x => x.IsConflicted)
                         .Select(x => x.OutputFileName)
-                        .ConcatenateString(Environment.NewLine));
+                        .ConcatenateString(Environment.NewLine)));
             }
 
             this.isIdle.Value = true;
@@ -430,10 +431,10 @@ namespace FileRenamerDiff.Models
                     .Select(x => x.InputFilePath)
                     .ConcatenateString(Environment.NewLine);
 
-                MessageEvent.Value = new AppMessage(
+                MessageEvent.OnNext(new AppMessage(
                     AppMessageLevel.Info,
                     head: Resources.Info_FileRemoved,
-                    body: body);
+                    body: body));
             }
 
             //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
@@ -467,10 +468,10 @@ namespace FileRenamerDiff.Models
             if (String.IsNullOrWhiteSpace(failElementsText))
                 return;
 
-            MessageEvent.Value = new AppMessage(
+            MessageEvent.OnNext(new AppMessage(
                 AppMessageLevel.Error,
                 head: Resources.Alert_FailSaveRename,
-                body: failElementsText);
+                body: failElementsText));
         }
 
         /// <summary>
