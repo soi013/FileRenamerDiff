@@ -1,11 +1,12 @@
-﻿using Anotar.Serilog;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+
+using Anotar.Serilog;
 
 namespace FileRenamerDiff.Views
 {
@@ -27,7 +28,7 @@ namespace FileRenamerDiff.Views
                 return;
 
             //まれに添付プロパティがnullのことがある。原因は不明
-            var attachedDocument = GetDocument(richTextBox) ?? new FlowDocument();
+            FlowDocument attachedDocument = GetDocument(richTextBox) ?? new();
 
             //FlowDocumentは1つのRichTextBoxにしか設定できない。
             //すでに他のRichTextBoxに所属しているなら、コピーを作成・設定する

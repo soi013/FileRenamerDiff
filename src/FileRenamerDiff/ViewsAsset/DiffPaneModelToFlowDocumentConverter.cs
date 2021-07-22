@@ -57,7 +57,7 @@ namespace FileRenamerDiff.Views
             };
 
         private static Run ConvertPieceVmToRun(DiffPiece pieceVM) =>
-            new Run
+            new()
             {
                 Text = pieceVM.Text,
                 Foreground = (pieceVM.Type == ChangeType.Unchanged)

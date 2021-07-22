@@ -156,7 +156,7 @@ namespace FileRenamerDiff.ViewModels
         /// デザイナー用です　コードからは呼べません
         /// </summary>
         [Obsolete("Designer only", true)]
-        public SettingAppViewModel() : this(App.Services.GetService<MainModel>()!) { }
+        public SettingAppViewModel() : this(DesignerModel.MainModelForDesigner) { }
 
         public SettingAppViewModel(MainModel mainModel)
         {
@@ -290,7 +290,7 @@ namespace FileRenamerDiff.ViewModels
             //Model側から変更されることは無いはずなので、初期値のみ読込
             //リストにない言語の場合は、Autoに設定する
             var modelCultureInfo = CultureInfo.GetCultureInfo(setting.AppLanguageCode ?? "");
-            if (!this.AvailableLanguages.Contains(modelCultureInfo))
+            if (!AvailableLanguages.Contains(modelCultureInfo))
                 modelCultureInfo = CultureInfo.InvariantCulture;
 
             var rp = new ReactivePropertySlim<CultureInfo>(modelCultureInfo);

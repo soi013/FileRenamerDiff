@@ -16,7 +16,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     class DesignerModel
     {
-        const string targetDirPath = @"D:\FileRenamerDiff_Test";
+        private const string targetDirPath = @"D:\FileRenamerDiff_Test";
 
         /// <summary>
         /// デザイナー用です　コードからは呼べません

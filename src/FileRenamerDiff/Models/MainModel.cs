@@ -263,6 +263,10 @@ namespace FileRenamerDiff.Models
                 .ToArray();
         }
 
+        /// <summary>
+        /// ファイルリストへの直接追加
+        /// </summary>
+        /// <param name="paths">追加するファイルパス（隠しファイルの除外などは行わない）</param>
         internal void AddTargetFiles(IEnumerable<string> paths)
         {
             this.isIdle.Value = false;

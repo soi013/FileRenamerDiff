@@ -61,7 +61,7 @@ namespace UnitTests
         public void ReplacePatternComplex(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
             => Test_FileElementCore(targetFileName, regexPatterns, replaceTexts, expectedRenamedFileName, isRenameExt);
 
-        internal void Test_FileElementCore(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
+        internal static void Test_FileElementCore(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
@@ -89,7 +89,7 @@ namespace UnitTests
 
             //TEST2 Replace
             //ファイル名の一部を変更する置換パターンを作成
-            var replaceRegexes = Enumerable
+            ReplaceRegex[] replaceRegexes = Enumerable
                 .Zip(regexPatterns, replaceTexts,
                     (regex, replaceText) =>
                         new ReplaceRegex(new Regex(regex, RegexOptions.Compiled), replaceText))

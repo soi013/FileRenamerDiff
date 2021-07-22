@@ -40,7 +40,7 @@ namespace FileRenamerDiff.Views
 
         private static void Parent_SizeChanged(FrameworkElement targetObj, Panel panel, bool isWidth, double ratio)
         {
-            var otherSumSize = panel.Children
+            double otherSumSize = panel.Children
                 .Cast<FrameworkElement>()
                 .Where(x => x != targetObj)
                 .Sum(x => isWidth ? x.ActualWidth : x.ActualHeight);

@@ -47,7 +47,7 @@ namespace FileRenamerDiff.Views
         /// </summary>
         public static void RemoveItemFromParent(DependencyObject elementInItem)
         {
-            var (targetList, index) = GetParentListAndIndex(elementInItem);
+            (IEnumerable? targetList, int index) = GetParentListAndIndex(elementInItem);
 
             if (targetList == null || index < 0)
                 return;
@@ -74,7 +74,7 @@ namespace FileRenamerDiff.Views
 
             //指定されたオブジェクトのVisualTree上の親を順番に探索し、ItemsControlを探す。
             //ただし、DataGridは中間にいるDataGridCellsPresenterは無視する
-            while (parent != null && !(parent is ItemsControl) || parent is DataGridCellsPresenter)
+            while (parent is (not null and not ItemsControl) or DataGridCellsPresenter)
             {
                 parent = VisualTreeHelper.GetParent(parent);
                 parentTree.Add(parent);
@@ -83,7 +83,7 @@ namespace FileRenamerDiff.Views
                 return (null, -1);
 
             //ItemsControlの行にあたるオブジェクトを探索履歴の後ろから検索
-            var item = parentTree
+            DependencyObject? item = parentTree
                 .LastOrDefault(x => itemsControl.IsItemItsOwnContainer(x));
 
             //削除するIndexを取得
@@ -91,7 +91,7 @@ namespace FileRenamerDiff.Views
                 ?? -1;
 
             //Bindingしていた場合はItemsSource、違うならItemsから削除する
-            IEnumerable targetList = (itemsControl.ItemsSource ?? itemsControl.Items);
+            IEnumerable targetList = itemsControl.ItemsSource ?? itemsControl.Items;
 
             return (targetList, removeIndex);
         }

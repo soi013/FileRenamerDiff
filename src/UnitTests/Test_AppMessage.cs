@@ -16,8 +16,6 @@ namespace UnitTests
         [Fact]
         public void AppMessageHeadMerge()
         {
-            var queuePropertyChanged = new Queue<string?>();
-
             var messages = new AppMessage[]
             {
                 new (AppMessageLevel.Info, "HEADTEXT", "A1"),

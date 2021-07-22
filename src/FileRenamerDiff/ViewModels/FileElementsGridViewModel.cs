@@ -67,10 +67,22 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactivePropertySlim<bool> IsVisibleConflictedOnly { get; } = new(false);
 
+        /// <summary>
+        /// ファイルが1つでもあるか
+        /// </summary>
         public ReadOnlyReactivePropertySlim<bool> IsAnyFiles { get; }
 
+        /// <summary>
+        /// 直接ファイル追加
+        /// </summary>
         public ReactiveCommand<IReadOnlyList<string>> AddTargetFilesCommand { get; }
+        /// <summary>
+        /// ファイルリストの全消去
+        /// </summary>
         public ReactiveCommand ClearFileElementsCommand { get; }
+        /// <summary>
+        /// ファイルからの削除
+        /// </summary>
         public ReactiveCommand<FileElementViewModel> RemoveItemCommand { get; } = new();
 
         /// <summary>
@@ -135,7 +147,7 @@ namespace FileRenamerDiff.ViewModels
 
         private ICollectionView CreateCollectionViewFilePathVMs(object fVMs)
         {
-            var cView = CollectionViewSource.GetDefaultView(fVMs);
+            ICollectionView cView = CollectionViewSource.GetDefaultView(fVMs);
             cView.Filter = (x => GetVisibleRow(x));
             return cView;
         }
@@ -150,8 +162,8 @@ namespace FileRenamerDiff.ViewModels
             if (row is not FileElementViewModel pathVM)
                 return true;
 
-            var replacedVisible = !IsVisibleReplacedOnly.Value || pathVM.IsReplaced.Value;
-            var conflictedVisible = !IsVisibleConflictedOnly.Value || pathVM.IsConflicted.Value;
+            bool replacedVisible = !IsVisibleReplacedOnly.Value || pathVM.IsReplaced.Value;
+            bool conflictedVisible = !IsVisibleConflictedOnly.Value || pathVM.IsConflicted.Value;
 
             return replacedVisible && conflictedVisible;
         }

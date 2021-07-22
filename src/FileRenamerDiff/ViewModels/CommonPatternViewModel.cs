@@ -65,20 +65,13 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReactiveCommand AddSettingCommand { get; } = new();
 
-        /// <summary>
-        /// 削除パターンか置換パターンか
-        /// </summary>
-        public bool IsDelete { get; }
-
         public CommonPatternViewModel(MainModel mainModel, CommonPattern modelPattern, bool isDelete)
         {
             this.modelPattern = modelPattern;
             this.SampleDiff = AppExtention.CreateDiff(modelPattern.SampleInput, modelPattern.SampleOutput);
 
-            this.IsDelete = isDelete;
-
             AddSettingCommand.Subscribe(() =>
-                (IsDelete ? mainModel.Setting.DeleteTexts : mainModel.Setting.ReplaceTexts)
+                (isDelete ? mainModel.Setting.DeleteTexts : mainModel.Setting.ReplaceTexts)
                 .Add(modelPattern.ToReplacePattern()));
         }
     }

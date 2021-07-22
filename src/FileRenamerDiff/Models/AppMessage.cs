@@ -83,7 +83,7 @@ namespace FileRenamerDiff.Models
 
 
             static AppMessage CreateMessage(AppMessage currentMessage, StringBuilder stbBody) =>
-                new AppMessage(
+                new(
                         currentMessage.MessageLevel,
                         currentMessage.MessageHead,
                         stbBody.ToString().TrimEnd('\r', '\n'));

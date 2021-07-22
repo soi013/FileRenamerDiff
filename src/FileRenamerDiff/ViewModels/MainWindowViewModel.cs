@@ -187,8 +187,8 @@ namespace FileRenamerDiff.ViewModels
 
         private void ShowDialog(DialogBaseViewModel innerVM, bool canCloseAwayDialog = true)
         {
-            this.DialogContentVM.Value = innerVM;
-            this.CloseOnClickAwayDialog.Value = canCloseAwayDialog;
+            DialogContentVM.Value = innerVM;
+            CloseOnClickAwayDialog.Value = canCloseAwayDialog;
             innerVM.IsDialogOpen.Value = true;
         }
         private async Task ShowDialogAsync(DialogBaseViewModel innerVM, bool canCloseAwayDialog = true)
@@ -198,7 +198,7 @@ namespace FileRenamerDiff.ViewModels
         }
 
         private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) =>
-           !String.IsNullOrWhiteSpace(fsMessage.Response) && fsMessage.SelectedPaths.Any(x => !String.IsNullOrWhiteSpace(x))
+           !string.IsNullOrWhiteSpace(fsMessage.Response) && fsMessage.SelectedPaths.Any(x => !string.IsNullOrWhiteSpace(x))
                 ? LoadFileFromNewPath(fsMessage.SelectedPaths)
                 : Task.CompletedTask;
 
@@ -211,7 +211,7 @@ namespace FileRenamerDiff.ViewModels
         private async Task LoadFilesFromCurrentPath()
         {
             //ファイル読込を開始する
-            var taskLoad = mainModel.LoadFileElements();
+            Task taskLoad = mainModel.LoadFileElements();
 
             //一定時間経過しても処理が終了していなかったら、
             await Task.WhenAny(Task.Delay(500), taskLoad);
@@ -229,7 +229,7 @@ namespace FileRenamerDiff.ViewModels
         private async Task RenameExcute()
         {
             //リネーム実行を開始する
-            var taskRename = mainModel.RenameExcute();
+            Task taskRename = mainModel.RenameExcute();
 
             //一定時間経過しても処理が終了していなかったら、
             await Task.WhenAny(Task.Delay(500), taskRename);

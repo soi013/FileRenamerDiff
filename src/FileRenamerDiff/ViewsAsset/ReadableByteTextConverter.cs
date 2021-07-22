@@ -30,7 +30,7 @@ namespace FileRenamerDiff.Views
 
             // Adjust the format string to your preferences. For example "{0:0.#}{1}" would
             // show a single decimal place, and no space.
-            return String.Format("{0:0.##} {1}", lengthByte, sizes[order]);
+            return string.Format("{0:0.##} {1}", lengthByte, sizes[order]);
         }
 
         public override long ConvertBack(string value, object parameter, CultureInfo culture) => default;

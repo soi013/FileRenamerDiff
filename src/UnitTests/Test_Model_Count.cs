@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using Xunit;
 using FluentAssertions;
 using System.IO.Abstractions.TestingHelpers;
-
-using FileRenamerDiff.Models;
 using Reactive.Bindings;
 using System.Reactive.Linq;
+
+using FileRenamerDiff.Models;
 
 namespace UnitTests
 {

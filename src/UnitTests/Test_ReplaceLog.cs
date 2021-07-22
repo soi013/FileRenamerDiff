@@ -48,8 +48,11 @@ namespace UnitTests
                 return;
             }
 
-            var logFilePath = fileSystem.AllFiles.Where(x => x.Contains("RenameLog")).FirstOrDefault();
-            string logContent = fileSystem.File.ReadAllText(logFilePath);
+            string? logFilePath = fileSystem.AllFiles.Where(x => x.Contains("RenameLog")).FirstOrDefault();
+            string? logContent = logFilePath is null
+                ? null
+                : fileSystem.File.ReadAllText(logFilePath);
+
             logContent
                 .Should().Contain("A.txt", "リネームログがあるはず");
             logContent

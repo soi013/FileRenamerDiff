@@ -26,16 +26,16 @@ namespace FileRenamerDiff.Views
         protected override void OnAttached()
         {
             base.OnAttached();
-            this.AssociatedObject.AllowDrop = true;
-            this.AssociatedObject.PreviewDragOver += OnPreviewDragOver;
-            this.AssociatedObject.Drop += OnDrop;
+            AssociatedObject.AllowDrop = true;
+            AssociatedObject.PreviewDragOver += OnPreviewDragOver;
+            AssociatedObject.Drop += OnDrop;
         }
 
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            this.AssociatedObject.PreviewDragOver -= OnPreviewDragOver;
-            this.AssociatedObject.Drop -= OnDrop;
+            AssociatedObject.PreviewDragOver -= OnPreviewDragOver;
+            AssociatedObject.Drop -= OnDrop;
         }
 
         private void OnPreviewDragOver(object sender, System.Windows.DragEventArgs e)
@@ -46,7 +46,7 @@ namespace FileRenamerDiff.Views
             e.Handled = true;
         }
 
-        static string[]? ToFilePaths(IDataObject data) =>
+        private static string[]? ToFilePaths(IDataObject data) =>
             !data.GetDataPresent(DataFormats.FileDrop)
             ? null
             : (data.GetData(DataFormats.FileDrop) as string[]);
@@ -56,7 +56,7 @@ namespace FileRenamerDiff.Views
             if (!Command.CanExecute(e))
                 return;
 
-            var paths = ToFilePaths(e.Data)
+            string[]? paths = ToFilePaths(e.Data)
                 ?.Where(x => !String.IsNullOrWhiteSpace(x))
                 .ToArray();
 
