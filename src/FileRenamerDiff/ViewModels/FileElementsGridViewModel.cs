@@ -73,6 +73,12 @@ namespace FileRenamerDiff.ViewModels
         public ReactiveCommand ClearFileElementsCommand { get; }
         public ReactiveCommand<FileElementViewModel> RemoveItemCommand { get; } = new();
 
+        /// <summary>
+        /// デザイナー用です　コードからは呼べません
+        /// </summary>
+        [Obsolete("Designer only", true)]
+        public FileElementsGridViewModel() : this(DesignerModel.MainModelForDesigner) { }
+
         public FileElementsGridViewModel(MainModel mainModel)
         {
             this.CountReplaced = mainModel.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();

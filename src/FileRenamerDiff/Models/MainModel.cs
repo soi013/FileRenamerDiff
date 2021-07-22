@@ -188,13 +188,7 @@ namespace FileRenamerDiff.Models
             {
                 try
                 {
-                    await Task.Run(() =>
-                    {
-                        this.FileElementModels.Clear();
-                        FileElementModel[] addFileElements = LoadFileElementsCore(Setting, progressNotifier, CancelWork.Token);
-                        this.FileElementModels.AddRange(addFileElements);
-                    });
-
+                    await Task.Run(() => LoadFileElementsCore(CancelWork));
 
                     if (!FileElementModels.Any())
                         MessageEvent.OnNext(new AppMessage(AppMessageLevel.Alert, "NOT FOUND", Resources.Alert_NotFoundFileBody));
@@ -210,7 +204,14 @@ namespace FileRenamerDiff.Models
             LogTo.Debug("File Load Ended");
         }
 
-        private FileElementModel[] LoadFileElementsCore(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
+        internal void LoadFileElementsCore(CancellationTokenSource? tokenSource)
+        {
+            FileElementModels.Clear();
+            FileElementModel[] addFileElements = GetFileElements(Setting, progressNotifier, tokenSource?.Token);
+            FileElementModels.AddRange(addFileElements);
+        }
+
+        private FileElementModel[] GetFileElements(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken? cancellationToken)
         {
             IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths
                 .Where(x => fileSystem.Directory.Exists(x))
@@ -244,7 +245,7 @@ namespace FileRenamerDiff.Models
                         if ((i & 0xFF) != 0)
                             return;
                         progress?.Report(new(i, $"File Loaded {x}"));
-                        cancellationToken.ThrowIfCancellationRequested();
+                        cancellationToken?.ThrowIfCancellationRequested();
                     })
                 .ToList();
 
@@ -253,7 +254,7 @@ namespace FileRenamerDiff.Models
             loadedFileList.Sort();
             loadedFileList.Reverse();
 
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellationToken?.ThrowIfCancellationRequested();
 
             return loadedFileList
                 //設定に応じて、ディレクトリ・ファイル・隠しファイルの表示状態を変更
@@ -341,31 +342,34 @@ namespace FileRenamerDiff.Models
         internal async Task Replace()
         {
             LogTo.Information("Replace Start");
-            this.isIdle.Value = false;
-            await Task.Run(() =>
-            {
-                var regexes = CreateRegexes();
-                Parallel.ForEach(FileElementModels,
-                    x => x.Replace(regexes, Setting.IsRenameExt));
+            isIdle.Value = false;
 
-                //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
-                UpdateCountReplacedAndConflicted();
-            });
+            await Task.Run(() => ReplaceCore());
 
-            if (CountConflicted.Value >= 1)
-            {
-                LogTo.Warning("Some fileNames are DUPLICATED {@count}", CountConflicted.Value);
-                MessageEvent.OnNext(new AppMessage(
-                    AppMessageLevel.Alert,
-                    head: Resources.Alert_FileNamesDuplicated,
-                    body: FileElementModels
-                        .Where(x => x.IsConflicted)
-                        .Select(x => x.OutputFileName)
-                        .ConcatenateString(Environment.NewLine)));
-            }
-
-            this.isIdle.Value = true;
+            isIdle.Value = true;
             LogTo.Information("Replace Ended");
+        }
+
+        internal void ReplaceCore()
+        {
+            List<ReplaceRegex> regexes = CreateRegexes();
+            Parallel.ForEach(FileElementModels,
+                x => x.Replace(regexes, Setting.IsRenameExt));
+
+            //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
+            UpdateCountReplacedAndConflicted();
+
+            if (CountConflicted.Value < 1)
+                return;
+
+            LogTo.Warning("Some fileNames are DUPLICATED {@count}", CountConflicted.Value);
+            MessageEvent.OnNext(new AppMessage(
+                AppMessageLevel.Alert,
+                head: Resources.Alert_FileNamesDuplicated,
+                body: FileElementModels
+                    .Where(x => x.IsConflicted)
+                    .Select(x => x.OutputFileName)
+                    .ConcatenateString(Environment.NewLine)));
         }
 
         /// <summary>

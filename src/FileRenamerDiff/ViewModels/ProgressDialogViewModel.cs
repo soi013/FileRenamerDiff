@@ -40,6 +40,12 @@ namespace FileRenamerDiff.ViewModels
 
         private readonly ReactivePropertySlim<bool> limitOneceCancel = new(true);
 
+        /// <summary>
+        /// デザイナー用です　コードからは呼べません
+        /// </summary>
+        [Obsolete("Designer only", true)]
+        public ProgressDialogViewModel() : this(DesignerModel.MainModelForDesigner) { }
+
         public ProgressDialogViewModel(MainModel mainModel)
         {
             this.CurrentProgessInfo = mainModel.CurrentProgessInfo
