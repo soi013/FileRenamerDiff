@@ -9,13 +9,9 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Globalization;
 
-using Anotar.Serilog;
-using Serilog.Events;
-using Livet.Messaging;
 using MaterialDesignThemes.Wpf;
 
 using FileRenamerDiff.Models;
-using System.Windows.Controls;
 
 namespace FileRenamerDiff.Views
 {
@@ -37,19 +33,19 @@ namespace FileRenamerDiff.Views
     [ValueConversion(typeof(AppMessageLevel), typeof(Brush))]
     public class LogEventLevelToBrushConverter : GenericConverter<AppMessageLevel, Brush>
     {
-        private static readonly Brush normalBrush = (SolidColorBrush)App.Current.Resources["MaterialDesignBody"];
+        private static readonly Brush normalBrush = App.Current.Resources["MaterialDesignBody"] as SolidColorBrush
+            ?? Colors.White.ToSolidColorBrush(true);
+
         private static readonly Brush alertBrush = Colors.Orange.ToSolidColorBrush(true);
         private static readonly Brush errorBrush = Colors.Red.ToSolidColorBrush(true);
 
-        public override Brush Convert(AppMessageLevel level, object parameter, CultureInfo culture)
-        {
-            return level switch
+        public override Brush Convert(AppMessageLevel level, object parameter, CultureInfo culture) =>
+            level switch
             {
                 AppMessageLevel.Alert => alertBrush,
                 AppMessageLevel.Error => errorBrush,
                 _ => normalBrush,
             };
-        }
 
         public override AppMessageLevel ConvertBack(Brush value, object parameter, CultureInfo culture) => default;
     }

@@ -18,6 +18,10 @@
    d:DesignWidth="1200"
    mc:Ignorable="d">
    <UserControl.Resources>
+      <v:BoolToBrushConverter
+         x:Key="IsOkToBrushConverter"
+         FalseBrush="{StaticResource ValidationErrorBrush}"
+         TrueBrush="{StaticResource PrimaryHueMidBrush}" />
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
    </UserControl.Resources>
    <behaviors:Interaction.Behaviors>
@@ -127,13 +131,14 @@
                   <materialDesign:Badged
                      Margin="1,8,1,1"
                      Padding="0,0,3,0"
+                     BadgeBackground="{Binding IsNotConflictedAny.Value, Converter={StaticResource IsOkToBrushConverter}, Mode=OneWay}"
                      BadgeColorZoneMode="PrimaryMid"
                      DataContext="{Binding DataContext, ElementName=rootObj}"
                      ToolTip="{x:Static properties:Resources.Grid_Conflicted}">
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>
-                     <ToggleButton IsChecked="{Binding IsVisibleConflictedOnly.Value}">
+                     <ToggleButton Foreground="{Binding IsNotConflictedAny.Value, Converter={StaticResource IsOkToBrushConverter}, Mode=OneWay}" IsChecked="{Binding IsVisibleConflictedOnly.Value}">
                         <materialDesign:PackIcon Kind="FolderAlert" />
                      </ToggleButton>
                   </materialDesign:Badged>
