@@ -100,6 +100,8 @@ jobs:
           echo version=${GITHUB_REF/refs\/tags\/v/}
           echo "repo=${{ github.event.repository.name }}" >> $GITHUB_ENV
           echo "version=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+          echo "app_x86_name=${{ env.App_Name }}_app_win-x86_ver${{ env.version }}" >> $GITHUB_ENV
+          echo "app_x64_name=${{ env.App_Name }}_app_win-x64_ver${{ env.version }}" >> $GITHUB_ENV
           pwd
 
       - name: confirm env value
@@ -107,6 +109,8 @@ jobs:
         run: |
           echo "env.repo=${{ env.repo }}"
           echo "env.version=${{ env.version }}"
+          echo "app_x86_name=${{ env.app_x86_name }}"
+          echo "app_x64_name=${{ env.app_x64_name }}"
 
       - name: Checkout
         uses: actions/checkout@v2
@@ -114,15 +118,15 @@ jobs:
           fetch-depth: 0
 
       - name: dotnet publish x86
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x86
+        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x86_name }}
       - name: dotnet publish x64
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o FileRenamerDiff_app_win-x64
+        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x64_name }}
 
       - name: Copy artifact
         run: |
           mkdir -p outputs
-          cp -Literal "FileRenamerDiff_app_win-x86" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x86"
-          cp -Literal "FileRenamerDiff_app_win-x64" -Recurse -Destination "outputs\FileRenamerDiff_app_win-x64"
+          cp -Literal "${{ env.app_x86_name }}" -Recurse -Destination "outputs\${{ env.app_x86_name }}"
+          cp -Literal "${{ env.app_x64_name }}" -Recurse -Destination "outputs\${{ env.app_x64_name }}"
         shell: pwsh
 
       - name: Archive publish files
@@ -148,8 +152,8 @@ jobs:
       - name: Archive packages
         shell: pwsh
         run: |
-          Compress-Archive -Path outputs\FileRenamerDiff_app_win-x64 -DestinationPath FileRenamerDiff_app_win-x64.ver${{ env.version }}.zip
-          Compress-Archive -Path outputs\FileRenamerDiff_app_win-x86 -DestinationPath FileRenamerDiff_app_win-x86.ver${{ env.version }}.zip
+          Compress-Archive -Path outputs\${{ env.app_x86_name }} -DestinationPath ${{ env.app_x86_name }}.zip
+          Compress-Archive -Path outputs\${{ env.app_x64_name }} -DestinationPath ${{ env.app_x64_name }}.zip
 
       - name: Upload Release Asset
         uses: csexton/release-asset-action@v2
@@ -157,8 +161,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           release-url: ${{ steps.create_release.outputs.upload_url }}
           files: |
-            FileRenamerDiff_app_win-x86.ver${{ env.version }}.zip
-            FileRenamerDiff_app_win-x64.ver${{ env.version }}.zip
+            ${{ env.app_x86_name }}.zip
+            ${{ env.app_x64_name }}.zip
 
     #
     # Decode the base 64 encoded pfx and save the Signing_Certificate
