@@ -40,11 +40,11 @@ namespace UnitTests
                 [filePathHSubHiddenDir] = new MockDirectoryData() { Attributes = FileAttributes.Directory | FileAttributes.Hidden },
             });
         }
-        private static Model CreateDefaultSettingModel()
+        private static MainModel CreateDefaultSettingModel()
         {
             MockFileSystem fileSystem = CreateMockFileSystem();
 
-            var model = new Model(fileSystem);
+            var model = new MainModel(fileSystem);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             return model;
@@ -53,7 +53,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFileDefaultSetting_IgnoreIniHidden()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             await model.LoadFileElements();
 
@@ -67,7 +67,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_All()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             model.Setting.IgnoreExtensions.Clear();
             model.Setting.IsFileRenameTarget = true;
@@ -88,7 +88,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_OnlyDir()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             model.Setting.IgnoreExtensions.Clear();
             model.Setting.IsFileRenameTarget = false;
@@ -108,7 +108,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_OnlyFile()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             model.Setting.IgnoreExtensions.Clear();
             model.Setting.IsFileRenameTarget = true;
@@ -129,7 +129,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_OnlyTopIgnoreHidden()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             model.Setting.IgnoreExtensions.Clear();
             model.Setting.IsFileRenameTarget = true;

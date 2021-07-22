@@ -38,11 +38,11 @@ namespace UnitTests
                 [filePathF] = new MockFileData("F"),
             });
         }
-        private static Model CreateDefaultSettingModel()
+        private static MainModel CreateDefaultSettingModel()
         {
             MockFileSystem fileSystem = CreateMockFileSystem();
 
-            var model = new Model(fileSystem);
+            var model = new MainModel(fileSystem);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             return model;
@@ -51,7 +51,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_CountZero()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             await model.LoadFileElements();
 
@@ -78,7 +78,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_CountNoConflict()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             await model.LoadFileElements();
 
@@ -103,7 +103,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_CountConflict()
         {
-            Model model = CreateDefaultSettingModel();
+            MainModel model = CreateDefaultSettingModel();
 
             await model.LoadFileElements();
 

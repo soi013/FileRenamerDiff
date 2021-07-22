@@ -31,7 +31,7 @@ public partial class App : Application
     {
         IServiceCollection? services = new ServiceCollection()
             .AddTransient<IFileSystem, FileSystem>()
-            .AddSingleton<Model>();
+            .AddSingleton<MainModel>();
 
         return services.BuildServiceProvider();
     }
@@ -54,7 +54,7 @@ public partial class App : Application
             var paletteHelper = new PaletteHelper();
             var theme = paletteHelper.GetTheme();
 
-            bool isDark = Services.GetService<Model>()!.Setting.IsAppDarkTheme;
+            bool isDark = Services.GetService<MainModel>()!.Setting.IsAppDarkTheme;
             theme.SetBaseTheme(
                 isDark
                     ? Theme.Dark

@@ -32,7 +32,7 @@ namespace FileRenamerDiff.ViewModels
 {
     public class MainWindowViewModel : ViewModel
     {
-        private readonly Model model;
+        private readonly MainModel mainModel;
 
         /// <summary>
         /// アプリケーションタイトル文字列
@@ -42,7 +42,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// アプリケーションが待機状態か
         /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsIdle => model.IsIdleUI;
+        public IReadOnlyReactiveProperty<bool> IsIdle => mainModel.IsIdleUI;
 
         /// <summary>
         /// ダイアログ表示VM
@@ -97,33 +97,33 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
-        public MainWindowViewModel() : this(App.Services.GetService<Model>()!) { }
-        public MainWindowViewModel(Model model)
+        public MainWindowViewModel() : this(App.Services.GetService<MainModel>()!) { }
+        public MainWindowViewModel(MainModel mainModel)
         {
-            this.model = model;
-            this.GridVM = new(model);
-            this.WindowTitle = model.FileElementModels.CollectionChangedAsObservable()
+            this.mainModel = mainModel;
+            this.GridVM = new(mainModel);
+            this.WindowTitle = mainModel.FileElementModels.CollectionChangedAsObservable()
                 //起動時にはCollectionChangedが動かないので、ダミーの初期値を入れておく
                 .StartWith(default(NotifyCollectionChangedEventArgs))
-                .Select(_ => model.FileElementModels.Count > 0 ? model.Setting.ConcatedSearchFilePaths : String.Empty)
+                .Select(_ => mainModel.FileElementModels.Count > 0 ? mainModel.Setting.ConcatedSearchFilePaths : String.Empty)
                 .Select(x => $"FILE RENAMER DIFF | {x}")
                 .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim<string>();
 
             this.ReplaceCommand = new[]
                 {
-                    model.FileElementModels.ObserveIsAny(),
+                    mainModel.FileElementModels.ObserveIsAny(),
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.Replace());
+                .WithSubscribe(() => mainModel.Replace());
 
             this.RenameExcuteCommand = (new[]
                 {
-                    model.CountReplaced.Select(x => x > 0),
-                    model.CountConflicted.Select(x => x <= 0),
+                    mainModel.CountReplaced.Select(x => x > 0),
+                    mainModel.CountConflicted.Select(x => x <= 0),
                     IsIdle,
                 })
                 .CombineLatestValuesAreAllTrue()
@@ -137,10 +137,10 @@ namespace FileRenamerDiff.ViewModels
 
             this.ShowHelpPageCommand = IsIdle
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.ShowHelpHtml());
+                .WithSubscribe(() => mainModel.ShowHelpHtml());
 
-            this.SettingVM = model.ObserveProperty(x => x.Setting)
-                .Select(_ => new SettingAppViewModel(model))
+            this.SettingVM = mainModel.ObserveProperty(x => x.Setting)
+                .Select(_ => new SettingAppViewModel(mainModel))
                 .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim<SettingAppViewModel>();
 
@@ -158,10 +158,10 @@ namespace FileRenamerDiff.ViewModels
 
             this.AddFilesFromDialogCommand = IsIdle
                 .ToReactiveCommand<OpeningFileSelectionMessage>()
-                .WithSubscribe(x => model.AddTargetFiles(x.Response ?? Array.Empty<string>()));
+                .WithSubscribe(x => mainModel.AddTargetFiles(x.Response ?? Array.Empty<string>()));
 
             //アプリケーション内メッセージをダイアログで表示する
-            model.MessageEventStream
+            mainModel.MessageEventStream
                 //同種類の警告をまとめるため、時間でバッファ
                 .Buffer(TimeSpan.FromMilliseconds(100))
                 .Where(ms => ms.Any())
@@ -177,7 +177,7 @@ namespace FileRenamerDiff.ViewModels
                 });
 
             //ユーザーへの確認はダイアログで行う
-            this.model.ConfirmUser += async () =>
+            this.mainModel.ConfirmUser += async () =>
              {
                  var confirmDialogViewModel = new ConfirmDialogViewModel();
                  await ShowDialogAsync(confirmDialogViewModel, false);
@@ -204,14 +204,14 @@ namespace FileRenamerDiff.ViewModels
 
         private Task LoadFileFromNewPath(IReadOnlyList<string> targetPaths)
         {
-            model.Setting.SearchFilePaths = targetPaths;
+            mainModel.Setting.SearchFilePaths = targetPaths;
             return LoadFilesFromCurrentPath();
         }
 
         private async Task LoadFilesFromCurrentPath()
         {
             //ファイル読込を開始する
-            var taskLoad = model.LoadFileElements();
+            var taskLoad = mainModel.LoadFileElements();
 
             //一定時間経過しても処理が終了していなかったら、
             await Task.WhenAny(Task.Delay(500), taskLoad);
@@ -219,7 +219,7 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             //進行ダイアログを表示
-            var innerVM = new ProgressDialogViewModel(model);
+            var innerVM = new ProgressDialogViewModel(mainModel);
             ShowDialog(innerVM, false);
             await taskLoad;
             //読込が終わったらダイアログを閉じる
@@ -229,7 +229,7 @@ namespace FileRenamerDiff.ViewModels
         private async Task RenameExcute()
         {
             //リネーム実行を開始する
-            var taskRename = model.RenameExcute();
+            var taskRename = mainModel.RenameExcute();
 
             //一定時間経過しても処理が終了していなかったら、
             await Task.WhenAny(Task.Delay(500), taskRename);
@@ -237,7 +237,7 @@ namespace FileRenamerDiff.ViewModels
                 return;
 
             //進行ダイアログを表示
-            var innerVM = new ProgressDialogViewModel(model);
+            var innerVM = new ProgressDialogViewModel(mainModel);
             ShowDialog(innerVM, false);
             await taskRename;
             //読込が終わったらダイアログを閉じる
@@ -250,7 +250,7 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public void Initialize()
         {
-            model.Initialize();
+            mainModel.Initialize();
             LogTo.Information("App Initialized");
         }
 
@@ -261,7 +261,7 @@ namespace FileRenamerDiff.ViewModels
         {
             if (disposing)
             {
-                model.SaveSettingFile(SettingAppModel.DefaultFilePath);
+                mainModel.SaveSettingFile(SettingAppModel.DefaultFilePath);
             }
 
             base.Dispose(disposing);

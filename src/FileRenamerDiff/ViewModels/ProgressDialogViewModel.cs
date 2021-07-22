@@ -40,9 +40,9 @@ namespace FileRenamerDiff.ViewModels
 
         private readonly ReactivePropertySlim<bool> limitOneceCancel = new(true);
 
-        public ProgressDialogViewModel(Model model)
+        public ProgressDialogViewModel(MainModel mainModel)
         {
-            this.CurrentProgessInfo = model.CurrentProgessInfo
+            this.CurrentProgessInfo = mainModel.CurrentProgessInfo
                 .Buffer(TimeSpan.FromMilliseconds(500))
                 .Where(x => x.Any())
                 .Select(x => x.Last())
@@ -56,7 +56,7 @@ namespace FileRenamerDiff.ViewModels
                 .WithSubscribe(() =>
                 {
                     limitOneceCancel.Value = false;
-                    model.CancelWork?.Cancel();
+                    mainModel.CancelWork?.Cancel();
                     return Task.CompletedTask;
                 });
         }

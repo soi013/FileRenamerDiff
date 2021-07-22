@@ -156,11 +156,11 @@ namespace FileRenamerDiff.ViewModels
         /// デザイナー用です　コードからは呼べません
         /// </summary>
         [Obsolete("Designer only", true)]
-        public SettingAppViewModel() : this(App.Services.GetService<Model>()!) { }
+        public SettingAppViewModel() : this(App.Services.GetService<MainModel>()!) { }
 
-        public SettingAppViewModel(Model model)
+        public SettingAppViewModel(MainModel mainModel)
         {
-            this.setting = model.Setting;
+            this.setting = mainModel.Setting;
 
             this.DeleteTexts = setting.DeleteTexts
                     .ToObservableCollctionSynced(
@@ -168,7 +168,7 @@ namespace FileRenamerDiff.ViewModels
                         x => x.ToReplacePattern());
 
             this.CommonDeletePatternVMs = CommonPattern.DeletePatterns
-                    .Select(x => new CommonPatternViewModel(model, x, true))
+                    .Select(x => new CommonPatternViewModel(mainModel, x, true))
                     .ToArray();
 
             this.ReplaceTexts = setting.ReplaceTexts
@@ -177,7 +177,7 @@ namespace FileRenamerDiff.ViewModels
                     x => x.ToReplacePattern());
 
             this.CommonReplacePatternVMs = CommonPattern.ReplacePatterns
-                .Select(x => new CommonPatternViewModel(model, x, false))
+                .Select(x => new CommonPatternViewModel(mainModel, x, false))
                 .ToArray();
 
             this.SearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePaths);
@@ -194,7 +194,7 @@ namespace FileRenamerDiff.ViewModels
             this.AvailableLanguages = CreateAvailableLanguages();
             this.SelectedLanguage = CreateAppLanguageRp();
 
-            this.AddIgnoreExtensionsCommand = model.IsIdleUI
+            this.AddIgnoreExtensionsCommand = mainModel.IsIdleUI
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddIgnoreExtensions())
                  .AddTo(this.CompositeDisposable);
@@ -202,72 +202,72 @@ namespace FileRenamerDiff.ViewModels
             this.ClearIgnoreExtensionsCommand =
                 new[]
                 {
-                    model.IsIdleUI,
+                    mainModel.IsIdleUI,
                     setting.IgnoreExtensions.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() =>
-                    model.ExcuteAfterConfirm(() =>
+                    mainModel.ExcuteAfterConfirm(() =>
                         setting.IgnoreExtensions.Clear()))
                  .AddTo(this.CompositeDisposable);
 
-            this.AddDeleteTextsCommand = model.IsIdleUI
+            this.AddDeleteTextsCommand = mainModel.IsIdleUI
                  .ToReactiveCommand()
                  .WithSubscribe(() => setting.AddDeleteTexts())
                  .AddTo(this.CompositeDisposable);
             this.ClearDeleteTextsCommand =
                 new[]
                 {
-                    model.IsIdleUI,
+                    mainModel.IsIdleUI,
                     setting.DeleteTexts.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
                  .ToAsyncReactiveCommand()
                  .WithSubscribe(() =>
-                    model.ExcuteAfterConfirm(() =>
+                    mainModel.ExcuteAfterConfirm(() =>
                         setting.DeleteTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 
-            this.AddReplaceTextsCommand = model.IsIdleUI
+            this.AddReplaceTextsCommand = mainModel.IsIdleUI
                 .ToReactiveCommand()
                 .WithSubscribe(() => setting.AddReplaceTexts())
                 .AddTo(this.CompositeDisposable);
             this.ClearReplaceTextsCommand =
                 new[]
                 {
-                    model.IsIdleUI,
+                    mainModel.IsIdleUI,
                     setting.ReplaceTexts.ObserveIsAny(),
                 }
                 .CombineLatestValuesAreAllTrue()
                  .ToAsyncReactiveCommand()
                  .WithSubscribe(() =>
-                    model.ExcuteAfterConfirm(() =>
+                    mainModel.ExcuteAfterConfirm(() =>
                         setting.ReplaceTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 
-            this.ShowExpressionReferenceCommand = model.IsIdleUI
+            this.ShowExpressionReferenceCommand = mainModel.IsIdleUI
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => model.ShowHelpHtml())
+                .WithSubscribe(() => mainModel.ShowHelpHtml())
                 .AddTo(this.CompositeDisposable);
 
-            this.ResetSettingCommand = model.IsIdleUI
+            this.ResetSettingCommand = mainModel.IsIdleUI
                 .ToReactiveCommand()
-                .WithSubscribe(() => model.ResetSetting())
+                .WithSubscribe(() => mainModel.ResetSetting())
                 .AddTo(this.CompositeDisposable);
 
-            this.LoadSettingFileDialogCommand = model.IsIdleUI
+            this.LoadSettingFileDialogCommand = mainModel.IsIdleUI
                 .ToReactiveCommand<FileSelectionMessage>()
-                .WithSubscribe(x => model.LoadSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
+                .WithSubscribe(x => mainModel.LoadSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
 
-            this.SaveSettingFileDialogCommand = model.IsIdleUI
+            this.SaveSettingFileDialogCommand = mainModel.IsIdleUI
                 .ToReactiveCommand<FileSelectionMessage>()
-                .WithSubscribe(x => model.SaveSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
+                .WithSubscribe(x => mainModel.SaveSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
 
-            this.PreviousSettingFileDirectory = model.PreviousSettingFilePath
+            this.PreviousSettingFileDirectory = mainModel.PreviousSettingFilePath
                 .Select(x => Path.GetDirectoryName(x))
                 .ToReadOnlyReactivePropertySlim();
-            this.PreviousSettingFileName = model.PreviousSettingFilePath
+            this.PreviousSettingFileName = mainModel.PreviousSettingFilePath
                 .Select(x => Path.GetFileName(x))
                 .ToReadOnlyReactivePropertySlim();
         }

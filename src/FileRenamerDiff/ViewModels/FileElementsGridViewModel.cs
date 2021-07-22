@@ -73,14 +73,14 @@ namespace FileRenamerDiff.ViewModels
         public ReactiveCommand ClearFileElementsCommand { get; }
         public ReactiveCommand<FileElementViewModel> RemoveItemCommand { get; } = new();
 
-        public FileElementsGridViewModel(Model model)
+        public FileElementsGridViewModel(MainModel mainModel)
         {
-            this.CountReplaced = model.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.CountReplaced = mainModel.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
-            this.CountConflicted = model.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.CountConflicted = mainModel.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
-            var fileElementVMs = model.FileElementModels
+            var fileElementVMs = mainModel.FileElementModels
                 .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x), ReactivePropertyScheduler.Default);
 
             this.CViewFileElementVMs = CreateCollectionViewFilePathVMs(fileElementVMs);
@@ -103,28 +103,28 @@ namespace FileRenamerDiff.ViewModels
                 .Subscribe(_ =>
                     this.IsVisibleReplacedOnly.Value = false);
 
-            AddTargetFilesCommand = model.IsIdleUI
+            AddTargetFilesCommand = mainModel.IsIdleUI
                 .ToReactiveCommand<IReadOnlyList<string>>()
-                .WithSubscribe(x => model.AddTargetFiles(x));
+                .WithSubscribe(x => mainModel.AddTargetFiles(x));
 
-            this.IsAnyFiles = model.FileElementModels.ObserveIsAny().ToReadOnlyReactivePropertySlim();
+            this.IsAnyFiles = mainModel.FileElementModels.ObserveIsAny().ToReadOnlyReactivePropertySlim();
 
             this.ClearFileElementsCommand =
                 (new[]
                 {
-                    model.IsIdle,
+                    mainModel.IsIdle,
                     IsAnyFiles,
                 })
                 .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()
                 .ToReactiveCommand()
-                .WithSubscribe(() => model.FileElementModels.Clear());
+                .WithSubscribe(() => mainModel.FileElementModels.Clear());
 
 
-            RemoveItemCommand = model.IsIdleUI
+            RemoveItemCommand = mainModel.IsIdleUI
                 .ToReactiveCommand<FileElementViewModel>()
                 .WithSubscribe(x =>
-                    model.FileElementModels.Remove(x.PathModel));
+                    mainModel.FileElementModels.Remove(x.PathModel));
         }
 
         private ICollectionView CreateCollectionViewFilePathVMs(object fVMs)

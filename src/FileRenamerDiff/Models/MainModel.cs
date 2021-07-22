@@ -37,7 +37,7 @@ namespace FileRenamerDiff.Models
     /// <summary>
     /// アプリケーション全体シングルトンモデル
     /// </summary>
-    public class Model : NotificationObject
+    public class MainModel : NotificationObject
     {
         private readonly IFileSystem fileSystem;
 
@@ -121,7 +121,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public Func<Task<bool>> ConfirmUser { get; set; } = () => Task.FromResult(true);
 
-        public Model(IFileSystem fileSystem)
+        public MainModel(IFileSystem fileSystem)
         {
             this.fileSystem = fileSystem;
             FileElementModels

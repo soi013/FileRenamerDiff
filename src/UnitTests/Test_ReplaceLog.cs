@@ -30,7 +30,7 @@ namespace UnitTests
                 [filePathB] = new MockFileData("B"),
             });
 
-            var model = new Model(fileSystem);
+            var model = new MainModel(fileSystem);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             model.Setting.IsCreateRenameLog = enableLog;
