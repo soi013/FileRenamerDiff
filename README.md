@@ -4,6 +4,8 @@ A File Renamer App featuring a difference display before and after the change fo
 
 [![.NET Core Desktop](https://github.com/soi013/FileRenamerDiff/actions/workflows/dotnet-desktop.yml/badge.svg?event=push)](https://github.com/soi013/FileRenamerDiff/actions/workflows/dotnet-desktop.yml)
 
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+
 # Screen Shot
 
 ![icon](./images/screenshot_en.png)
