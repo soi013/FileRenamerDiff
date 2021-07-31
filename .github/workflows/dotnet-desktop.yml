@@ -86,6 +86,7 @@ jobs:
       - name: Build with dotnet
         run: dotnet build ${{ env.App_Project_Path }} --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
         
+      - uses: codecov/codecov-action@v2
  
   create-release:
     runs-on: windows-latest
