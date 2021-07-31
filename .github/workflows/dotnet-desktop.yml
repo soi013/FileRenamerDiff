@@ -78,14 +78,15 @@ jobs:
         
       - name: Restore dependencies
         run: dotnet restore ${{ env.App_Project_Path }}
-        
-      - name: Build with dotnet
-        run: dotnet build ${{ env.App_Project_Path }} --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
-        
+      
       # Execute all unit tests in the solution
       - name: Execute unit tests
         run: dotnet test ${{ env.Test_Project_Path }} --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+       
+      - name: Build with dotnet
+        run: dotnet build ${{ env.App_Project_Path }} --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
         
+ 
   create-release:
     runs-on: windows-latest
     needs: [build]
