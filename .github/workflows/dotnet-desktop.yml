@@ -82,7 +82,7 @@ jobs:
 
       # Execute all unit tests in the solution
       - name: Execute unit tests
-        run: dotnet test ${{ env.Test_Project_Path }} --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+        run: dotnet test ${{ env.Solution_Path }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
         
       - uses: codecov/codecov-action@v2
  
