@@ -45,7 +45,7 @@ A File Renamer App featuring a difference display before and after the change fo
 
 ### Portable version (Windows 7, 8.1, 10)
 
-Download from [LATEST RELEASE](https://github.com/soi013/filerenamerdiff/releases).
+Download from [LATEST RELEASE](https://github.com/soi013/FileRenamerDiff/releases/latest).
 
 - `FileRenamerDiff_app_win-x64~` is for x64(64bit) OS. 
 - `FileRenamerDiff_app_win-x86~` is for x86(32bit) OS.
