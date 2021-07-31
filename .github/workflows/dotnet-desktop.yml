@@ -80,7 +80,7 @@ jobs:
         run: dotnet restore ${{ env.App_Project_Path }}
         
       - name: Build with dotnet
-        run: dotnet build ${{ env.App_Project_Path }} --no-restore  /p:ContinuousIntegrationBuild=true
+        run: dotnet build ${{ env.App_Project_Path }} --configuration Release --no-restore /p:ContinuousIntegrationBuild=true
         
       # Execute all unit tests in the solution
       - name: Execute unit tests
