@@ -82,7 +82,7 @@ jobs:
 
       # Execute all unit tests in the solution
       - name: Execute unit tests
-        run: dotnet test ${{ env.Solution_Path }} --configuration Debug --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="**/*.xaml*" -p:coverletOutput=lcov.info
+        run: dotnet test ${{ env.Solution_Path }} --configuration Debug --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="**.Designer.cs%2c**.xaml*" -p:coverletOutput=lcov.info
 
       - name: Coverlet coverage test
         uses: b3b00/coverlet-action@1.1.1
