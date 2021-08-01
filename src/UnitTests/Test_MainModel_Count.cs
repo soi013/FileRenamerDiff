@@ -15,16 +15,16 @@ using FileRenamerDiff.Models;
 
 namespace UnitTests
 {
-    public class Test_Model_Count
+    public class Test_MainModel_Count
     {
-        const string targetDirPath = @"D:\FileRenamerDiff_Test";
-        const string SubDirName = "D_SubDir";
-        static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
-        static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
-        static readonly string filePathC = Path.Combine(targetDirPath, "C.txt");
-        static readonly string filePathDSubDir = Path.Combine(targetDirPath, SubDirName);
-        static readonly string filePathE = Path.Combine(targetDirPath, SubDirName, "E.txt");
-        static readonly string filePathF = Path.Combine(targetDirPath, SubDirName, "F.txt");
+        private const string targetDirPath = @"D:\FileRenamerDiff_Test";
+        private const string SubDirName = "D_SubDir";
+        private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
+        private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
+        private static readonly string filePathC = Path.Combine(targetDirPath, "C.txt");
+        private static readonly string filePathDSubDir = Path.Combine(targetDirPath, SubDirName);
+        private static readonly string filePathE = Path.Combine(targetDirPath, SubDirName, "E.txt");
+        private static readonly string filePathF = Path.Combine(targetDirPath, SubDirName, "F.txt");
 
         private static MockFileSystem CreateMockFileSystem()
         {

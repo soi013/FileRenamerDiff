@@ -13,18 +13,18 @@ using FileRenamerDiff.Models;
 
 namespace UnitTests
 {
-    public class Test_Model_LoadFiles
+    public class Test_MainModel_LoadFiles
     {
-        const string targetDirPath = @"D:\FileRenamerDiff_Test";
-        const string SubDirName = "D_SubDir";
-        static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
-        static readonly string filePathB = Path.Combine(targetDirPath, "B.csv");
-        static readonly string filePathCini = Path.Combine(targetDirPath, "C.ini");
-        static readonly string filePathDSubDir = Path.Combine(targetDirPath, SubDirName);
-        static readonly string filePathE = Path.Combine(targetDirPath, SubDirName, "E.txt");
-        static readonly string filePathFHidden = Path.Combine(targetDirPath, SubDirName, "F_Hidden.txt");
-        static readonly string filePathGSubSubDir = Path.Combine(targetDirPath, SubDirName, "G_SubSub");
-        static readonly string filePathHSubHiddenDir = Path.Combine(targetDirPath, "H_SubHidden");
+        private const string targetDirPath = @"D:\FileRenamerDiff_Test";
+        private const string SubDirName = "D_SubDir";
+        private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
+        private static readonly string filePathB = Path.Combine(targetDirPath, "B.csv");
+        private static readonly string filePathCini = Path.Combine(targetDirPath, "C.ini");
+        private static readonly string filePathDSubDir = Path.Combine(targetDirPath, SubDirName);
+        private static readonly string filePathE = Path.Combine(targetDirPath, SubDirName, "E.txt");
+        private static readonly string filePathFHidden = Path.Combine(targetDirPath, SubDirName, "F_Hidden.txt");
+        private static readonly string filePathGSubSubDir = Path.Combine(targetDirPath, SubDirName, "G_SubSub");
+        private static readonly string filePathHSubHiddenDir = Path.Combine(targetDirPath, "H_SubHidden");
 
         private static MockFileSystem CreateMockFileSystem()
         {
