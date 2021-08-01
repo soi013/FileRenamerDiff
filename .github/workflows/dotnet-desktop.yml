@@ -83,7 +83,15 @@ jobs:
       # Execute all unit tests in the solution
       - name: Execute unit tests
         run: dotnet test ${{ env.Solution_Path }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-        
+
+      - name: Coverlet coverage test
+        uses: b3b00/coverlet-action@1.1.1
+        with:          
+          testProject: ${{ env.Test_Project_Path }}
+          output: 'lcov.info'
+          outputFormat: 'lcov'
+          excludes: '[program]*,[test]test.*'
+
       - uses: codecov/codecov-action@v2
  
   create-release:
