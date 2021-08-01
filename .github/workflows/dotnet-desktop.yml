@@ -90,6 +90,7 @@ jobs:
           testProject: ${{ env.Test_Project_Path }}
           output: 'lcov.info'
           outputFormat: 'lcov'
+          excludes: '[*]*.Views,[*]*.Properties'
 
       - uses: codecov/codecov-action@v2
  
