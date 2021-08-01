@@ -78,12 +78,19 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
              
       - name: Build with dotnet
-        run: dotnet build ${{ env.App_Project_Path }} --configuration Release
+        run: dotnet build ${{ env.App_Project_Path }} --configuration Debug
 
       # Execute all unit tests in the solution
       - name: Execute unit tests
-        run: dotnet test ${{ env.Solution_Path }} /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-        
+        run: dotnet test ${{ env.Solution_Path }} --configuration Debug --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -p:coverletOutput=lcov.info
+
+      - name: Coverlet coverage test
+        uses: b3b00/coverlet-action@1.1.1
+        with:          
+          testProject: ${{ env.Test_Project_Path }}
+          output: 'lcov.info'
+          outputFormat: 'lcov'
+
       - uses: codecov/codecov-action@v2
  
   create-release:
