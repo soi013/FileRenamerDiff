@@ -3,10 +3,8 @@
 A File Renamer App featuring a difference display before and after the change for Windows.
 
 ![GitHub version](https://img.shields.io/github/v/release/soi013/FileRenamerDiff)
-
 [![.NET Core Desktop](https://github.com/soi013/FileRenamerDiff/actions/workflows/dotnet-desktop.yml/badge.svg?event=push)](https://github.com/soi013/FileRenamerDiff/actions/workflows/dotnet-desktop.yml)
 [![codecov](https://codecov.io/gh/soi013/FileRenamerDiff/branch/master/graph/badge.svg)](https://codecov.io/gh/soi013/FileRenamerDiff)
-![codecov](https://img.shields.io/codecov/c/github/soi013/FileRenamerDiff?token=e4f62b3c-6b57-4eed-9a32-60270365a45f)
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 
 # Screen Shot
