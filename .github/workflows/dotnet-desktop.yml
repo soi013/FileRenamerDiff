@@ -43,7 +43,8 @@ env:
   App_Name: FileRenamerDiff
   Solution_Directory: src/FileRenamerDiff
   Solution_Path: src/FileRenamerDiff.sln # Replace with your solution name, i.e. MyWpfApp.sln.
-  App_Project_Path: src/FileRenamerDiff/FileRenamerDiff.csproj
+  App_Project_Path: src/FileRenamerDiff/FileRenamerDiff.csproj  
+  Test_Directory: src/FileRenamerDiff/UnitTests
   Test_Project_Path: src/UnitTests/UnitTests.csproj
   Wap_Project_Directory: FileRenamerDiff_Pack # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
   Wap_Project_Path: FileRenamerDiff_Pack/FileRenamerDiff_Pack.wapproj # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
@@ -94,7 +95,7 @@ jobs:
       - name: OpenCover Badge Generator
         uses: danpetitt/open-cover-badge-generator-action@v1.0.10
         with:
-          path-to-opencover-xml: ${{ env.Test_Project_Path }}/TestResults/*/coverage.cobertura.xml
+          path-to-opencover-xml: ${{ env.Test_Directory }}/TestResults/*/coverage.cobertura.xml
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   create-release:
