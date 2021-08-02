@@ -47,7 +47,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ダイアログ表示VM
         /// </summary>
-        public ReactivePropertySlim<DialogBaseViewModel> DialogContentVM { get; } = new();
+        public ReactivePropertySlim<DialogBaseViewModel> DialogContentVM { get; } = new(initialValue: new DialogBaseViewModel());
         /// <summary>
         /// ダイアログの外側をクリックした際に閉じられるか
         /// </summary>
@@ -96,6 +96,8 @@ namespace FileRenamerDiff.ViewModels
         /// 設定情報ViewModel
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
+
+        internal readonly static TimeSpan TimeSpanMessageBuffer = TimeSpan.FromMilliseconds(100);
 
         public MainWindowViewModel() : this(App.Services.GetService<MainModel>()!) { }
         public MainWindowViewModel(MainModel mainModel)
@@ -163,7 +165,7 @@ namespace FileRenamerDiff.ViewModels
             //アプリケーション内メッセージをダイアログで表示する
             mainModel.MessageEventStream
                 //同種類の警告をまとめるため、時間でバッファ
-                .Buffer(TimeSpan.FromMilliseconds(100))
+                .Buffer(TimeSpanMessageBuffer)
                 .Where(ms => ms.Any())
                 //同じヘッダのメッセージをまとめる
                 .Select(ms => ms
