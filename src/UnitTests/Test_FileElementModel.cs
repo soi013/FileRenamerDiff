@@ -134,6 +134,83 @@ namespace UnitTests
                 .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ファイルシステム上も名前が変わったはず");
         }
 
+        [Theory]
+        [InlineData("coopy -copy", " -copy", "XXX", "coopyXXX")]
+        [InlineData("abc.Dir", "Dir", "YYY", "abc.YYY")]
+        internal static void Test_FileElementDirectory(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
+        {
+            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+            {
+                [targetFilePath] = new MockDirectoryData()
+            });
+
+            var messageEvent = new Subject<AppMessage>();
+            var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
+            var queuePropertyChanged = new Queue<string?>();
+            fileElem.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
+
+            //TEST1 初期状態
+            fileElem.OutputFileName
+                    .Should().Be(targetFileName, "まだ元のファイル名のまま");
+
+            fileElem.IsReplaced
+                .Should().BeFalse("まだリネーム変更されていないはず");
+
+            fileElem.State
+                .Should().Be(RenameState.None, "まだリネーム保存していない");
+
+            queuePropertyChanged
+                .Should().BeEmpty("まだ通知は来ていないはず");
+
+            //TEST2 Replace
+            //ファイル名の一部を変更する置換パターンを作成
+            ReplaceRegex[] replaceRegexes = new[]
+                {
+                    new ReplaceRegex(new Regex(regexPattern, RegexOptions.Compiled), replaceText)
+                };
+
+            //リネームプレビュー実行
+            fileElem.Replace(replaceRegexes, false);
+
+
+            fileElem.OutputFileName
+                .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
+
+            bool shouldRename = targetFileName != expectedRenamedFileName;
+            fileElem.IsReplaced
+                .Should().Be(shouldRename, "リネーム後の名前と前の名前が違うなら、リネーム変更されたはず");
+
+            if (shouldRename)
+                queuePropertyChanged
+                    .Should().Contain(new[] { nameof(FileElementModel.OutputFileName), nameof(FileElementModel.OutputFilePath), nameof(FileElementModel.IsReplaced) });
+            else
+                queuePropertyChanged
+                    .Should().BeEmpty();
+
+            fileElem.State
+                .Should().Be(RenameState.None, "リネーム変更はしたが、まだリネーム保存していない");
+
+            fileSystem.Directory.GetDirectories(Path.GetDirectoryName(targetFilePath))
+                .Select(p => Path.GetFileName(p))
+                .Should().BeEquivalentTo(new[] { targetFileName }, "ファイルシステム上はまだ前の名前のはず");
+
+            //TEST3 Rename
+            fileElem.Rename();
+
+            fileElem.State
+                .Should().Be(RenameState.Renamed, "リネーム保存されたはず");
+
+            //System.IO.Abstractions のバグ？で反映されていない
+            //fileElem.InputFileName
+            //    .Should().Be(expectedRenamedFileName, "リネーム保存後のファイル名になったはず");
+
+            fileSystem.Directory.GetDirectories(Path.GetDirectoryName(targetFilePath))
+                .Select(p => Path.GetFileName(p))
+                .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ファイルシステム上も名前が変わったはず");
+        }
+
+
         [Fact]
         public void Test_FileElement_WarningMessageInvalid()
         {
