@@ -50,6 +50,7 @@ env:
   Wap_Project_Path: FileRenamerDiff_Pack/FileRenamerDiff_Pack.wapproj # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
   Signing_Certificate: GitHubActionsWorkflow.pfx
   CODECOV_TOKEN: e4f62b3c-6b57-4eed-9a32-60270365a45f
+  CodeCov_Result: 'lcov.info'
 
 jobs:
   build:
@@ -89,14 +90,14 @@ jobs:
         uses: b3b00/coverlet-action@1.1.1
         with:          
           testProject: ${{ env.Test_Project_Path }}
-          output: 'lcov.info'
+          output: ${{ env.CodeCov_Result }}
           outputFormat: 'lcov'
           excludes: '[*]*.Views*%2c[*]*.Properties*'
           
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: 'lcov.info'
+          files: ${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
 
   create-release:
     runs-on: windows-latest
