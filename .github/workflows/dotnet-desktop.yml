@@ -96,6 +96,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           files: ${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
+          root_dir: ${{ env.Solution_Directory }}
 
   create-release:
     runs-on: windows-latest
