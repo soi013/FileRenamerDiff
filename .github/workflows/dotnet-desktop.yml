@@ -96,7 +96,7 @@ jobs:
       - name: OpenCover Badge Generator
         uses: danpetitt/open-cover-badge-generator-action@v1.0.10
         with:
-          path-to-opencover-xml: ${{ env.Test_Directory }}/TestResults/lcov.info
+          path-to-opencover-xml: ${{ env.Test_Directory }}/lcov.info
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   create-release:
