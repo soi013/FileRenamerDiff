@@ -95,6 +95,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: 'lcov.info'
 
   create-release:
     runs-on: windows-latest
