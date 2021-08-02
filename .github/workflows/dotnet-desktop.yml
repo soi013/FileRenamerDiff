@@ -49,6 +49,7 @@ env:
   Wap_Project_Directory: FileRenamerDiff_Pack # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
   Wap_Project_Path: FileRenamerDiff_Pack/FileRenamerDiff_Pack.wapproj # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
   Signing_Certificate: GitHubActionsWorkflow.pfx
+  CODECOV_TOKEN: e4f62b3c-6b57-4eed-9a32-60270365a45f
 
 jobs:
   build:
