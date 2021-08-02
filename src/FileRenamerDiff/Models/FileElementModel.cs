@@ -55,7 +55,6 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class FileElementModel : NotificationObject
     {
-        private readonly IFileSystem fileSystem;
         private readonly IObserver<AppMessage> warningMessageObserver;
         private readonly bool isDirectory;
         private readonly IFileSystemInfo fsInfo;
@@ -162,7 +161,6 @@ namespace FileRenamerDiff.Models
 
         public FileElementModel(IFileSystem fileSystem, string filePath, IObserver<AppMessage> warningMessageObserver)
         {
-            this.fileSystem = fileSystem;
             this.warningMessageObserver = warningMessageObserver;
             this.isDirectory = fileSystem.File.GetAttributes(filePath)
                 .HasFlag(FileAttributes.Directory);
@@ -239,6 +237,7 @@ namespace FileRenamerDiff.Models
                     body: $"{InputFileName} -> {OutputFileName} ({DirectoryPath})"));
             }
         }
+
         public override string ToString() => $"{InputFileName}->{OutputFileName}";
     }
 }
