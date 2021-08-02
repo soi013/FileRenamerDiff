@@ -93,11 +93,7 @@ jobs:
           outputFormat: 'lcov'
           excludes: '[*]*.Views*%2c[*]*.Properties*'
           
-      - name: OpenCover Badge Generator
-        uses: danpetitt/open-cover-badge-generator-action@v1.0.10
-        with:
-          path-to-opencover-xml: ${{ env.Test_Directory }}/lcov.info
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: codecov/codecov-action@v2
 
   create-release:
     runs-on: windows-latest
