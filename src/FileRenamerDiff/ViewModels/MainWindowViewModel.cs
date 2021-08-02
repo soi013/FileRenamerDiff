@@ -97,6 +97,9 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ReadOnlyReactivePropertySlim<SettingAppViewModel> SettingVM { get; }
 
+        /// <summary>
+        /// アプリケーション内メッセージをまとめる時間長
+        /// </summary>
         internal readonly static TimeSpan TimeSpanMessageBuffer = TimeSpan.FromMilliseconds(100);
 
         public MainWindowViewModel() : this(App.Services.GetService<MainModel>()!) { }
