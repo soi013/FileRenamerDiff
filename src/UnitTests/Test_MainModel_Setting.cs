@@ -25,9 +25,6 @@ namespace UnitTests
 
             var model = new MainModel(noSettingFileSystem);
 
-            //var queuePropertyChanged = new Queue<string?>();
-            //model.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
-
             model.Initialize();
 
             const string newIgnoreExt = "someignoreext";
@@ -77,6 +74,29 @@ namespace UnitTests
 
             queuePropertyChanged
                 .Should().BeEquivalentTo(new[] { nameof(MainModel.Setting) }, because: "設定変更通知が来たはず");
+        }
+
+        [Fact]
+        public void Test_SettingReset()
+        {
+            var noSettingFileSystem = new MockFileSystem();
+
+            var model = new MainModel(noSettingFileSystem);
+            var queuePropertyChanged = new Queue<string?>();
+            model.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
+
+            model.Initialize();
+
+            const string firstIgnoreExt = "someignoreext";
+            model.Setting.IgnoreExtensions.Add(new(firstIgnoreExt));
+
+            model.ResetSetting();
+
+            model.Setting.IgnoreExtensions.Select(x => x.Value)
+                .Should().NotContain(firstIgnoreExt, because: "別の設定ファイルを読ませたら、元の設定値は消えたはず");
+            
+            queuePropertyChanged
+               .Should().BeEquivalentTo(new[] { nameof(MainModel.Setting) }, because: "設定変更通知が来たはず");
         }
     }
 }
