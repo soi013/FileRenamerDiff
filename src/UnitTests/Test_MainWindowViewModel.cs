@@ -27,7 +27,11 @@ namespace UnitTests
         [Fact]
         public async Task Test_Idle()
         {
-            var model = new MainModel(new MockFileSystem());
+            var fileDict = new[] { filePathA, filePathB }
+               .ToDictionary(
+                   s => s,
+                   s => new MockFileData("mock"));
+            var model = new MainModel(new MockFileSystem(fileDict));
             var mainVM = new MainWindowViewModel(model);
 
             mainVM.IsIdle.Value
@@ -77,7 +81,7 @@ namespace UnitTests
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
                 mainVM.LoadFilesFromCurrentPathCommand.Execute();
                 await taskWindowTitle.Timeout(1000d);
-                await Task.Delay(100);
+                await Task.Delay(10);
             }
 
             mainVM.WindowTitle.Value
@@ -89,7 +93,7 @@ namespace UnitTests
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
                 mainVM.LoadFilesFromCurrentPathCommand.Execute();
                 await taskWindowTitle.Timeout(1000d);
-                await Task.Delay(100);
+                await Task.Delay(10);
             }
 
             mainVM.WindowTitle.Value
@@ -101,7 +105,7 @@ namespace UnitTests
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
                 mainVM.GridVM.ClearFileElementsCommand.Execute();
                 await taskWindowTitle.Timeout(1000d);
-                await Task.Delay(100);
+                await Task.Delay(10);
             }
 
             mainVM.WindowTitle.Value
