@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using Reactive.Bindings;
 using System.Reactive.Linq;
@@ -245,6 +246,25 @@ namespace FileRenamerDiff.Models
                 LogTo.Debug("TargetPattern '{@pattern}' is NOT valid: {@msg}", pattern, ex.Message);
                 return false;
             }
+        }
+
+        public static Task Timeout(this Task task, double millisec) => Timeout(task, TimeSpan.FromMilliseconds(millisec));
+
+        public static async Task Timeout(this Task task, TimeSpan timeout)
+        {
+            var delay = Task.Delay(timeout);
+            if (await Task.WhenAny(task, delay) == delay)
+            {
+                throw new TimeoutException();
+            }
+        }
+
+        public static Task<T> Timeout<T>(this Task<T> task, double millisec) => Timeout(task, TimeSpan.FromMilliseconds(millisec));
+
+        public static async Task<T> Timeout<T>(this Task<T> task, TimeSpan timeout)
+        {
+            await ((Task)task).Timeout(timeout);
+            return await task;
         }
     }
 }
