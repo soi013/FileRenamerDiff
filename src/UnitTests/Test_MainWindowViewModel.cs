@@ -17,7 +17,7 @@ using FileRenamerDiff.ViewModels;
 
 namespace UnitTests
 {
-    public class Test_MainWindowViewModel
+    public class Test_MainWindowViewModel : IClassFixture<RxSchedulerFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string targetDirPathSub = @"D:\FileRenamerDiff_TestSub";

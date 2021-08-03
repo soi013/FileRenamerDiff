@@ -16,10 +16,12 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
 using Microsoft.Extensions.DependencyInjection;
-
-using FileRenamerDiff.Models;
+using Reactive.Bindings;
 using MaterialDesignColors;
 using System.IO.Abstractions;
+using Reactive.Bindings.Schedulers;
+
+using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff
 {
@@ -40,6 +42,7 @@ public partial class App : Application
         {
             SetupLoggerConfig();
             DispatcherHelper.UIDispatcher = Dispatcher;
+            ReactivePropertyScheduler.SetDefault(new ReactivePropertyWpfScheduler(Dispatcher));
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             LogTo.Information("App Start");
