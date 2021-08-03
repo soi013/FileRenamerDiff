@@ -1,15 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-# This workflow will build, test, sign and package a WPF or Windows Forms desktop application
-# built on .NET Core.
-# To learn how to migrate your existing application to .NET Core,
-# refer to https://docs.microsoft.com/en-us/dotnet/desktop-wpf/migration/convert-project-from-net-framework
-#
-# To configure this workflow:
-#
 # 1. Configure environment variables
 # GitHub sets default environment variables for every workflow run.
 # Replace the variables relative to your project in the "env" section below.
@@ -31,10 +19,6 @@
 #
 # Finally, add the signing certificate password to the repo as a secret and name it "Pfx_Key".
 # See "Build the Windows Application Packaging project" below to see how the secret is used.
-#
-# For more information on GitHub Actions, refer to https://github.com/features/actions
-# For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
-# refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
 name: .NET Build and Test
 on:
@@ -59,6 +43,7 @@ jobs:
       # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     steps:
+      # Dump for debug workflow
       - name: Dump Github Context
         env:
           GitHub_Context: ${{ toJson(github) }}
@@ -79,16 +64,18 @@ jobs:
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
         
+      # Restore before build and test
       - name: Restore
         run: dotnet restore ${{ env.Solution_Path }}
-             
+     
       - name: Build with dotnet
         run: dotnet build ${{ env.App_Project_Path }} --no-restore --configuration Debug
 
       # Execute all unit tests in the solution
       - name: Execute unit tests
         run: dotnet test ${{ env.Solution_Path }} --verbosity normal --no-restore --configuration Debug --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="**.Designer.cs%2c**.xaml*" -p:coverletOutput=${{ env.CodeCov_Result }}
-          
+     
+      - name: Upload codecov result
       - uses: codecov/codecov-action@v2
         with:
           files: ${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
