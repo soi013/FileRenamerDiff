@@ -46,12 +46,12 @@ namespace UnitTests
 
             mainVM.LoadFilesFromCurrentPathCommand.Execute();
 
-            await isIdleTask.Timeout(1000);
+            await isIdleTask.Timeout(10000d);
 
             mainVM.IsIdle.Value
                 .Should().BeFalse(because: "ファイル読み込み中のはず");
 
-            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(1000d);
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             mainVM.IsIdle.Value
                 .Should().BeTrue(because: "ファイル読み込み完了後のはず");
@@ -80,7 +80,7 @@ namespace UnitTests
             {
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
                 mainVM.LoadFilesFromCurrentPathCommand.Execute();
-                await taskWindowTitle.Timeout(1000d);
+                await taskWindowTitle.Timeout(10000d);
                 await Task.Delay(10);
             }
 
@@ -92,7 +92,7 @@ namespace UnitTests
             {
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
                 mainVM.LoadFilesFromCurrentPathCommand.Execute();
-                await taskWindowTitle.Timeout(1000d);
+                await taskWindowTitle.Timeout(10000d);
                 await Task.Delay(10);
             }
 
@@ -104,7 +104,7 @@ namespace UnitTests
             {
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
                 mainVM.GridVM.ClearFileElementsCommand.Execute();
-                await taskWindowTitle.Timeout(1000d);
+                await taskWindowTitle.Timeout(10000d);
                 await Task.Delay(10);
             }
 
@@ -127,19 +127,23 @@ namespace UnitTests
 
             mainVM.Initialize();
 
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask()
+                .Timeout(10000d);
+
             mainVM.LoadFilesFromCurrentPathCommand.Execute();
-            await mainVM.IsIdle.WaitUntilValueChangedAsync();
+
+            await mainVM.IsIdle.WaitUntilValueChangedAsync()
+                .Timeout(10000d);
 
             mainVM.IsDialogOpen.Value
                 .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
 
-            //model.Setting.SearchFilePaths = new[] { "*invalidpath*" };
-            model.Setting.SearchFilePaths = new[] { targetDirPathSub };
+            model.Setting.SearchFilePaths = new[] { "*invalidpath*" };
 
             mainVM.LoadFilesFromCurrentPathCommand.Execute();
 
             await mainVM.IsDialogOpen.Where(x => x).FirstAsync().ToTask()
-                .Timeout(1000);
+                .Timeout(10000d);
 
             mainVM.IsDialogOpen.Value
                 .Should().BeTrue("無効なファイルパスなら、ダイアログが開いたはず");
