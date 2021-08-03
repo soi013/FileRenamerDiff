@@ -69,13 +69,13 @@ jobs:
         run: dotnet restore ${{ env.Solution_Path }}
      
       - name: Build with dotnet
-        run: dotnet build ${{ env.App_Project_Path }} --no-restore --configuration Debug
+        run: dotnet build ${{ env.App_Project_Path }} --no-restore -c Debug
 
       # Execute all unit tests in the solution
       - name: Execute unit tests
         run: >
           dotnet test ${{ env.Solution_Path }}
-          --verbosity normal --no-restore --configuration Debug
+          --verbosity normal --no-restore -c Debug
           --collect:"XPlat Code Coverage"
           /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           /p:ExcludeByFile="**.Designer.cs%2c**.xaml*%2c**.g.cs%2c**.xaml"
@@ -122,9 +122,9 @@ jobs:
           fetch-depth: 0
 
       - name: dotnet publish x86
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x86_name }}
+        run: dotnet publish ${{ env.App_Project_Path }} --no-restore -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x86_name }}
       - name: dotnet publish x64
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x64_name }}
+        run: dotnet publish ${{ env.App_Project_Path }} --no-restore -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x64_name }}
 
       - name: Copy artifact
         run: |
