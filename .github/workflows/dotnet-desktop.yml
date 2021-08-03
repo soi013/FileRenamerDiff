@@ -120,15 +120,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-            
-      # Restore before publish
-      - name: Restore
-        run: dotnet restore ${{ env.App_Project_Path }}
 
       - name: dotnet publish x86
-        run: dotnet publish ${{ env.App_Project_Path }} --no-restore -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x86_name }}
+        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x86_name }}
       - name: dotnet publish x64
-        run: dotnet publish ${{ env.App_Project_Path }} --no-restore -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x64_name }}
+        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x64_name }}
 
       - name: Copy artifact
         run: |
