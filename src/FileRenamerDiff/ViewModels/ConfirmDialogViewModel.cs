@@ -29,12 +29,12 @@ using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.ViewModels
 {
-    public class ConfirmDialogViewModel : DialogBaseViewModel
+    public class ConfirmDialogViewModel : ViewModel
     {
         /// <summary>
         /// ダイアログ結果（初期状態はNull）
         /// </summary>
-        public bool? IsOK { get; private set; } = null;
+        public ReactivePropertySlim<bool?> IsOkResult { get; } = new ReactivePropertySlim<bool?>(null);
 
         public ReactiveCommand OkCommand { get; } = new();
         public ReactiveCommand CancelCommand { get; } = new();
@@ -42,16 +42,10 @@ namespace FileRenamerDiff.ViewModels
         public ConfirmDialogViewModel()
         {
             OkCommand.Subscribe(() =>
-            {
-                IsOK = true;
-                IsDialogOpen.Value = false;
-            });
+                IsOkResult.Value = true);
 
             CancelCommand.Subscribe(() =>
-            {
-                IsOK = false;
-                IsDialogOpen.Value = false;
-            });
+                IsOkResult.Value = false);
         }
     }
 }

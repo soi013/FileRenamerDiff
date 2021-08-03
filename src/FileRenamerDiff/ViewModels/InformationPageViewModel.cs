@@ -32,7 +32,7 @@ namespace FileRenamerDiff.ViewModels
     /// <summary>
     /// アプリケーション情報ダイアログVM
     /// </summary>
-    public class InformationPageViewModel : DialogBaseViewModel
+    public class InformationPageViewModel : ViewModel
     {
         /// <summary>
         /// アプリケーション情報Markdown

@@ -32,7 +32,7 @@ namespace FileRenamerDiff.ViewModels
     /// <summary>
     /// アプリケーション内メッセージ表示用VM
     /// </summary>
-    public class MessageDialogViewModel : DialogBaseViewModel
+    public class MessageDialogViewModel : ViewModel
     {
         public AppMessage AppMessage { get; }
 

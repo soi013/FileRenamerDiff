@@ -55,7 +55,7 @@
    <materialDesign:DialogHost
       CloseOnClickAway="{Binding CloseOnClickAwayDialog.Value}"
       DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
-      IsOpen="{Binding DialogContentVM.Value.IsDialogOpen.Value, Mode=TwoWay}"
+      IsOpen="{Binding IsDialogOpen.Value, Mode=TwoWay}"
       OverlayBackground="{StaticResource PrimaryHueDarkBrush}">
 
       <!--  DataGridのヘッダーからBindingするために、名前付け  -->

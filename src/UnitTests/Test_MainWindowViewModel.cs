@@ -130,16 +130,18 @@ namespace UnitTests
             mainVM.LoadFilesFromCurrentPathCommand.Execute();
             await mainVM.IsIdle.WaitUntilValueChangedAsync();
 
-            mainVM.DialogContentVM.Value.IsDialogOpen.Value
+            mainVM.IsDialogOpen.Value
                 .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
 
+            //model.Setting.SearchFilePaths = new[] { "*invalidpath*" };
             model.Setting.SearchFilePaths = new[] { targetDirPathSub };
 
             mainVM.LoadFilesFromCurrentPathCommand.Execute();
 
-            await Task.Delay(MainWindowViewModel.TimeSpanMessageBuffer * 2);
+            await mainVM.IsDialogOpen.Where(x => x).FirstAsync().ToTask()
+                .Timeout(1000);
 
-            mainVM.DialogContentVM.Value.IsDialogOpen.Value
+            mainVM.IsDialogOpen.Value
                 .Should().BeTrue("無効なファイルパスなら、ダイアログが開いたはず");
 
             (mainVM.DialogContentVM.Value as MessageDialogViewModel)?.AppMessage.MessageLevel

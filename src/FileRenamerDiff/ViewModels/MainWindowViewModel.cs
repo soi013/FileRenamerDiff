@@ -47,7 +47,11 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// ダイアログ表示VM
         /// </summary>
-        public ReactivePropertySlim<DialogBaseViewModel> DialogContentVM { get; } = new(initialValue: new DialogBaseViewModel());
+        public ReactivePropertySlim<ViewModel?> DialogContentVM { get; } = new();
+        /// <summary>
+        /// ダイアログが表示されているか
+        /// </summary>
+        public ReactivePropertySlim<bool> IsDialogOpen { get; } = new(false);
         /// <summary>
         /// ダイアログの外側をクリックした際に閉じられるか
         /// </summary>
@@ -185,21 +189,24 @@ namespace FileRenamerDiff.ViewModels
             this.mainModel.ConfirmUser += async () =>
              {
                  var confirmDialogViewModel = new ConfirmDialogViewModel();
+                 confirmDialogViewModel.IsOkResult.Skip(1)
+                    .Subscribe(_ => IsDialogOpen.Value = false);
+
                  await ShowDialogAsync(confirmDialogViewModel, false);
-                 return confirmDialogViewModel.IsOK == true;
+                 return confirmDialogViewModel.IsOkResult.Value == true;
              };
         }
 
-        private void ShowDialog(DialogBaseViewModel innerVM, bool canCloseAwayDialog = true)
+        private void ShowDialog(ViewModel innerVM, bool canCloseAwayDialog = true)
         {
             DialogContentVM.Value = innerVM;
             CloseOnClickAwayDialog.Value = canCloseAwayDialog;
-            innerVM.IsDialogOpen.Value = true;
+            IsDialogOpen.Value = true;
         }
-        private async Task ShowDialogAsync(DialogBaseViewModel innerVM, bool canCloseAwayDialog = true)
+        private async Task ShowDialogAsync(ViewModel innerVM, bool canCloseAwayDialog = true)
         {
             ShowDialog(innerVM, canCloseAwayDialog);
-            await innerVM.IsDialogOpen;
+            await IsDialogOpen.WaitUntilValueChangedAsync();
         }
 
         private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) =>
@@ -228,7 +235,7 @@ namespace FileRenamerDiff.ViewModels
             ShowDialog(innerVM, false);
             await taskLoad;
             //読込が終わったらダイアログを閉じる
-            innerVM.IsDialogOpen.Value = false;
+            IsDialogOpen.Value = false;
         }
 
         private async Task RenameExcute()
@@ -246,7 +253,7 @@ namespace FileRenamerDiff.ViewModels
             ShowDialog(innerVM, false);
             await taskRename;
             //読込が終わったらダイアログを閉じる
-            innerVM.IsDialogOpen.Value = false;
+            IsDialogOpen.Value = false;
         }
 
 
