@@ -73,7 +73,13 @@ jobs:
 
       # Execute all unit tests in the solution
       - name: Execute unit tests
-        run: dotnet test ${{ env.Solution_Path }} --verbosity normal --no-restore --configuration Debug --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="**.Designer.cs%2c**.xaml*" -p:coverletOutput=${{ env.CodeCov_Result }}
+        run: |
+          dotnet test ${{ env.Solution_Path }} |
+          --verbosity normal --no-restore --configuration Debug |
+          --collect:"XPlat Code Coverage" |
+          /p:CollectCoverage=true /p:CoverletOutputFormat=opencover |
+          /p:ExcludeByFile="**.Designer.cs%2c**.xaml*%2c**.g.cs%2c**.xaml" |
+          -p:coverletOutput=${{ env.CodeCov_Result }}
      
       - name: Upload codecov result
         uses: codecov/codecov-action@v2
