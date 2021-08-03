@@ -84,14 +84,6 @@ jobs:
       # Execute all unit tests in the solution
       - name: Execute unit tests
         run: dotnet test ${{ env.Solution_Path }} --verbosity normal --configuration Debug --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="**.Designer.cs%2c**.xaml*" -p:coverletOutput=lcov.info
-
-      - name: Coverlet coverage test
-        uses: b3b00/coverlet-action@1.1.1
-        with:          
-          testProject: ${{ env.Test_Project_Path }}
-          output: ${{ env.CodeCov_Result }}
-          outputFormat: 'lcov'
-          excludes: '[*]*.Views*%2c[*]*.Properties*'
           
       - uses: codecov/codecov-action@v2
         with:
