@@ -76,7 +76,7 @@ jobs:
         run: dotnet test ${{ env.Solution_Path }} --verbosity normal --no-restore --configuration Debug --collect:"XPlat Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:ExcludeByFile="**.Designer.cs%2c**.xaml*" -p:coverletOutput=${{ env.CodeCov_Result }}
      
       - name: Upload codecov result
-      - uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v2
         with:
           files: ${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
           root_dir: ${{ env.Solution_Directory }}
