@@ -84,8 +84,8 @@ jobs:
       - name: Upload codecov result
         uses: codecov/codecov-action@v2
         with:
-          files: ${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
-          root_dir: ${{ env.Solution_Directory }}
+          files: ../${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
+          root_dir: ${{ env.App_Directory }}
 
   create-release:
     runs-on: windows-latest
