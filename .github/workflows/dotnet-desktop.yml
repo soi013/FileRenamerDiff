@@ -41,7 +41,8 @@ on:
   push:
 env:
   App_Name: FileRenamerDiff
-  Solution_Directory: src/FileRenamerDiff
+  App_Directory: src/FileRenamerDiff
+  Solution_Directory: src
   Solution_Path: src/FileRenamerDiff.sln # Replace with your solution name, i.e. MyWpfApp.sln.
   App_Project_Path: src/FileRenamerDiff/FileRenamerDiff.csproj  
   Test_Directory: src/UnitTests
@@ -77,7 +78,7 @@ jobs:
       # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
-             
+        
       - name: Build with dotnet
         run: dotnet build ${{ env.App_Project_Path }} --configuration Debug
 
@@ -88,7 +89,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           files: ${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
-          root_dir: ${{ env.Solution_Directory }}
+          root_dir: ${{ env.App_Directory }}
 
   create-release:
     runs-on: windows-latest
