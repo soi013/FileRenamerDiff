@@ -112,6 +112,25 @@ namespace UnitTests
                 .Should().NotContain(targetDirPath, because: "読み取り先ファイルパスは表示されないはず");
         }
 
+
+        [Fact]
+        public void Test_Dispose()
+        {
+            var fileSystem = new MockFileSystem();
+            var model = new MainModel(fileSystem);
+            var mainVM = new MainWindowViewModel(model);
+            mainVM.Initialize();
+
+            const string newIgnoreExt = "newignoreext";
+            mainVM.SettingVM.Value.IgnoreExtensions.Clear();
+            mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+
+            mainVM.Dispose();
+
+            fileSystem.File.ReadAllText(SettingAppModel.DefaultFilePath)
+                .Should().Contain(newIgnoreExt, because: "設定ファイルの中身に新しい設定値が保存されているはず");
+        }
+
         //HACK 何故かダイアログのテストはCI上で失敗する
         //[Fact]
         //public async Task Test_Dialog()
