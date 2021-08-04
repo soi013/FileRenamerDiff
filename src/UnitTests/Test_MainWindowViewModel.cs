@@ -118,12 +118,13 @@ namespace UnitTests
 
 
         [Fact]
-        public void Test_Dispose()
+        public async Task Test_Dispose()
         {
             var fileSystem = new MockFileSystem();
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             const string newIgnoreExt = "newignoreext";
             mainVM.SettingVM.Value.IgnoreExtensions.Clear();
@@ -147,6 +148,7 @@ namespace UnitTests
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]
@@ -160,9 +162,9 @@ namespace UnitTests
             };
 
             canExecuteUsuallyCommand
-                .ForEach(c =>
+                .ForEach((c, i) =>
                     c.CanExecute(null)
-                    .Should().BeTrue("すべて実行可能はなず"));
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
 
             mainVM.ReplaceCommand.CanExecute()
                 .Should().BeFalse("実行不可能のはず");
@@ -174,18 +176,18 @@ namespace UnitTests
 
             canExecuteUsuallyCommand
                 .Concat(new[] { mainVM.ReplaceCommand })
-                .ForEach(c =>
+                .ForEach((c, i) =>
                     c.CanExecute(null)
-                    .Should().BeFalse("すべて実行不可能はなず"));
+                    .Should().BeFalse($"すべて実行不可能はなず (indexCommand:{i})"));
 
             //ステージ2 ファイル読み込み後
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             canExecuteUsuallyCommand
                 .Concat(new[] { mainVM.ReplaceCommand })
-                .ForEach(c =>
+                .ForEach((c, i) =>
                     c.CanExecute(null)
-                    .Should().BeTrue("すべて実行可能はなず"));
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
 
             mainVM.RenameExcuteCommand.CanExecute()
                 .Should().BeFalse("実行不可能のはず");
@@ -220,9 +222,10 @@ namespace UnitTests
 
             canExecuteUsuallyCommand
               .Concat(new[] { mainVM.ReplaceCommand })
-              .ForEach(c =>
-                  c.CanExecute(null)
-                  .Should().BeTrue("すべて実行可能はなず"));
+                .ForEach((c, i) =>
+                    c.CanExecute(null)
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
+
             mainVM.RenameExcuteCommand.CanExecute()
                 .Should().BeFalse("実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
         }
