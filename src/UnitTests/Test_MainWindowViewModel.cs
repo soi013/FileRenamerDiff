@@ -14,6 +14,7 @@ using Reactive.Bindings;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.ViewModels;
+using System.Windows.Input;
 
 namespace UnitTests
 {
@@ -21,8 +22,10 @@ namespace UnitTests
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string targetDirPathSub = @"D:\FileRenamerDiff_TestSub";
-        private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
-        private static readonly string filePathB = Path.Combine(targetDirPath, "B.csv");
+        private const string fileNameA = "A.txt";
+        private const string fileNameB = "B.csv";
+        private static readonly string filePathA = Path.Combine(targetDirPath, fileNameA);
+        private static readonly string filePathB = Path.Combine(targetDirPath, fileNameB);
 
         [Fact]
         public async Task Test_Idle()
@@ -42,8 +45,9 @@ namespace UnitTests
             mainVM.IsIdle.Value
                 .Should().BeTrue(because: "起動完了後のはず");
 
-            Task<bool> isIdleTask = mainVM.IsIdle.WaitUntilValueChangedAsync();
 
+            Task<bool> isIdleTask = mainVM.IsIdle.WaitUntilValueChangedAsync();
+            model.Setting.SearchFilePaths = new[] { targetDirPath };
             mainVM.LoadFilesFromCurrentPathCommand.Execute();
 
             await isIdleTask.Timeout(10000d);
@@ -129,6 +133,98 @@ namespace UnitTests
 
             fileSystem.File.ReadAllText(SettingAppModel.DefaultFilePath)
                 .Should().Contain(newIgnoreExt, because: "設定ファイルの中身に新しい設定値が保存されているはず");
+        }
+
+        [Fact]
+        public async Task Test_CommandCanExecute()
+        {
+            var fileDict = new[] { filePathA, filePathB }
+                .ToDictionary(
+                    s => s,
+                    s => new MockFileData("mock"));
+
+            var fileSystem = new MockFileSystem(fileDict);
+            var model = new MainModel(fileSystem);
+            var mainVM = new MainWindowViewModel(model);
+            mainVM.Initialize();
+
+            //ステージ1 初期状態
+            var canExecuteUsuallyCommand = new ICommand[]
+            {
+                mainVM.AddFilesFromDialogCommand,
+                mainVM.LoadFilesFromCurrentPathCommand,
+                mainVM.LoadFilesFromDialogCommand,
+                mainVM.LoadFilesFromNewPathCommand,
+                mainVM.ShowHelpPageCommand,
+                mainVM.ShowInformationPageCommand,
+            };
+
+            canExecuteUsuallyCommand
+                .ForEach(c =>
+                    c.CanExecute(null)
+                    .Should().BeTrue("すべて実行可能はなず"));
+
+            mainVM.ReplaceCommand.CanExecute()
+                .Should().BeFalse("実行不可能のはず");
+
+            //ステージ2 ファイル読み込み中
+            Task<bool> isIdleTask = mainVM.IsIdle.WaitUntilValueChangedAsync();
+            mainVM.LoadFilesFromNewPathCommand.Execute(new[] { targetDirPath });
+            await isIdleTask.Timeout(10000d);
+
+            canExecuteUsuallyCommand
+                .Concat(new[] { mainVM.ReplaceCommand })
+                .ForEach(c =>
+                    c.CanExecute(null)
+                    .Should().BeFalse("すべて実行不可能はなず"));
+
+            //ステージ2 ファイル読み込み後
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+
+            canExecuteUsuallyCommand
+                .Concat(new[] { mainVM.ReplaceCommand })
+                .ForEach(c =>
+                    c.CanExecute(null)
+                    .Should().BeTrue("すべて実行可能はなず"));
+
+            mainVM.RenameExcuteCommand.CanExecute()
+                .Should().BeFalse("実行不可能のはず");
+
+            //ステージ3 重複したリネーム後
+            var replaceConflict = new ReplacePattern(fileNameA, fileNameB);
+            mainVM.SettingVM.Value.ReplaceTexts.Add(new ReplacePatternViewModel(replaceConflict));
+            await mainVM.ReplaceCommand.ExecuteAsync();
+
+            mainVM.RenameExcuteCommand.CanExecute()
+                .Should().BeFalse("まだ実行不可能のはず");
+
+            //ステージ4 なにも変化しないリネーム後
+            mainVM.SettingVM.Value.ReplaceTexts.Clear();
+            await mainVM.ReplaceCommand.ExecuteAsync();
+
+            mainVM.RenameExcuteCommand.CanExecute()
+                .Should().BeFalse("まだ実行不可能のはず");
+
+            //ステージ5 有効なネーム後
+            var replaceSafe = new ReplacePattern(fileNameA, "XXX_" + fileNameA);
+            mainVM.SettingVM.Value.ReplaceTexts.Add(new ReplacePatternViewModel(replaceSafe));
+            await mainVM.ReplaceCommand.ExecuteAsync();
+
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+
+            mainVM.RenameExcuteCommand.CanExecute()
+                .Should().BeTrue("まだ実行可能のはず");
+
+            //ステージ6 リネーム保存後
+            await mainVM.RenameExcuteCommand.ExecuteAsync();
+
+            canExecuteUsuallyCommand
+              .Concat(new[] { mainVM.ReplaceCommand })
+              .ForEach(c =>
+                  c.CanExecute(null)
+                  .Should().BeTrue("すべて実行可能はなず"));
+            mainVM.RenameExcuteCommand.CanExecute()
+                .Should().BeFalse("実行不可能のはず");
         }
 
         //HACK 何故かダイアログのテストはCI上で失敗する
