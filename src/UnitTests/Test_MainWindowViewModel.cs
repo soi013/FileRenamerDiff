@@ -203,7 +203,7 @@ namespace UnitTests
             await mainVM.ReplaceCommand.ExecuteAsync();
 
             mainVM.RenameExcuteCommand.CanExecute()
-                .Should().BeFalse("まだ実行不可能のはず");
+                .Should().BeFalse("まだ実行不可能のはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
 
             //ステージ5 有効なネーム後
             var replaceSafe = new ReplacePattern(fileNameA, "XXX_" + fileNameA);
@@ -213,7 +213,7 @@ namespace UnitTests
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             mainVM.RenameExcuteCommand.CanExecute()
-                .Should().BeTrue("まだ実行可能のはず");
+                .Should().BeTrue($"実行可能になったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
 
             //ステージ6 リネーム保存後
             await mainVM.RenameExcuteCommand.ExecuteAsync();
@@ -224,7 +224,7 @@ namespace UnitTests
                   c.CanExecute(null)
                   .Should().BeTrue("すべて実行可能はなず"));
             mainVM.RenameExcuteCommand.CanExecute()
-                .Should().BeFalse("実行不可能のはず");
+                .Should().BeFalse("実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
         }
 
         //HACK 何故かダイアログのテストはCI上で失敗する
