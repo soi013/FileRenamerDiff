@@ -148,7 +148,6 @@ namespace UnitTests
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
-            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]
@@ -182,7 +181,7 @@ namespace UnitTests
 
             //ステージ2 ファイル読み込み後
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
-
+            await Task.Delay(100);
             canExecuteUsuallyCommand
                 .Concat(new[] { mainVM.ReplaceCommand })
                 .ForEach((c, i) =>
