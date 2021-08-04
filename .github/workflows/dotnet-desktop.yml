@@ -81,10 +81,16 @@ jobs:
           /p:ExcludeByFile="**.Designer.cs%2c**.xaml*%2c**.g.cs%2c**.xaml"
           -p:coverletOutput=${{ env.CodeCov_Result }}
      
-      - name: Upload codecov result
+      - name: Send coverage result to codecov 
         uses: codecov/codecov-action@v2
         with:
           files: ${{ env.Solution_Directory }}/${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
+
+      - name: Upload coverage result
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          path: ${{ env.Solution_Directory }}/${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
+
 
   create-release:
     runs-on: windows-latest
