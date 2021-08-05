@@ -111,12 +111,14 @@ namespace FileRenamerDiff.ViewModels
         {
             this.mainModel = mainModel;
             this.GridVM = new(mainModel);
-            this.WindowTitle = mainModel.FileElementModels.CollectionChangedAsObservable()
-                //起動時にはCollectionChangedが動かないので、ダミーの初期値を入れておく
-                .StartWith(default(NotifyCollectionChangedEventArgs))
-                .Select(_ => mainModel.FileElementModels.Count > 0 ? mainModel.Setting.ConcatedSearchFilePaths : String.Empty)
+            var concatedFilePaths = mainModel.FileElementModels.CollectionChangedAsObservable()
+                            .Select(_ => mainModel.FileElementModels.Count > 0 ? mainModel.Setting.ConcatedSearchFilePaths : string.Empty)
+                            .ObserveOnUIDispatcher()
+                            //起動時にはCollectionChangedが動かないので、ダミーの初期値を入れておく
+                            .ToReadOnlyReactivePropertySlim(string.Empty);
+
+            this.WindowTitle = concatedFilePaths
                 .Select(x => $"FILE RENAMER DIFF | {x}")
-                .ObserveOnUIDispatcher()
                 .ToReadOnlyReactivePropertySlim<string>();
 
             this.ReplaceCommand = new[]
