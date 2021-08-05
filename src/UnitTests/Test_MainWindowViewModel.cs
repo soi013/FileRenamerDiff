@@ -227,6 +227,9 @@ namespace UnitTests
             //ステージ6 リネーム保存後
             await mainVM.RenameExcuteCommand.ExecuteAsync();
 
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+            await Task.Delay(10);
+
             canExecuteUsuallyCommand
               .Concat(new[] { mainVM.ReplaceCommand })
                 .ForEach((c, i) =>
