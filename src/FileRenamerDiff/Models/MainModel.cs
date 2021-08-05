@@ -124,9 +124,8 @@ namespace FileRenamerDiff.Models
         {
             this.fileSystem = fileSystem;
             FileElementModels
-                .CollectionChangedAsObservable()
-                //ファイルをまとめて追加し終わってから、更新する
-                .Throttle(TimeSpan.FromMilliseconds(500))
+                //ファイルリストがリセットされたら、カウントを更新する。リセット以外の追加などは連続で呼ばれることがあるので、つど手動で更新をよぶ
+                .ObserveResetChanged()
                 .Subscribe(_ => UpdateCountReplacedAndConflicted());
 
             CurrentProgessInfo = progressNotifier
@@ -208,6 +207,7 @@ namespace FileRenamerDiff.Models
             FileElementModels.Clear();
             FileElementModel[] addFileElements = GetFileElements(Setting, progressNotifier, tokenSource?.Token);
             FileElementModels.AddRange(addFileElements);
+            UpdateCountReplacedAndConflicted();
         }
 
         private FileElementModel[] GetFileElements(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken? cancellationToken)
@@ -275,6 +275,7 @@ namespace FileRenamerDiff.Models
                 .Select(x => new FileElementModel(fileSystem, x, MessageEvent));
 
             this.FileElementModels.AddRange(addSource);
+            UpdateCountReplacedAndConflicted();
 
             this.isIdle.Value = true;
         }
