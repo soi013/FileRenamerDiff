@@ -43,18 +43,12 @@ namespace UnitTests
                 .Should().BeFalse(because: "起動中のはず");
 
             mainVM.Initialize();
-            await Task.Delay(100);
+            await Task.Delay(10);
             mainVM.IsIdle.Value
                 .Should().BeTrue(because: "起動完了後のはず");
 
-            Task<bool> isIdleTask = mainVM.IsIdle.WaitUntilValueChangedAsync();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
-            mainVM.LoadFilesFromCurrentPathCommand.Execute();
-
-            await isIdleTask.Timeout(10000d);
-
-            mainVM.IsIdle.Value
-                .Should().BeFalse(because: "ファイル読み込み中のはず");
+            await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync().Timeout(10000d);
 
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
