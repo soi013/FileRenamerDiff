@@ -85,7 +85,6 @@ namespace FileRenamerDiff.Models
         public IReadOnlyReactiveProperty<int> CountReplaced => countReplaced;
         private readonly ReactivePropertySlim<int> countReplaced = new(0);
 
-
         /// <summary>
         /// ファイルパスの衝突しているファイル数
         /// </summary>

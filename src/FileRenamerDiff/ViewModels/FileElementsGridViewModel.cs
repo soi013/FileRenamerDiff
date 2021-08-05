@@ -138,7 +138,6 @@ namespace FileRenamerDiff.ViewModels
                 .ToReactiveCommand()
                 .WithSubscribe(() => mainModel.FileElementModels.Clear());
 
-
             RemoveItemCommand = mainModel.IsIdleUI
                 .ToReactiveCommand<FileElementViewModel>()
                 .WithSubscribe(x =>

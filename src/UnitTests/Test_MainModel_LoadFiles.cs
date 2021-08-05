@@ -85,7 +85,6 @@ namespace UnitTests
                     "すべてのファイル・フォルダが列挙されるはず");
         }
 
-
         [Fact]
         public async Task Test_LoadFile_OnlyDir()
         {
@@ -126,7 +125,6 @@ namespace UnitTests
                     "すべてのファイルが列挙されるはず");
         }
 
-
         [Fact]
         public async Task Test_LoadFile_OnlyTopIgnoreHidden()
         {
@@ -146,7 +144,6 @@ namespace UnitTests
                     new[] { filePathA, filePathB, filePathCini, filePathDSubDir },
                     "トップ階層の隠しファイル以外のファイル・フォルダが列挙されるはず");
         }
-
 
         [Fact]
         public async Task Test_LoadFile_Frequentory()
