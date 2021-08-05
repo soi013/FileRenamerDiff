@@ -40,6 +40,7 @@ namespace UnitTests
                 [filePathHSubHiddenDir] = new MockDirectoryData() { Attributes = FileAttributes.Directory | FileAttributes.Hidden },
             });
         }
+
         private static MainModel CreateDefaultSettingModel()
         {
             MockFileSystem fileSystem = CreateMockFileSystem();
@@ -144,6 +145,23 @@ namespace UnitTests
                 .Should().BeEquivalentTo(
                     new[] { filePathA, filePathB, filePathCini, filePathDSubDir },
                     "トップ階層の隠しファイル以外のファイル・フォルダが列挙されるはず");
+        }
+
+
+        [Fact]
+        public async Task Test_LoadFile_Frequentory()
+        {
+            MainModel model = CreateDefaultSettingModel();
+
+            for (int i = 0; i < 10; i++)
+            {
+                await model.LoadFileElements();
+                model.FileElementModels.Count
+                    .Should().Be(5);
+
+                System.Diagnostics.Debug.WriteLine($"delay i:{i}");
+                await Task.Delay(500);
+            }
         }
     }
 }
