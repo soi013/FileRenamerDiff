@@ -80,13 +80,10 @@ namespace UnitTests
                 .Should().NotContain(targetDirPath, because: "まだ読み取り先ファイルパスは表示されないはず");
 
             mainVM.Initialize();
+            await Task.Delay(10);
 
-            {
-                Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
-                mainVM.LoadFilesFromCurrentPathCommand.Execute();
-                await taskWindowTitle.Timeout(10000d);
-                await Task.Delay(10);
-            }
+            await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
+            await Task.Delay(10);
 
             mainVM.WindowTitle.Value
                     .Should().Contain(targetDirPath, because: "読み取り先ファイルパスが表示されるはず");
@@ -124,6 +121,7 @@ namespace UnitTests
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
+            await Task.Delay(10);
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             const string newIgnoreExt = "newignoreext";
@@ -148,7 +146,7 @@ namespace UnitTests
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
-
+            await Task.Delay(10);
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             //ステージ1 初期状態
