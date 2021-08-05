@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Media;
-using System.IO;
-using System.Text.RegularExpressions;
 
-using System.Reactive.Linq;
-using Reactive.Bindings.Extensions;
 using Anotar.Serilog;
-using System.Collections.Specialized;
+
 using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.Models
 {
@@ -101,7 +102,6 @@ namespace FileRenamerDiff.Models
             //Target -> Source
             targets.CollectionChanged += (o, e) =>
                 ExcuteIfNotChanging(() => SyncByChangedEventArgs(targets, sources, targetToSource, e));
-
 
             //変更イベントループしてしまわないように、ローカル変数(isChanging)でチェック
             //ローカル変数(isChanging)にアクセスするため、ローカル関数で記述

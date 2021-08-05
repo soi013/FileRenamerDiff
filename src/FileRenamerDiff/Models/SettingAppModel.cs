@@ -1,36 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Resources;
-using System.Globalization;
-using System.Windows.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
 using System.IO;
+using System.IO.Abstractions;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Resources;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Runtime.Serialization;
+using System.Windows.Data;
+
+using Anotar.Serilog;
+
+using FileRenamerDiff.Properties;
 
 using Livet;
 using Livet.Commands;
+using Livet.EventListeners;
 using Livet.Messaging;
 using Livet.Messaging.IO;
-using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using Reactive.Bindings;
-using System.Reactive;
-using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
-using Anotar.Serilog;
+
 using Utf8Json;
 using Utf8Json.Resolvers;
-using System.IO.Abstractions;
-
-using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.Models
 {
@@ -135,7 +137,6 @@ namespace FileRenamerDiff.Models
         }
         private bool _IsSearchSubDirectories = true;
 
-
         /// <summary>
         /// 隠しファイルをリネーム対象にするか
         /// </summary>
@@ -156,7 +157,6 @@ namespace FileRenamerDiff.Models
         }
         private bool _IsDirectoryRenameTarget = true;
 
-
         /// <summary>
         /// ディレクトリでないファイルをリネーム対象にするか
         /// </summary>
@@ -166,7 +166,6 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _IsFileRenameTarget, value);
         }
         private bool _IsFileRenameTarget = true;
-
 
         /// <summary>
         /// リネーム対象になるファイル種類がないか
@@ -235,7 +234,6 @@ namespace FileRenamerDiff.Models
         }
         private string _AppLanguageCode = "";
 
-
         /// <summary>
         /// アプリケーションの色テーマ
         /// </summary>
@@ -246,7 +244,6 @@ namespace FileRenamerDiff.Models
         }
         private bool _IsAppDarkTheme = true;
 
-
         /// <summary>
         /// 変更時に変更前後の履歴を保存するか
         /// </summary>
@@ -256,7 +253,6 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _IsCreateRenameLog, value);
         }
         private bool _IsCreateRenameLog;
-
 
         internal void AddIgnoreExtensions() => IgnoreExtensions.Add(ValueHolderFactory.Create(String.Empty));
 

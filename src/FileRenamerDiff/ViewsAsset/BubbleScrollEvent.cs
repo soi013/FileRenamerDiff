@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Xaml.Behaviors;
 
+using Microsoft.Xaml.Behaviors;
 
 namespace FileRenamerDiff.Views
 {

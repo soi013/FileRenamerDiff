@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+
 using Microsoft.Xaml.Behaviors;
 
 namespace FileRenamerDiff.Views
@@ -39,7 +40,6 @@ namespace FileRenamerDiff.Views
                 behaviors.Add(b);
         }
         #endregion
-
 
         protected override Freezable CreateInstanceCore() => new StyleBehaviorCollection();
     }

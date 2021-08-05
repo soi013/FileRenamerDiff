@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.IO.Abstractions.TestingHelpers;
+using System.Linq;
 using System.Reactive.Subjects;
-using Xunit;
-using FluentAssertions;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
+
+using FluentAssertions;
+
+using Xunit;
 
 namespace UnitTests
 {
@@ -98,7 +100,6 @@ namespace UnitTests
             //リネームプレビュー実行
             fileElem.Replace(replaceRegexes, isRenameExt);
 
-
             fileElem.OutputFileName
                 .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
 
@@ -173,7 +174,6 @@ namespace UnitTests
             //リネームプレビュー実行
             fileElem.Replace(replaceRegexes, false);
 
-
             fileElem.OutputFileName
                 .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
 
@@ -209,7 +209,6 @@ namespace UnitTests
                 .Select(p => Path.GetFileName(p))
                 .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ファイルシステム上も名前が変わったはず");
         }
-
 
         [Fact]
         public void Test_FileElement_WarningMessageInvalid()

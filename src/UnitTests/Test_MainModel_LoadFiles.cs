@@ -1,15 +1,16 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-
-using Xunit;
-using FluentAssertions;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
+
+using FluentAssertions;
+
+using Xunit;
 
 namespace UnitTests
 {

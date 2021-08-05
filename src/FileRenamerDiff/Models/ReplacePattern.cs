@@ -1,6 +1,6 @@
-﻿using Livet;
-using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+
+using Livet;
 
 namespace FileRenamerDiff.Models
 {
@@ -65,7 +65,7 @@ namespace FileRenamerDiff.Models
                 : new ReplaceRegex(regex, ReplaceText);
         }
 
-        internal static ReplacePattern CreateEmpty() => new ReplacePattern(string.Empty, string.Empty);
+        internal static ReplacePattern CreateEmpty() => new(string.Empty, string.Empty);
 
         public override string ToString() => $"{TargetPattern}->{ReplaceText}";
     }

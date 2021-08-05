@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+
 using Microsoft.Xaml.Behaviors;
 
 namespace FileRenamerDiff.Views
@@ -20,8 +21,6 @@ namespace FileRenamerDiff.Views
         public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(FileDropBehavior), new PropertyMetadata(null));
         #endregion
-
-
 
         protected override void OnAttached()
         {

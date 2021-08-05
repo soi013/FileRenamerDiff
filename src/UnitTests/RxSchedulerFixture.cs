@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Reactive.Bindings;
 using System.Reactive.Concurrency;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+
+using Reactive.Bindings;
 
 namespace UnitTests
 {

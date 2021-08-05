@@ -53,5 +53,4 @@ namespace FileRenamerDiff.Views
         /// <returns>変換された値</returns>
         public abstract TSource ConvertBack(TTarget value, object parameter, CultureInfo culture);
     }
-
 }

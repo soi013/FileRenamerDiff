@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Globalization;
 
 using Anotar.Serilog;
-using Serilog.Events;
-using Livet.Messaging;
-using MaterialDesignThemes.Wpf;
 
 using FileRenamerDiff.Models;
+
+using Livet.Messaging;
+
+using MaterialDesignThemes.Wpf;
+
+using Serilog.Events;
 
 namespace FileRenamerDiff.Views
 {
@@ -32,5 +35,4 @@ namespace FileRenamerDiff.Views
 
         public override bool ConvertBack(Brush value, object parameter, CultureInfo culture) => default;
     }
-
 }

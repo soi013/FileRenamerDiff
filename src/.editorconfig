@@ -13,13 +13,13 @@ tab_width = 4
 
 # 改行設定
 end_of_line = crlf
-insert_final_newline = false
+insert_final_newline =true
 
 #### .NET コーディング規則 ####
 
 # using の整理
-dotnet_separate_import_directive_groups = false
-dotnet_sort_system_directives_first = false
+dotnet_separate_import_directive_groups = true
+dotnet_sort_system_directives_first = true
 
 # this. と Me. の設定
 dotnet_style_qualification_for_event = false:silent
@@ -73,7 +73,7 @@ csharp_style_expression_bodied_constructors = false:silent
 csharp_style_expression_bodied_indexers = true:suggestion
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
-csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_methods = true:silent
 csharp_style_expression_bodied_operators = false:silent
 csharp_style_expression_bodied_properties = true:suggestion
 
@@ -102,7 +102,7 @@ csharp_style_prefer_index_operator = true:suggestion
 csharp_style_prefer_range_operator = true:suggestion
 csharp_style_throw_expression = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
-csharp_style_unused_value_expression_statement_preference = discard_variable:silent
+csharp_style_unused_value_expression_statement_preference = discard_variable:none
 
 # 'using' ディレクティブの基本設定
 csharp_using_directive_placement = outside_namespace:suggestion
@@ -195,3 +195,6 @@ dotnet_naming_style.i_で始まる.required_prefix = I
 dotnet_naming_style.i_で始まる.required_suffix = 
 dotnet_naming_style.i_で始まる.word_separator = 
 dotnet_naming_style.i_で始まる.capitalization = pascal_case
+
+# IDE0058: 式の値が使用されていません
+dotnet_diagnostic.IDE0058.severity = none

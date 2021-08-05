@@ -1,34 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Resources;
-using System.Globalization;
-using System.Windows.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Diagnostics;
-
-using Livet;
-using Livet.Commands;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.EventListeners;
-using Livet.Messaging.Windows;
-
-using Reactive.Bindings;
+using System.Globalization;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using Reactive.Bindings.Extensions;
+using System.Resources;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Data;
+
 using Anotar.Serilog;
+
 using DiffPlex;
 using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.Properties;
+
+using Livet;
+using Livet.Commands;
+using Livet.EventListeners;
+using Livet.Messaging;
+using Livet.Messaging.IO;
+using Livet.Messaging.Windows;
+
+using Reactive.Bindings;
+using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.ViewModels
 {

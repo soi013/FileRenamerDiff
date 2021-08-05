@@ -7,9 +7,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 
 using Anotar.Serilog;
+
 using Livet;
 using Livet.Messaging;
+
 using Reactive.Bindings;
+
 using Serilog.Events;
 
 namespace FileRenamerDiff.Models
@@ -80,7 +83,6 @@ namespace FileRenamerDiff.Models
                 }
             }
             yield return CreateMessage(currentMessage, stbBody);
-
 
             static AppMessage CreateMessage(AppMessage currentMessage, StringBuilder stbBody) =>
                 new(

@@ -1,20 +1,22 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Windows.Input;
-
-using Xunit;
-using FluentAssertions;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using Reactive.Bindings;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.ViewModels;
+
+using FluentAssertions;
+
+using Reactive.Bindings;
+
+using Xunit;
 
 namespace UnitTests
 {
@@ -22,11 +24,6 @@ namespace UnitTests
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string targetDirPathSub = @"D:\FileRenamerDiff_TestSub";
-        private const string fileNameA = "A.txt";
-        private const string fileNameB = "B.csv";
-        private static readonly string filePathA = Path.Combine(targetDirPath, fileNameA);
-        private static readonly string filePathB = Path.Combine(targetDirPath, fileNameB);
-
 
         [Fact]
         public async Task Test_CommandCanExecute()
@@ -70,14 +67,11 @@ namespace UnitTests
                 .Should().Contain(targetDirPath, "連結ファイルパスに元のファイルパスが含まれているはず")
                 .And.Contain(targetDirPathSub, "連結ファイルパスに元のファイルパスが含まれているはず");
 
-
-
             settingVM.ConcatedSearchFilePaths.Value = $"{targetDirPath}|{targetDirPathSub}";
             settingVM.SearchFilePaths.Value
                 .Should().Contain(targetDirPath, "連結ファイルパスに元のファイルパスが含まれているはず")
                 .And.Contain(targetDirPathSub, "連結ファイルパスに元のファイルパスが含まれているはず");
         }
-
 
         [Fact]
         public void Test_CommonDeletePattern()

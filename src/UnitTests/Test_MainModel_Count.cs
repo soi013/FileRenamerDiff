@@ -1,17 +1,19 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-
-using Xunit;
-using FluentAssertions;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
-using Reactive.Bindings;
+using System.Linq;
 using System.Reactive.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
+
+using FluentAssertions;
+
+using Reactive.Bindings;
+
+using Xunit;
 
 namespace UnitTests
 {
@@ -98,7 +100,6 @@ namespace UnitTests
             messages
                 .Should().HaveCount(0, "衝突はしないので、0のはず");
         }
-
 
         [Fact]
         public async Task Test_CountConflict()

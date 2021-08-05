@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
-using System.Globalization;
-
-using MaterialDesignThemes.Wpf;
 
 using FileRenamerDiff.Models;
+
+using MaterialDesignThemes.Wpf;
 
 namespace FileRenamerDiff.Views
 {
@@ -23,12 +23,12 @@ namespace FileRenamerDiff.Views
             {
                 AppMessageLevel.Alert => PackIconKind.Alert,
                 AppMessageLevel.Error => PackIconKind.AlertOctagram,
+                AppMessageLevel.Info => PackIconKind.Information,
                 _ => PackIconKind.Information
             };
 
         public override AppMessageLevel ConvertBack(PackIconKind value, object parameter, CultureInfo culture) => default;
     }
-
 
     [ValueConversion(typeof(AppMessageLevel), typeof(Brush))]
     public class LogEventLevelToBrushConverter : GenericConverter<AppMessageLevel, Brush>

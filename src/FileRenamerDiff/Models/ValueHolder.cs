@@ -1,7 +1,8 @@
-﻿using Livet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+
+using Livet;
 
 namespace FileRenamerDiff.Models
 {

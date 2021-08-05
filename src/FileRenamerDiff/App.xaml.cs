@@ -2,43 +2,49 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.IO.Abstractions;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 
-using MaterialDesignThemes.Wpf;
-using Livet;
 using Anotar.Serilog;
+
+using FileRenamerDiff.Models;
+
+using Livet;
+
+using MaterialDesignColors;
+
+using MaterialDesignThemes.Wpf;
+
+using Microsoft.Extensions.DependencyInjection;
+
+using Reactive.Bindings;
+using Reactive.Bindings.Schedulers;
+
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
 using Serilog.Formatting.Compact;
-using Microsoft.Extensions.DependencyInjection;
-using Reactive.Bindings;
-using MaterialDesignColors;
-using System.IO.Abstractions;
-using Reactive.Bindings.Schedulers;
-
-using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff
 {
-public partial class App : Application
-{
-    public static IServiceProvider Services { get; } = ConfigureServices();
-
-    private static IServiceProvider ConfigureServices()
+    public partial class App : Application
     {
-        IServiceCollection? services = new ServiceCollection()
-            .AddTransient<IFileSystem, FileSystem>()
-            .AddSingleton<MainModel>();
+        public static IServiceProvider Services { get; } = ConfigureServices();
 
-        return services.BuildServiceProvider();
-    }
+        private static IServiceProvider ConfigureServices()
+        {
+            IServiceCollection? services = new ServiceCollection()
+                .AddTransient<IFileSystem, FileSystem>()
+                .AddSingleton<MainModel>();
 
-    private void Application_Startup(object sender, StartupEventArgs e)
+            return services.BuildServiceProvider();
+        }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
         {
             SetupLoggerConfig();
             DispatcherHelper.UIDispatcher = Dispatcher;

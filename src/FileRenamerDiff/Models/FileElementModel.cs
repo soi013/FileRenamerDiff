@@ -1,33 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
-using System.Resources;
-using System.Globalization;
-using System.Windows.Data;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Globalization;
 using System.IO;
-using System.Threading.Tasks;
+using System.IO.Abstractions;
+using System.Linq;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Resources;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Data;
+
+using Anotar.Serilog;
+
+using FileRenamerDiff.Properties;
 
 using Livet;
 using Livet.Commands;
+using Livet.EventListeners;
 using Livet.Messaging;
 using Livet.Messaging.IO;
-using Livet.EventListeners;
 using Livet.Messaging.Windows;
 
 using Reactive.Bindings;
-using System.Reactive;
-using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
-using System.Reactive.Subjects;
-using Anotar.Serilog;
-using System.IO.Abstractions;
-
-using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.Models
 {
@@ -123,7 +124,6 @@ namespace FileRenamerDiff.Models
         /// ファイル属性
         /// </summary>
         public FileAttributes Attributes => fsInfo.Attributes;
-
 
         private RenameState _State = RenameState.None;
         /// <summary>

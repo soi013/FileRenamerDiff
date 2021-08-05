@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Media;
 using System.IO;
+using System.IO.Abstractions;
+using System.Linq;
+using System.Reactive.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
+
+using Anotar.Serilog;
+
+using DiffPlex;
+using DiffPlex.DiffBuilder;
+using DiffPlex.DiffBuilder.Model;
 
 using Reactive.Bindings;
-using System.Reactive.Linq;
 using Reactive.Bindings.Extensions;
-using Anotar.Serilog;
-using DiffPlex.DiffBuilder.Model;
-using DiffPlex.DiffBuilder;
-using DiffPlex;
-using System.IO.Abstractions;
 
 namespace FileRenamerDiff.Models
 {
@@ -103,7 +105,6 @@ namespace FileRenamerDiff.Models
         /// インデックスを付与して列挙する
         /// </summary>
         public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
-
 
         /// <summary>
         ///nullの要素を取り除いてnullが含まれていないことが保証されたWhere
@@ -203,7 +204,6 @@ namespace FileRenamerDiff.Models
             Path.HasExtension(path)
             ? Path.GetExtension(path)[1..]
             : string.Empty;
-
 
         /// <summary>
         /// 差分比較情報を作成

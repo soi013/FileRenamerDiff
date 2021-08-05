@@ -1,20 +1,22 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Windows.Input;
-
-using Xunit;
-using FluentAssertions;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-using Reactive.Bindings;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.ViewModels;
+
+using FluentAssertions;
+
+using Reactive.Bindings;
+
+using Xunit;
 
 namespace UnitTests
 {
@@ -44,7 +46,6 @@ namespace UnitTests
             await Task.Delay(100);
             mainVM.IsIdle.Value
                 .Should().BeTrue(because: "起動完了後のはず");
-
 
             Task<bool> isIdleTask = mainVM.IsIdle.WaitUntilValueChangedAsync();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
@@ -112,7 +113,6 @@ namespace UnitTests
             mainVM.WindowTitle.Value
                 .Should().NotContain(targetDirPath, because: "読み取り先ファイルパスは表示されないはず");
         }
-
 
         [Fact]
         public async Task Test_Dispose()

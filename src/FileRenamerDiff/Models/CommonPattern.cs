@@ -1,8 +1,9 @@
-﻿using FileRenamerDiff.Properties;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+
+using FileRenamerDiff.Properties;
 
 namespace FileRenamerDiff.Models
 {

@@ -9,6 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 
 using Anotar.Serilog;
+
 using DiffPlex.DiffBuilder.Model;
 
 using FileRenamerDiff.Models;

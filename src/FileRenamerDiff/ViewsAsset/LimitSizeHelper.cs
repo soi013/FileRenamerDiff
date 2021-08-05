@@ -26,7 +26,6 @@ namespace FileRenamerDiff.Views
                     new PropertyMetadata(-1d, (d, e) => AddLimitMaxSize(d, e, true)));
         #endregion
 
-
         private static void AddLimitMaxSize(DependencyObject d, DependencyPropertyChangedEventArgs e, bool isWidth)
         {
             if (d is FrameworkElement targetObj

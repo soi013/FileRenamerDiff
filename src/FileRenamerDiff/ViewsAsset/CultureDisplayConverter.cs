@@ -13,7 +13,7 @@ namespace FileRenamerDiff.Views
     [ValueConversion(typeof(string), typeof(CultureInfo))]
     public class CultureDisplayConverter : GenericConverter<CultureInfo, string>
     {
-        public override string Convert(CultureInfo selectCulture, object parameter, CultureInfo culture) => 
+        public override string Convert(CultureInfo selectCulture, object parameter, CultureInfo culture) =>
             selectCulture.Equals(CultureInfo.InvariantCulture)
                 ? "-- Auto --"
                 : $"{selectCulture.Name}/ {selectCulture.NativeName}/ {selectCulture.DisplayName}";

@@ -1,13 +1,16 @@
 ﻿using System;
-using Xunit;
-using FileRenamerDiff.Models;
 using System.Collections.Generic;
-using FluentAssertions;
-using System.Text.RegularExpressions;
-using System.IO.Abstractions.TestingHelpers;
 using System.IO;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+
+using FileRenamerDiff.Models;
+
+using FluentAssertions;
+
+using Xunit;
 
 namespace UnitTests
 {
@@ -43,7 +46,6 @@ namespace UnitTests
             sum1.MessageBody
                 .Should().Be($"A1{Environment.NewLine}A2{Environment.NewLine}A3");
 
-
             var sum2 = sumMessages.Dequeue();
             sum2.MessageLevel
                 .Should().Be(AppMessageLevel.Info);
@@ -63,7 +65,6 @@ namespace UnitTests
 
             sum3.MessageBody
                 .Should().Be($"C1{Environment.NewLine}C2");
-
 
             var sum4 = sumMessages.Dequeue();
             sum4.MessageLevel
