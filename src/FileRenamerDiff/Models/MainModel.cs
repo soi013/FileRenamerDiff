@@ -124,6 +124,8 @@ namespace FileRenamerDiff.Models
         public MainModel(IFileSystem fileSystem)
         {
             this.fileSystem = fileSystem;
+            IsIdleUI.Subscribe(x => LogTo.Debug("Change IsIdleUI = {@IsIdleUI}", x));
+
             FileElementModels
                 //ファイルリストがリセットされたら、カウントを更新する。リセット以外の追加などは連続で呼ばれることがあるので、つど手動で更新をよぶ
                 .ObserveResetChanged()
