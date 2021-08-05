@@ -2,6 +2,8 @@
 using System.Linq;
 using Reactive.Bindings;
 using System.Reactive.Concurrency;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace UnitTests
 {
@@ -9,7 +11,7 @@ namespace UnitTests
     {
         public RxSchedulerFixture()
         {
-            ReactivePropertyScheduler.SetDefault(TaskPoolScheduler.Default);
+            ReactivePropertyScheduler.SetDefault(new SynchronizationContextScheduler(SynchronizationContext.Current!));
         }
     }
 }
