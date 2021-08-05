@@ -197,6 +197,9 @@ namespace UnitTests
             mainVM.SettingVM.Value.ReplaceTexts.Add(new ReplacePatternViewModel(replaceConflict));
             await mainVM.ReplaceCommand.ExecuteAsync();
 
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+            await Task.Delay(10);
+
             mainVM.RenameExcuteCommand.CanExecute()
                 .Should().BeFalse("まだ実行不可能のはず");
 
@@ -204,8 +207,11 @@ namespace UnitTests
             mainVM.SettingVM.Value.ReplaceTexts.Clear();
             await mainVM.ReplaceCommand.ExecuteAsync();
 
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+            await Task.Delay(10);
+
             mainVM.RenameExcuteCommand.CanExecute()
-                .Should().BeFalse("まだ実行不可能のはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
+                .Should().BeFalse($"まだ実行不可能のはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
 
             //ステージ5 有効なネーム後
             var replaceSafe = new ReplacePattern(fileNameA, "XXX_" + fileNameA);
@@ -213,6 +219,7 @@ namespace UnitTests
             await mainVM.ReplaceCommand.ExecuteAsync();
 
             await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+            await Task.Delay(10);
 
             mainVM.RenameExcuteCommand.CanExecute()
                 .Should().BeTrue($"実行可能になったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
@@ -227,7 +234,7 @@ namespace UnitTests
                     .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
 
             mainVM.RenameExcuteCommand.CanExecute()
-                .Should().BeFalse("実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
+                .Should().BeFalse($"実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
         }
 
         //HACK 何故かダイアログのテストはCI上で失敗する
