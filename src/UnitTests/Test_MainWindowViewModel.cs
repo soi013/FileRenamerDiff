@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 using Xunit;
 using FluentAssertions;
@@ -14,7 +15,6 @@ using Reactive.Bindings;
 
 using FileRenamerDiff.Models;
 using FileRenamerDiff.ViewModels;
-using System.Windows.Input;
 
 namespace UnitTests
 {
@@ -148,6 +148,8 @@ namespace UnitTests
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
+
+            await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]

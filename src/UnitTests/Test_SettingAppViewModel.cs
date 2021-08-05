@@ -29,11 +29,12 @@ namespace UnitTests
 
 
         [Fact]
-        public void Test_CommandCanExecute()
+        public async Task Test_CommandCanExecute()
         {
             var model = new MainModel(new MockFileSystem());
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
+            await model.IsIdleUI.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]
@@ -51,9 +52,9 @@ namespace UnitTests
             };
 
             canExecuteUsuallyCommand
-                .ForEach(c =>
+                .ForEach((c, i) =>
                     c.CanExecute(null)
-                    .Should().BeTrue("すべて実行可能はなず"));
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
         }
 
         [Fact]
