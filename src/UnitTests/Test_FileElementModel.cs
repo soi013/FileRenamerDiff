@@ -267,7 +267,7 @@ namespace UnitTests
             string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
-                [targetFilePath] = new MockFileData("ABC") { AllowedFileShare = FileShare.Read }
+                [targetFilePath] = new MockFileData("ABC") { AllowedFileShare = FileShare.None }
             });
 
             var messages = new List<AppMessage>();
@@ -284,9 +284,9 @@ namespace UnitTests
             //無効文字の置換パターン
 
             //リネームプレビュー実行
-            fileElem.Replace(new[] { new ReplaceRegex(new Regex("ABC"), "abc") }, false);
+            fileElem.Replace(new[] { new ReplaceRegex(new Regex("ABC"), "xyz") }, false);
 
-            const string expectedFileName = "abc.txt";
+            const string expectedFileName = "xyz.txt";
 
             fileElem.OutputFileName
                 .Should().Be(expectedFileName, "置換後文字列になっているはず");
