@@ -112,7 +112,7 @@ namespace FileRenamerDiff.ViewModels
                 this.CountConflicted.Select(_=>true),
                 this.CountReplaced.Select(_=>true),
             }
-            .CombineLatest()
+            .Merge()
             .Throttle(TimeSpan.FromMilliseconds(100))
             .ObserveOnUIDispatcher()
             .Subscribe(_ => RefleshCollectionViewSafe());
