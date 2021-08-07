@@ -106,6 +106,6 @@ namespace FileRenamerDiff.ViewModels
                 Process.Start("EXPLORER.EXE", @$"/select,""{pathModel.InputFilePath}"""));
         }
 
-        public override string ToString() => $"Source:{Diff.Value?.ToDisplayString()}";
+        public override string ToString() => PathModel.ToString();
     }
 }
