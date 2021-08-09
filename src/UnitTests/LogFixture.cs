@@ -26,6 +26,11 @@ namespace UnitTests
 
         private static void SetupLoggerConfig()
         {
+            Thread.CurrentThread.Name ??= "CT";
+
+            if (Log.Logger is Serilog.Core.Logger)
+                return;
+
             //メッセージテンプレート 現在時刻、ログレベル、スレッドID・名称、メッセージ本文、呼び出し元名前空間＋クラス名、呼び出し元メソッドシグネチャ、行番号、使用メモリ量、(あれば例外)が保存される
             string template = "| {Timestamp:HH:mm:ss.fff} | {Level:u4} | {ThreadId:00}:{ThreadName} | {Message:j} | {SourceContext} | {MethodName} | {LineNumber} L | {MemoryUsage} B|{NewLine}{Exception}";
 
@@ -43,8 +48,6 @@ namespace UnitTests
                             //上のテンプレートのメッセージをデバッグ出力とファイルに保存
                             .WriteTo.Debug(outputTemplate: template)
                             .CreateLogger();
-
-            Thread.CurrentThread.Name = "CT";
         }
     }
 }
