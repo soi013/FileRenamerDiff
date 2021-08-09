@@ -24,8 +24,8 @@ namespace UnitTests
         public static Task WaitIdle(this MainWindowViewModel vm) =>
             vm.IsIdle.Where(x => x).FirstAsync().ToTask();
 
-        public static Task WaitIdle(this MainModel m) =>
-            m.IsIdle.Where(x => x).FirstAsync().ToTask();
+        public static Task WaitIdleUI(this MainModel m) =>
+            m.IsIdleUI.Where(x => x).FirstAsync().ToTask();
 
         public static Task WaitBe<T>(this IObservable<T> source, T expectValue) =>
                     source.Where(x => x?.Equals(expectValue) == true).FirstAsync().ToTask();

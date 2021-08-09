@@ -92,7 +92,7 @@ namespace UnitTests
             //ステージ なにも置換しない置換後
             await model.Replace();
 
-            await model.WaitIdle().Timeout(1000);
+            await model.WaitIdleUI().Timeout(1000);
 
             fileElementVMs.CountReplaced.Value
                 .Should().Be(0, "置換する設定がないので、0のはず");
@@ -121,7 +121,7 @@ namespace UnitTests
             //ステージ 衝突はしない置換後
             await model.Replace();
 
-            await model.WaitIdle().Timeout(1000);
+            await model.WaitIdleUI().Timeout(1000);
 
             await fileElementVMs.CountReplaced
                 .WaitShouldBe(2, 3000d, "置換する設定があるので");
@@ -153,7 +153,7 @@ namespace UnitTests
             var model = CreateDefaultSettingModel();
 
             await model.LoadFileElements();
-            await model.WaitIdle().Timeout(1000);
+            await model.WaitIdleUI().Timeout(1000);
             var fileElementVMs = new FileElementsGridViewModel(model);
             await Task.Delay(10);
 
@@ -168,7 +168,7 @@ namespace UnitTests
 
             await model.Replace();
 
-            await model.WaitIdle().Timeout(1000);
+            await model.WaitIdleUI().Timeout(1000);
 
             await fileElementVMs.CountReplaced
                 .WaitShouldBe(2, 3000d, "置換する設定があるので");

@@ -31,7 +31,7 @@ namespace UnitTests
             var model = new MainModel(new MockFileSystem());
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
-            await model.IsIdleUI.Where(x => x).FirstAsync().ToTask().Timeout(10000d);
+            await model.WaitIdleUI().Timeout(3000d);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]
