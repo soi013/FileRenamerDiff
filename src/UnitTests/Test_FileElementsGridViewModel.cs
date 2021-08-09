@@ -177,7 +177,13 @@ namespace UnitTests
             fileElementVMs.IsReplacedAny.Value
                 .Should().BeTrue("置換する設定があるので");
             fileElementVMs.IsNotConflictedAny.Value
-                .Should().BeFalse("衝突はしないので");
+                .Should().BeFalse("衝突するので");
+
+            foreach (FileElementViewModel vm in cViewFileElementVMs)
+            {
+                (vm.PathModel.OutputFileName.Contains("A") == vm.IsConflicted.Value)
+                    .Should().BeTrue("Aを含んだファイル名は衝突しているはず");
+            }
 
             //ステージ 衝突ファイルのみ表示にした後
             fileElementVMs.IsVisibleConflictedOnly.Value = true;

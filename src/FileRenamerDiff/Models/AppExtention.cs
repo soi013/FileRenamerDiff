@@ -36,9 +36,9 @@ namespace FileRenamerDiff.Models
         public static string ConcatenateString<T>(this IEnumerable<T> values, char sepalator = ' ') => String.Join(sepalator, values);
 
         /// <summary>
-        /// Linesを改行で連結する
+        /// Linesをパイプ'|'で連結する
         /// </summary>
-        public static string ToRawText(this DiffPaneModel diffPane) => $"{diffPane.Lines.ConcatenateString(Environment.NewLine)}";
+        public static string ToRawText(this DiffPaneModel diffPane) => diffPane.Lines.Select(x => x.Text).ConcatenateString('|');
 
         /// <summary>
         /// 差分前後の文字を比較表示
