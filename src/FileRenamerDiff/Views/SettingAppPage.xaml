@@ -439,7 +439,10 @@
          <StackPanel>
             <materialDesign:Card Padding="15,10,15,5">
                <StackPanel>
-                  <TextBlock Foreground="{StaticResource HighContrastBrush}" Text="App language: Changed AFTER RESTART" />
+                  <TextBlock
+                     Foreground="{StaticResource HighContrastBrush}"
+                     Style="{StaticResource MaterialDesignBody2TextBlock}"
+                     Text="App language: change effective after restart" />
                   <ComboBox
                      Padding="5"
                      materialDesign:ColorZoneAssist.Mode="Accent"
@@ -458,7 +461,10 @@
 
             <materialDesign:Card Padding="15,10,15,5">
                <StackPanel>
-                  <TextBlock Foreground="{StaticResource HighContrastBrush}" Text="App Theme: Changed AFTER RESTART" />
+                  <TextBlock
+                     Foreground="{StaticResource HighContrastBrush}"
+                     Style="{StaticResource MaterialDesignBody2TextBlock}"
+                     Text="App Theme: change effective after restart" />
                   <StackPanel Margin="5" Orientation="Horizontal">
                      <RadioButton
                         materialDesign:ColorZoneAssist.Mode="Dark"
@@ -478,7 +484,7 @@
             <materialDesign:Card>
                <CheckBox Content="{x:Static properties:Resources.Setting_IsRenameExt}" IsChecked="{Binding IsRenameExt.Value}" />
             </materialDesign:Card>
-            
+
             <materialDesign:Card>
                <CheckBox Content="{x:Static properties:Resources.Setting_IsCreateRenameLog}" IsChecked="{Binding IsCreateRenameLog.Value}" />
             </materialDesign:Card>
