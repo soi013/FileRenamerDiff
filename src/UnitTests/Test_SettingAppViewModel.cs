@@ -20,12 +20,12 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_SettingAppViewModel : IClassFixture<RxSchedulerFixture>
+    public class Test_SettingAppViewModel : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string targetDirPathSub = @"D:\FileRenamerDiff_TestSub";
 
-        [Fact]
+        [WpfFact]
         public async Task Test_CommandCanExecute()
         {
             var model = new MainModel(new MockFileSystem());
@@ -73,7 +73,7 @@ namespace UnitTests
                 .And.Contain(targetDirPathSub, "連結ファイルパスに元のファイルパスが含まれているはず");
         }
 
-        [Fact]
+        [WpfFact]
         public void Test_CommonDeletePattern()
         {
             var model = new MainModel(new MockFileSystem());
@@ -108,7 +108,7 @@ namespace UnitTests
                 .And.Contain(x => x.TargetPattern == commonDeletePatternTarget, "追加先で編集しても、元のプロパティは変更されないはず");
         }
 
-        [Fact]
+        [WpfFact]
         public void Test_CommonReplacePattern()
         {
             var model = new MainModel(new MockFileSystem());

@@ -15,12 +15,10 @@ using Serilog.Formatting.Compact;
 
 namespace UnitTests
 {
-    public class RxSchedulerFixture
+    public class LogFixture
     {
-        public RxSchedulerFixture()
+        public LogFixture()
         {
-            ReactivePropertyScheduler.SetDefault(new SynchronizationContextScheduler(SynchronizationContext.Current!));
-
             SetupLoggerConfig();
 
             LogTo.Information("Fixture setuped");
