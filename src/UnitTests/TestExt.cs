@@ -21,11 +21,20 @@ namespace UnitTests
         public static void AdvanceBy(this HistoricalScheduler scheduler, double millisec) =>
           scheduler.AdvanceBy(TimeSpan.FromMilliseconds(millisec));
 
-        public static Task WaitIdle(this MainWindowViewModel vm) =>
-            vm.IsIdle.Where(x => x).FirstAsync().ToTask();
+        public static Task WaitIdle(this MainWindowViewModel vm)
+        {
+            if (vm.IsIdle.Value)
+                return Task.CompletedTask;
+            return vm.IsIdle.Where(x => x).FirstAsync().ToTask();
+        }
 
-        public static Task WaitIdleUI(this MainModel m) =>
-            m.IsIdleUI.Where(x => x).FirstAsync().ToTask();
+        public static Task WaitIdleUI(this MainModel m)
+        {
+            if (m.IsIdleUI.Value)
+                return Task.CompletedTask;
+
+            return m.IsIdleUI.Where(x => x).FirstAsync().ToTask();
+        }
 
         public static Task WaitBe<T>(this IObservable<T> source, T expectValue) =>
                     source.Where(x => x?.Equals(expectValue) == true).FirstAsync().ToTask();

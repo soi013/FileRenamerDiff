@@ -74,10 +74,15 @@ namespace UnitTests
                 .Should().NotContain(targetDirPath, because: "まだ読み取り先ファイルパスは表示されないはず");
 
             mainVM.Initialize();
-            await Task.Delay(10);
 
-            await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
-            await Task.Delay(10);
+            await mainVM.WaitIdle().Timeout(3000d);
+
+            {
+                Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
+                await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
+                await taskWindowTitle.Timeout(10000d);
+                await Task.Delay(10);
+            }
 
             mainVM.WindowTitle.Value
                     .Should().Contain(targetDirPath, because: "読み取り先ファイルパスが表示されるはず");
@@ -139,7 +144,7 @@ namespace UnitTests
             var model = new MainModel(fileSystem);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
-            await mainVM.WaitIdle().Timeout(1000);
+            await mainVM.WaitIdle().Timeout(3000d);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]
@@ -173,7 +178,7 @@ namespace UnitTests
             //        .Should().BeFalse($"すべて実行不可能はなず (indexCommand:{i})"));
 
             //ステージ2 ファイル読み込み後
-            await mainVM.WaitIdle().Timeout(1000);
+            await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(100);
             canExecuteUsuallyCommand
                 .Concat(new[] { mainVM.ReplaceCommand })
@@ -189,7 +194,7 @@ namespace UnitTests
             mainVM.SettingVM.Value.ReplaceTexts.Add(new ReplacePatternViewModel(replaceConflict));
             await mainVM.ReplaceCommand.ExecuteAsync();
 
-            await mainVM.WaitIdle().Timeout(1000);
+            await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
             mainVM.RenameExcuteCommand.CanExecute()
@@ -199,7 +204,7 @@ namespace UnitTests
             mainVM.SettingVM.Value.ReplaceTexts.Clear();
             await mainVM.ReplaceCommand.ExecuteAsync();
 
-            await mainVM.WaitIdle().Timeout(1000);
+            await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
             mainVM.RenameExcuteCommand.CanExecute()
@@ -210,7 +215,7 @@ namespace UnitTests
             mainVM.SettingVM.Value.ReplaceTexts.Add(new ReplacePatternViewModel(replaceSafe));
             await mainVM.ReplaceCommand.ExecuteAsync();
 
-            await mainVM.WaitIdle().Timeout(1000);
+            await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
             mainVM.RenameExcuteCommand.CanExecute()
@@ -219,7 +224,7 @@ namespace UnitTests
             //ステージ6 リネーム保存後
             await mainVM.RenameExcuteCommand.ExecuteAsync();
 
-            await mainVM.WaitIdle().Timeout(1000);
+            await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
             canExecuteUsuallyCommand
