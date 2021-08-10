@@ -63,10 +63,30 @@ namespace UnitTests
                 .Should().ContainAll("de", "Deutsch");
         }
 
+        [WpfFact]
+        public void BoolToBrushConverter()
+        {
+            Color falseColor = AppExtention.ToColorOrDefault("Yellow");
+            Color trueColor = AppExtention.ToColorOrDefault("SkyBlue");
+            BoolToBrushConverter converter = new()
+            {
+                FalseBrush = falseColor.ToSolidColorBrush(),
+                TrueBrush = trueColor.ToSolidColorBrush(),
+            };
+
+            ((SolidColorBrush)converter.Convert(true, 0, CultureInfo.InvariantCulture)).Color
+                .Should().Be(trueColor);
+            ((SolidColorBrush)converter.Convert(false, 0, CultureInfo.InvariantCulture)).Color
+                 .Should().Be(falseColor);
+
+            converter.ConvertBack(trueColor.ToSolidColorBrush(), 0, CultureInfo.InvariantCulture)
+                .Should().BeFalse();
+        }
+
+
         private static readonly Color UnchangeC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.UnchangeColorCode);
         private static readonly Color DeletedC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.DeletedColorCode);
         private static readonly Color InsertedC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.InsertedColorCode);
-        private static readonly Color ImaginaryC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.ImaginaryColorCode);
 
         [WpfFact]
         public void DiffPaneMToFlowDocConverter()
@@ -122,6 +142,25 @@ namespace UnitTests
 
             converter.ConvertBack(new FlowDocument(new Paragraph()), typeof(FlowDocument), 0, CultureInfo.InvariantCulture)
                 .Should().Be(Binding.DoNothing);
+        }
+
+
+        [WpfFact]
+        public void ReadableByteTextConverter()
+        {
+            ReadableByteTextConverter converter = new();
+
+            converter.Convert(123L, 0, CultureInfo.InvariantCulture)
+                .Should().Be("123 B");
+            converter.Convert(2049L, 0, CultureInfo.InvariantCulture)
+                .Should().Be("2 KB");
+            converter.Convert(1024L * 1024 * 3, 0, CultureInfo.InvariantCulture)
+                .Should().Be("3 MB");
+            converter.Convert(1024L * 1024 * 1024 * 4, 0, CultureInfo.InvariantCulture)
+                .Should().Be("4 GB");
+
+            converter.ConvertBack("123B", 0, CultureInfo.InvariantCulture)
+                .Should().Be(0);
         }
     }
 }
