@@ -16,15 +16,22 @@ using FileRenamerDiff.Models;
 
 namespace FileRenamerDiff.Views
 {
+    [ValueConversion(typeof(DiffPaneModel), typeof(FlowDocument))]
     public class DiffPaneModelToFlowDocumentConverter : IValueConverter
     {
-        private static readonly Brush unchangeBrush = Colors.Transparent.ToSolidColorBrush(true);
-        private static readonly Brush deletedBrush = AppExtention.ToColorOrDefault($"#FFAFD1").ToSolidColorBrush(true);
-        private static readonly Brush insertedBrush = AppExtention.ToColorOrDefault($"#88E6A7").ToSolidColorBrush(true);
-        private static readonly Brush imaginaryBrush = Colors.SkyBlue.ToSolidColorBrush(true);
-        private static readonly Brush modifiedBrush = Colors.Orange.ToSolidColorBrush(true);
+        internal const string UnchangeColorCode = "Transparent";
+        internal const string DeletedColorCode = "#FFAFD1";
+        internal const string InsertedColorCode = "#88E6A7";
+        internal const string ImaginaryColorCode = "SkyBlue";
+        internal const string ModifiedColorCode = "Orange";
+        private static readonly Brush unchangeBrush = AppExtention.ToColorOrDefault(UnchangeColorCode).ToSolidColorBrush(true);
+        private static readonly Brush deletedBrush = AppExtention.ToColorOrDefault(DeletedColorCode).ToSolidColorBrush(true);
+        private static readonly Brush insertedBrush = AppExtention.ToColorOrDefault(InsertedColorCode).ToSolidColorBrush(true);
+        private static readonly Brush imaginaryBrush = AppExtention.ToColorOrDefault(ImaginaryColorCode).ToSolidColorBrush(true);
+        private static readonly Brush modifiedBrush = AppExtention.ToColorOrDefault(ModifiedColorCode).ToSolidColorBrush(true);
         private static readonly Brush changedTextBrush = Colors.Black.ToSolidColorBrush(true);
-        private static readonly Brush normalTextBrush = (SolidColorBrush)App.Current.Resources["MaterialDesignBody"];
+        private static readonly Brush normalTextBrush = (Application.Current?.Resources["MaterialDesignBody"] as SolidColorBrush)
+            ?? Colors.Black.ToSolidColorBrush(true);
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
@@ -37,6 +44,11 @@ namespace FileRenamerDiff.Views
             if (diffVM.Lines.Count > 1)
                 LogTo.Warning("Lines Count is over. {@LinesCount}", diffVM.Lines.Count);
 
+            return ConvertCore(diffVM);
+        }
+
+        private static FlowDocument ConvertCore(DiffPaneModel diffVM)
+        {
             List<Run> lineView = ConvertLinveVmToRuns(diffVM.Lines.First());
 
             var paragraph = new Paragraph();
@@ -50,6 +62,7 @@ namespace FileRenamerDiff.Views
                 //ChangeType.Modifiedだったら変更された部分だけハイライトしたいのでSubPieceからいろいろやる
                 ChangeType.Modified => lineVM
                     .SubPieces
+                    .Where(x => x.Text is not null)
                     .Select(x => ConvertPieceVmToRun(x))
                     .ToList(),
 
