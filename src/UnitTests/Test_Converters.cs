@@ -104,5 +104,24 @@ namespace UnitTests
             actualBrushes
                 .Should().BeEquivalentTo(expectedColors, "背景色が差分に合わせた色で区切られているはず");
         }
+
+        [WpfFact]
+        public void DiffPaneMToFlowDocConverter_DoNothing()
+        {
+            LogTo.Information("Start");
+
+            DiffPaneModelToFlowDocumentConverter converter = new();
+            converter.Convert(new object(), typeof(DiffPaneModel), 0, CultureInfo.InvariantCulture)
+                .Should().Be(Binding.DoNothing);
+
+            SideBySideDiffModel diffModel = AppExtention.CreateDiff(string.Empty, string.Empty);
+
+            converter.Convert(diffModel.OldText, typeof(DiffPaneModel), 0, CultureInfo.InvariantCulture)
+                .Should().Be(Binding.DoNothing);
+
+
+            converter.ConvertBack(new FlowDocument(new Paragraph()), typeof(FlowDocument), 0, CultureInfo.InvariantCulture)
+                .Should().Be(Binding.DoNothing);
+        }
     }
 }
