@@ -39,6 +39,8 @@ namespace FileRenamerDiff.ViewModels
         /// </summary>
         public ICollectionView CViewFileElementVMs { get; }
 
+        internal readonly ReadOnlyReactiveCollection<FileElementViewModel> fileElementVMs;
+
         /// <summary>
         /// リネーム前後での変更があったファイル数
         /// </summary>
@@ -99,8 +101,8 @@ namespace FileRenamerDiff.ViewModels
             this.CountConflicted = mainModel.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
-            var fileElementVMs = mainModel.FileElementModels
-                .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x), ReactivePropertyScheduler.Default);
+            this.fileElementVMs = mainModel.FileElementModels
+                .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x));
 
             this.CViewFileElementVMs = CreateCollectionViewFilePathVMs(fileElementVMs);
 
