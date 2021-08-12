@@ -33,7 +33,7 @@ namespace FileRenamerDiff.Views
     [ValueConversion(typeof(AppMessageLevel), typeof(Brush))]
     public class LogEventLevelToBrushConverter : GenericConverter<AppMessageLevel, Brush>
     {
-        private static readonly Brush normalBrush = App.Current.Resources["MaterialDesignBody"] as SolidColorBrush
+        private static readonly Brush normalBrush = Application.Current?.Resources["MaterialDesignBody"] as SolidColorBrush
             ?? Colors.White.ToSolidColorBrush(true);
 
         private static readonly Brush alertBrush = Colors.Orange.ToSolidColorBrush(true);

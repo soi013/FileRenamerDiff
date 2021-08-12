@@ -41,6 +41,23 @@ namespace UnitTests
     public class Test_Converters : IClassFixture<LogFixture>
     {
         [WpfFact]
+        public void Test_LogEventLevelToBrushConverter()
+        {
+            LogEventLevelToBrushConverter converter = new();
+            ((SolidColorBrush)converter.Convert(AppMessageLevel.Info, 0, CultureInfo.InvariantCulture))
+                .Color
+                .Should().Be(Colors.White);
+
+            ((SolidColorBrush)converter.Convert(AppMessageLevel.Alert, 0, CultureInfo.InvariantCulture))
+                .Color
+                .Should().Be(Colors.Orange);
+
+            ((SolidColorBrush)converter.Convert(AppMessageLevel.Error, 0, CultureInfo.InvariantCulture))
+                 .Color
+                 .Should().Be(Colors.Red);
+        }
+
+        [WpfFact]
         public void Test_CultureDisplayConverter()
         {
             CultureDisplayConverter converter = new();
