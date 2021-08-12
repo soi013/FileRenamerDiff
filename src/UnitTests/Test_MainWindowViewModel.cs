@@ -157,10 +157,12 @@ namespace UnitTests
                 mainVM.ShowInformationPageCommand,
             };
 
-            canExecuteUsuallyCommand
-                .ForEach((c, i) =>
-                    c.CanExecute(null)
-                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
+            for (int i = 0; i < canExecuteUsuallyCommand.Length; i++)
+            {
+                canExecuteUsuallyCommand[i]
+                    .CanExecute(null)
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})");
+            }
 
             mainVM.ReplaceCommand.CanExecute()
                 .Should().BeFalse("実行不可能のはず");
