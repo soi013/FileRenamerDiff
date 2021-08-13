@@ -55,6 +55,9 @@ namespace UnitTests
             ((SolidColorBrush)converter.Convert(AppMessageLevel.Error, 0, CultureInfo.InvariantCulture))
                  .Color
                  .Should().Be(Colors.Red);
+
+            converter.ConvertBack(Colors.Orange.ToSolidColorBrush(), 0, CultureInfo.InvariantCulture)
+                .Should().Be(AppMessageLevel.Info);
         }
 
         [WpfFact]
@@ -78,6 +81,11 @@ namespace UnitTests
                 .Should().ContainAll("zh", "中文");
             converter.Convert(CultureInfo.GetCultureInfo("de"), 0, englishCulture)
                 .Should().ContainAll("de", "Deutsch");
+            converter.Convert(CultureInfo.InvariantCulture, 0, englishCulture)
+                .Should().Contain("Auto");
+
+            converter.ConvertBack("ja", 0, englishCulture).Name
+                .Should().Be("ja");
         }
 
         [WpfFact]
@@ -175,8 +183,23 @@ namespace UnitTests
                 .Should().Be("3 MB");
             converter.Convert(1024L * 1024 * 1024 * 4, 0, CultureInfo.InvariantCulture)
                 .Should().Be("4 GB");
+            converter.Convert(1024L * 1024 * 1024 * 1024 * 5, 0, CultureInfo.InvariantCulture)
+                .Should().Be("5 TB");
 
             converter.ConvertBack("123B", 0, CultureInfo.InvariantCulture)
+                .Should().Be(0);
+        }
+
+
+        [WpfFact]
+        public void ReadableByteTextConverter_AsGenericConverter()
+        {
+            ReadableByteTextConverter converter = new();
+
+            converter.Convert(123L, typeof(string), 0, CultureInfo.InvariantCulture)
+                .Should().Be("123 B");
+
+            converter.ConvertBack("123B", typeof(string), 0, CultureInfo.InvariantCulture)
                 .Should().Be(0);
         }
     }
