@@ -239,6 +239,60 @@ namespace UnitTests
                 .Should().BeFalse($"実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
         }
 
+        [WpfFact]
+        public async Task Test_ClearSettingAndConfirm()
+        {
+            var model = new MainModel(new MockFileSystem());
+            var mainVM = new MainWindowViewModel(model);
+
+            model.Initialize();
+            await model.WaitIdleUI().Timeout(3000d);
+
+            SettingAppViewModel settingVM = mainVM.SettingVM.Value;
+
+            //ステージ 初期状態
+            settingVM.IgnoreExtensions.Count
+                .Should().BeGreaterThan(1, "設定がなにかあるはず");
+
+            //ステージ 設定消去→確認ダイアログ表示
+            Task taskClear1 = settingVM.ClearIgnoreExtensionsCommand.ExecuteAsync();
+
+            mainVM.IsDialogOpen.Value
+                .Should().BeTrue("確認ダイアログが開いているはず");
+
+            mainVM.DialogContentVM.Value
+               .Should().BeOfType<ConfirmDialogViewModel>("確認ダイアログが開いているはず");
+
+            ConfirmDialogViewModel confirmVM = (mainVM.DialogContentVM.Value as ConfirmDialogViewModel)!;
+
+            taskClear1.IsCompleted
+                .Should().BeFalse("まだ確認ダイアログが開いたままのはず");
+
+            //ステージ 確認ダイアログで拒否
+            confirmVM.IsOkResult.Value = false;
+
+            taskClear1.IsCompleted
+                .Should().BeTrue("確認ダイアログが閉じたはず");
+            mainVM.IsDialogOpen.Value
+                .Should().BeFalse("確認ダイアログが閉じたはず");
+
+            settingVM.IgnoreExtensions.Count
+                .Should().BeGreaterThan(1, "設定はまだ消去されていないはず");
+
+            //ステージ確認ダイアログでOK
+            Task taskClear2 = settingVM.ClearIgnoreExtensionsCommand.ExecuteAsync();
+
+            (mainVM.DialogContentVM.Value as ConfirmDialogViewModel)!.IsOkResult.Value = true;
+
+            taskClear2.IsCompleted
+                .Should().BeTrue("確認ダイアログが閉じたはず");
+            mainVM.IsDialogOpen.Value
+                .Should().BeFalse("確認ダイアログが閉じたはず");
+
+            settingVM.IgnoreExtensions.Count
+                .Should().Be(0, "設定が消去されたはず");
+        }
+
         //HACK 何故かダイアログのテストはCI上で失敗する
         //[Fact]
         //public async Task Test_Dialog()
