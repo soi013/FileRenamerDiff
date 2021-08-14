@@ -108,7 +108,6 @@ namespace UnitTests
                 .Should().BeFalse();
         }
 
-
         private static readonly Color UnchangeC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.UnchangeColorCode);
         private static readonly Color DeletedC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.DeletedColorCode);
         private static readonly Color InsertedC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.InsertedColorCode);
@@ -164,11 +163,9 @@ namespace UnitTests
             converter.Convert(diffModel.OldText, typeof(DiffPaneModel), 0, CultureInfo.InvariantCulture)
                 .Should().Be(Binding.DoNothing);
 
-
             converter.ConvertBack(new FlowDocument(new Paragraph()), typeof(FlowDocument), 0, CultureInfo.InvariantCulture)
                 .Should().Be(Binding.DoNothing);
         }
-
 
         [WpfFact]
         public void ReadableByteTextConverter()
@@ -189,7 +186,6 @@ namespace UnitTests
             converter.ConvertBack("123B", 0, CultureInfo.InvariantCulture)
                 .Should().Be(0);
         }
-
 
         [WpfFact]
         public void ReadableByteTextConverter_AsGenericConverter()
