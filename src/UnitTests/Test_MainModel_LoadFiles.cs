@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
 
 using FluentAssertions;
+
+using Reactive.Bindings;
 
 using Xunit;
 
@@ -42,9 +46,9 @@ namespace UnitTests
             });
         }
 
-        private static MainModel CreateDefaultSettingModel()
+        private static MainModel CreateDefaultSettingModel(MockFileSystem? fileSystem = null)
         {
-            MockFileSystem fileSystem = CreateMockFileSystem();
+            fileSystem ??= CreateMockFileSystem();
 
             var model = new MainModel(fileSystem);
             model.Initialize();
@@ -160,6 +164,56 @@ namespace UnitTests
                 System.Diagnostics.Debug.WriteLine($"delay i:{i}");
                 await Task.Delay(500);
             }
+        }
+
+        [Fact]
+        public async Task Test_LoadFile_Nothing()
+        {
+            MainModel model = CreateDefaultSettingModel();
+
+            model.Setting.IgnoreExtensions.Add(new("txt"));
+            model.Setting.IgnoreExtensions.Add(new("csv"));
+
+            model.Setting.IsDirectoryRenameTarget = false;
+            model.Setting.IsSearchSubDirectories = false;
+
+            Task<AppMessage> taskMessage = model.MessageEvent.FirstAsync().ToTask();
+
+            await model.LoadFileElements();
+
+            model.FileElementModels
+                .Should().BeEmpty("ファイルがなにもないはず");
+
+            (await taskMessage).MessageHead
+                .Should().Be("NOT FOUND");
+        }
+
+        [Fact]
+        public async Task Test_LoadFile_MannyFiles()
+        {
+            var files = Enumerable.Range(0, 1000)
+                .Select(i => $"ManyFile-{i:0000}.txt")
+                .ToDictionary(
+                    x => Path.Combine(targetDirPath, x),
+                    x => new MockFileData(x));
+
+            MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
+
+            var progressInfos = model.CurrentProgessInfo
+                .Skip(1)
+                .ToReadOnlyReactiveCollection();
+
+            progressInfos
+                .Should().BeEmpty("まだメッセージがないはず");
+
+            await model.LoadFileElements();
+
+            model.FileElementModels
+                .Select(f => f.InputFilePath)
+                    .Should().HaveCount(1000, "規定数ファイルが読み込まれたはず");
+
+            progressInfos.Select(x => x.Message).Where(x => x.Contains("ManyFile"))
+                .Should().HaveCountGreaterThan(2, "ファイル名を含んだメッセージがいくつか来たはず");
         }
     }
 }
