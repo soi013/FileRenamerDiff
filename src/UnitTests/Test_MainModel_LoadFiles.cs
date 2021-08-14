@@ -161,8 +161,7 @@ namespace UnitTests
                 model.FileElementModels.Count
                     .Should().Be(5);
 
-                System.Diagnostics.Debug.WriteLine($"delay i:{i}");
-                await Task.Delay(500);
+                await Task.Delay(50);
             }
         }
 
@@ -171,6 +170,7 @@ namespace UnitTests
         {
             MainModel model = CreateDefaultSettingModel();
 
+            //すべてのファイルを無視するような設定にする
             model.Setting.IgnoreExtensions.Add(new("txt"));
             model.Setting.IgnoreExtensions.Add(new("csv"));
 
@@ -179,6 +179,7 @@ namespace UnitTests
 
             Task<AppMessage> taskMessage = model.MessageEvent.FirstAsync().ToTask();
 
+            //ファイル読み込むが、無視されるファイルしか無い
             await model.LoadFileElements();
 
             model.FileElementModels
@@ -206,13 +207,14 @@ namespace UnitTests
             progressInfos
                 .Should().BeEmpty("まだメッセージがないはず");
 
+            //たくさんのファイルを読み込む
             await model.LoadFileElements();
 
             model.FileElementModels
                 .Select(f => f.InputFilePath)
                     .Should().HaveCount(1000, "規定数ファイルが読み込まれたはず");
 
-            progressInfos.Select(x => x.Message).Where(x => x.Contains("ManyFile"))
+            progressInfos.Select(x => x!.Message).Where(x => x.Contains("ManyFile"))
                 .Should().HaveCountGreaterThan(2, "ファイル名を含んだメッセージがいくつか来たはず");
         }
 
@@ -225,11 +227,11 @@ namespace UnitTests
                     x => Path.Combine(targetDirPath, x),
                     x => new MockFileData(x));
 
+            //たくさんのファイルの読込を開始する
             MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
 
             var firstProgressTask = model.CurrentProgessInfo
                 .Skip(1).FirstAsync().ToTask();
-
 
             Task loadTask = model.LoadFileElements();
 
@@ -244,7 +246,7 @@ namespace UnitTests
                 .Should().BeEmpty("途中まで読み込んだファイルもクリアされる");
 
             model.CurrentProgessInfo.Value?.Message
-                .Should().Contain("cancel");
+                .Should().Contain("cancel", because: "キャンセルメッセージがきたはず");
         }
     }
 }
