@@ -215,5 +215,36 @@ namespace UnitTests
             progressInfos.Select(x => x.Message).Where(x => x.Contains("ManyFile"))
                 .Should().HaveCountGreaterThan(2, "ファイル名を含んだメッセージがいくつか来たはず");
         }
+
+        [Fact]
+        public async Task Test_LoadFile_Canncel()
+        {
+            var files = Enumerable.Range(0, 1000)
+                .Select(i => $"ManyFile-{i:0000}.txt")
+                .ToDictionary(
+                    x => Path.Combine(targetDirPath, x),
+                    x => new MockFileData(x));
+
+            MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
+
+            var firstProgressTask = model.CurrentProgessInfo
+                .Skip(1).FirstAsync().ToTask();
+
+
+            Task loadTask = model.LoadFileElements();
+
+            //255個ファイルを読み込まれた時点で、ProgressInfoが１つくる
+            await firstProgressTask.Timeout(3000);
+
+            model.CancelWork?.Cancel();
+
+            await loadTask.Timeout(3000d);
+
+            model.FileElementModels
+                .Should().BeEmpty("途中まで読み込んだファイルもクリアされる");
+
+            model.CurrentProgessInfo.Value?.Message
+                .Should().Contain("cancel");
+        }
     }
 }

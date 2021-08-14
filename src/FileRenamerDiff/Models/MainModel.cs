@@ -244,7 +244,7 @@ namespace FileRenamerDiff.Models
                 .Do((x, i) =>
                     {
                         //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
-                        if ((i & 0xFF) != 0)
+                        if ((i & 0xFF) != 0xFF)
                             return;
                         progress?.Report(new(i, $"File Loaded {x}"));
                         cancellationToken?.ThrowIfCancellationRequested();
