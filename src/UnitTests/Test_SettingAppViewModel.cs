@@ -32,9 +32,10 @@ namespace UnitTests
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
             await model.WaitIdleUI().Timeout(3000d);
+            await Task.Delay(100);
 
             //ステージ1 初期状態
-            var canExecuteUsuallyCommand = new ICommand[]
+            var canExecuteUsuallyCommands = new ICommand[]
             {
                 settingVM.AddDeleteTextsCommand,
                 settingVM.AddIgnoreExtensionsCommand,
@@ -48,10 +49,11 @@ namespace UnitTests
                 settingVM.ShowExpressionReferenceCommand,
             };
 
-            canExecuteUsuallyCommand
-                .ForEach((c, i) =>
-                    c.CanExecute(null)
-                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
+            foreach ((ICommand c, int i) in canExecuteUsuallyCommands.WithIndex())
+            {
+                c.CanExecute(null)
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})");
+            }
         }
 
         [Fact]
