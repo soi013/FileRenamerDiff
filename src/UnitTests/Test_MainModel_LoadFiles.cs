@@ -192,7 +192,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_MannyFiles()
         {
-            var files = Enumerable.Range(0, 1000)
+            var files = Enumerable.Range(0, 10000)
                 .Select(i => $"ManyFile-{i:0000}.txt")
                 .ToDictionary(
                     x => Path.Combine(targetDirPath, x),
@@ -212,7 +212,7 @@ namespace UnitTests
 
             model.FileElementModels
                 .Select(f => f.InputFilePath)
-                    .Should().HaveCount(1000, "規定数ファイルが読み込まれたはず");
+                    .Should().HaveCount(10000, "規定数ファイルが読み込まれたはず");
 
             progressInfos.Select(x => x!.Message).Where(x => x.Contains("ManyFile"))
                 .Should().HaveCountGreaterThan(2, "ファイル名を含んだメッセージがいくつか来たはず");
@@ -221,7 +221,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_Canncel()
         {
-            var files = Enumerable.Range(0, 1000)
+            var files = Enumerable.Range(0, 10000)
                 .Select(i => $"ManyFile-{i:0000}.txt")
                 .ToDictionary(
                     x => Path.Combine(targetDirPath, x),
