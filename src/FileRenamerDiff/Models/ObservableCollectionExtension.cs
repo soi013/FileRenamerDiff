@@ -39,7 +39,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 条件に当てはまる要素を除く
         /// </summary>
-        /// <returns>1つでも除くものがあったか</returns>
+        /// <returns除かれた要素のコレクション</returns>
         public static T[] RemoveAll<T>(this ObservableCollection<T> source, Predicate<T> match)
         {
             var removeItems = source
@@ -97,15 +97,15 @@ namespace FileRenamerDiff.Models
 
             //Source -> Target
             sources.CollectionChanged += (o, e) =>
-                ExcuteIfNotChanging(() => SyncByChangedEventArgs(sources, targets, sourceToTarget, e));
+                ExecuteIfNotChanging(() => SyncByChangedEventArgs(sources, targets, sourceToTarget, e));
 
             //Target -> Source
             targets.CollectionChanged += (o, e) =>
-                ExcuteIfNotChanging(() => SyncByChangedEventArgs(targets, sources, targetToSource, e));
+                ExecuteIfNotChanging(() => SyncByChangedEventArgs(targets, sources, targetToSource, e));
 
             //変更イベントループしてしまわないように、ローカル変数(isChanging)でチェック
             //ローカル変数(isChanging)にアクセスするため、ローカル関数で記述
-            void ExcuteIfNotChanging(Action action)
+            void ExecuteIfNotChanging(Action action)
             {
                 if (isChanging)
                     return;

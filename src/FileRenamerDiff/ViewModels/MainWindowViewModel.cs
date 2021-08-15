@@ -87,7 +87,7 @@ namespace FileRenamerDiff.ViewModels
         /// <summary>
         /// 置換後ファイル名保存コマンド
         /// </summary>
-        public AsyncReactiveCommand RenameExcuteCommand { get; }
+        public AsyncReactiveCommand RenameExecuteCommand { get; }
 
         /// <summary>
         /// アプリケーション情報表示コマンド
@@ -133,7 +133,7 @@ namespace FileRenamerDiff.ViewModels
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => mainModel.Replace());
 
-            this.RenameExcuteCommand = (new[]
+            this.RenameExecuteCommand = (new[]
                 {
                     mainModel.CountReplaced.Select(x => x > 0),
                     mainModel.CountConflicted.Select(x => x <= 0),
@@ -142,7 +142,7 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                 .ObserveOnUIDispatcher()
                 .ToAsyncReactiveCommand()
-                .WithSubscribe(() => RenameExcute());
+                .WithSubscribe(() => RenameExecute());
 
             this.ShowInformationPageCommand = IsIdle
                 .ToReactiveCommand()
@@ -242,10 +242,10 @@ namespace FileRenamerDiff.ViewModels
             IsDialogOpen.Value = false;
         }
 
-        private async Task RenameExcute()
+        private async Task RenameExecute()
         {
             //リネーム実行を開始する
-            Task taskRename = mainModel.RenameExcute();
+            Task taskRename = mainModel.RenameExecute();
 
             //一定時間経過しても処理が終了していなかったら、
             await Task.WhenAny(Task.Delay(500), taskRename);

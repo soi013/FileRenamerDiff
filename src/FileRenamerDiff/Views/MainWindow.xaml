@@ -182,7 +182,7 @@
                   <!--  リネーム実行ボタン  -->
                   <Button
                      Margin="8,0"
-                     Command="{Binding RenameExcuteCommand, Mode=OneTime}"
+                     Command="{Binding RenameExecuteCommand, Mode=OneTime}"
                      Style="{StaticResource MaterialDesignRaisedAccentButton}"
                      ToolTip="{x:Static properties:Resources.Menu_SaveHint}">
                      <Label

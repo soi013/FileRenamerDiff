@@ -39,7 +39,7 @@ namespace UnitTests
             await model.LoadFileElements();
 
             await model.Replace();
-            await model.RenameExcute();
+            await model.RenameExecute();
 
             if (!enableLog)
             {

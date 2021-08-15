@@ -188,7 +188,7 @@ namespace UnitTests
                     c.CanExecute(null)
                     .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
 
-            mainVM.RenameExcuteCommand.CanExecute()
+            mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeFalse("実行不可能のはず");
 
             //ステージ3 重複したリネーム後
@@ -199,7 +199,7 @@ namespace UnitTests
             await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
-            mainVM.RenameExcuteCommand.CanExecute()
+            mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeFalse("まだ実行不可能のはず");
 
             //ステージ4 なにも変化しないリネーム後
@@ -209,7 +209,7 @@ namespace UnitTests
             await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
-            mainVM.RenameExcuteCommand.CanExecute()
+            mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeFalse($"まだ実行不可能のはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
 
             //ステージ5 有効なネーム後
@@ -220,11 +220,11 @@ namespace UnitTests
             await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
-            mainVM.RenameExcuteCommand.CanExecute()
+            mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeTrue($"実行可能になったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
 
             //ステージ6 リネーム保存後
-            await mainVM.RenameExcuteCommand.ExecuteAsync();
+            await mainVM.RenameExecuteCommand.ExecuteAsync();
 
             await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
@@ -235,7 +235,7 @@ namespace UnitTests
                     c.CanExecute(null)
                     .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
 
-            mainVM.RenameExcuteCommand.CanExecute()
+            mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeFalse($"実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
         }
 

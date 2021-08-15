@@ -35,7 +35,7 @@ namespace FileRenamerDiff.ViewModels
     /// </summary>
     public class ProgressDialogViewModel : ViewModel
     {
-        public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgessInfo { get; }
+        public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgressInfo { get; }
 
         public AsyncReactiveCommand CancelCommand { get; }
 
@@ -49,7 +49,7 @@ namespace FileRenamerDiff.ViewModels
 
         public ProgressDialogViewModel(MainModel mainModel)
         {
-            this.CurrentProgessInfo = mainModel.CurrentProgessInfo
+            this.CurrentProgressInfo = mainModel.CurrentProgressInfo
                 .Buffer(TimeSpan.FromMilliseconds(500))
                 .Where(x => x.Any())
                 .Select(x => x.Last())

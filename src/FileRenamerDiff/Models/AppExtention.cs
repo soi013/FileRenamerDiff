@@ -94,7 +94,7 @@ namespace FileRenamerDiff.Models
         /// <param name="source">入力</param>
         /// <param name="onNext">付随的処理</param>
         /// <returns>sourceと同じ</returns>
-        public static IEnumerable<TSource> Do<TSource>(this IEnumerable<TSource> source, Action<TSource, int> onNext) =>
+        public static IEnumerable<T> Do<T>(this IEnumerable<T> source, Action<T, int> onNext) =>
             source.Select((x, i) =>
             {
                 onNext(x, i);
@@ -248,8 +248,14 @@ namespace FileRenamerDiff.Models
             }
         }
 
+        /// <summary>
+        /// 一定時間内にTaskが終了しなければ、TimeoutExceptionを発生させる
+        /// </summary>
         public static Task Timeout(this Task task, double millisec) => Timeout(task, TimeSpan.FromMilliseconds(millisec));
 
+        /// <summary>
+        /// 一定時間内にTaskが終了しなければ、TimeoutExceptionを発生させる
+        /// </summary>
         public static async Task Timeout(this Task task, TimeSpan timeout)
         {
             var delay = Task.Delay(timeout);
@@ -259,8 +265,14 @@ namespace FileRenamerDiff.Models
             }
         }
 
+        /// <summary>
+        /// 一定時間内にTaskが終了しなければ、TimeoutExceptionを発生させる
+        /// </summary>
         public static Task<T> Timeout<T>(this Task<T> task, double millisec) => Timeout(task, TimeSpan.FromMilliseconds(millisec));
 
+        /// <summary>
+        /// 一定時間内にTaskが終了しなければ、TimeoutExceptionを発生させる
+        /// </summary>
         public static async Task<T> Timeout<T>(this Task<T> task, TimeSpan timeout)
         {
             await ((Task)task).Timeout(timeout);

@@ -155,7 +155,7 @@ namespace UnitTests
             model.CountReplaced.Value
                 .Should().Be(1, "置換する設定があるので、1のはず");
 
-            await model.RenameExcute();
+            await model.RenameExecute();
 
             messages.First().MessageLevel
                 .Should().Be(AppMessageLevel.Info, "ファイルが除かれたメッセージがあるはず");

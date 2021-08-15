@@ -46,7 +46,6 @@ namespace FileRenamerDiff.Models
         /// アプリケーションが待機状態か（変更用）
         /// </summary>
         readonly ReactivePropertySlim<bool> isIdle = new(false);
-
         /// <summary>
         /// アプリケーションが待機状態か（外部購読用）
         /// </summary>
@@ -65,7 +64,6 @@ namespace FileRenamerDiff.Models
         public ObservableCollection<FileElementModel> FileElementModels { get; } = new();
 
         private SettingAppModel _Setting = new();
-
         /// <summary>
         /// アプリケーション設定
         /// </summary>
@@ -109,7 +107,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 現在の処理状態メッセージ
         /// </summary>
-        public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgessInfo { get; }
+        public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgressInfo { get; }
 
         /// <summary>
         /// 現在の処理のキャンセルトークン
@@ -131,7 +129,7 @@ namespace FileRenamerDiff.Models
                 .ObserveResetChanged()
                 .Subscribe(_ => UpdateCountReplacedAndConflicted());
 
-            CurrentProgessInfo = progressNotifier
+            CurrentProgressInfo = progressNotifier
                 .ToReadOnlyReactivePropertySlim();
 
             LoadSettingFile(SettingAppModel.DefaultFilePath);
@@ -184,7 +182,7 @@ namespace FileRenamerDiff.Models
         public async Task LoadFileElements()
         {
             LogTo.Debug("File Load Start");
-            this.isIdle.Value = false;
+            isIdle.Value = false;
             using (CancelWork = new CancellationTokenSource())
             {
                 try
@@ -197,11 +195,11 @@ namespace FileRenamerDiff.Models
                 catch (OperationCanceledException)
                 {
                     progressNotifier.Report(new(0, "canceled"));
-                    this.FileElementModels.Clear();
+                    FileElementModels.Clear();
                 }
             }
 
-            this.isIdle.Value = true;
+            isIdle.Value = true;
             LogTo.Debug("File Load Ended");
         }
 
@@ -222,7 +220,7 @@ namespace FileRenamerDiff.Models
             if (!sourceFilePaths.Any() || setting.IsNoFileRenameTarget())
                 return Array.Empty<FileElementModel>();
 
-            var ignoreRegex = setting.CreateIgnoreExtensionsRegex();
+            Regex? ignoreRegex = setting.CreateIgnoreExtensionsRegex();
 
             var option = new EnumerationOptions()
             {
@@ -283,7 +281,7 @@ namespace FileRenamerDiff.Models
             this.isIdle.Value = true;
         }
 
-        internal static void UpdateLanguage(string langCode)
+        private static void UpdateLanguage(string langCode)
         {
             if (String.IsNullOrWhiteSpace(langCode))
                 return;
@@ -408,7 +406,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// リネームを実行（ストレージに保存される）
         /// </summary>
-        internal async Task RenameExcute()
+        internal async Task RenameExecute()
         {
             LogTo.Information("Renamed File Save Start");
             isIdle.Value = false;
@@ -417,7 +415,7 @@ namespace FileRenamerDiff.Models
             {
                 try
                 {
-                    await Task.Run(() => RenameExcuteCore(progressNotifier, CancelWork.Token)).ConfigureAwait(false);
+                    await Task.Run(() => RenameExecuteCore(progressNotifier, CancelWork.Token)).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -449,7 +447,7 @@ namespace FileRenamerDiff.Models
             LogTo.Information("Renamed File Save Ended");
         }
 
-        private void RenameExcuteCore(IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
+        private void RenameExecuteCore(IProgress<ProgressInfo> progress, CancellationToken cancellationToken)
         {
             foreach (var (replaceElement, index) in FileElementModels.Where(x => x.IsReplaced).WithIndex())
             {
@@ -463,7 +461,7 @@ namespace FileRenamerDiff.Models
             }
 
             if (Setting.IsCreateRenameLog)
-                SaveReplaceLog();
+                SaveRenameLog();
         }
 
         /// <summary>
@@ -474,7 +472,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// リネーム前後の履歴の保存
         /// </summary>
-        private void SaveReplaceLog()
+        private void SaveRenameLog()
         {
             if (CountReplaced.Value <= 0)
                 return;
@@ -491,7 +489,7 @@ namespace FileRenamerDiff.Models
                 //ファイルパスにはカンマが含まれる可能性があるので、ダブルクオーテーションで囲う
                 '"' + fileElem.PreviousInputFilePath + '"',
                 '"' + fileElem.OutputFilePath + '"',
-            }
+                }
                 .ConcatenateString(',');
 
                 sw.WriteLine(lineText);
@@ -515,7 +513,7 @@ namespace FileRenamerDiff.Models
             return logFilePath;
         }
 
-        internal async Task ExcuteAfterConfirm(Action actionIfConfirmed)
+        internal async Task ExecuteAfterConfirm(Action actionIfConfirmed)
         {
             bool isConfirmed = await ConfirmUser();
             if (isConfirmed)

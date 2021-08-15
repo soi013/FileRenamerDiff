@@ -200,7 +200,7 @@ namespace UnitTests
 
             MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
 
-            var progressInfos = model.CurrentProgessInfo
+            var progressInfos = model.CurrentProgressInfo
                 .Skip(1)
                 .ToReadOnlyReactiveCollection();
 
@@ -230,7 +230,7 @@ namespace UnitTests
             //たくさんのファイルの読込を開始する
             MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
 
-            var firstProgressTask = model.CurrentProgessInfo
+            var firstProgressTask = model.CurrentProgressInfo
                 .Skip(1).FirstAsync().ToTask();
 
             Task loadTask = model.LoadFileElements();
@@ -245,7 +245,7 @@ namespace UnitTests
             model.FileElementModels
                 .Should().BeEmpty("途中まで読み込んだファイルもクリアされる");
 
-            model.CurrentProgessInfo.Value?.Message
+            model.CurrentProgressInfo.Value?.Message
                 .Should().Contain("cancel", because: "キャンセルメッセージがきたはず");
         }
     }

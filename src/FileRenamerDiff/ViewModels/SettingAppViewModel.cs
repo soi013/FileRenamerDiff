@@ -210,7 +210,7 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() =>
-                    mainModel.ExcuteAfterConfirm(() =>
+                    mainModel.ExecuteAfterConfirm(() =>
                         setting.IgnoreExtensions.Clear()))
                  .AddTo(this.CompositeDisposable);
 
@@ -227,7 +227,7 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                  .ToAsyncReactiveCommand()
                  .WithSubscribe(() =>
-                    mainModel.ExcuteAfterConfirm(() =>
+                    mainModel.ExecuteAfterConfirm(() =>
                         setting.DeleteTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 
@@ -244,7 +244,7 @@ namespace FileRenamerDiff.ViewModels
                 .CombineLatestValuesAreAllTrue()
                  .ToAsyncReactiveCommand()
                  .WithSubscribe(() =>
-                    mainModel.ExcuteAfterConfirm(() =>
+                    mainModel.ExecuteAfterConfirm(() =>
                         setting.ReplaceTexts.Clear()))
                  .AddTo(this.CompositeDisposable);
 

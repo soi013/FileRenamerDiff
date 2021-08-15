@@ -16,6 +16,7 @@ namespace FileRenamerDiff.Models
         /// 特殊置換にあてはまるかの判定用Regex
         /// </summary>
         public Regex MatchRegex { get; }
+
         /// <summary>
         /// 特殊置換のMatchEvaluatorを生成するデリゲート
         /// </summary>
@@ -34,7 +35,7 @@ namespace FileRenamerDiff.Models
         /// <returns>特殊置換、なければnull</returns>
         private MatchEvaluator? ConvertToEvaluator(string replaceText)
         {
-            Match? matchResult = this.MatchRegex.Match(replaceText);
+            Match? matchResult = MatchRegex.Match(replaceText);
 
             if (matchResult?.Success != true || matchResult.Groups.Count <= 2)
                 return null;
