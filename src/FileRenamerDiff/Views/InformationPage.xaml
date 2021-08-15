@@ -17,8 +17,10 @@
    d:DataContext="{d:DesignInstance {x:Type vm:InformationPageViewModel},
                                     IsDesignTimeCreatable=True}"
    d:DesignHeight="450"
+   Background="#D0D0D8"
    BorderBrush="{StaticResource PrimaryHueMidBrush}"
    BorderThickness="2"
+   TextElement.Foreground="#101010"
    mc:Ignorable="d">
    <!--  MarkDownViewerは色が固定なので、このページはDarkテーマには対応しない  -->
 

@@ -20,7 +20,7 @@
    <UserControl.Resources>
       <v:BoolToBrushConverter
          x:Key="IsOkToBrushConverter"
-         FalseBrush="{StaticResource ValidationErrorBrush}"
+         FalseBrush="Crimson"
          TrueBrush="{StaticResource PrimaryHueMidBrush}" />
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
    </UserControl.Resources>
@@ -122,7 +122,7 @@
                   <DataTemplate>
                      <materialDesign:PackIcon
                         HorizontalAlignment="Center"
-                        Foreground="{StaticResource ValidationErrorBrush}"
+                        Foreground="Crimson"
                         Kind="FolderAlert"
                         Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
                   </DataTemplate>

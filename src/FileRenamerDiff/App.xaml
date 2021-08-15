@@ -53,36 +53,6 @@
          <!--  設定のテーマに応じて、DarkかLightか切り替わるBrush  -->
          <SolidColorBrush x:Key="HighContrastBrush" />
 
-         <!--  MahApps Brushes  -->
-         <SolidColorBrush
-            x:Key="WindowTitleColorBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary700}" />
-         <SolidColorBrush
-            x:Key="AccentSelectedColorBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary500Foreground}" />
-         <LinearGradientBrush x:Key="ProgressBrush" po:Freeze="True" StartPoint="1.002,0.5" EndPoint="0.001,0.5">
-            <GradientStop Offset="0" Color="{StaticResource Primary700}" />
-            <GradientStop Offset="1" Color="{StaticResource Primary300}" />
-         </LinearGradientBrush>
-         <SolidColorBrush
-            x:Key="CheckmarkFill"
-            po:Freeze="True"
-            Color="{StaticResource Primary500}" />
-         <SolidColorBrush
-            x:Key="RightArrowFill"
-            po:Freeze="True"
-            Color="{StaticResource Primary500}" />
-         <SolidColorBrush
-            x:Key="IdealForegroundColorBrush"
-            po:Freeze="True"
-            Color="{StaticResource Primary500Foreground}" />
-         <SolidColorBrush
-            x:Key="IdealForegroundDisabledBrush"
-            po:Freeze="True"
-            Opacity="0.4"
-            Color="{StaticResource Primary500}" />
          <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="materialDesign:PackIcon">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -147,10 +117,10 @@
             TargetType="{x:Type Button}">
             <Setter Property="Content">
                <Setter.Value>
-                  <materialDesign:PackIcon Kind="RemoveCircleMultiple" />
+                  <materialDesign:PackIcon Kind="CloseCircleMultiple" />
                </Setter.Value>
             </Setter>
-            <Setter Property="Foreground" Value="{StaticResource SecondaryAccentBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource SecondaryHueMidBrush}" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="ToolTip" Value="Clear the list" />
          </Style>
@@ -180,8 +150,13 @@
             ConvertWhenFalse="Visible"
             ConvertWhenTrue="Collapsed" />
          <v:DiffPaneModelToFlowDocumentConverter x:Key="DiffPaneModelToFlowDocumentConverter" />
-         <Style BasedOn="{StaticResource MaterialDesignRichTextBox}" TargetType="{x:Type RichTextBox}">
+         <!--  MaterialDesignInXamlToolkitのRichTextBoxのStyleはBindingErrorが発生するので回避  -->
+         <Style TargetType="{x:Type RichTextBox}">
             <Setter Property="IsReadOnly" Value="True" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource MaterialDesignBody}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="BorderBrush" Value="{StaticResource MaterialDesignTextBoxBorder}" />
          </Style>
       </ResourceDictionary>
    </Application.Resources>

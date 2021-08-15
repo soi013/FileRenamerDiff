@@ -21,7 +21,7 @@
    <UserControl.Resources>
       <materialDesign:NotConverter x:Key="NotConverter" />
       <v:CultureDisplayConverter x:Key="CultureDisplayConverter" />
-      <Style BasedOn="{StaticResource MaterialDesignOutlinedTextFieldTextBox}" TargetType="{x:Type TextBox}">
+      <Style BasedOn="{StaticResource MaterialDesignOutlinedTextBox}" TargetType="{x:Type TextBox}">
          <Setter Property="MinWidth" Value="40" />
          <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
       </Style>
@@ -445,7 +445,7 @@
                      Text="App language: change effective after restart" />
                   <ComboBox
                      Padding="5"
-                     materialDesign:ColorZoneAssist.Mode="Accent"
+                     materialDesign:ColorZoneAssist.Mode="SecondaryMid"
                      FontSize="14"
                      ItemsSource="{Binding AvailableLanguages}"
                      SelectedItem="{Binding SelectedLanguage.Value}">

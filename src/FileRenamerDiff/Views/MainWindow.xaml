@@ -191,7 +191,7 @@
                         Style="{StaticResource IconTagLabel}" />
                   </Button>
                </StackPanel>
-               <StackPanel Orientation="Horizontal" Grid.Column="1">
+               <StackPanel Grid.Column="1" Orientation="Horizontal">
                   <!--  Helpボタン（右端）  -->
                   <Button
                      Command="{Binding ShowHelpPageCommand}"
