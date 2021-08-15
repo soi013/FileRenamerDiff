@@ -41,7 +41,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_LoadSetting()
+        public void Test_LoadSetting_Success()
         {
             const string firstIgnoreExt = "firstignoreext";
             const string otherIgnoreExt = "otherignoreext";
@@ -75,6 +75,33 @@ namespace UnitTests
 
             queuePropertyChanged
                 .Should().BeEquivalentTo(new[] { nameof(MainModel.Setting) }, because: "設定変更通知が来たはず");
+        }
+
+        [Fact]
+        public void Test_LoadSetting_Fail()
+        {
+            const string firstIgnoreExt = "firstignoreext";
+
+            string settingContent = @"{""IgnoreExtensions"":[{""Value"":""" + firstIgnoreExt + @"""}]}";
+
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                [defaultSettingFilePath] = new MockFileData(settingContent),
+                [otherSettingFilePath] = new MockFileData("aaa"),
+            });
+
+            var model = new MainModel(mockFileSystem);
+            model.Initialize();
+
+            model.Setting.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(firstIgnoreExt, because: "起動時にファイルから設定値が読み込まれたはず");
+
+            model.LoadSettingFile("  ");
+            model.LoadSettingFile(otherSettingFilePath + "__.json");
+            model.LoadSettingFile(otherSettingFilePath);
+
+            model.Setting.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(firstIgnoreExt, because: "無効な設定ファイルなら、元の設定値のままのはず");
         }
 
         [Fact]
