@@ -190,6 +190,27 @@ namespace UnitTests
         }
 
         [Fact]
+        public async Task Test_LoadFile_NoFileTarget()
+        {
+            MainModel model = CreateDefaultSettingModel();
+
+            //すべてのファイルを無視するような設定にする
+            model.Setting.IsDirectoryRenameTarget = false;
+            model.Setting.IsFileRenameTarget = false;
+
+            Task<AppMessage> taskMessage = model.MessageEvent.FirstAsync().ToTask();
+
+            //ファイル読み込むが、無視されるファイルしか無い
+            await model.LoadFileElements();
+
+            model.FileElementModels
+                .Should().BeEmpty("ファイルがなにもないはず");
+
+            (await taskMessage).MessageHead
+                .Should().Be("NOT FOUND");
+        }
+
+        [Fact]
         public async Task Test_LoadFile_MannyFiles()
         {
             var files = Enumerable.Range(0, 10000)
