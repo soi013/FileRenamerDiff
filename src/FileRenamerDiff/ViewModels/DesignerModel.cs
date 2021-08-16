@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
 
+using Reactive.Bindings.Notifiers;
+
 namespace FileRenamerDiff.ViewModels
 {
     /// <summary>
@@ -30,7 +32,8 @@ namespace FileRenamerDiff.ViewModels
             var model = new MainModel(fileSystem);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
-            model.LoadFileElementsCore(null);
+            var addFileElements = model.GetFileElements(model.Setting, new[] { targetDirPath }, new ScheduledNotifier<ProgressInfo>(), null);
+            model.FileElementModels.AddRange(addFileElements);
             model.ReplaceCore();
             return model;
         }

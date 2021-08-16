@@ -221,7 +221,7 @@ namespace FileRenamerDiff.Models
             FileElementModels.AddRange(addFileElements);
         }
 
-        private FileElementModel[] GetFileElements(SettingAppModel setting, IReadOnlyList<string> sourceFilePaths, IProgress<ProgressInfo> progress, CancellationToken? cancellationToken)
+        internal FileElementModel[] GetFileElements(SettingAppModel setting, IReadOnlyList<string> sourceFilePaths, IProgress<ProgressInfo> progress, CancellationToken? cancellationToken)
         {
             Regex? ignoreRegex = setting.CreateIgnoreExtensionsRegex();
 
