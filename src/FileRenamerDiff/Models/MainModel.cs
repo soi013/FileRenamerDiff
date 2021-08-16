@@ -187,7 +187,8 @@ namespace FileRenamerDiff.Models
             {
                 try
                 {
-                    await Task.Run(() => LoadFileElementsCore(CancelWork));
+                    await LoadFileElementsCore(CancelWork);
+                    UpdateCountReplacedAndConflicted();
 
                     if (!FileElementModels.Any())
                         MessageEvent.OnNext(new AppMessage(AppMessageLevel.Alert, "NOT FOUND", Resources.Alert_NotFoundFileBody));
@@ -203,23 +204,25 @@ namespace FileRenamerDiff.Models
             LogTo.Debug("File Load Ended");
         }
 
-        internal void LoadFileElementsCore(CancellationTokenSource? tokenSource)
+        internal async Task LoadFileElementsCore(CancellationTokenSource? tokenSource)
         {
             FileElementModels.Clear();
-            FileElementModel[] addFileElements = GetFileElements(Setting, progressNotifier, tokenSource?.Token);
+
+            IReadOnlyList<string> sourceFilePaths = Setting.SearchFilePaths
+               .Where(x => fileSystem.Directory.Exists(x))
+               .ToArray();
+
+            if (!sourceFilePaths.Any() || Setting.IsNoFileRenameTarget())
+                return;
+
+            FileElementModel[] addFileElements = await Task.Run(() =>
+                GetFileElements(Setting, sourceFilePaths, progressNotifier, tokenSource?.Token));
+
             FileElementModels.AddRange(addFileElements);
-            UpdateCountReplacedAndConflicted();
         }
 
-        private FileElementModel[] GetFileElements(SettingAppModel setting, IProgress<ProgressInfo> progress, CancellationToken? cancellationToken)
+        private FileElementModel[] GetFileElements(SettingAppModel setting, IReadOnlyList<string> sourceFilePaths, IProgress<ProgressInfo> progress, CancellationToken? cancellationToken)
         {
-            IReadOnlyList<string> sourceFilePaths = setting.SearchFilePaths
-                .Where(x => fileSystem.Directory.Exists(x))
-                .ToArray();
-
-            if (!sourceFilePaths.Any() || setting.IsNoFileRenameTarget())
-                return Array.Empty<FileElementModel>();
-
             Regex? ignoreRegex = setting.CreateIgnoreExtensionsRegex();
 
             var option = new EnumerationOptions()
