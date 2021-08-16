@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -20,7 +22,7 @@ namespace UnitTests
         private static readonly string otherSettingFilePath = @"D:\FileRenamerDiff_Setting\Setting.json";
 
         [Fact]
-        public void Test_NoSettingSaveSetting()
+        public void Test_SaveSetting()
         {
             var noSettingFileSystem = new MockFileSystem();
 
@@ -38,6 +40,59 @@ namespace UnitTests
 
             noSettingFileSystem.File.ReadAllText(otherSettingFilePath)
                 .Should().Contain(newIgnoreExt, because: "設定ファイルの中身に新しい設定値が保存されているはず");
+        }
+
+        [Fact]
+        public async Task Test_SaveSetting_Cancel()
+        {
+            var noSettingFileSystem = new MockFileSystem();
+
+            var model = new MainModel(noSettingFileSystem);
+
+            model.Initialize();
+
+            const string newIgnoreExt = "someignoreext";
+            model.Setting.IgnoreExtensions.Add(new(newIgnoreExt));
+
+            Task<AppMessage> taskMessage = model.MessageEvent.FirstAsync().ToTask();
+            model.SaveSettingFile("   ");
+
+            noSettingFileSystem.AllFiles
+                .Should().BeEmpty("設定ファイルはが保存されていないはず");
+
+            await Task.Delay(100);
+
+            taskMessage.IsCompleted
+                .Should().BeFalse("空白のファイルパスはファイルダイアログのキャンセルなので、何もメッセージを出さない");
+        }
+
+        [Fact]
+        public async Task Test_SaveSetting_FailInvalidFilePath()
+        {
+            var noSettingFileSystem = new MockFileSystem();
+            noSettingFileSystem.AddFile(otherSettingFilePath, new MockFileData("other") { AllowedFileShare = FileShare.Read });
+
+            var model = new MainModel(noSettingFileSystem);
+
+            model.Initialize();
+
+            const string newIgnoreExt = "someignoreext";
+            model.Setting.IgnoreExtensions.Add(new(newIgnoreExt));
+
+            Task<AppMessage> taskMessage = model.MessageEvent.FirstAsync().ToTask();
+            model.SaveSettingFile(otherSettingFilePath);
+
+            noSettingFileSystem.AllFiles
+                .Should().BeEquivalentTo(new[] { otherSettingFilePath }, because: "設定ファイル自体はあるはず");
+
+            noSettingFileSystem.File.ReadAllText(otherSettingFilePath)
+                .Should().NotContain(newIgnoreExt, because: "設定ファイルの中身に新しい設定値が保存されていないはず");
+
+            AppMessage appMessage = await taskMessage.Timeout(3000d);
+            appMessage.MessageLevel
+                .Should().Be(AppMessageLevel.Error);
+            appMessage.MessageBody
+                .Should().Contain(otherSettingFilePath);
         }
 
         [Fact]

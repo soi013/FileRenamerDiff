@@ -329,6 +329,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal void SaveSettingFile(string filePath)
         {
+            //保存ダイアログがキャンセルされた場合、空白のファイルパスが来るので、その場合は何もしない
             if (String.IsNullOrWhiteSpace(filePath))
                 return;
 
