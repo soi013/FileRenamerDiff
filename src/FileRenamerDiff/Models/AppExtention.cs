@@ -112,6 +112,12 @@ namespace FileRenamerDiff.Models
         public static IEnumerable<T> WhereNotNull<T>(this IEnumerable<T?> source) where T : class =>
             source.OfType<T>();
 
+        /// <summary>
+        ///nullの要素を取り除いてnullが含まれていないことが保証されたWhere
+        /// </summary>
+        public static IObservable<T> WhereNotNull<T>(this IObservable<T?> source) where T : class =>
+            source.Where(x => x is not null)!;
+
         public static string? GetDirectoryPath(this IFileSystemInfo fsInfo) => fsInfo switch
         {
             FileInfoBase fi => fi.DirectoryName,
