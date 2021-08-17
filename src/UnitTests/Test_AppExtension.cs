@@ -176,5 +176,19 @@ namespace UnitTests
         public void Test_IsValidRegexPattern(string pattern, bool asExpression, bool expectedIsValid) =>
             AppExtension.IsValidRegexPattern(pattern, asExpression)
                 .Should().Be(expectedIsValid);
+
+        [Fact]
+        public async Task Test_TimeOut_Cause()
+        {
+            Func<Task> actionNotTimeOut = () => Task.Delay(1).Timeout(3000d);
+
+            await actionNotTimeOut
+                    .Should().NotThrowAsync();
+
+            Func<Task> actionTimeOut = () => Task.Delay(3000).Timeout(100d);
+
+            await actionTimeOut
+                    .Should().ThrowAsync<TimeoutException>();
+        }
     }
 }
