@@ -22,7 +22,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_AppExtension
+    public class Test_AppExtension : IClassFixture<LogFixture>
     {
         [Fact]
         public void Test_ConcatenateString_string1() =>
@@ -34,7 +34,6 @@ namespace UnitTests
             new[] { "a", "b", "c" }
                 .ConcatenateString("_")
                 .Should().Be("a_b_c");
-
 
         [Fact]
         public void Test_Test_ConcatenateString_char() =>
@@ -59,7 +58,6 @@ namespace UnitTests
                 .Should().BeTrue();
             brush.Color
                 .Should().Be(Colors.Blue);
-
 
             var brushFreezed = Colors.Yellow.ToSolidColorBrush(isFreeze: true);
             brushFreezed.IsFrozen
@@ -106,9 +104,9 @@ namespace UnitTests
         {
             string log = "log->";
 
-            new[] { "a", "b", "c" }
-                .Do(x => log += x + "_")
-                .ToArray();
+            var arr = new[] { "a", "b", "c" }
+                  .Do(x => log += x + "_")
+                  .ToArray();
 
             log
                 .Should().Be("log->a_b_c_");

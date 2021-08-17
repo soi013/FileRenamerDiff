@@ -22,7 +22,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_AppExtension_FileSystem
+    public class Test_AppExtension_FileSystem : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -166,7 +166,6 @@ namespace UnitTests
         //    mockFileSystem.AllPaths
         //        .Should().Contain(renamedFilePath);
         //}
-
 
         [Fact]
         public void Test_GetFilePathWithoutExtension() =>
