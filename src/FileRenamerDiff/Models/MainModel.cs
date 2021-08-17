@@ -241,7 +241,7 @@ namespace FileRenamerDiff.Models
 
             var loadedFileList = fileEnums
                 //無視する拡張子が無い、または一致しないだけ残す
-                .Where(x => ignoreRegex?.IsMatch(AppExtention.GetExtentionCoreFromPath(x)) != true)
+                .Where(x => ignoreRegex?.IsMatch(AppExtension.GetExtentionCoreFromPath(x)) != true)
                 .Do((x, i) =>
                     {
                         //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
@@ -512,7 +512,7 @@ namespace FileRenamerDiff.Models
             string logFilePath = Path.Combine(dirPath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
             while (fileSystem.File.Exists(logFilePath))
             {
-                logFilePath = AppExtention.GetFilePathWithoutExtension(logFilePath) + "_.csv";
+                logFilePath = AppExtension.GetFilePathWithoutExtension(logFilePath) + "_.csv";
             }
             return logFilePath;
         }

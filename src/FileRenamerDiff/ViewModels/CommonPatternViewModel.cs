@@ -70,7 +70,7 @@ namespace FileRenamerDiff.ViewModels
         public CommonPatternViewModel(MainModel mainModel, CommonPattern modelPattern, bool isDelete)
         {
             this.modelPattern = modelPattern;
-            this.SampleDiff = AppExtention.CreateDiff(modelPattern.SampleInput, modelPattern.SampleOutput);
+            this.SampleDiff = AppExtension.CreateDiff(modelPattern.SampleInput, modelPattern.SampleOutput);
 
             AddSettingCommand.Subscribe(() =>
                 (isDelete ? mainModel.Setting.DeleteTexts : mainModel.Setting.ReplaceTexts)

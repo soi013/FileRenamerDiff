@@ -24,11 +24,11 @@ namespace FileRenamerDiff.Views
         internal const string InsertedColorCode = "#88E6A7";
         internal const string ImaginaryColorCode = "SkyBlue";
         internal const string ModifiedColorCode = "Orange";
-        private static readonly Brush unchangeBrush = AppExtention.ToColorOrDefault(UnchangeColorCode).ToSolidColorBrush(true);
-        private static readonly Brush deletedBrush = AppExtention.ToColorOrDefault(DeletedColorCode).ToSolidColorBrush(true);
-        private static readonly Brush insertedBrush = AppExtention.ToColorOrDefault(InsertedColorCode).ToSolidColorBrush(true);
-        private static readonly Brush imaginaryBrush = AppExtention.ToColorOrDefault(ImaginaryColorCode).ToSolidColorBrush(true);
-        private static readonly Brush modifiedBrush = AppExtention.ToColorOrDefault(ModifiedColorCode).ToSolidColorBrush(true);
+        private static readonly Brush unchangeBrush = AppExtension.ToColorOrDefault(UnchangeColorCode).ToSolidColorBrush(true);
+        private static readonly Brush deletedBrush = AppExtension.ToColorOrDefault(DeletedColorCode).ToSolidColorBrush(true);
+        private static readonly Brush insertedBrush = AppExtension.ToColorOrDefault(InsertedColorCode).ToSolidColorBrush(true);
+        private static readonly Brush imaginaryBrush = AppExtension.ToColorOrDefault(ImaginaryColorCode).ToSolidColorBrush(true);
+        private static readonly Brush modifiedBrush = AppExtension.ToColorOrDefault(ModifiedColorCode).ToSolidColorBrush(true);
         private static readonly Brush changedTextBrush = Colors.Black.ToSolidColorBrush(true);
         private static readonly Brush normalTextBrush = (Application.Current?.Resources["MaterialDesignBody"] as SolidColorBrush)
             ?? Colors.Black.ToSolidColorBrush(true);

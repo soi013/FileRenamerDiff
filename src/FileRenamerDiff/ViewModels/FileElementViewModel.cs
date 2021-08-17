@@ -91,7 +91,7 @@ namespace FileRenamerDiff.ViewModels
             this.Diff = Observable.CombineLatest(
                     pathModel.ObserveProperty(x => x.InputFileName),
                     pathModel.ObserveProperty(x => x.OutputFileName),
-                    (i, o) => AppExtention.CreateDiff(i, o))
+                    (i, o) => AppExtension.CreateDiff(i, o))
                 .ToReadOnlyReactivePropertySlim();
 
             this.IsReplaced = pathModel

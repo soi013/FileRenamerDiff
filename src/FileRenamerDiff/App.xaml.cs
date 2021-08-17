@@ -72,7 +72,7 @@ namespace FileRenamerDiff
             theme.PrimaryDark = new ColorPair((Color)Current.Resources["Primary700"], Colors.White);
             theme.PrimaryMid = new ColorPair((Color)Current.Resources["Primary500"], Colors.White);
             theme.PrimaryLight = (Color)Current.Resources["Primary300"];
-            theme.Paper = AppExtention.ToColorOrDefault(isDark
+            theme.Paper = AppExtension.ToColorOrDefault(isDark
                 ? "#1e242a"
                 : "#E8EDF2");
 

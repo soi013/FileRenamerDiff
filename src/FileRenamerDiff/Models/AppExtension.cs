@@ -23,7 +23,7 @@ using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.Models
 {
-    public static class AppExtention
+    public static class AppExtension
     {
         /// <summary>
         /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
@@ -41,11 +41,6 @@ namespace FileRenamerDiff.Models
         public static string ToRawText(this DiffPaneModel diffPane) => diffPane.Lines.Select(x => x.Text).ConcatenateString('|');
 
         /// <summary>
-        /// 差分前後の文字を比較表示
-        /// </summary>
-        public static string ToDisplayString(this SideBySideDiffModel ssDiff) => $"{ssDiff.OldText.ToRawText()}->{ssDiff.NewText.ToRawText()}";
-
-        /// <summary>
         /// オブジェクトを変更不可能にし、その System.Windows.Freezable.IsFrozen プロパティを true に設定します。
         /// </summary>
         public static T WithFreeze<T>(this T obj) where T : Freezable
@@ -59,8 +54,8 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public static SolidColorBrush ToSolidColorBrush(this Color mColor, bool isFreeze = false) =>
            isFreeze
-           ? new SolidColorBrush(mColor)
-           : new SolidColorBrush(mColor).WithFreeze();
+           ? new SolidColorBrush(mColor).WithFreeze()
+           : new SolidColorBrush(mColor);
 
         /// <summary>
         /// 色を文字列化 ex. #CC10D0
@@ -155,7 +150,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         /// <param name="di">変更元ディレクトリ情報/param>
         /// <param name="outputFilePath">変更後ファイルパス</param>
-        public static void RenameSafely(this DirectoryInfoBase di, string outputFilePath)
+        private static void RenameSafely(this DirectoryInfoBase di, string outputFilePath)
         {
             string sourceFilePath = di.FullName;
             //Directory.Moveはなぜか、大文字小文字だけの変更だとエラーする
@@ -172,7 +167,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定したファイルパスが他のファイルパスとかぶらなくなるまで"_"を足して返す
         /// </summary>
-        internal static string GetSafeTempName(IFileSystem fileSystem, string filePath)
+        private static string GetSafeTempName(IFileSystem fileSystem, string filePath)
         {
             while (true)
             {
@@ -188,6 +183,11 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal static string GetFilePathWithoutExtension(string filePath) =>
             Path.Combine(Path.GetDirectoryName(filePath) ?? String.Empty, Path.GetFileNameWithoutExtension(filePath));
+
+        public static string GetExtentionCoreFromPath(string path) =>
+            Path.HasExtension(path)
+            ? Path.GetExtension(path)[1..]
+            : string.Empty;
 
         /// <summary>
         /// 正規表現を生成する、失敗したらnullを返す
@@ -205,11 +205,6 @@ namespace FileRenamerDiff.Models
                 return null;
             }
         }
-
-        public static string GetExtentionCoreFromPath(string path) =>
-            Path.HasExtension(path)
-            ? Path.GetExtension(path)[1..]
-            : string.Empty;
 
         /// <summary>
         /// 差分比較情報を作成
@@ -233,7 +228,7 @@ namespace FileRenamerDiff.Models
         /// <param name="asExpression">正規表現パターンか</param>
         internal static bool IsValidRegexPattern(string pattern, bool asExpression)
         {
-            if (string.IsNullOrWhiteSpace(pattern))
+            if (string.IsNullOrEmpty(pattern))
             {
                 LogTo.Debug("TargetPattern '{@pattern}' is NOT valid. The pattern may not be empty or null.", pattern);
                 return false;

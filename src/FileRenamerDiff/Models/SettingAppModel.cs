@@ -99,7 +99,7 @@ namespace FileRenamerDiff.Models
             //無視する拡張子条件がない場合、逆にすべての拡張子にマッチしてしまうので、nullを返す
             return String.IsNullOrWhiteSpace(ignorePattern)
                 ? null
-                : AppExtention.CreateRegexOrNull(ignorePattern);
+                : AppExtension.CreateRegexOrNull(ignorePattern);
         }
 
         /// <summary>

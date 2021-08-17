@@ -58,7 +58,7 @@ namespace FileRenamerDiff.Models
                 ? TargetPattern
                 : Regex.Escape(TargetPattern);
 
-            Regex? regex = AppExtention.CreateRegexOrNull(patternEx);
+            Regex? regex = AppExtension.CreateRegexOrNull(patternEx);
 
             return regex == null
                 ? null

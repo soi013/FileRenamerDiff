@@ -91,8 +91,8 @@ namespace UnitTests
         [WpfFact]
         public void BoolToBrushConverter()
         {
-            Color falseColor = AppExtention.ToColorOrDefault("Yellow");
-            Color trueColor = AppExtention.ToColorOrDefault("SkyBlue");
+            Color falseColor = AppExtension.ToColorOrDefault("Yellow");
+            Color trueColor = AppExtension.ToColorOrDefault("SkyBlue");
             BoolToBrushConverter converter = new()
             {
                 FalseBrush = falseColor.ToSolidColorBrush(),
@@ -108,9 +108,9 @@ namespace UnitTests
                 .Should().BeFalse();
         }
 
-        private static readonly Color UnchangeC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.UnchangeColorCode);
-        private static readonly Color DeletedC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.DeletedColorCode);
-        private static readonly Color InsertedC = AppExtention.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.InsertedColorCode);
+        private static readonly Color UnchangeC = AppExtension.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.UnchangeColorCode);
+        private static readonly Color DeletedC = AppExtension.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.DeletedColorCode);
+        private static readonly Color InsertedC = AppExtension.ToColorOrDefault(DiffPaneModelToFlowDocumentConverter.InsertedColorCode);
 
         [WpfFact]
         public void DiffPaneMToFlowDocConverter()
@@ -130,7 +130,7 @@ namespace UnitTests
 
             foreach (var (oldFileName, newFileName, oldColors, newColors) in testCases)
             {
-                SideBySideDiffModel diffModel = AppExtention.CreateDiff(oldFileName, newFileName);
+                SideBySideDiffModel diffModel = AppExtension.CreateDiff(oldFileName, newFileName);
 
                 //inlineDataの配列は1つしか受け取れない制限のため、同じ組み合わせでoldとnewを別テストメソッドで行う
                 DiffPaneMSide(converter, diffModel.OldText, oldColors);
@@ -158,7 +158,7 @@ namespace UnitTests
             converter.Convert(new object(), typeof(DiffPaneModel), 0, CultureInfo.InvariantCulture)
                 .Should().Be(Binding.DoNothing);
 
-            SideBySideDiffModel diffModel = AppExtention.CreateDiff(string.Empty, string.Empty);
+            SideBySideDiffModel diffModel = AppExtension.CreateDiff(string.Empty, string.Empty);
 
             converter.Convert(diffModel.OldText, typeof(DiffPaneModel), 0, CultureInfo.InvariantCulture)
                 .Should().Be(Binding.DoNothing);
