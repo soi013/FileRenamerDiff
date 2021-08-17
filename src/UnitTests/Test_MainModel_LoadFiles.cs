@@ -244,7 +244,7 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_Canncel()
         {
-            var files = Enumerable.Range(0, 10000)
+            var files = Enumerable.Range(0, 3000)
                 .Select(i => $"ManyFile-{i:0000}.txt")
                 .ToDictionary(
                     x => Path.Combine(targetDirPath, x),
@@ -254,7 +254,7 @@ namespace UnitTests
             MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
 
             var firstProgressTask = model.CurrentProgressInfo
-                .Skip(1).FirstAsync().ToTask();
+                .WhereNotNull().FirstAsync().ToTask();
 
             Task loadTask = model.LoadFileElements();
 
