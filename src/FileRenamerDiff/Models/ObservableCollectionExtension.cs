@@ -63,13 +63,13 @@ namespace FileRenamerDiff.Models
         /// シークエンスに要素が含まれているかをIObservableとして購読する
         /// </summary>
         public static IObservable<bool> ObserveIsAny<T>(this ObservableCollection<T> source) =>
-            source.ObserveCount().Select(x => x >= 1);
+            source.ObserveCount().Select(x => x >= 1).DistinctUntilChanged();
 
         /// <summary>
         /// シークエンスが空かをIObservableとして購読する
         /// </summary>
         public static IObservable<bool> ObserveIsEmpty<T>(this ObservableCollection<T> source) =>
-            source.ObserveCount().Select(x => x <= 0);
+            source.ObserveIsAny().Select(x => !x);
 
         /// <summary>
         /// 指定したObservableCollectionと双方向に同期したObservableCollectionを生成する
