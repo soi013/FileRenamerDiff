@@ -113,13 +113,15 @@ namespace FileRenamerDiff.Models
         public static IObservable<T> WhereNotNull<T>(this IObservable<T?> source) where T : class =>
             source.Where(x => x is not null)!;
 
-        public static string? GetDirectoryPath(this IFileSystemInfo fsInfo) => fsInfo switch
-        {
-            FileInfoBase fi => fi.DirectoryName,
-            DirectoryInfoBase di => di.Parent?.FullName,
-            _ => string.Empty
-        };
+        /// <summary>
+        /// ファイルのあるディレクトリのパスを取得
+        /// </summary>
+        public static string? GetDirectoryPath(this IFileSystemInfo fsInfo) =>
+           Path.GetDirectoryName(fsInfo.FullName);
 
+        /// <summary>
+        /// ファイルを更新して存在しているか取得
+        /// </summary>
         public static bool GetExistWithReflesh(this IFileSystemInfo fsInfo)
         {
             fsInfo.Refresh();
@@ -141,7 +143,6 @@ namespace FileRenamerDiff.Models
                 case DirectoryInfoBase di:
                     di.RenameSafely(outputFilePath);
                     return;
-
             }
         }
 
@@ -184,6 +185,9 @@ namespace FileRenamerDiff.Models
         internal static string GetFilePathWithoutExtension(string filePath) =>
             Path.Combine(Path.GetDirectoryName(filePath) ?? String.Empty, Path.GetFileNameWithoutExtension(filePath));
 
+        /// <summary>
+        /// ファイルパスから拡張子を取得する（ex. "C:dirrr\\abc.txt"→"txt")
+        /// </summary>
         public static string GetExtentionCoreFromPath(string path) =>
             Path.HasExtension(path)
             ? Path.GetExtension(path)[1..]
