@@ -221,11 +221,10 @@ namespace UnitTests
 
             MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
 
-            var progressInfos = new List<ProgressInfo>();
-            model.CurrentProgressInfo
+            var progressInfos = model.CurrentProgressInfo
                 .Skip(1)
                 .WhereNotNull()
-                .Subscribe(x => progressInfos.Add(x));
+                .ToReadOnlyList();
 
             progressInfos
                 .Should().BeEmpty("まだメッセージがないはず");

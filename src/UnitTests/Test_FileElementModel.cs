@@ -219,9 +219,8 @@ namespace UnitTests
                 [targetFilePath] = new MockFileData("ABC")
             });
 
-            var messages = new List<AppMessage>();
             var messageEvent = new Subject<AppMessage>();
-            messageEvent.Subscribe(x => messages.Add(x));
+            var messages = messageEvent.ToReadOnlyList();
 
             var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
 
@@ -269,9 +268,8 @@ namespace UnitTests
                 [targetFilePath] = new MockFileData("ABC") { AllowedFileShare = FileShare.None }
             });
 
-            var messages = new List<AppMessage>();
             var messageEvent = new Subject<AppMessage>();
-            messageEvent.Subscribe(x => messages.Add(x));
+            var messages = messageEvent.ToReadOnlyList();
 
             var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
 

@@ -111,11 +111,7 @@ namespace UnitTests
             model.Setting.ReplaceTexts.Add(new("B", "A"));
             model.Setting.ReplaceTexts.Add(new("C", "A"));
 
-            var messages = new List<AppMessage>();
-
-            model.MessageEventStream
-                .Subscribe(x =>
-                    messages.Add(x));
+            var messages = model.MessageEventStream.ToReadOnlyList();
 
             await model.Replace();
 
