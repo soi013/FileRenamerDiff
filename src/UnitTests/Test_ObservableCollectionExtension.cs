@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
@@ -78,6 +79,49 @@ namespace UnitTests
 
             anyLog
                .Should().BeEquivalentTo(new[] { true, false, true });
+        }
+
+
+        [Fact]
+        public void Test_ToObservableCollctionSynced()
+        {
+            ObservableCollection<int> source = new[] { 1, 2, 3 }.ToObservableCollection();
+            ObservableCollection<double> syncTarget = source.ToObservableCollctionSynced(
+                x => x * 100d,
+                d => (int)d / 100);
+
+            source.Add(99);
+            syncTarget
+                .Should().BeEquivalentTo(new[] { 100d, 200d, 300d, 9900d });
+
+            syncTarget.Add(-123);
+            source
+                .Should().BeEquivalentTo(new[] { 1, 2, 3, 99, -1 });
+
+            source.Remove(2);
+            syncTarget
+                .Should().BeEquivalentTo(new[] { 100d, 300d, 9900d, -123d });
+
+            syncTarget.RemoveAt(1);
+            source
+                .Should().BeEquivalentTo(new[] { 1, 99, -1 });
+
+            source[0] = 5;
+            syncTarget
+                .Should().BeEquivalentTo(new[] { 500d, 9900d, -123d });
+
+
+            syncTarget.Move(1, 2);
+
+            source
+                .Should().BeEquivalentTo(new[] { 5, -1, 99 });
+
+            syncTarget.Clear();
+
+            source
+                .Should().BeEmpty();
+            syncTarget
+                .Should().BeEmpty();
         }
     }
 }
