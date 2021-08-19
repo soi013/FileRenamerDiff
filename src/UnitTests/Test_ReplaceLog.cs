@@ -17,9 +17,11 @@ namespace UnitTests
     public class Test_ReplaceLog
     {
         [Theory]
-        [InlineData(true)]
-        [InlineData(false)]
-        public async Task Test_ReplaceLogByEnableSetting(bool enableLog)
+        [InlineData(true, "A", true)]
+        [InlineData(false, "A", false)]
+        [InlineData(true, "X", false)]
+        [InlineData(false, "X", false)]
+        public async Task Test_ReplaceLogByEnableSetting(bool enableLog, string targetPattern, bool expectedResult)
         {
             const string targetDirPath = @"D:\FileRenamerDiff_Test";
             string filePathA = Path.Combine(targetDirPath, "A.txt");
@@ -33,15 +35,16 @@ namespace UnitTests
 
             var model = new MainModel(fileSystem);
             model.Initialize();
-            model.Setting.SearchFilePaths = new[] { targetDirPath };
+            model.Setting.SearchFilePaths = new[] { targetDirPath
+    };
             model.Setting.IsCreateRenameLog = enableLog;
-            model.Setting.ReplaceTexts.Add(new ReplacePattern("A", "X"));
+            model.Setting.ReplaceTexts.Add(new ReplacePattern(targetPattern, "X"));
             await model.LoadFileElements();
 
             await model.Replace();
             await model.RenameExecute();
 
-            if (!enableLog)
+            if (!expectedResult)
             {
                 fileSystem.AllFiles
                     .Should().NotContain("RenameLog", "ログ設定が無効ならログファイルはないはず");
