@@ -314,9 +314,13 @@ namespace FileRenamerDiff.Models
 
             try
             {
-                Setting = SettingAppModel.Deserialize(fileSystem, filePath);
                 PreviousSettingFilePath.Value = filePath;
                 FileElementModels.Clear();
+
+                if (fileSystem.File.Exists(filePath))
+                    Setting = SettingAppModel.Deserialize(fileSystem, filePath);
+                else
+                    LogTo.Warning("Can not Load Setting {@SettingFilePath}", filePath);
             }
             catch (Exception ex)
             {
