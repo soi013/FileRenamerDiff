@@ -193,7 +193,7 @@ namespace FileRenamerDiff.ViewModels
             this.IsAppDarkTheme = setting.ToReactivePropertyAsSynchronized(x => x.IsAppDarkTheme);
             this.IsCreateRenameLog = setting.ToReactivePropertyAsSynchronized(x => x.IsCreateRenameLog);
 
-            this.AvailableLanguages = CreateAvailableLanguages();
+            this.AvailableLanguages = SettingAppModel.AvailableLanguages;
             this.SelectedLanguage = CreateAppLanguageRp();
 
             this.AddIgnoreExtensionsCommand = mainModel.IsIdleUI
@@ -273,19 +273,6 @@ namespace FileRenamerDiff.ViewModels
                 .Select(x => Path.GetFileName(x))
                 .ToReadOnlyReactivePropertySlim();
         }
-
-        private static CultureInfo[] CreateAvailableLanguages()
-        {
-            var resourceManager = new ResourceManager(typeof(Resources));
-            return CultureInfo.GetCultures(CultureTypes.AllCultures)
-                            .Where(x => !x.Equals(CultureInfo.InvariantCulture))
-                            .Where(x => IsAvailableCulture(x, resourceManager))
-                            .Concat(new[] { CultureInfo.GetCultureInfo("en"), CultureInfo.InvariantCulture })
-                            .ToArray();
-        }
-
-        private static bool IsAvailableCulture(CultureInfo cultureInfo, ResourceManager resourceManager) =>
-            resourceManager.GetResourceSet(cultureInfo, true, false) != null;
 
         private ReactivePropertySlim<CultureInfo> CreateAppLanguageRp()
         {

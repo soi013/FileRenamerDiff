@@ -224,6 +224,19 @@ namespace FileRenamerDiff.Models
         }
         private bool _IsIgnoreExt = true;
 
+        private static IReadOnlyList<CultureInfo>? availableLanguages;
+        /// <summary>
+        /// 選択可能な言語一覧
+        /// </summary>
+        public static IReadOnlyList<CultureInfo> AvailableLanguages => availableLanguages
+            ??= CultureInfo.GetCultures(CultureTypes.AllCultures)
+                            .Where(x => !x.Equals(CultureInfo.InvariantCulture))
+                            .Where(x => IsAvailableCulture(x, new ResourceManager(typeof(Resources))))
+                            .Concat(new[] { CultureInfo.GetCultureInfo("en"), CultureInfo.InvariantCulture })
+                            .ToArray();
+        private static bool IsAvailableCulture(CultureInfo cultureInfo, ResourceManager resourceManager) =>
+            resourceManager.GetResourceSet(cultureInfo, true, false) != null;
+
         /// <summary>
         /// アプリケーションの表示言語
         /// </summary>

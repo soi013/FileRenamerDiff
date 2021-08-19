@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
@@ -180,6 +182,49 @@ namespace UnitTests
 
             queuePropertyChanged
                .Should().BeEquivalentTo(new[] { nameof(MainModel.Setting) }, because: "設定変更通知が来たはず");
+        }
+
+        [Theory]
+        [InlineData("de", "how_to_use.de.md")]
+        [InlineData("ja", "how_to_use.ja.md")]
+        [InlineData("ja-jp", "how_to_use.ja.md")]
+        [InlineData("ru", "how_to_use.ru.md")]
+        [InlineData("zh", "how_to_use.zh.md")]
+        [InlineData("xx", "how_to_use.md")]
+        [InlineData("en", "how_to_use.md")]
+        public void Test_GetHelpPath_DefaultSetting(string langCode, string expectedHelpFileName)
+        {
+            var noSettingFileSystem = new MockFileSystem();
+
+            var model = new MainModel(noSettingFileSystem);
+            model.Initialize();
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(langCode);
+
+            model.GetHelpPath()
+                .Should().Contain(expectedHelpFileName);
+        }
+
+        [Theory]
+        [InlineData("de", "how_to_use.de.md")]
+        [InlineData("ja", "how_to_use.ja.md")]
+        [InlineData("ru", "how_to_use.ru.md")]
+        [InlineData("zh", "how_to_use.zh.md")]
+        [InlineData("xx", "how_to_use.md")]
+        [InlineData("en", "how_to_use.md")]
+        [InlineData("ja-jp", "how_to_use.md")]
+        public void Test_GetHelpPath_Setting(string langCode, string expectedHelpFileName)
+        {
+            var noSettingFileSystem = new MockFileSystem();
+
+            var model = new MainModel(noSettingFileSystem);
+            model.Initialize();
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            model.Setting.AppLanguageCode = langCode;
+
+            model.GetHelpPath()
+                .Should().Contain(expectedHelpFileName);
         }
     }
 }

@@ -529,19 +529,33 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal Task? ShowHelpHtml()
         {
+            string htmlFilePath = GetHelpPath();
+
+            var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };
+            return Process.Start(pi)?.WaitForExitAsync();
+        }
+
+        internal string GetHelpPath()
+        {
             //マニュアルはMarkdownファイルからhtmlファイルへ変換して、Resourcesに配置してある
             //変換はPowerShellファイル(.ps1)をビルド前イベントから呼び出して使う
 
             //設定で言語が指定されていれば、そのヘルプを、自動なら現在のスレッドのカルチャを取得する
-            string code = "." + (String.IsNullOrWhiteSpace(Setting.AppLanguageCode)
+            string code = (String.IsNullOrWhiteSpace(Setting.AppLanguageCode)
                     ? Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName
                     : Setting.AppLanguageCode);
 
+            var availableCodes = SettingAppModel.AvailableLanguages.Select(x => x.TwoLetterISOLanguageName).ToArray();
+
             //デフォルトの言語は英語なので、その場合はファイル名に文字コードが入らない
-            if (code == ".en")
+            if (code == "en" || !availableCodes.Contains(code))
                 code = "";
 
-            string htmlFileName = $"how_to_use{code}.html";
+            string codeTag = code.IsEmpty()
+                ? string.Empty
+                : $".{code}";
+
+            string htmlFileName = $"how_to_use{codeTag}.html";
             string htmlFilePath = @$".\Resources\" + htmlFileName;
             //設定言語のファイルが無かった場合は英語のマニュアルに変更する
             if (!fileSystem.File.Exists(htmlFilePath))
@@ -549,10 +563,8 @@ namespace FileRenamerDiff.Models
 
             //それでもなかったら、オンラインのマニュアルを表示させる
             if (!fileSystem.File.Exists(htmlFilePath))
-                htmlFilePath = @$"https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use{code}.md";
-
-            var pi = new ProcessStartInfo("cmd", $"/c start {htmlFilePath}") { CreateNoWindow = true };
-            return Process.Start(pi)?.WaitForExitAsync();
+                htmlFilePath = @$"https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use{codeTag}.md";
+            return htmlFilePath;
         }
     }
 }
