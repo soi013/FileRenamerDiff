@@ -55,7 +55,6 @@ namespace UnitTests
                 .Should().BeEquivalentTo(new[] { 1, 3, 5 });
         }
 
-
         [Fact]
         public void Test_ObserveX()
         {
@@ -80,7 +79,6 @@ namespace UnitTests
             anyLog
                .Should().BeEquivalentTo(new[] { true, false, true });
         }
-
 
         [Fact]
         public void Test_ToObservableCollctionSynced()
@@ -109,7 +107,6 @@ namespace UnitTests
             source[0] = 5;
             syncTarget
                 .Should().BeEquivalentTo(new[] { 500d, 9900d, -123d });
-
 
             syncTarget.Move(1, 2);
 

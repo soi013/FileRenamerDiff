@@ -90,7 +90,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ２つのObservableCollectionを双方向に同期させる
         /// </summary>
-        public static void SyncCollectionTwoWay<SourceT, TargetT>(ObservableCollection<SourceT> sources, ObservableCollection<TargetT> targets,
+        private static void SyncCollectionTwoWay<SourceT, TargetT>(ObservableCollection<SourceT> sources, ObservableCollection<TargetT> targets,
             Func<SourceT, TargetT> sourceToTarget, Func<TargetT, SourceT> targetToSource)
         {
             bool isChanging = false;

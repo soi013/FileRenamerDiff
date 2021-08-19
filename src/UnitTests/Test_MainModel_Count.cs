@@ -121,7 +121,7 @@ namespace UnitTests
             model.CountConflicted.Value
                 .Should().Be(3, "衝突するので、3のはず");
 
-            messages.First().MessageLevel
+            messages[0].MessageLevel
                 .Should().Be(AppMessageLevel.Alert, "ヘッダに警告があるはず");
 
             messages

@@ -39,8 +39,6 @@ namespace UnitTests
             Func<Task> func = () => source.WaitBe(expectValue).Timeout(timeoutMilisec);
             return func.Should().NotThrowAsync(because);
         }
-
-
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IObservable<T> sourceObservable)
         {
             var logList = new List<T>();
