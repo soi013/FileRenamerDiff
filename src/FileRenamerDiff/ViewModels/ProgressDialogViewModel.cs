@@ -47,7 +47,7 @@ namespace FileRenamerDiff.ViewModels
         [Obsolete("Designer only", true)]
         public ProgressDialogViewModel() : this(DesignerModel.MainModelForDesigner) { }
 
-        public ProgressDialogViewModel(MainModel mainModel)
+        public ProgressDialogViewModel(IMainModel mainModel)
         {
             this.CurrentProgressInfo = mainModel.CurrentProgressInfo
                 .Buffer(TimeSpan.FromMilliseconds(500))
