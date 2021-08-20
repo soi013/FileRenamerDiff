@@ -38,7 +38,7 @@ namespace FileRenamerDiff.Models
     /// <summary>
     /// アプリケーション全体シングルトンモデル
     /// </summary>
-    public class MainModel : NotificationObject
+    public class MainModel : NotificationObject, IMainModel
     {
         private readonly IFileSystem fileSystem;
 
