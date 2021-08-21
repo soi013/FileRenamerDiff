@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
@@ -28,7 +29,7 @@ namespace UnitTests
         {
             var noSettingFileSystem = new MockFileSystem();
 
-            var model = new MainModel(noSettingFileSystem);
+            var model = new MainModel(noSettingFileSystem, Scheduler.Immediate);
 
             model.Initialize();
 
@@ -49,7 +50,7 @@ namespace UnitTests
         {
             var noSettingFileSystem = new MockFileSystem();
 
-            var model = new MainModel(noSettingFileSystem);
+            var model = new MainModel(noSettingFileSystem, Scheduler.Immediate);
 
             model.Initialize();
 
@@ -74,7 +75,7 @@ namespace UnitTests
             var noSettingFileSystem = new MockFileSystem();
             noSettingFileSystem.AddFile(otherSettingFilePath, new MockFileData("other") { AllowedFileShare = FileShare.Read });
 
-            var model = new MainModel(noSettingFileSystem);
+            var model = new MainModel(noSettingFileSystem, Scheduler.Immediate);
 
             model.Initialize();
 
@@ -112,7 +113,7 @@ namespace UnitTests
                 [otherSettingFilePath] = new MockFileData(settingContentOther),
             });
 
-            var model = new MainModel(mockFileSystem);
+            var model = new MainModel(mockFileSystem, Scheduler.Immediate);
 
             var queuePropertyChanged = new Queue<string?>();
             model.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
@@ -147,7 +148,7 @@ namespace UnitTests
                 [otherSettingFilePath] = new MockFileData("aaa"),
             });
 
-            var model = new MainModel(mockFileSystem);
+            var model = new MainModel(mockFileSystem, Scheduler.Immediate);
             model.Initialize();
 
             model.Setting.IgnoreExtensions.Select(x => x.Value)
@@ -166,7 +167,7 @@ namespace UnitTests
         {
             var noSettingFileSystem = new MockFileSystem();
 
-            var model = new MainModel(noSettingFileSystem);
+            var model = new MainModel(noSettingFileSystem, Scheduler.Immediate);
             var queuePropertyChanged = new Queue<string?>();
             model.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
 
@@ -196,7 +197,7 @@ namespace UnitTests
         {
             var noSettingFileSystem = new MockFileSystem();
 
-            var model = new MainModel(noSettingFileSystem);
+            var model = new MainModel(noSettingFileSystem, Scheduler.Immediate);
             model.Initialize();
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo(langCode);
@@ -217,7 +218,7 @@ namespace UnitTests
         {
             var noSettingFileSystem = new MockFileSystem();
 
-            var model = new MainModel(noSettingFileSystem);
+            var model = new MainModel(noSettingFileSystem, Scheduler.Immediate);
             model.Initialize();
 
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;

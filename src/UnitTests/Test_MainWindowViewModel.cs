@@ -38,7 +38,7 @@ namespace UnitTests
                .ToDictionary(
                    s => s,
                    s => new MockFileData("mock"));
-            var model = new MainModel(new MockFileSystem(fileDict));
+            var model = new MainModel(new MockFileSystem(fileDict), Scheduler.Immediate);
             var mainVM = new MainWindowViewModel(model);
 
             mainVM.IsIdle.Value
@@ -64,7 +64,7 @@ namespace UnitTests
                     s => new MockFileData("mock"));
 
             var fileSystem = new MockFileSystem(fileDict);
-            var model = new MainModel(fileSystem);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             var mainVM = new MainWindowViewModel(model);
 
@@ -116,7 +116,7 @@ namespace UnitTests
         public async Task Test_Dispose()
         {
             var fileSystem = new MockFileSystem();
-            var model = new MainModel(fileSystem);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
             await Task.Delay(10);
@@ -141,7 +141,7 @@ namespace UnitTests
                     s => new MockFileData("mock"));
 
             var fileSystem = new MockFileSystem(fileDict);
-            var model = new MainModel(fileSystem);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
             await mainVM.WaitIdle().Timeout(3000d);
@@ -242,7 +242,7 @@ namespace UnitTests
         [WpfFact]
         public async Task Test_ClearSettingAndConfirm()
         {
-            var model = new MainModel(new MockFileSystem());
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var mainVM = new MainWindowViewModel(model);
 
             model.Initialize();

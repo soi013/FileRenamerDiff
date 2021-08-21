@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -28,6 +29,9 @@ namespace UnitTests
         public async Task Test_ProgressDialogViewModel_ProgressInfo()
         {
             var mock = new Mock<IMainModel>();
+
+            mock.SetupGet(x => x.UIScheduler)
+                .Returns(Scheduler.Immediate);
 
             var subjectProgress = new Subject<ProgressInfo>();
 
@@ -55,6 +59,9 @@ namespace UnitTests
         public async Task Test_ProgressDialogViewModel_Cancel()
         {
             var mock = new Mock<IMainModel>();
+
+            mock.SetupGet(x => x.UIScheduler)
+                .Returns(Scheduler.Immediate);
 
             var subjectProgress = new Subject<ProgressInfo>();
             mock

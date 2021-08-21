@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Resources;
 using System.Text;
@@ -35,6 +36,7 @@ namespace FileRenamerDiff.ViewModels
     public class MainWindowViewModel : ViewModel
     {
         private readonly MainModel mainModel;
+        private readonly IScheduler uiScheduler;
 
         /// <summary>
         /// アプリケーションタイトル文字列
@@ -112,10 +114,11 @@ namespace FileRenamerDiff.ViewModels
         public MainWindowViewModel(MainModel mainModel)
         {
             this.mainModel = mainModel;
+            this.uiScheduler = mainModel.UIScheduler;
             this.GridVM = new(mainModel);
             var concatedFilePaths = mainModel.FileElementModels.CollectionChangedAsObservable()
                             .Select(_ => mainModel.FileElementModels.Count > 0 ? mainModel.Setting.ConcatedSearchFilePaths : string.Empty)
-                            .ObserveOnUIDispatcher()
+                            .ObserveOn(uiScheduler)
                             //起動時にはCollectionChangedが動かないので、ダミーの初期値を入れておく
                             .ToReadOnlyReactivePropertySlim(string.Empty);
 
@@ -129,7 +132,7 @@ namespace FileRenamerDiff.ViewModels
                     IsIdle
                 }
                 .CombineLatestValuesAreAllTrue()
-                .ObserveOnUIDispatcher()
+                .ObserveOn(uiScheduler)
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => mainModel.Replace());
 
@@ -140,7 +143,7 @@ namespace FileRenamerDiff.ViewModels
                     IsIdle,
                 })
                 .CombineLatestValuesAreAllTrue()
-                .ObserveOnUIDispatcher()
+                .ObserveOn(uiScheduler)
                 .ToAsyncReactiveCommand()
                 .WithSubscribe(() => RenameExecute());
 
@@ -154,7 +157,7 @@ namespace FileRenamerDiff.ViewModels
 
             this.SettingVM = mainModel.ObserveProperty(x => x.Setting)
                 .Select(_ => new SettingAppViewModel(mainModel))
-                .ObserveOnUIDispatcher()
+                .ObserveOn(uiScheduler)
                 .ToReadOnlyReactivePropertySlim<SettingAppViewModel>();
 
             this.LoadFilesFromDialogCommand = IsIdle
@@ -182,7 +185,7 @@ namespace FileRenamerDiff.ViewModels
                 .Select(ms => ms
                     .SumSameHead()
                     .Select(m => new MessageDialogViewModel(m)))
-                .ObserveOnUIDispatcher()
+                .ObserveOn(uiScheduler)
                 .Subscribe(async ms =>
                 {
                     foreach (var m in ms)

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Resources;
 using System.Text;
@@ -96,9 +97,10 @@ namespace FileRenamerDiff.ViewModels
 
         public FileElementsGridViewModel(MainModel mainModel)
         {
-            this.CountReplaced = mainModel.CountReplaced.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            IScheduler uiScheduler = mainModel.UIScheduler;
+            this.CountReplaced = mainModel.CountReplaced.ObserveOn(uiScheduler).ToReadOnlyReactivePropertySlim();
             this.IsReplacedAny = CountReplaced.Select(x => x > 0).ToReadOnlyReactivePropertySlim();
-            this.CountConflicted = mainModel.CountConflicted.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            this.CountConflicted = mainModel.CountConflicted.ObserveOn(uiScheduler).ToReadOnlyReactivePropertySlim();
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
             this.fileElementVMs = mainModel.FileElementModels
@@ -116,7 +118,7 @@ namespace FileRenamerDiff.ViewModels
             }
             .Merge()
             .Throttle(TimeSpan.FromMilliseconds(100))
-            .ObserveOnUIDispatcher()
+            .ObserveOn(uiScheduler)
             .Subscribe(_ => RefleshCollectionViewSafe());
 
             this.IsReplacedAny
@@ -137,7 +139,7 @@ namespace FileRenamerDiff.ViewModels
                     IsAnyFiles,
                 })
                 .CombineLatestValuesAreAllTrue()
-                .ObserveOnUIDispatcher()
+                .ObserveOn(uiScheduler)
                 .ToReactiveCommand()
                 .WithSubscribe(() => mainModel.FileElementModels.Clear());
 

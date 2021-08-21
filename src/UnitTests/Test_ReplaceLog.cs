@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace UnitTests
                 [filePathB] = new MockFileData("B"),
             });
 
-            var model = new MainModel(fileSystem);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath
     };

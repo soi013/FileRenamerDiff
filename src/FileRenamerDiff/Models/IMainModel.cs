@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Reactive.Concurrency;
+using System.Threading;
 
 using Reactive.Bindings;
 
@@ -8,5 +9,6 @@ namespace FileRenamerDiff.Models
     {
         public IReadOnlyReactiveProperty<ProgressInfo?> CurrentProgressInfo { get; }
         public CancellationTokenSource? CancelWork { get; }
+        IScheduler UIScheduler { get; }
     }
 }

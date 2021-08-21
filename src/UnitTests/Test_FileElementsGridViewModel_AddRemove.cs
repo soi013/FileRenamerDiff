@@ -59,7 +59,7 @@ namespace UnitTests
         {
             MockFileSystem fileSystem = CreateMockFileSystem();
 
-            var model = new MainModel(fileSystem);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             return model;

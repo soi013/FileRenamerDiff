@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.IO.Abstractions;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Windows;
@@ -39,6 +40,7 @@ namespace FileRenamerDiff
         {
             IServiceCollection? services = new ServiceCollection()
                 .AddTransient<IFileSystem, FileSystem>()
+                .AddTransient<IScheduler>(x => UIDispatcherScheduler.Default)
                 .AddSingleton<MainModel>();
 
             return services.BuildServiceProvider();

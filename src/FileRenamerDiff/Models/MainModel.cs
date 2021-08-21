@@ -9,6 +9,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Resources;
@@ -41,6 +42,7 @@ namespace FileRenamerDiff.Models
     public class MainModel : NotificationObject, IMainModel
     {
         private readonly IFileSystem fileSystem;
+        public IScheduler UIScheduler { get; }
 
         /// <summary>
         /// アプリケーションが待機状態か（変更用）
@@ -55,7 +57,7 @@ namespace FileRenamerDiff.Models
         /// アプリケーションが待機状態か（UI購読用）
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsIdleUI =>
-            isIdleUI ??= isIdle.ObserveOnUIDispatcher().ToReadOnlyReactivePropertySlim();
+            isIdleUI ??= isIdle.ObserveOn(UIScheduler).ToReadOnlyReactivePropertySlim();
         private IReadOnlyReactiveProperty<bool>? isIdleUI;
 
         /// <summary>
@@ -119,9 +121,10 @@ namespace FileRenamerDiff.Models
         /// </summary>
         public Func<Task<bool>> ConfirmUser { get; set; } = () => Task.FromResult(true);
 
-        public MainModel(IFileSystem fileSystem)
+        public MainModel(IFileSystem fileSystem, IScheduler uiScheduler)
         {
             this.fileSystem = fileSystem;
+            this.UIScheduler = uiScheduler;
             IsIdleUI.Subscribe(x => LogTo.Debug("Change IsIdleUI = {@IsIdleUI}", x));
 
             FileElementModels

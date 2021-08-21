@@ -53,7 +53,7 @@ namespace FileRenamerDiff.ViewModels
                 .Buffer(TimeSpan.FromMilliseconds(500))
                 .Where(x => x.Any())
                 .Select(x => x.Last())
-                .ObserveOnUIDispatcher()
+                .ObserveOn(mainModel.UIScheduler)
                 .ToReadOnlyReactivePropertySlim()
                 .AddTo(this.CompositeDisposable);
 

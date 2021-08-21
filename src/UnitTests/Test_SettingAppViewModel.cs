@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Text.RegularExpressions;
@@ -28,7 +29,7 @@ namespace UnitTests
         [WpfFact]
         public async Task Test_CommandCanExecute()
         {
-            var model = new MainModel(new MockFileSystem());
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
             await model.WaitIdleUI().Timeout(3000d);
@@ -59,7 +60,7 @@ namespace UnitTests
         [Fact]
         public void Test_SearchFilePathConcate()
         {
-            var model = new MainModel(new MockFileSystem());
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
 
@@ -78,7 +79,7 @@ namespace UnitTests
         [WpfFact]
         public void Test_CommonDeletePattern()
         {
-            var model = new MainModel(new MockFileSystem());
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
 
@@ -113,7 +114,7 @@ namespace UnitTests
         [WpfFact]
         public void Test_CommonReplacePattern()
         {
-            var model = new MainModel(new MockFileSystem());
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
 
