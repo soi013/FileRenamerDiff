@@ -145,5 +145,68 @@ namespace UnitTests
                 .Should().NotContain(x => x.TargetPattern == changedTarget, "追加先で編集しても、元のプロパティは変更されないはず")
                 .And.Contain(x => x.TargetPattern == commonReplacePatternTarget, "追加先で編集しても、元のプロパティは変更されないはず");
         }
+
+
+        [WpfFact]
+        public void Test_OtherProperties()
+        {
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
+            var settingVM = new SettingAppViewModel(model);
+            model.Initialize();
+
+            var defaultSetting = new SettingAppModel();
+
+            //ステージ1 変更前
+            settingVM.IsSearchSubDirectories.Value
+                .Should().Be(defaultSetting.IsSearchSubDirectories, "デフォルト設定と同じはず");
+
+            settingVM.IsDirectoryRenameTarget.Value
+                .Should().Be(defaultSetting.IsDirectoryRenameTarget, "デフォルト設定と同じはず");
+
+            settingVM.IsFileRenameTarget.Value
+                .Should().Be(defaultSetting.IsFileRenameTarget, "デフォルト設定と同じはず");
+
+            settingVM.IsHiddenRenameTarget.Value
+                .Should().Be(defaultSetting.IsHiddenRenameTarget, "デフォルト設定と同じはず");
+
+            settingVM.IsRenameExt.Value
+                .Should().Be(defaultSetting.IsRenameExt, "デフォルト設定と同じはず");
+
+            settingVM.IsAppDarkTheme.Value
+                .Should().Be(defaultSetting.IsAppDarkTheme, "デフォルト設定と同じはず");
+
+            settingVM.IsCreateRenameLog.Value
+                .Should().Be(defaultSetting.IsCreateRenameLog, "デフォルト設定と同じはず");
+
+            //ステージ2 変更後
+            settingVM.IsSearchSubDirectories.Value ^= true;
+            settingVM.IsDirectoryRenameTarget.Value ^= true;
+            settingVM.IsFileRenameTarget.Value ^= true;
+            settingVM.IsHiddenRenameTarget.Value ^= true;
+            settingVM.IsRenameExt.Value ^= true;
+            settingVM.IsAppDarkTheme.Value ^= true;
+            settingVM.IsCreateRenameLog.Value ^= true;
+
+            settingVM.IsSearchSubDirectories.Value
+                .Should().Be(!defaultSetting.IsSearchSubDirectories, "デフォルト設定と違うはず");
+
+            settingVM.IsDirectoryRenameTarget.Value
+                .Should().Be(!defaultSetting.IsDirectoryRenameTarget, "デフォルト設定と違うはず");
+
+            settingVM.IsFileRenameTarget.Value
+                .Should().Be(!defaultSetting.IsFileRenameTarget, "デフォルト設定と違うはず");
+
+            settingVM.IsHiddenRenameTarget.Value
+                .Should().Be(!defaultSetting.IsHiddenRenameTarget, "デフォルト設定と違うはず");
+
+            settingVM.IsRenameExt.Value
+                .Should().Be(!defaultSetting.IsRenameExt, "デフォルト設定と違うはず");
+
+            settingVM.IsAppDarkTheme.Value
+                .Should().Be(!defaultSetting.IsAppDarkTheme, "デフォルト設定と違うはず");
+
+            settingVM.IsCreateRenameLog.Value
+                .Should().Be(!defaultSetting.IsCreateRenameLog, "デフォルト設定と違うはず");
+        }
     }
 }
