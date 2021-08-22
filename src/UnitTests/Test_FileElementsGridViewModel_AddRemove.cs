@@ -75,8 +75,9 @@ namespace UnitTests
             await model.WaitIdleUI().Timeout(3000);
 
             //ステージ ファイル追加後
-            fileElementVMs.AddTargetFilesCommand.Execute(new[] { filePathA, filePathB, filePathG });
+            fileElementVMs.AddTargetFilesCommand.Execute(new[] { filePathA, filePathG });
             await model.WaitIdleUI().Timeout(3000);
+            await Task.Delay(100);
 
             fileElementVMs.IsAnyFiles.Value
                 .Should().BeTrue("ファイル読込後なので、ファイルはあるはず");
@@ -87,7 +88,7 @@ namespace UnitTests
             //    .WaitShouldBe(1, 3000d, "ファイル読込後なので、ファイルはあるはず");
 
             model.FileElementModels.Count
-                .Should().Be(3, "ファイル読込後なので、ファイルはあるはず");
+                .Should().Be(2, "ファイル読込後なので、ファイルはあるはず");
 
             await Task.Delay(100);
 
@@ -96,14 +97,16 @@ namespace UnitTests
                 .First(x => x.PathModel.InputFilePath == filePathA);
 
             fileElementVMs.RemoveItemCommand.Execute(removedVM);
+            await Task.Delay(100);
 
             model.FileElementModels.Count
-                .Should().Be(2, "ファイル削除後なので、ファイルは減ったはず");
+                .Should().Be(1, "ファイル削除後なので、ファイルは減ったはず");
 
             await Task.Delay(100);
 
             //ステージ　ファイルクリア後
             fileElementVMs.ClearFileElementsCommand.Execute();
+            await Task.Delay(100);
 
             model.FileElementModels.Count
                 .Should().Be(0, "ファイルはなくなったはず");
