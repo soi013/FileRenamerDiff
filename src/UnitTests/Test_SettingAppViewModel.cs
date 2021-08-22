@@ -146,7 +146,6 @@ namespace UnitTests
                 .And.Contain(x => x.TargetPattern == commonReplacePatternTarget, "追加先で編集しても、元のプロパティは変更されないはず");
         }
 
-
         [WpfFact]
         public void Test_OtherProperties()
         {
@@ -207,6 +206,87 @@ namespace UnitTests
 
             settingVM.IsCreateRenameLog.Value
                 .Should().Be(!defaultSetting.IsCreateRenameLog, "デフォルト設定と違うはず");
+        }
+
+        [WpfFact]
+        public async Task Test_Add_Clear_DeleteTextsCommand()
+        {
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
+            var settingVM = new SettingAppViewModel(model);
+            model.Initialize();
+            await model.WaitIdleUI().Timeout(3000d);
+            await Task.Delay(100);
+
+            int defaultCount = model.Setting.DeleteTexts.Count;
+            //ステージ1 追加後
+            settingVM.AddDeleteTextsCommand.Execute();
+
+            model.Setting.DeleteTexts
+                .Should().HaveCount(defaultCount + 1, "1つ増えているはず");
+            model.Setting.DeleteTexts.Last().ReplaceText
+                .Should().BeEmpty("追加された内容は空白のはず");
+            model.Setting.DeleteTexts.Last().TargetPattern
+                .Should().BeEmpty("追加された内容は空白のはず");
+
+            //ステージ2 クリア後
+            await settingVM.ClearDeleteTextsCommand.ExecuteAsync();
+
+            model.Setting.DeleteTexts
+                .Should().BeEmpty("空になったはず");
+        }
+
+        [WpfFact]
+        public async Task Test_Add_Clear_IgnoreExtensionsCommand()
+        {
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
+            var settingVM = new SettingAppViewModel(model);
+            model.Initialize();
+            await model.WaitIdleUI().Timeout(3000d);
+            await Task.Delay(100);
+
+            int defaultCount = model.Setting.IgnoreExtensions.Count;
+
+            //ステージ1 追加後
+            settingVM.AddIgnoreExtensionsCommand.Execute();
+
+            model.Setting.IgnoreExtensions
+                .Should().HaveCount(defaultCount + 1, "1つ増えているはず");
+            model.Setting.IgnoreExtensions.Last().Value
+                .Should().BeEmpty("追加された内容は空白のはず");
+
+            //ステージ2 クリア後
+            await settingVM.ClearIgnoreExtensionsCommand.ExecuteAsync();
+
+            model.Setting.IgnoreExtensions
+                .Should().BeEmpty("空になったはず");
+        }
+
+        [WpfFact]
+        public async Task Test_Add_Clear_ReplaceTextsCommand()
+        {
+            var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
+            var settingVM = new SettingAppViewModel(model);
+            model.Initialize();
+            await model.WaitIdleUI().Timeout(3000d);
+            await Task.Delay(100);
+
+            int defaultCount = model.Setting.ReplaceTexts.Count;
+
+            //ステージ1 追加後
+            settingVM.AddReplaceTextsCommand.Execute();
+
+            model.Setting.ReplaceTexts
+                .Should().HaveCount(defaultCount + 1, "1つ増えているはず");
+            model.Setting.ReplaceTexts.Last().ReplaceText
+                .Should().BeEmpty("追加された内容は空白のはず");
+            model.Setting.ReplaceTexts.Last().TargetPattern
+                .Should().BeEmpty("追加された内容は空白のはず");
+
+            //ステージ2 クリア後
+            await settingVM.ClearReplaceTextsCommand.ExecuteAsync();
+
+            model.Setting.ReplaceTexts
+                .Should().BeEmpty("空になったはず");
         }
     }
 }
