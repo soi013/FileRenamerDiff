@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace FileRenamerDiff.ViewModels
     /// <summary>
     /// デザイナー用のModel生成機
     /// </summary>
+    [ExcludeFromCodeCoverage]
     class DesignerModel
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
