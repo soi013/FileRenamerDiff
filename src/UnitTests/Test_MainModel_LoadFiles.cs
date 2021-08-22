@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Reactive.Concurrency;
@@ -12,6 +13,8 @@ using System.Threading.Tasks;
 using FileRenamerDiff.Models;
 
 using FluentAssertions;
+
+using Moq;
 
 using Reactive.Bindings;
 
@@ -47,7 +50,7 @@ namespace UnitTests
             });
         }
 
-        private static MainModel CreateDefaultSettingModel(MockFileSystem? fileSystem = null)
+        private static MainModel CreateDefaultSettingModel(IFileSystem? fileSystem = null)
         {
             fileSystem ??= CreateMockFileSystem();
 
@@ -244,14 +247,24 @@ namespace UnitTests
         [Fact]
         public async Task Test_LoadFile_Canncel()
         {
-            var files = Enumerable.Range(0, 3000)
-                .Select(i => $"ManyFile-{i:0000}.txt")
-                .ToDictionary(
-                    x => Path.Combine(targetDirPath, x),
-                    x => new MockFileData(x));
+            var moqFileSystem = new Mock<IFileSystem>();
+            moqFileSystem
+                .Setup(x => x.File.Exists(It.Is<string>(s => s.Contains(targetDirPath)))).Returns(true);
+            moqFileSystem
+                .Setup(x => x.Directory.Exists(It.Is<string>(s => s.Contains(targetDirPath)))).Returns(true);
+
+            moqFileSystem
+                .Setup(x => x.File.Exists(It.IsAny<string>())).Returns(false);
+
+            moqFileSystem
+                .Setup(x => x.Directory.EnumerateFileSystemEntries(It.IsAny<string>(), "*", It.IsAny<EnumerationOptions>()))
+                .Returns(Enumerable
+                    .Range(0, 100000)
+                    .Select(i => $"ManyFile-{i:00000}.txt")
+                    .Select(x => Path.Combine(targetDirPath, x)));
 
             //たくさんのファイルの読込を開始する
-            MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
+            MainModel model = CreateDefaultSettingModel(moqFileSystem.Object);
 
             var firstProgressTask = model.CurrentProgressInfo
                 .WhereNotNull().FirstAsync().ToTask();
