@@ -78,7 +78,7 @@ jobs:
           --verbosity normal --no-restore -c Debug
           --collect:"XPlat Code Coverage"
           /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-          /p:ExcludeByFile="**Designer.cs%2c**.xaml*%2c**.g.cs%2c**.xaml"
+          /p:ExcludeByFile="**.Designer.cs%2c**.xaml*%2c**.g.cs%2c**.xaml"
           -p:coverletOutput=${{ env.CodeCov_Result }}
      
       - name: Send coverage result to codecov 
