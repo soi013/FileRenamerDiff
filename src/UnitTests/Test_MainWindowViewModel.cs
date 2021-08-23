@@ -293,46 +293,39 @@ namespace UnitTests
                 .Should().Be(0, "設定が消去されたはず");
         }
 
-        //HACK 何故かダイアログのテストはCI上で失敗する
-        //[Fact]
-        //public async Task Test_Dialog()
-        //{
-        //    var fileDict = new[] { filePathA, filePathB }
-        //        .ToDictionary(
-        //            s => s,
-        //            s => new MockFileData("mock"));
+        [WpfFact]
+        public async Task Test_Dialog()
+        {
+            var fileDict = new[] { filePathA, filePathB }
+                .ToDictionary(
+                    s => s,
+                    s => new MockFileData("mock"));
 
-        //    var fileSystem = new MockFileSystem(fileDict);
-        //    var model = new MainModel(fileSystem);
-        //    model.Setting.SearchFilePaths = new[] { targetDirPath };
-        //    var mainVM = new MainWindowViewModel(model);
+            var fileSystem = new MockFileSystem(fileDict);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
+            var mainVM = new MainWindowViewModel(model);
 
-        //    mainVM.Initialize();
+            mainVM.Initialize();
+            await mainVM.WaitIdle().Timeout(3000d);
 
-        //    await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask()
-        //        .Timeout(10000d);
 
-        //    mainVM.LoadFilesFromCurrentPathCommand.Execute();
+            var dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = targetDirPath };
+            await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
 
-        //    await mainVM.IsIdle.Where(x => x).FirstAsync().ToTask()
-        //        .Timeout(10000d);
+            await mainVM.WaitIdle().Timeout(3000d);
+            await Task.Delay(MainWindowViewModel.TimeSpanMessageBuffer * 3);
 
-        //    mainVM.IsDialogOpen.Value
-        //        .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
+            mainVM.IsDialogOpen.Value
+                .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
 
-        //    model.Setting.SearchFilePaths = new[] { "*invalidpath*" };
+            dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = "*invalidPath1*", SelectedPaths = new[] { "*invalidPath1*", "*invalidPath2*" } };
+            await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
 
-        //    mainVM.LoadFilesFromCurrentPathCommand.Execute();
+            await mainVM.IsDialogOpen.WaitShouldBe(true, 3000d, "無効なファイルパスなら、ダイアログが開いたはず");
 
-        //    await mainVM.IsDialogOpen.Where(x => x).FirstAsync().ToTask()
-        //        .Timeout(10000d);
+            (mainVM.DialogContentVM.Value as MessageDialogViewModel)?.AppMessage.MessageLevel
+                .Should().Be(AppMessageLevel.Alert, "警告メッセージが表示されるはず");
 
-        //    mainVM.IsDialogOpen.Value
-        //        .Should().BeTrue("無効なファイルパスなら、ダイアログが開いたはず");
-
-        //    (mainVM.DialogContentVM.Value as MessageDialogViewModel)?.AppMessage.MessageLevel
-        //        .Should().Be(AppMessageLevel.Alert, "警告メッセージが表示されるはず");
-
-        //}
+        }
     }
 }
