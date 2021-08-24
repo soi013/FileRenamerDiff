@@ -166,9 +166,13 @@ namespace UnitTests
 
             //TEST2 Replace
             //ファイル名の一部を変更する置換パターンを作成
+            var replaceRegex = new ReplaceRegex(new Regex(regexPattern, RegexOptions.Compiled), replaceText);
+            replaceRegex.ToString()
+                .Should().Contain(regexPattern, replaceText, "->");
+
             ReplaceRegex[] replaceRegexes = new[]
                 {
-                    new ReplaceRegex(new Regex(regexPattern, RegexOptions.Compiled), replaceText)
+                    replaceRegex
                 };
 
             //リネームプレビュー実行
@@ -176,6 +180,9 @@ namespace UnitTests
 
             fileElem.OutputFileName
                 .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
+
+            fileElem.ToString()
+                .Should().ContainAll(new[] { targetFileName, expectedRenamedFileName }, because: "リネーム前後のファイル名を含んでいるはず");
 
             bool shouldRename = targetFileName != expectedRenamedFileName;
             fileElem.IsReplaced

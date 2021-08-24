@@ -36,10 +36,13 @@ namespace UnitTests
 
             var model = new MainModel(fileSystem, Scheduler.Immediate);
             model.Initialize();
-            model.Setting.SearchFilePaths = new[] { targetDirPath
-    };
+            model.Setting.SearchFilePaths = new[] { targetDirPath };
             model.Setting.IsCreateRenameLog = enableLog;
-            model.Setting.ReplaceTexts.Add(new ReplacePattern(targetPattern, "X"));
+            var rPattern = new ReplacePattern(targetPattern, "X");
+            rPattern.ToString()
+                .Should().ContainAll(targetPattern, "X");
+
+            model.Setting.ReplaceTexts.Add(rPattern);
             await model.LoadFileElements();
 
             await model.Replace();

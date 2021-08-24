@@ -217,7 +217,10 @@ namespace UnitTests
 
             //ステージ5 有効なネーム後
             var replaceSafe = new ReplacePattern(fileNameA, "XXX_" + fileNameA);
-            mainVM.SettingVM.Value.ReplaceTexts.Add(new ReplacePatternViewModel(replaceSafe));
+            var replaceSafeVM = new ReplacePatternViewModel(replaceSafe);
+            replaceSafeVM.ToString()
+                .Should().ContainAll(fileNameA, "XXX_");
+            mainVM.SettingVM.Value.ReplaceTexts.Add(replaceSafeVM);
             await mainVM.ReplaceCommand.ExecuteAsync();
 
             await mainVM.WaitIdle().Timeout(3000);

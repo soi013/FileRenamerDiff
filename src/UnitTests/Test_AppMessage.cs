@@ -34,6 +34,9 @@ namespace UnitTests
                 new (AppMessageLevel.Info, "MIX_LEVEL", "E3"),
             };
 
+            messages[0].ToString()
+                .Should().Contain("A1");
+
             var sumMessages = new Queue<AppMessage>(AppMessageExt.SumSameHead(messages));
 
             var sum1 = sumMessages.Dequeue();
