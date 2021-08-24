@@ -55,20 +55,15 @@ namespace UnitTests
                 [filePathG] = new MockFileData("G") { Attributes = FileAttributes.Hidden },
             });
         }
-        private static MainModel CreateDefaultSettingModel()
-        {
-            MockFileSystem fileSystem = CreateMockFileSystem();
-
-            var model = new MainModel(fileSystem, Scheduler.Immediate);
-            model.Initialize();
-            model.Setting.SearchFilePaths = new[] { targetDirPath };
-            return model;
-        }
 
         [WpfFact]
         public async Task Test_AddTargetFiles_RemoveFile()
         {
-            var model = CreateDefaultSettingModel();
+            MockFileSystem fileSystem = CreateMockFileSystem();
+            var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
+
+            var model = new MainModel(fileSystem, syncScheduler);
+            model.Initialize();
 
             var fileElementVMs = new FileElementsGridViewModel(model);
 
@@ -87,8 +82,10 @@ namespace UnitTests
             //await cViewFileElementVMs.ObserveProperty(x => x.Count)
             //    .WaitShouldBe(1, 3000d, "ファイル読込後なので、ファイルはあるはず");
 
-            model.FileElementModels.Count
-                .Should().Be(2, "ファイル読込後なので、ファイルはあるはず");
+            model.FileElementModels
+                .Should().HaveCount(2, "ファイル読込後なので、ファイルはあるはず");
+            fileElementVMs.fileElementVMs
+                .Should().HaveCount(2, "ファイル読込後なので、ファイルはあるはず");
 
             await Task.Delay(100);
 
