@@ -22,8 +22,6 @@ using System.Windows.Threading;
 
 using Anotar.Serilog;
 
-using DiffPlex.DiffBuilder.Model;
-
 using FileRenamerDiff.Models;
 using FileRenamerDiff.ViewModels;
 using FileRenamerDiff.Views;
@@ -37,7 +35,6 @@ using Reactive.Bindings.Extensions;
 using Reactive.Bindings.Schedulers;
 
 using Xunit;
-
 
 namespace UnitTests
 {
@@ -100,7 +97,5 @@ namespace UnitTests
             tb.ActualHeight
                 .Should().BeInRange(90, 110, "大きいコンテンツなので、サイズが制限ギリギリまで増えているはず");
         }
-
-
     }
 }
