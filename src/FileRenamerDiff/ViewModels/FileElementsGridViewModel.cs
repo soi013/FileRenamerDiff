@@ -104,7 +104,7 @@ namespace FileRenamerDiff.ViewModels
             this.IsNotConflictedAny = CountConflicted.Select(x => x <= 0).ToReadOnlyReactivePropertySlim();
 
             this.fileElementVMs = mainModel.FileElementModels
-                .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x));
+                .ToReadOnlyReactiveCollection(x => new FileElementViewModel(x), uiScheduler);
 
             this.CViewFileElementVMs = CreateCollectionViewFilePathVMs(fileElementVMs);
 
