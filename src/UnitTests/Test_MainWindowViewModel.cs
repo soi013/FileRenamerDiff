@@ -141,10 +141,12 @@ namespace UnitTests
                     s => new MockFileData("mock"));
 
             var fileSystem = new MockFileSystem(fileDict);
-            var model = new MainModel(fileSystem, Scheduler.Immediate);
+            var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
+            var model = new MainModel(fileSystem, syncScheduler);
             var mainVM = new MainWindowViewModel(model);
             mainVM.Initialize();
             await mainVM.WaitIdle().Timeout(3000d);
+            await Task.Delay(100);
 
             //ステージ1 初期状態
             var canExecuteUsuallyCommand = new ICommand[]
