@@ -183,6 +183,9 @@ namespace UnitTests
             converter.Convert(1024L * 1024 * 1024 * 1024 * 5, 0, CultureInfo.InvariantCulture)
                 .Should().Be("5 TB");
 
+            converter.Convert(-1L, 0, CultureInfo.InvariantCulture)
+                .Should().Contain("--");
+
             converter.ConvertBack("123B", 0, CultureInfo.InvariantCulture)
                 .Should().Be(0);
         }
