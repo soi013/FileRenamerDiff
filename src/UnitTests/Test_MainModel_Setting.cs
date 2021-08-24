@@ -70,7 +70,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_SaveSetting_FailInvalidFilePath()
+        public async Task Test_SaveSetting_NotSaveInvalidFilePath()
         {
             var noSettingFileSystem = new MockFileSystem();
             noSettingFileSystem.AddFile(otherSettingFilePath, new MockFileData("other") { AllowedFileShare = FileShare.Read });
@@ -136,7 +136,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_LoadSetting_Fail()
+        public void Test_LoadSetting_NotLoadInvalidFileContent()
         {
             const string firstIgnoreExt = "firstignoreext";
 
