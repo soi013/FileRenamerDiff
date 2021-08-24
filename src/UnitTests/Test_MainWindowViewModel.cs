@@ -64,7 +64,8 @@ namespace UnitTests
                     s => new MockFileData("mock"));
 
             var fileSystem = new MockFileSystem(fileDict);
-            var model = new MainModel(fileSystem, Scheduler.Immediate);
+            var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
+            var model = new MainModel(fileSystem, syncScheduler);
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             var mainVM = new MainWindowViewModel(model);
 
@@ -310,7 +311,6 @@ namespace UnitTests
             mainVM.Initialize();
             await mainVM.WaitIdle().Timeout(3000d);
 
-
             var dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = targetDirPath };
             await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
 
@@ -327,7 +327,6 @@ namespace UnitTests
 
             (mainVM.DialogContentVM.Value as MessageDialogViewModel)?.AppMessage.MessageLevel
                 .Should().Be(AppMessageLevel.Alert, "警告メッセージが表示されるはず");
-
         }
     }
 }
