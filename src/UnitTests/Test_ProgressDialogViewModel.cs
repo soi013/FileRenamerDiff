@@ -31,8 +31,9 @@ namespace UnitTests
         public async Task Test_ProgressDialogViewModel_ProgressInfo()
         {
             var mock = new Mock<IMainModel>();
+            var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
             mock.SetupGet(x => x.UIScheduler)
-                .Returns(new SynchronizationContextScheduler(SynchronizationContext.Current!));
+                .Returns(syncScheduler);
 
             var subjectProgress = new Subject<ProgressInfo>();
 
@@ -42,12 +43,12 @@ namespace UnitTests
 
             var vm = new ProgressDialogViewModel(mock.Object);
 
-            Enumerable.Range(0, 3)
-                .Select(x => new ProgressInfo(x, $"progress-{x:00}"))
-                .ForEach(x => subjectProgress.OnNext(x));
+            var t = Task.Run(() =>
+                Enumerable.Range(0, 3)
+                    .Select(x => new ProgressInfo(x, $"progress-{x:00}"))
+                    .ForEach(x => subjectProgress.OnNext(x)));
 
-            await Task.Delay(1000);
-
+            await vm.CurrentProgressInfo.WaitUntilValueChangedAsync();
             vm.CurrentProgressInfo.Value!.Count
                 .Should().Be(2);
             vm.CurrentProgressInfo.Value!.Message
