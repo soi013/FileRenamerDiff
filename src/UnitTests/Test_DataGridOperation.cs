@@ -40,7 +40,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_DataGrid
+    public class Test_DataGridOperation
     {
         class BindingSorceTest
         {
