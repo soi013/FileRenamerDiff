@@ -34,11 +34,20 @@ namespace UnitTests
         public static Task WaitBe<T>(this IObservable<T> source, T expectValue) =>
                     source.Where(x => x?.Equals(expectValue) == true).FirstAsync().ToTask();
 
+        public static Task WaitShouldBe<T>(this IObservable<T> source, Func<T, bool> exprectedPredicate, double timeoutMilisec, string because)
+        {
+            Func<Task> func = () => source.WaitBe(exprectedPredicate).Timeout(timeoutMilisec);
+            return func.Should().NotThrowAsync(because);
+        }
+        public static Task WaitBe<T>(this IObservable<T> source, Func<T, bool> exprectedPredicate) =>
+                    source.Where(x => exprectedPredicate(x)).FirstAsync().ToTask();
+
         public static Task WaitShouldBe<T>(this IObservable<T> source, T expectValue, double timeoutMilisec, string because)
         {
             Func<Task> func = () => source.WaitBe(expectValue).Timeout(timeoutMilisec);
             return func.Should().NotThrowAsync(because);
         }
+
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IObservable<T> sourceObservable)
         {
             var logList = new List<T>();

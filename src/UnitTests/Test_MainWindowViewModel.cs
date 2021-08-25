@@ -11,6 +11,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Anotar.Serilog;
+
 using FileRenamerDiff.Models;
 using FileRenamerDiff.ViewModels;
 
@@ -68,6 +70,8 @@ namespace UnitTests
             var model = new MainModel(fileSystem, syncScheduler);
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             var mainVM = new MainWindowViewModel(model);
+            mainVM.WindowTitle.Subscribe(x =>
+                LogTo.Information("Window title is {@title}", x));
 
             mainVM.WindowTitle.Value
                 .Should().Contain("FILE RENAMER DIFF", because: "アプリケーション名がWindowTitleに表示されるはず");
@@ -78,29 +82,18 @@ namespace UnitTests
 
             await mainVM.WaitIdle().Timeout(3000d);
 
-            {
-                Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
-                await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
-                await taskWindowTitle.Timeout(10000d);
-                await Task.Delay(10);
-            }
+            await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
 
-            mainVM.WindowTitle.Value
-                    .Should().Contain(targetDirPath, because: "読み取り先ファイルパスが表示されるはず");
+            await mainVM.WindowTitle
+                .WaitShouldBe(x => x.Contains(targetDirPath), 3000d, because: "読み取り先ファイルパスが表示されるはず");
 
             model.Setting.SearchFilePaths = new[] { targetDirPath, targetDirPathSub };
 
-            {
-                Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
-                mainVM.LoadFilesFromCurrentPathCommand.Execute();
-                await taskWindowTitle.Timeout(10000d);
-                await Task.Delay(10);
-            }
+            await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
 
-            mainVM.WindowTitle.Value
-                .Should().Contain(targetDirPath, because: "読み取り先ファイルパスが表示されるはず");
-            mainVM.WindowTitle.Value
-                .Should().Contain(targetDirPathSub, because: "読み取り先ファイルパスが表示されるはず");
+
+            await mainVM.WindowTitle
+                .WaitShouldBe(x => x.Contains(targetDirPath) && x.Contains(targetDirPathSub), 3000d, because: "読み取り先ファイルパスが表示されるはず");
 
             {
                 Task taskWindowTitle = mainVM.WindowTitle.WaitUntilValueChangedAsync();
