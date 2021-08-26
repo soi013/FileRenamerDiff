@@ -86,6 +86,8 @@ namespace UnitTests
                 .Should().HaveCount(2, "ファイル読込後なので、ファイルはあるはず");
             fileElementVMs.fileElementVMs
                 .Should().HaveCount(2, "ファイル読込後なので、ファイルはあるはず");
+            fileElementVMs.CountFiles.Value
+                .Should().Be(2, "ファイル読込後なので、ファイルはあるはず");
 
             await Task.Delay(100);
 

@@ -75,6 +75,10 @@ namespace FileRenamerDiff.ViewModels
         /// ファイルが1つでもあるか
         /// </summary>
         public ReadOnlyReactivePropertySlim<bool> IsAnyFiles { get; }
+        /// <summary>
+        /// ファイルの数
+        /// </summary>
+        public ReadOnlyReactivePropertySlim<int> CountFiles { get; }
 
         /// <summary>
         /// 直接ファイル追加
@@ -131,6 +135,7 @@ namespace FileRenamerDiff.ViewModels
                 .WithSubscribe(x => mainModel.AddTargetFiles(x));
 
             this.IsAnyFiles = mainModel.FileElementModels.ObserveIsAny().ToReadOnlyReactivePropertySlim();
+            this.CountFiles = mainModel.FileElementModels.ObserveCount().ToReadOnlyReactivePropertySlim();
 
             this.ClearFileElementsCommand =
                 (new[]

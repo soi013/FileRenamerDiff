@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -75,6 +76,11 @@ namespace FileRenamerDiff.ViewModels
         /// ファイル作成日時の現在のカルチャでの文字列
         /// </summary>
         public string CreationTime => PathModel.CreationTime.ToString();
+
+        /// <summary>
+        /// ファイル属性
+        /// </summary>
+        public FileAttributes Attributes => PathModel.Attributes;
 
         /// <summary>
         /// エクスプローラーで開くコマンド

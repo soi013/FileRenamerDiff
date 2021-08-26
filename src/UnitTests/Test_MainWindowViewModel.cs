@@ -91,7 +91,6 @@ namespace UnitTests
 
             await mainVM.LoadFilesFromCurrentPathCommand.ExecuteAsync();
 
-
             await mainVM.WindowTitle
                 .WaitShouldBe(x => x.Contains(targetDirPath) && x.Contains(targetDirPathSub), 3000d, because: "読み取り先ファイルパスが表示されるはず");
 

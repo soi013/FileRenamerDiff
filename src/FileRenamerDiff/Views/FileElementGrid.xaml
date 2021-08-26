@@ -13,7 +13,7 @@
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
    Height="Auto"
    d:DataContext="{d:DesignInstance {x:Type vm:FileElementsGridViewModel},
-                                    IsDesignTimeCreatable=True}"
+                                    IsDesignTimeCreatable=False}"
    d:DesignHeight="450"
    d:DesignWidth="1200"
    mc:Ignorable="d">
@@ -23,6 +23,15 @@
          FalseBrush="Crimson"
          TrueBrush="{StaticResource PrimaryHueMidBrush}" />
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
+      <v:FileAttributeToPackIconKindConverter x:Key="FileAttributeToPackIconKindConverter" />
+      <v:FileAttributeToStringConverter x:Key="FileAttributeToStringConverter" />
+      <Style TargetType="materialDesign:Badged">
+         <Setter Property="BadgeColorZoneMode" Value="PrimaryMid" />
+         <Setter Property="DataContext" Value="{Binding DataContext, ElementName=rootObj}" />
+         <Setter Property="HorizontalAlignment" Value="Center" />
+         <Setter Property="Margin" Value="1,8,1,1" />
+         <Setter Property="Padding" Value="0,0,3,0" />
+      </Style>
    </UserControl.Resources>
    <behaviors:Interaction.Behaviors>
       <v:FileDropBehavior Command="{Binding AddTargetFilesCommand}" />
@@ -100,12 +109,7 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
-                  <materialDesign:Badged
-                     Margin="1,8,1,1"
-                     Padding="0,0,3,0"
-                     BadgeColorZoneMode="PrimaryMid"
-                     DataContext="{Binding DataContext, ElementName=rootObj}"
-                     ToolTip="{x:Static properties:Resources.Grid_Changed}">
+                  <materialDesign:Badged ToolTip="{x:Static properties:Resources.Grid_Changed}">
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountReplaced.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>
@@ -128,19 +132,33 @@
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
                <DataGridTemplateColumn.Header>
-                  <materialDesign:Badged
-                     Margin="1,8,1,1"
-                     Padding="0,0,3,0"
-                     BadgeBackground="{Binding IsNotConflictedAny.Value, Converter={StaticResource IsOkToBrushConverter}, Mode=OneWay}"
-                     BadgeColorZoneMode="PrimaryMid"
-                     DataContext="{Binding DataContext, ElementName=rootObj}"
-                     ToolTip="{x:Static properties:Resources.Grid_Conflicted}">
+                  <materialDesign:Badged BadgeBackground="{Binding IsNotConflictedAny.Value, Converter={StaticResource IsOkToBrushConverter}, Mode=OneWay}" ToolTip="{x:Static properties:Resources.Grid_Conflicted}">
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountConflicted.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>
                      <ToggleButton Foreground="{Binding IsNotConflictedAny.Value, Converter={StaticResource IsOkToBrushConverter}, Mode=OneWay}" IsChecked="{Binding IsVisibleConflictedOnly.Value}">
                         <materialDesign:PackIcon Kind="FolderAlert" />
                      </ToggleButton>
+                  </materialDesign:Badged>
+               </DataGridTemplateColumn.Header>
+            </DataGridTemplateColumn>
+
+            <!--  ファイル種類表示列  -->
+            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <materialDesign:PackIcon
+                        HorizontalAlignment="Center"
+                        Kind="{Binding Attributes, Converter={StaticResource FileAttributeToPackIconKindConverter}}"
+                        ToolTip="{Binding Attributes, Converter={StaticResource FileAttributeToStringConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
+               <DataGridTemplateColumn.Header>
+                  <materialDesign:Badged ToolTip="File Type">
+                     <materialDesign:Badged.Badge>
+                        <TextBlock Text="{Binding DataContext.CountFiles.Value, ElementName=rootObj}" />
+                     </materialDesign:Badged.Badge>
+                     <materialDesign:PackIcon Kind="FileMultipleOutline" />
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
             </DataGridTemplateColumn>
