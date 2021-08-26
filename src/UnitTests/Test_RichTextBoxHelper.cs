@@ -48,15 +48,15 @@ namespace UnitTests
             private void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
                 => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-            private FlowDocument _DocSource;
-            public FlowDocument DocSource
+            public FlowDocument DocSource { get; private set; } = new();
+
+            public void UpdateFlowDoc(string innerText, Color color)
             {
-                get => _DocSource;
-                set
-                {
-                    _DocSource = value;
-                    RaisePropertyChanged();
-                }
+                var paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Run("FixText_"));
+                paragraph.Inlines.Add(new Run(innerText) { Foreground = new SolidColorBrush(color) });
+                this.DocSource = new FlowDocument(paragraph);
+                RaisePropertyChanged(nameof(DocSource));
             }
         }
 
@@ -68,7 +68,9 @@ namespace UnitTests
 
             var firstColor = Colors.Red;
             string firstText = "TEXT1";
-            var bindingSource = new RichTextViewModel() { DocSource = CreateFlowDoc(firstText, firstColor) };
+            var bindingSource = new RichTextViewModel();
+            bindingSource.UpdateFlowDoc(firstText, firstColor);
+
             //RichTextBoxにBindingをコードで指定
             tb.SetBinding(RichTextBoxHelper.DocumentProperty, new Binding(nameof(RichTextViewModel.DocSource)) { Source = bindingSource });
 
@@ -89,7 +91,7 @@ namespace UnitTests
             string secondText = "TEXT2";
             var secondColor = Colors.YellowGreen;
 
-            bindingSource.DocSource = CreateFlowDoc(secondText, secondColor);
+            bindingSource.UpdateFlowDoc(secondText, secondColor);
 
             await Task.Delay(100);
 
@@ -100,7 +102,6 @@ namespace UnitTests
                 .Should().Contain(secondColor);
         }
 
-
         [WpfFact]
         public async Task Test_RichTextBoxHelper_Double()
         {
@@ -110,12 +111,13 @@ namespace UnitTests
 
             var firstColor = Colors.Red;
             string firstText = "TEXT1";
-            var bindingSource = new RichTextViewModel() { DocSource = CreateFlowDoc(firstText, firstColor) };
-            //RichTextBoxにBindingをコードで指定
+            var bindingSource = new RichTextViewModel();
+            bindingSource.UpdateFlowDoc(firstText, firstColor);
+            //２つのRichTextBoxに同じBindingをコードで指定
             tb1.SetBinding(RichTextBoxHelper.DocumentProperty, new Binding(nameof(RichTextViewModel.DocSource)) { Source = bindingSource });
             tb2.SetBinding(RichTextBoxHelper.DocumentProperty, new Binding(nameof(RichTextViewModel.DocSource)) { Source = bindingSource });
 
-            var stackPanel = new StackPanel() ;
+            var stackPanel = new StackPanel();
             stackPanel.Children.Add(tb1);
             stackPanel.Children.Add(tb2);
             window.Content = stackPanel;
@@ -135,7 +137,7 @@ namespace UnitTests
             string secondText = "TEXT2";
             var secondColor = Colors.YellowGreen;
 
-            bindingSource.DocSource = CreateFlowDoc(secondText, secondColor);
+            bindingSource.UpdateFlowDoc(secondText, secondColor);
 
             await Task.Delay(100);
 
@@ -144,14 +146,6 @@ namespace UnitTests
                 .Should().BeEquivalentTo("FixText_", secondText);
             richTbRuns.Select(x => x.Foreground as SolidColorBrush).Select(x => x!.Color)
                 .Should().Contain(secondColor);
-        }
-
-        private static FlowDocument CreateFlowDoc(string innerText, Color color)
-        {
-            var paragraph = new Paragraph();
-            paragraph.Inlines.Add(new Run("FixText_"));
-            paragraph.Inlines.Add(new Run(innerText) { Foreground = new SolidColorBrush(color) });
-            return new FlowDocument(paragraph);
         }
     }
 }
