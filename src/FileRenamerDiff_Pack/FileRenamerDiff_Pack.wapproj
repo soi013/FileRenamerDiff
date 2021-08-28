@@ -56,7 +56,7 @@
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\FileRenamerDiff\FileRenamerDiff.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>3B8820EBCEDD47874F32556904DDEB7E8AAAB42D</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>26BA44F9447F98DEDA1C979943B11A3770360CC3</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
