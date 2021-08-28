@@ -6,6 +6,7 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using FileRenamerDiff.Models;
@@ -32,7 +33,8 @@ namespace FileRenamerDiff.ViewModels
         {
             MockFileSystem fileSystem = CreateMockFileSystem();
 
-            var model = new MainModel(fileSystem, Scheduler.Immediate);
+            var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
+            var model = new MainModel(fileSystem, syncScheduler);
             model.Initialize();
             model.Setting.SearchFilePaths = new[] { targetDirPath };
             var addFileElements = model.GetFileElements(model.Setting, new[] { targetDirPath }, new ScheduledNotifier<ProgressInfo>(), null);
