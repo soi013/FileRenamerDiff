@@ -443,4 +443,8 @@ Execute "SAVE" to rename the actual file.</value>
     <value>Insert "XYZ" as the third character</value>
     <comment>よくあるパターン説明_3文字目に「XYZ」を挿入する</comment>
   </data>
+  <data name="Grid_FileType" xml:space="preserve">
+    <value>File Type</value>
+    <comment>ファイルの種類</comment>
+  </data>
 </root>

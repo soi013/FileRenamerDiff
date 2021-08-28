@@ -363,4 +363,7 @@
   <data name="Common_InsertIndex" xml:space="preserve">
     <value>Вставьте "XYZ" в качестве третьего символа</value>
   </data>
+  <data name="Grid_FileType" xml:space="preserve">
+    <value>тип файла</value>
+  </data>
 </root>

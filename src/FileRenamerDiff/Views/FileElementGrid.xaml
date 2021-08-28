@@ -146,7 +146,7 @@
             <!--  ファイル種類表示列  -->
             <DataGridTemplateColumn>
                <DataGridTemplateColumn.Header>
-                  <materialDesign:Badged ToolTip="File Type">
+                  <materialDesign:Badged ToolTip="{x:Static properties:Resources.Grid_FileType}">
                      <materialDesign:Badged.Badge>
                         <TextBlock Text="{Binding DataContext.CountFiles.Value, ElementName=rootObj}" />
                      </materialDesign:Badged.Badge>

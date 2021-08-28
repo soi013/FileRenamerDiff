@@ -125,6 +125,7 @@ The description of each column in the file list is as follows.
 | NEW File Name       | File name after renaming. The changed part becomes a green background. |                                                              |
 | Mark with change    | A check mark is displayed if there are any changes.          | The button in the header makes the file list only with changes. |
 | Mark with duplicate | If there are duplicates, a duplicate mark is displayed.      | The button in the header makes the file list only with duplicates. |
+| File type mark      | The file type is indicated by an icon.                       |                                                              |
 | Directory           | Directory to which the file belongs                          | Click to display the file in the explorer                    |
 | Size                | Size of the file                                             |                                                              |
 | Date modified       | Date and time of file modification                           |                                                              |

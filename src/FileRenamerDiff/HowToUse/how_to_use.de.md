@@ -129,6 +129,7 @@ Die Beschreibung der einzelnen Spalten in der Dateiliste lautet wie folgt.
 | Neuer Dateiname        | Dateiname nach dem Umbenennen. Der geänderte Teil wird grün hinterlegt. |                                                              |
 | Häkchen                | Ein Häkchen wird angezeigt, wenn es Änderungen gibt.         | Die Schaltfläche in der Kopfzeile macht die Datei-Liste nur mit Änderungen. |
 | Mit Duplikat markieren | Wenn es Duplikate gibt, wird eine Duplikatmarkierung angezeigt. | Die Schaltfläche in der Kopfzeile bewirkt, dass die Dateiliste nur mit Duplikaten angezeigt wird. |
+| Datei Typ Markierung | Der Dateityp wird durch ein Symbol angezeigt.                       | |
 | Verzeichnis            | Verzeichnis, zu dem die Datei gehört                         | Anklicken, um die Datei im Explorer anzuzeigen               |
 | Größe                  | Größe der Datei                                              |                                                              |
 | Änderungsdatum         | Datum und Uhrzeit der Änderung der Datei                     |                                                              |

@@ -415,6 +415,15 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   File Type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Grid_FileType {
+            get {
+                return ResourceManager.GetString("Grid_FileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   NEW File Name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Grid_NewText {

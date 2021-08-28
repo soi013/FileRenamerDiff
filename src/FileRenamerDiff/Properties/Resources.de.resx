@@ -363,4 +363,7 @@ Führen Sie "Umbenennen Speichern" aus, um die aktuelle Datei umzubenennen.</val
   <data name="Common_InsertIndex" xml:space="preserve">
     <value>Fügen Sie "XYZ" als drittes Zeichen ein</value>
   </data>
+  <data name="Grid_FileType" xml:space="preserve">
+    <value>Dateityp</value>
+  </data>
 </root>

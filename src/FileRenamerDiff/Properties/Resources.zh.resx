@@ -363,4 +363,7 @@
   <data name="Common_InsertIndex" xml:space="preserve">
     <value>插入 "XYZ "作为第三个字符</value>
   </data>
+  <data name="Grid_FileType" xml:space="preserve">
+    <value>文件类型</value>
+  </data>
 </root>
