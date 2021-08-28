@@ -13,7 +13,7 @@
    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
    Height="Auto"
    d:DataContext="{d:DesignInstance {x:Type vm:FileElementsGridViewModel},
-                                    IsDesignTimeCreatable=False}"
+                                    IsDesignTimeCreatable=True}"
    d:DesignHeight="450"
    d:DesignWidth="1200"
    mc:Ignorable="d">
@@ -29,7 +29,7 @@
          <Setter Property="BadgeColorZoneMode" Value="PrimaryMid" />
          <Setter Property="DataContext" Value="{Binding DataContext, ElementName=rootObj}" />
          <Setter Property="HorizontalAlignment" Value="Center" />
-         <Setter Property="Margin" Value="1,8,1,1" />
+         <Setter Property="Margin" Value="10,8,1,1" />
          <Setter Property="Padding" Value="0,0,3,0" />
       </Style>
    </UserControl.Resources>
@@ -103,7 +103,7 @@
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <materialDesign:PackIcon
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Left"
                         Kind="CheckBold"
                         Visibility="{Binding IsReplaced.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
                   </DataTemplate>
@@ -125,7 +125,7 @@
                <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
                      <materialDesign:PackIcon
-                        HorizontalAlignment="Center"
+                        HorizontalAlignment="Left"
                         Foreground="Crimson"
                         Kind="FolderAlert"
                         Visibility="{Binding IsConflicted.Value, Converter={StaticResource VisibilityCollapsedConverter}}" />
@@ -144,15 +144,7 @@
             </DataGridTemplateColumn>
 
             <!--  ファイル種類表示列  -->
-            <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
-               <DataGridTemplateColumn.CellTemplate>
-                  <DataTemplate>
-                     <materialDesign:PackIcon
-                        HorizontalAlignment="Center"
-                        Kind="{Binding Attributes, Converter={StaticResource FileAttributeToPackIconKindConverter}}"
-                        ToolTip="{Binding Attributes, Converter={StaticResource FileAttributeToStringConverter}}" />
-                  </DataTemplate>
-               </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn>
                <DataGridTemplateColumn.Header>
                   <materialDesign:Badged ToolTip="File Type">
                      <materialDesign:Badged.Badge>
@@ -161,6 +153,17 @@
                      <materialDesign:PackIcon Kind="FileMultipleOutline" />
                   </materialDesign:Badged>
                </DataGridTemplateColumn.Header>
+               <DataGridTemplateColumn.CellTemplate>
+                  <DataTemplate>
+                     <materialDesign:PackIcon
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        IsTabStop="False"
+                        Kind="{Binding Attributes, Converter={StaticResource FileAttributeToPackIconKindConverter}}"
+                        ToolTip="{Binding Attributes, Converter={StaticResource FileAttributeToStringConverter}}" />
+                  </DataTemplate>
+               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
             <!--  ディレクトリ表示とエクスプローラーで開くボタン  -->
