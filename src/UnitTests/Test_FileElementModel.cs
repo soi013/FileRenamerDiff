@@ -333,6 +333,7 @@ namespace UnitTests
         [InlineData("test.bmp", (FileAttributes.Hidden), FileCategories.HiddenFile)]
         [InlineData("test.bmppp", (FileAttributes.Normal), FileCategories.OtherFile)]
         [InlineData("test.mp3", (FileAttributes.Normal), FileCategories.Audio)]
+        [InlineData("test.mp4", (FileAttributes.Normal), FileCategories.Video)]
         public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;

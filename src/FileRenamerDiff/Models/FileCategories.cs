@@ -19,11 +19,18 @@ namespace FileRenamerDiff.Models
         /// </summary>
         [EnumMember(Value = "Normal other file")]
         OtherFile,
+
+        /// <summary>
+        /// 動画ファイル
+        /// </summary>
+        [EnumMember(Value = "Video file")]
+        [FileExtPattern("mp4", "m4v", "3gp", "3g2", "mov", "qt", "avi", "wmv", "div", "divx", "ts", "mts", "m2ts", "m2t", "vob", "mkv", "3gp", "3g2", "webm", "rm", "rmvb", "ram")]
+        Video,
         /// <summary>
         /// 音声ファイル
         /// </summary>
         [EnumMember(Value = "Sound file")]
-        [FileExtPattern("mp3", "mid", "midi", "wav", "aif", "aiff", "aifc", "au", "snd", "flac", "aac")]
+        [FileExtPattern("mp3", "mid", "midi", "wav", "wave", "aif", "aiff", "aifc", "au", "snd", "flac", "aac", "m4a", "m4p", "wma", "mka", "omg", "oma", "aa3", "opus", "ogg", "oga", "asf", "alac")]
         Audio,
         /// <summary>
         /// 画像ファイル
