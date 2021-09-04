@@ -328,7 +328,10 @@ namespace UnitTests
         [InlineData("test", (FileAttributes.Hidden | FileAttributes.Directory), FileCategories.HiddenFolder)]
         [InlineData("test", (FileAttributes.Directory), FileCategories.Folder)]
         [InlineData("test", (FileAttributes.Directory | FileAttributes.ReadOnly), FileCategories.Folder)]
-
+        [InlineData("test.png", (FileAttributes.Normal), FileCategories.Image)]
+        [InlineData("test.bmp", (FileAttributes.Normal), FileCategories.Image)]
+        [InlineData("test.bmp", (FileAttributes.Hidden), FileCategories.HiddenFile)]
+        [InlineData("test.bmppp", (FileAttributes.Normal), FileCategories.OtherFile)]
         public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;

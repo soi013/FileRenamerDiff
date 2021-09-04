@@ -24,8 +24,9 @@ namespace FileRenamerDiff.Views
             category switch
             {
                 FileCategories.HiddenFolder => PackIconKind.Folder,//PackIconにHiddenFolderが追加されたら変更
-                FileCategories.Folder => PackIconKind.Folder,
                 FileCategories.HiddenFile => PackIconKind.FileHidden,
+                FileCategories.Folder => PackIconKind.Folder,
+                FileCategories.Image => PackIconKind.Image,
 
                 _ => PackIconKind.FileOutline
             };

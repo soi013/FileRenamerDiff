@@ -3,6 +3,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 
 using static FileRenamerDiff.Models.FileCategoriesExt;
 
@@ -18,6 +19,12 @@ namespace FileRenamerDiff.Models
         /// </summary>
         [EnumMember(Value = "Normal other file")]
         OtherFile,
+        /// <summary>
+        /// 画像ファイル
+        /// </summary>
+        [EnumMember(Value = "Image file")]
+        [FileExtPattern("gif", "jpg", "jpeg", "jpe", "jfif", "pjpeg", "pjp", "png", "svg", "bmp", "dib", "rle", "ico", "ai", "art", "cam", "cdr", "cgm", "cmp", "dpx", "fal", "q0", "fpx", "j6i", "mac", "mag", "maki", "mng", "pcd", "pct", "pic", "pict", "pcx", "pmp", "pnm", "psd", "ras", "sj1", "tif", "tiff", "nsk", "tga", "wmf", "wpg", "xbm", "xpm")]
+        Image,
         /// <summary>
         /// 通常フォルダ
         /// </summary>
@@ -40,7 +47,6 @@ namespace FileRenamerDiff.Models
 
     public static class FileCategoriesExt
     {
-
         #region FileAttrs属性
         /// <summary>
         /// FileAttrs属性
@@ -58,14 +64,46 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// FileAttrs属性の取得
         /// </summary>
-        public static FileAttributes GetFileAttrs(this FileCategories value)
-            => value.GetAttribute<FileCategories, FileAttrsAttribute>()?.FileAttr
-                ?? FileAttributes.Normal;
+        public static FileAttributes? GetFileAttrs(this FileCategories value)
+            => value.GetAttribute<FileCategories, FileAttrsAttribute>()?.FileAttr;
         #endregion
 
         internal static FileCategories GetCalcFileCategory(IFileSystemInfo fsInfo) =>
             Enum.GetValues<FileCategories>()
             .Reverse()
-            .FirstOrDefault(x => fsInfo.Attributes.HasFlag(x.GetFileAttrs()));
+            .FirstOrDefault(x => IsCategory(fsInfo, x));
+
+        private static bool IsCategory(IFileSystemInfo fsInfo, FileCategories category)
+        {
+            FileAttributes? attrs = category.GetFileAttrs();
+
+            if (attrs is not null)
+                return fsInfo.Attributes.HasFlag((FileAttributes)attrs);
+
+            string fileExt = AppExtension.GetExtentionCoreFromPath(fsInfo.Name);
+            return category.GetFileExtPattern().Contains(fileExt);
+        }
+
+        #region FileExtPattern属性
+        /// <summary>
+        /// FileExtPattern属性
+        /// </summary>
+        [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+        public sealed class FileExtPatternAttribute : Attribute
+        {
+            public string[] FileExtPattern { get; private set; }
+
+            public FileExtPatternAttribute(params string[] fileExtPattern)
+            {
+                this.FileExtPattern = fileExtPattern;
+            }
+        }
+        /// <summary>
+        /// FileExtPattern属性の取得
+        /// </summary>
+        public static string[] GetFileExtPattern(this FileCategories value)
+            => value.GetAttribute<FileCategories, FileExtPatternAttribute>()?.FileExtPattern
+                ?? Array.Empty<string>();
+        #endregion
     }
 }
