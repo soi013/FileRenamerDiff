@@ -27,6 +27,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.HiddenFile => PackIconKind.FileHidden,
                 FileCategories.Folder => PackIconKind.Folder,
                 FileCategories.Image => PackIconKind.Image,
+                FileCategories.Audio => PackIconKind.MusicNote,
 
                 _ => PackIconKind.FileOutline
             };

@@ -20,10 +20,16 @@ namespace FileRenamerDiff.Models
         [EnumMember(Value = "Normal other file")]
         OtherFile,
         /// <summary>
+        /// 音声ファイル
+        /// </summary>
+        [EnumMember(Value = "Sound file")]
+        [FileExtPattern("mp3", "mid", "midi", "wav", "aif", "aiff", "aifc", "au", "snd", "flac", "aac")]
+        Audio,
+        /// <summary>
         /// 画像ファイル
         /// </summary>
         [EnumMember(Value = "Image file")]
-        [FileExtPattern("gif", "jpg", "jpeg", "jpe", "jfif", "pjpeg", "pjp", "png", "svg", "bmp", "dib", "rle", "ico", "ai", "art", "cam", "cdr", "cgm", "cmp", "dpx", "fal", "q0", "fpx", "j6i", "mac", "mag", "maki", "mng", "pcd", "pct", "pic", "pict", "pcx", "pmp", "pnm", "psd", "ras", "sj1", "tif", "tiff", "nsk", "tga", "wmf", "wpg", "xbm", "xpm")]
+        [FileExtPattern("gif", "jpg", "jpeg", "jpe", "jfif", "pjpeg", "pjp", "png", "svg", "bmp", "dib", "rle", "ico", "ai", "art", "cam", "cdr", "cgm", "cmp", "dpx", "fal", "q0", "fpx", "j6i", "mac", "mag", "maki", "mng", "pcd", "pct", "pic", "pict", "pcx", "pmp", "pnm", "psd", "ras", "sj1", "tif", "tiff", "nsk", "tga", "wmf", "wpg", "xbm", "xpm", "eps", "epsf", "heic", "heif")]
         Image,
         /// <summary>
         /// 通常フォルダ
