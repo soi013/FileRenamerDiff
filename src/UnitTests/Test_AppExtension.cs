@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -189,6 +190,28 @@ namespace UnitTests
 
             await actionTimeOut
                     .Should().ThrowAsync<TimeoutException>();
+        }
+
+        enum TrafficLight
+        {
+            [EnumMember(Value = "Stop")]
+            Red,
+            Yello,
+            [EnumMember(Value = "Go")]
+            Blue,
+        }
+
+        [Fact]
+        public void Test_EnumExt()
+        {
+            TrafficLight.Red.GetAttribute<TrafficLight, EnumMemberAttribute>()?.Value
+                .Should().Be("Stop");
+
+            TrafficLight.Yello.GetAttribute<TrafficLight, EnumMemberAttribute>()?.Value
+                .Should().BeNull();
+
+            TrafficLight.Blue.GetAttribute<TrafficLight, EnumMemberAttribute>()?.Value
+                .Should().Be("Go");
         }
     }
 }

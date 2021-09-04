@@ -42,7 +42,7 @@ namespace UnitTests
             m.IsIdleUI.Value
                 ? Task.CompletedTask
                 : m.IsIdleUI.Where(x => x).FirstAsync().ToTask();
-        
+
         /// <summary>
         /// 指定した値が来るまで待機する
         /// </summary>

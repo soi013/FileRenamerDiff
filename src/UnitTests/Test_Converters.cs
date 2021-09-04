@@ -201,17 +201,5 @@ namespace UnitTests
             converter.ConvertBack("123B", typeof(string), 0, CultureInfo.InvariantCulture)
                 .Should().Be(0);
         }
-
-        [WpfFact]
-        public void FileAttributeToStringConverter()
-        {
-            FileAttributeToStringConverter converter = new();
-
-            converter.Convert(FileAttributes.Directory | FileAttributes.ReadOnly, typeof(string), 0, CultureInfo.InvariantCulture)
-                .Should().Be("Folder");
-
-            converter.ConvertBack("Folder", typeof(string), 0, CultureInfo.InvariantCulture)
-                .Should().NotBe(FileAttributes.Directory);
-        }
     }
 }

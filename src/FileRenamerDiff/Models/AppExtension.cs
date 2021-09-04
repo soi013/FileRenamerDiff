@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,6 +7,7 @@ using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -282,6 +284,50 @@ namespace FileRenamerDiff.Models
         {
             await ((Task)task).Timeout(timeout);
             return await task;
+        }
+
+        /// <summary>
+        ///属性ごとにキャッシュを作るためのジェネリッククラス
+        /// </summary>
+        /// <typeparam name="TAttribute">属性型</typeparam>
+        private static class EnumAttributeCache<TEnum, TAttribute> where TAttribute : Attribute where TEnum : Enum
+        {
+            private static readonly ConcurrentDictionary<TEnum, TAttribute?> body = new();
+
+            /// <summary>
+            /// ConcurrentDictionaryのGetOrAddを呼び出す
+            /// </summary>
+            internal static TAttribute? GetOrAdd(TEnum enumKey, Func<TEnum, TAttribute?> valueFactory)
+                => body.GetOrAdd(enumKey, valueFactory);
+        }
+
+        /// <summary>
+        /// 特定の属性を取得する
+        /// </summary>
+        /// <typeparam name="TAttribute">属性型</typeparam>
+        public static TAttribute? GetAttribute<TEnum, TAttribute>(this TEnum enumKey) where TAttribute : Attribute where TEnum : Enum =>
+            //キャッシュに無かったら、リフレクションを用いて取得、キャッシュへの追加をして返す
+            EnumAttributeCache<TEnum, TAttribute>.GetOrAdd(enumKey, _ => enumKey.GetAttributeCore<TEnum, TAttribute>());
+
+        /// <summary>
+        /// リフレクションを使用して特定の属性を取得する
+        /// </summary>
+        /// <typeparam name="TAttribute">属性型</typeparam>
+        public static TAttribute? GetAttributeCore<TEnum, TAttribute>(this TEnum enumKey) where TAttribute : Attribute where TEnum : Enum
+        {
+            //リフレクションを用いて列挙体の型から情報を取得
+            FieldInfo? fieldInfo = enumKey.GetType().GetField(enumKey.ToString());
+            //指定した属性のリスト
+            IEnumerable<TAttribute> attributes
+                = fieldInfo?.GetCustomAttributes(typeof(TAttribute), false)
+                .Cast<TAttribute>()
+                ?? Array.Empty<TAttribute>();
+            //属性がなかった場合、nullを返す
+            if (!attributes.Any())
+                return null;
+
+            //同じ属性が複数含まれていても、最初のみ返す
+            return attributes.First();
         }
     }
 }

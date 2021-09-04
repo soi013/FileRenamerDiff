@@ -78,9 +78,9 @@ namespace FileRenamerDiff.ViewModels
         public string CreationTime => PathModel.CreationTime.ToString();
 
         /// <summary>
-        /// ファイル属性
+        /// ファイル種類
         /// </summary>
-        public FileAttributes Attributes => PathModel.Attributes;
+        public FileCategories Category => PathModel.Category;
 
         /// <summary>
         /// エクスプローラーで開くコマンド

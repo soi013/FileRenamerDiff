@@ -320,5 +320,26 @@ namespace UnitTests
             fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
                 .Should().Contain(new[] { targetFilePath }, "ファイルシステム上では変わっていないはず");
         }
+
+        [Theory]
+        [InlineData("test.abc", (FileAttributes.Normal), FileCategories.OtherFile)]
+        [InlineData("test.abc", (FileAttributes.Hidden), FileCategories.HiddenFile)]
+        [InlineData("test.abc", (FileAttributes.Hidden | FileAttributes.Archive), FileCategories.HiddenFile)]
+        [InlineData("test", (FileAttributes.Hidden | FileAttributes.Directory), FileCategories.HiddenFolder)]
+        [InlineData("test", (FileAttributes.Directory), FileCategories.Folder)]
+        [InlineData("test", (FileAttributes.Directory | FileAttributes.ReadOnly), FileCategories.Folder)]
+
+        public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
+        {
+            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+            {
+                [targetFilePath] = new MockFileData(targetFilePath) { Attributes = attributes }
+            });
+
+            var fileElem = new FileElementModel(fileSystem, targetFilePath, new Subject<AppMessage>());
+            fileElem.Category
+                .Should().Be(category);
+        }
     }
 }

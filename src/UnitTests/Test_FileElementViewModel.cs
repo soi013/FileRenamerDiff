@@ -68,8 +68,8 @@ namespace UnitTests
                 .Should().Be(targetDirPath);
             fileElementVM.LengthByte
                 .Should().Be(8, "中の文字数が8文字なので");
-            fileElementVM.Attributes
-                .Should().NotHaveFlag(FileAttributes.Directory);
+            fileElementVM.Category
+                .Should().Be(FileCategories.OtherFile);
             fileElementM.ToString()
                 .Should().Contain(fileNameA);
         }

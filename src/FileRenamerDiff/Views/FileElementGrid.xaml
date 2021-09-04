@@ -23,8 +23,8 @@
          FalseBrush="Crimson"
          TrueBrush="{StaticResource PrimaryHueMidBrush}" />
       <v:ReadableByteTextConverter x:Key="ReadableByteTextConverter" />
-      <v:FileAttributeToPackIconKindConverter x:Key="FileAttributeToPackIconKindConverter" />
-      <v:FileAttributeToStringConverter x:Key="FileAttributeToStringConverter" />
+      <v:FileCategoryToPackIconKindConverter x:Key="FileCategoryToPackIconKindConverter" />
+      <v:FileCategoryToStringConverter x:Key="FileCategoryToStringConverter" />
       <Style TargetType="materialDesign:Badged">
          <Setter Property="BadgeColorZoneMode" Value="PrimaryMid" />
          <Setter Property="DataContext" Value="{Binding DataContext, ElementName=rootObj}" />
@@ -160,8 +160,8 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         IsTabStop="False"
-                        Kind="{Binding Attributes, Converter={StaticResource FileAttributeToPackIconKindConverter}}"
-                        ToolTip="{Binding Attributes, Converter={StaticResource FileAttributeToStringConverter}}" />
+                        Kind="{Binding Category, Converter={StaticResource FileCategoryToPackIconKindConverter}}"
+                        ToolTip="{Binding Category, Converter={StaticResource FileCategoryToStringConverter}}" />
                   </DataTemplate>
                </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

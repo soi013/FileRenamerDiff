@@ -123,7 +123,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// ファイル属性
         /// </summary>
-        public FileAttributes Attributes => fsInfo.Attributes;
+        public FileCategories Category { get; }
 
         private RenameState _State = RenameState.None;
         /// <summary>
@@ -171,6 +171,8 @@ namespace FileRenamerDiff.Models
 
             this.outputFileName = InputFileName;
             this._PreviousInputFilePath = InputFilePath;
+
+            this.Category = FileCategoriesExt.GetCalcFileCategory(fsInfo);
         }
 
         /// <summary>
