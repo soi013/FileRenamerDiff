@@ -21,6 +21,13 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// 圧縮ファイル
+        /// </summary>
+        [EnumMember(Value = "Compressed file")]
+        [FileExtPattern("zip", "tar", "lzh", "cab", "gz", "gzip", "rar", "7z", "xz", "txz", "taz", "tgz", "lha", "xar")]
+        //[FileAttrs(FileAttributes.Compressed)] //FileAttributes.Compressedは圧縮ファイルではなく、Windowsが「内容を圧縮してディスク領域を節約する」の対象にしているかを示す
+        Compressed,
+        /// <summary>
         /// 動画ファイル
         /// </summary>
         [EnumMember(Value = "Video file")]
