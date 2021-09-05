@@ -21,6 +21,18 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// ライブラリファイル
+        /// </summary>
+        [EnumMember(Value = "Library file")]
+        [FileExtPattern("dll", "ocx", "sys", "so", "dylib", "bundle")]
+        Library,
+        /// <summary>
+        /// 実行ファイル
+        /// </summary>
+        [EnumMember(Value = "Executable file")]
+        [FileExtPattern("exe", "com", "app")]
+        Exe,
+        /// <summary>
         /// ショートカットファイル
         /// </summary>
         [EnumMember(Value = "Shortcut file")]

@@ -31,6 +31,8 @@ namespace FileRenamerDiff.Views
                 FileCategories.Video => PackIconKind.Video,
                 FileCategories.Compressed => PackIconKind.FolderZip,
                 FileCategories.Shortcut => PackIconKind.FileLink,
+                FileCategories.Exe => PackIconKind.ApplicationCog,
+                FileCategories.Library => PackIconKind.FileCog,
 
                 _ => PackIconKind.FileOutline
             };
