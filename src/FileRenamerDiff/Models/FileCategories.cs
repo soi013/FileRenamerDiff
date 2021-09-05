@@ -21,6 +21,12 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// ショートカットファイル
+        /// </summary>
+        [EnumMember(Value = "Shortcut file")]
+        [FileExtPattern("lnk")]
+        Shortcut,
+        /// <summary>
         /// 圧縮ファイル
         /// </summary>
         [EnumMember(Value = "Compressed file")]

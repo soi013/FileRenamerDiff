@@ -30,6 +30,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.Audio => PackIconKind.MusicNote,
                 FileCategories.Video => PackIconKind.Video,
                 FileCategories.Compressed => PackIconKind.FolderZip,
+                FileCategories.Shortcut => PackIconKind.FileLink,
 
                 _ => PackIconKind.FileOutline
             };
