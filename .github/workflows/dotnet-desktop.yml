@@ -28,13 +28,13 @@ env:
   App_Directory: src/FileRenamerDiff
   Solution_Directory: src
   Solution_Path: src/FileRenamerDiff.sln # Replace with your solution name, i.e. MyWpfApp.sln.
-  App_Project_Path: src/FileRenamerDiff/FileRenamerDiff.csproj  
+  App_Project_Path: src/FileRenamerDiff/FileRenamerDiff.csproj
   Test_Directory: UnitTests
   Test_Project_Path: src/UnitTests/UnitTests.csproj
   Wap_Project_Directory: FileRenamerDiff_Pack # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
   Wap_Project_Path: FileRenamerDiff_Pack/FileRenamerDiff_Pack.wapproj # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
   Signing_Certificate: GitHubActionsWorkflow.pfx
-  CodeCov_Result: 'lcov.xml'
+  CodeCov_Result: "lcov.xml"
 
 jobs:
   build:
@@ -63,11 +63,11 @@ jobs:
       # Add  MsBuild to the PATH: https://github.com/microsoft/setup-msbuild
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v1.0.2
-        
+
       # Restore before build and test
       - name: Restore
         run: dotnet restore ${{ env.Solution_Path }}
-     
+
       - name: Build with dotnet
         run: dotnet build ${{ env.App_Project_Path }} --no-restore -c Debug
 
@@ -80,18 +80,22 @@ jobs:
           /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           /p:ExcludeByFile="**.Designer.cs%2c**.xaml*%2c**.g.cs%2c**.xaml"
           -p:coverletOutput=${{ env.CodeCov_Result }}
-  
+
+      - name: Send coverage result to codecov
+        uses: codecov/codecov-action@v2.0.3
+        with:
+          files: ${{ env.Solution_Directory }}/${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
+
       - name: Upload coverage result
         uses: actions/upload-artifact@v2.2.4
         with:
           path: ${{ env.Solution_Directory }}/${{ env.Test_Directory }}/${{ env.CodeCov_Result }}
 
-
   create-release:
     runs-on: windows-latest
     needs: [build]
     if: "contains( github.ref , 'v')"
-    
+
     steps:
       - name: echos
         shell: bash
@@ -167,7 +171,6 @@ jobs:
           files: |
             ${{ env.app_x86_name }}.zip
             ${{ env.app_x64_name }}.zip
-
     #
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     # - name: Decode the pfx
@@ -188,6 +191,7 @@ jobs:
     # Remove the pfx
     # - name: Remove the pfx
     #   run: Remove-Item -path $env:Wap_Project_Directory\$env:Signing_Certificate
+
 #
 # Upload the MSIX package: https://github.com/marketplace/actions/upload-artifact
 # - name: Upload build artifacts
