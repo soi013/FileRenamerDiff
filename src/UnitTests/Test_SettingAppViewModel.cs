@@ -89,6 +89,17 @@ namespace UnitTests
                     .First();
 
             //ステージ1 追加前
+            commonDeletePattern.TargetPattern
+                .Should().Be(commonDeletePatternTarget);
+            commonDeletePattern.ReplaceText
+                .Should().BeEmpty();
+            commonDeletePattern.AsExpression
+                .Should().BeTrue();
+            commonDeletePattern.SampleDiff.OldText.ToRawText()
+                .Should().NotBeEmpty();
+            commonDeletePattern.SampleDiff.NewText.ToRawText()
+                .Should().BeEmpty();
+
             settingVM.DeleteTexts
                 .Should().NotContain(x => x.TargetPattern.Value == commonDeletePatternTarget, "まだ含まれていないはず");
 
@@ -118,12 +129,24 @@ namespace UnitTests
             var settingVM = new SettingAppViewModel(model);
             model.Initialize();
 
+            //英数小文字を大文字にするパターン(ex. low -> LOW)を取得
             const string commonReplacePatternTarget = "[a-z]";
             CommonPatternViewModel commonReplacePattern = settingVM.CommonReplacePatternVMs
                     .Where(x => x.TargetPattern == commonReplacePatternTarget)
                     .First();
 
             //ステージ1 追加前
+            commonReplacePattern.TargetPattern
+                .Should().Be(commonReplacePatternTarget);
+            commonReplacePattern.ReplaceText
+                .Should().Contain("\\u");
+            commonReplacePattern.AsExpression
+                .Should().BeTrue();
+            commonReplacePattern.SampleDiff.OldText.ToRawText()
+                .Should().Contain("low");
+            commonReplacePattern.SampleDiff.NewText.ToRawText()
+                .Should().Contain("LOW");
+
             settingVM.ReplaceTexts
                 .Should().NotContain(x => x.TargetPattern.Value == commonReplacePatternTarget, "まだ含まれていないはず");
 
