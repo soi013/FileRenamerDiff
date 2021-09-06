@@ -61,6 +61,19 @@ namespace UnitTests
         }
 
         [WpfFact]
+        public void Test_LogEventLevelToPackIconKindConverter()
+        {
+            LogEventLevelToPackIconKindConverter converter = new();
+
+            Enum.GetValues<AppMessageLevel>()
+                .Select(x => converter.Convert(x, 0, CultureInfo.InvariantCulture))
+                .Should().OnlyHaveUniqueItems("違うアイコンのはず");
+
+            converter.ConvertBack(0, 0, CultureInfo.InvariantCulture)
+                .Should().Be(default(AppMessageLevel));
+        }
+
+        [WpfFact]
         public void Test_CultureDisplayConverter()
         {
             CultureDisplayConverter converter = new();
@@ -200,6 +213,37 @@ namespace UnitTests
 
             converter.ConvertBack("123B", typeof(string), 0, CultureInfo.InvariantCulture)
                 .Should().Be(0);
+        }
+
+        [WpfFact]
+        public void Test_FileCategoryToStringConverter()
+        {
+            FileCategoryToStringConverter converter = new();
+
+            converter.Convert(FileCategories.HiddenFile, 0, CultureInfo.InvariantCulture)
+                .Should().Contain("Hidden");
+
+            Enum.GetValues<FileCategories>()
+                .Select(x => converter.Convert(x, 0, CultureInfo.InvariantCulture))
+                .Should().OnlyHaveUniqueItems("違うアイコンのはず");
+
+            converter.ConvertBack("hide", 0, CultureInfo.InvariantCulture)
+                .Should().Be(default(FileCategories));
+        }
+
+        [WpfFact]
+        public void Test_FileCategoryToPackIconKindConverter()
+        {
+            FileCategoryToPackIconKindConverter converter = new();
+
+            Enum.GetValues<FileCategories>()
+                .Select(x => (int)converter.Convert(x, 0, CultureInfo.InvariantCulture))
+            //.Should().OnlyHaveUniqueItems(); //まだHiddenFolderアイコンがない
+                .Distinct()
+                .Should().HaveCount(Enum.GetValues<FileCategories>().Length - 1, "だいたい違うアイコンのはず");
+
+            converter.ConvertBack(0, typeof(Enum), 0, CultureInfo.InvariantCulture)
+                .Should().Be(default(FileCategories));
         }
     }
 }
