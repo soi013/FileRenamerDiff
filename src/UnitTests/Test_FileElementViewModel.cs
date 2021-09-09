@@ -34,7 +34,7 @@ namespace UnitTests
     public class Test_FileElementViewModel : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
-        private const string fileNameA = "A.txt";
+        private const string fileNameA = "A.hoge";
         private static readonly string filePathA = Path.Combine(targetDirPath, fileNameA);
         private static readonly DateTime fileACreationTime = new(2020, 01, 02, 03, 45, 06);
         private static readonly DateTime fileAWriteTime = new(2021, 12, 11, 10, 09, 08);

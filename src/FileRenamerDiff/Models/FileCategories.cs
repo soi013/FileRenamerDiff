@@ -21,6 +21,12 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// テキストファイル
+        /// </summary>
+        [EnumMember(Value = "Text file")]
+        [FileExtPattern("txt")]
+        Text,
+        /// <summary>
         /// ライブラリファイル
         /// </summary>
         [EnumMember(Value = "Library file")]

@@ -33,6 +33,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.Shortcut => PackIconKind.FileLink,
                 FileCategories.Exe => PackIconKind.ApplicationCog,
                 FileCategories.Library => PackIconKind.FileCog,
+                FileCategories.Text => PackIconKind.FileDocument,
 
                 _ => PackIconKind.FileOutline
             };
