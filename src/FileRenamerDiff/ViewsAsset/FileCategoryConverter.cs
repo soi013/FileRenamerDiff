@@ -34,6 +34,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.Exe => PackIconKind.ApplicationCog,
                 FileCategories.Library => PackIconKind.FileCog,
                 FileCategories.Text => PackIconKind.FileDocument,
+                FileCategories.Csv => PackIconKind.FileCsv,
 
                 _ => PackIconKind.FileOutline
             };

@@ -23,6 +23,12 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// テキストファイル
         /// </summary>
+        [EnumMember(Value = "Comma, tab, or character file")]
+        [FileExtPattern("csv", "tsv")]
+        Csv,
+        /// <summary>
+        /// テキストファイル
+        /// </summary>
         [EnumMember(Value = "Text file")]
         [FileExtPattern("txt")]
         Text,
