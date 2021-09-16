@@ -97,7 +97,7 @@ namespace FileRenamerDiff.Models
         /// 動画ファイル
         /// </summary>
         [EnumMember(Value = "Video file")]
-        [FileExtPattern("mp4", "m4v", "3gp", "3g2", "mov", "qt", "avi", "wmv", "div", "divx", "ts", "mts", "m2ts", "m2t", "vob", "mkv", "3gp", "3g2", "webm", "rm", "rmvb", "ram")]
+        [FileExtPattern("mp4", "m4v", "3gp", "3g2", "mov", "qt", "avi", "wmv", "div", "divx", "ts", "mts", "m2ts", "m2t", "vob", "mkv", "webm", "rm", "rmvb", "ram")]
         Video,
         /// <summary>
         /// 音声ファイル

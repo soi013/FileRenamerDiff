@@ -360,5 +360,13 @@ namespace UnitTests
             fileElem.Category
                 .Should().Be(category);
         }
+
+        [Fact]
+        public void Test_FileCategory_Unique()
+        {
+            Enum.GetValues<FileCategories>()
+                .SelectMany(x => x.GetFileExtPattern())
+                .Should().OnlyHaveUniqueItems();
+        }
     }
 }
