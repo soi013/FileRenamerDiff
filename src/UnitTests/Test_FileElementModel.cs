@@ -342,6 +342,12 @@ namespace UnitTests
         [InlineData("test.TXT", (FileAttributes.Normal), FileCategories.Text)]
         [InlineData("test.csv", (FileAttributes.Normal), FileCategories.Csv)]
         [InlineData("test.tsv", (FileAttributes.Normal), FileCategories.Csv)]
+        [InlineData("test.doc", (FileAttributes.Normal), FileCategories.Word)]
+        [InlineData("test.xlsx", (FileAttributes.Normal), FileCategories.Excel)]
+        [InlineData("test.pptx", (FileAttributes.Normal), FileCategories.PowerPoint)]
+        [InlineData("test.adp", (FileAttributes.Normal), FileCategories.Access)]
+        [InlineData("test.one", (FileAttributes.Normal), FileCategories.OneNote)]
+        [InlineData("test.pst", (FileAttributes.Normal), FileCategories.Outlook)]
         public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;

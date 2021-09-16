@@ -21,7 +21,43 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
-        /// テキストファイル
+        /// Microsoft Outlook ファイル
+        /// </summary>
+        [EnumMember(Value = "Microsoft Outlook mail")]
+        [FileExtPattern("pst", "ost", "nst")]
+        Outlook,
+        /// <summary>
+        /// Microsoft OneNote ファイル
+        /// </summary>
+        [EnumMember(Value = "Microsoft OneNote document")]
+        [FileExtPattern("one", "onetoc2")]
+        OneNote,
+        /// <summary>
+        /// Microsoft Access ファイル
+        /// </summary>
+        [EnumMember(Value = "Microsoft Access database")]
+        [FileExtPattern("accdb", "mdb", "accde", "accdr", "accdt", "accda", "accdw", "adp", "ade")]
+        Access,
+        /// <summary>
+        /// Microsoft PowerPoint ファイル
+        /// </summary>
+        [EnumMember(Value = "Microsoft PowerPoint presentation")]
+        [FileExtPattern("ppt", "pptx", "pot", "potm", "potx", "ppam", "pps", "ppsm", "ppsx", "sldm", "sldx")]
+        PowerPoint,
+        /// <summary>
+        /// Microsoft Excel ファイル
+        /// </summary>
+        [EnumMember(Value = "Microsoft Excel workbook")]
+        [FileExtPattern("xls", "xlsx", "xlam", "xla", "xll", "xlm", "xlsm", "xlt", "xltm", "xltx")]
+        Excel,
+        /// <summary>
+        /// Microsoft Word ファイル
+        /// </summary>
+        [EnumMember(Value = "Microsoft Word document")]
+        [FileExtPattern("doc", "docx", "docm", "dot", "dotx", "wbk")]
+        Word,
+        /// <summary>
+        /// CSV（カンマまたはその他の文字区切りテキストファイル）
         /// </summary>
         [EnumMember(Value = "Comma, tab, or character file")]
         [FileExtPattern("csv", "tsv")]

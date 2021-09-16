@@ -35,6 +35,12 @@ namespace FileRenamerDiff.Views
                 FileCategories.Library => PackIconKind.FileCog,
                 FileCategories.Text => PackIconKind.FileDocument,
                 FileCategories.Csv => PackIconKind.FileCsv,
+                FileCategories.Word => PackIconKind.MicrosoftWord,
+                FileCategories.Excel => PackIconKind.MicrosoftExcel,
+                FileCategories.PowerPoint => PackIconKind.MicrosoftPowerpoint,
+                FileCategories.Access => PackIconKind.MicrosoftAccess,
+                FileCategories.OneNote => PackIconKind.MicrosoftOnenote,
+                FileCategories.Outlook => PackIconKind.MicrosoftOutlook,
 
                 _ => PackIconKind.FileOutline
             };
