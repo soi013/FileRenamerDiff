@@ -41,6 +41,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.Access => PackIconKind.MicrosoftAccess,
                 FileCategories.OneNote => PackIconKind.MicrosoftOnenote,
                 FileCategories.Outlook => PackIconKind.MicrosoftOutlook,
+                FileCategories.Mail => PackIconKind.Email,
 
                 _ => PackIconKind.FileOutline
             };

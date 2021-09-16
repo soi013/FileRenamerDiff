@@ -21,6 +21,12 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// メールファイル
+        /// </summary>
+        [EnumMember(Value = "Email file")]
+        [FileExtPattern("eml")]
+        Mail,
+        /// <summary>
         /// Microsoft Outlook ファイル
         /// </summary>
         [EnumMember(Value = "Microsoft Outlook mail")]
