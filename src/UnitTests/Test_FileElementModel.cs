@@ -339,6 +339,7 @@ namespace UnitTests
         [InlineData("test.exe", (FileAttributes.Normal), FileCategories.Exe)]
         [InlineData("test.dll", (FileAttributes.Normal), FileCategories.Library)]
         [InlineData("test.txt", (FileAttributes.Normal), FileCategories.Text)]
+        [InlineData("test.TXT", (FileAttributes.Normal), FileCategories.Text)]
         public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;

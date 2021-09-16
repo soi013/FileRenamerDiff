@@ -124,7 +124,7 @@ namespace FileRenamerDiff.Models
             if (attrs is not null)
                 return fsInfo.Attributes.HasFlag((FileAttributes)attrs);
 
-            string fileExt = AppExtension.GetExtentionCoreFromPath(fsInfo.Name);
+            string fileExt = AppExtension.GetExtentionCoreFromPath(fsInfo.Name).ToLowerInvariant();
             return category.GetFileExtPattern().Contains(fileExt);
         }
 
