@@ -43,6 +43,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.Outlook => PackIconKind.MicrosoftOutlook,
                 FileCategories.Mail => PackIconKind.Email,
                 FileCategories.Pdf => PackIconKind.FilePdf,
+                FileCategories.Markdown => PackIconKind.LanguageMarkdown,
 
                 _ => PackIconKind.FileOutline
             };

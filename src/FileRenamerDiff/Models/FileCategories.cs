@@ -21,6 +21,12 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// Markdownファイル
+        /// </summary>
+        [EnumMember(Value = "Markdown document file")]
+        [FileExtPattern("md")]
+        Markdown,
+        /// <summary>
         /// PDFファイル
         /// </summary>
         [EnumMember(Value = "Portable Document Format file")]
