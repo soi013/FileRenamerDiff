@@ -21,6 +21,12 @@ namespace FileRenamerDiff.Models
         OtherFile,
 
         /// <summary>
+        /// PDFファイル
+        /// </summary>
+        [EnumMember(Value = "Portable Document Format file")]
+        [FileExtPattern("pdf")]
+        Pdf,
+        /// <summary>
         /// メールファイル
         /// </summary>
         [EnumMember(Value = "Email file")]

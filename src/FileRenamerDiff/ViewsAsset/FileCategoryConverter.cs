@@ -42,6 +42,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.OneNote => PackIconKind.MicrosoftOnenote,
                 FileCategories.Outlook => PackIconKind.MicrosoftOutlook,
                 FileCategories.Mail => PackIconKind.Email,
+                FileCategories.Pdf => PackIconKind.FilePdf,
 
                 _ => PackIconKind.FileOutline
             };

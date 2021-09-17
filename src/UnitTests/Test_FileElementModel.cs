@@ -349,6 +349,7 @@ namespace UnitTests
         [InlineData("test.one", (FileAttributes.Normal), FileCategories.OneNote)]
         [InlineData("test.pst", (FileAttributes.Normal), FileCategories.Outlook)]
         [InlineData("test.eml", (FileAttributes.Normal), FileCategories.Mail)]
+        [InlineData("test.pdf", (FileAttributes.Normal), FileCategories.Pdf)]
         public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
