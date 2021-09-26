@@ -94,16 +94,9 @@ jobs:
           fetch-depth: 0
 
       - name: dotnet publish x86
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x86_name }}
+        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x86 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o outputs\${{ env.app_x86_name }}
       - name: dotnet publish x64
-        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o ${{ env.app_x64_name }}
-
-      - name: Copy artifact
-        run: |
-          mkdir -p outputs
-          cp -Literal "${{ env.app_x86_name }}" -Recurse -Destination "outputs\${{ env.app_x86_name }}"
-          cp -Literal "${{ env.app_x64_name }}" -Recurse -Destination "outputs\${{ env.app_x64_name }}"
-        shell: pwsh
+        run: dotnet publish ${{ env.App_Project_Path }} -c Release -r win-x64 --self-contained true -p:PublishTrimmed=false -p:PublishSingleFile=true -p:PublishReadyToRun=true -o outputs\${{ env.app_x64_name }}
 
       - name: Archive publish files
         uses: actions/upload-artifact@v1
