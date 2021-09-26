@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "FileRenamerDiff_Pack", "FileRenamerDiff_Pack\FileRenamerDiff_Pack.wapproj", "{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{F477FC3C-F35C-420B-84E8-D475C35C398C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{F477FC3C-F35C-420B-84E8-D475C35C398C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,8 +62,6 @@ Global
 		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Debug|x86.Build.0 = Debug|x86
 		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Debug|x86.Deploy.0 = Debug|x86
 		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Release|ARM.ActiveCfg = Release|ARM
 		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Release|ARM.Build.0 = Release|ARM
 		{CA7C2CF3-4777-4942-AC4A-0FD3DB3B9BF6}.Release|ARM.Deploy.0 = Release|ARM
