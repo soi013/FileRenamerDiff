@@ -70,7 +70,7 @@ namespace UnitTests
                 .Should().OnlyHaveUniqueItems("違うアイコンのはず");
 
             converter.ConvertBack(0, 0, CultureInfo.InvariantCulture)
-                .Should().Be(default(AppMessageLevel));
+                .Should().Be(default);
         }
 
         [WpfFact]
@@ -228,7 +228,7 @@ namespace UnitTests
                 .Should().OnlyHaveUniqueItems("違うアイコンのはず");
 
             converter.ConvertBack("hide", 0, CultureInfo.InvariantCulture)
-                .Should().Be(default(FileCategories));
+                .Should().Be(default);
         }
 
         [WpfFact]
