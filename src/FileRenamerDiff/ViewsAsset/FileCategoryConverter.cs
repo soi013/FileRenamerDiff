@@ -23,7 +23,7 @@ namespace FileRenamerDiff.Views
         public override PackIconKind Convert(FileCategories category, object parameter, CultureInfo culture) =>
             category switch
             {
-                FileCategories.HiddenFolder => PackIconKind.Folder,//PackIconにHiddenFolderが追加されたら変更
+                FileCategories.HiddenFolder => PackIconKind.FolderHidden,
                 FileCategories.HiddenFile => PackIconKind.FileHidden,
                 FileCategories.Folder => PackIconKind.Folder,
                 FileCategories.Image => PackIconKind.Image,
@@ -42,7 +42,7 @@ namespace FileRenamerDiff.Views
                 FileCategories.OneNote => PackIconKind.MicrosoftOnenote,
                 FileCategories.Outlook => PackIconKind.MicrosoftOutlook,
                 FileCategories.Mail => PackIconKind.Email,
-                FileCategories.Pdf => PackIconKind.FilePdf,
+                FileCategories.Pdf => PackIconKind.FilePdfBox,
                 FileCategories.Markdown => PackIconKind.LanguageMarkdown,
 
                 _ => PackIconKind.FileOutline

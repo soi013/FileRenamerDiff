@@ -238,9 +238,7 @@ namespace UnitTests
 
             Enum.GetValues<FileCategories>()
                 .Select(x => (int)converter.Convert(x, 0, CultureInfo.InvariantCulture))
-            //.Should().OnlyHaveUniqueItems(); //まだHiddenFolderアイコンがない
-                .Distinct()
-                .Should().HaveCount(Enum.GetValues<FileCategories>().Length - 1, "だいたい違うアイコンのはず");
+                .Should().OnlyHaveUniqueItems();
 
             converter.ConvertBack(0, typeof(Enum), 0, CultureInfo.InvariantCulture)
                 .Should().Be(default(FileCategories));
