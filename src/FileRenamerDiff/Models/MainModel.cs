@@ -246,13 +246,13 @@ namespace FileRenamerDiff.Models
                 //無視する拡張子が無い、または一致しないだけ残す
                 .Where(x => ignoreRegex?.IsMatch(AppExtension.GetExtentionCoreFromPath(x)) != true)
                 .Do((x, i) =>
-                    {
-                        //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
-                        if ((i & 0xFF) != 0xFF)
-                            return;
-                        progress?.Report(new(i, $"File Loaded {x}"));
-                        cancellationToken?.ThrowIfCancellationRequested();
-                    })
+                {
+                    //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
+                    if ((i & 0xFF) != 0xFF)
+                        return;
+                    progress?.Report(new(i, $"File Loaded {x}"));
+                    cancellationToken?.ThrowIfCancellationRequested();
+                })
                 .ToList();
 
             progress?.Report(new(loadedFileList.Count, "Files were Loaded. Creating FileList"));
@@ -393,22 +393,13 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal List<ReplaceRegex> CreateRegexes()
         {
-            //削除パターンは置換後文字列がstring.Emptyなので、１つのReplacePatternにまとめる
-            string deleteInput = Setting.DeleteTexts
-                .Select(x =>
-                    x.AsExpression
-                        ? x.TargetPattern
-                        : Regex.Escape(x.TargetPattern))
-                .Where(x => !String.IsNullOrWhiteSpace(x))
-                .Distinct()
-                .ConcatenateString('|');
 
-            var totalReplaceTexts = Setting.ReplaceTexts.ToList();
-            totalReplaceTexts.Insert(0, new ReplacePattern(deleteInput, string.Empty, true));
+            var totalReplaceTexts = Setting.DeleteTexts
+                .Concat(Setting.ReplaceTexts)
+                .ToList();
 
             return totalReplaceTexts
                 .Where(a => !String.IsNullOrWhiteSpace(a.TargetPattern))
-                .Distinct(a => a.TargetPattern)
                 .Select(a => a.ToReplaceRegex())
                 .WhereNotNull()
                 .ToList();
