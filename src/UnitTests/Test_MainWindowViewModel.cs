@@ -306,7 +306,7 @@ namespace UnitTests
             mainVM.Initialize();
             await mainVM.WaitIdle().Timeout(3000d);
 
-            var dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = targetDirPath };
+            var dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = new[] { targetDirPath } };
             await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
 
             await mainVM.WaitIdle().Timeout(3000d);
@@ -315,7 +315,7 @@ namespace UnitTests
             mainVM.IsDialogOpen.Value
                 .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
 
-            dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = "*invalidPath1*", SelectedPaths = new[] { "*invalidPath1*", "*invalidPath2*" } };
+            dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = new[] { "*invalidPath1*", "*invalidPath2*" } };
             await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
 
             await mainVM.IsDialogOpen.WaitShouldBe(true, 3000d, "無効なファイルパスなら、ダイアログが開いたはず");

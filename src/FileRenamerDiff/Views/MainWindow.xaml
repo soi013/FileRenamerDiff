@@ -111,8 +111,7 @@
                                        <l:FolderSelectionMessage
                                           Title="Select Target Folder"
                                           DialogPreference="None"
-                                          Multiselect="True"
-                                          SelectedPaths="{Binding SettingVM.Value.SearchFilePaths.Value}" />
+                                          Multiselect="True" />
                                        <!--  MultiSelect="True"  -->
                                     </l:DirectInteractionMessage>
                                  </l:FolderBrowserDialogInteractionMessageAction>
