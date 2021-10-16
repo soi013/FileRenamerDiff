@@ -11,10 +11,6 @@
    <Application.Resources>
       <ResourceDictionary>
          <ResourceDictionary.MergedDictionaries>
-            <materialDesign:MahAppsBundledTheme
-               BaseTheme="Dark"
-               PrimaryColor="Indigo"
-               SecondaryColor="Yellow" />
             <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml" />
             <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Yellow.xaml" />
 
@@ -49,6 +45,14 @@
             x:Key="MahApps.Brushes.WindowTitle"
             po:Freeze="True"
             Color="{StaticResource Primary900}" />
+
+         <!--  primary  -->
+         <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary200}" />
+         <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{StaticResource Primary200Foreground}" />
+         <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary500}" />
+         <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{StaticResource Primary500Foreground}" />
+         <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary700}" />
+         <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary700Foreground}" />
 
          <!--  設定のテーマに応じて、DarkかLightか切り替わるBrush  -->
          <SolidColorBrush x:Key="HighContrastBrush" />
