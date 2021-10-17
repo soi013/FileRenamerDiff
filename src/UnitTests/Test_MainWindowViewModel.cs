@@ -292,7 +292,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_Dialog()
+        public async Task Test_FolderDialog_Success_Invalid()
         {
             var fileDict = new[] { filePathA, filePathB }
                 .ToDictionary(
@@ -315,6 +315,9 @@ namespace UnitTests
             mainVM.IsDialogOpen.Value
                 .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
 
+            model.FileElementModels
+                .Should().NotBeEmpty("正常にファイルを探索できたら、ファイルが読まれたはず");
+
             dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = new[] { "*invalidPath1*", "*invalidPath2*" } };
             await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
 
@@ -322,6 +325,38 @@ namespace UnitTests
 
             (mainVM.DialogContentVM.Value as MessageDialogViewModel)?.AppMessage.MessageLevel
                 .Should().Be(AppMessageLevel.Alert, "警告メッセージが表示されるはず");
+
+            model.FileElementModels
+                .Should().BeEmpty("無効なファイルパスなら、ファイルがないはず");
+
+        }
+
+        [WpfFact]
+        public async Task Test_FolderDialog_Cancel()
+        {
+            var fileDict = new[] { filePathA, filePathB }
+                .ToDictionary(
+                    s => s,
+                    s => new MockFileData("mock"));
+
+            var fileSystem = new MockFileSystem(fileDict);
+            var model = new MainModel(fileSystem, Scheduler.Immediate);
+            var mainVM = new MainWindowViewModel(model);
+
+            mainVM.Initialize();
+            await mainVM.WaitIdle().Timeout(3000d);
+
+            var dialogMessage = new Livet.Messaging.IO.FolderSelectionMessage { Response = null };
+            await mainVM.LoadFilesFromDialogCommand.ExecuteAsync(dialogMessage);
+
+            await mainVM.WaitIdle().Timeout(3000d);
+            await Task.Delay(MainWindowViewModel.TimeSpanMessageBuffer * 3);
+
+            mainVM.IsDialogOpen.Value
+                .Should().BeFalse("正常にファイルを探索できたら、ダイアログは開いていないはず");
+
+            model.FileElementModels
+                .Should().BeEmpty("フォルダ指定ダイアログがキャンセルされたら、ファイルが読まれないはず");
         }
     }
 }
