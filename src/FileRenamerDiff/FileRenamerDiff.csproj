@@ -8,7 +8,7 @@
     <ApplicationIcon>FileRenamerDiff_icon.ico</ApplicationIcon>
     <Authors>soi</Authors>
     <Platforms>AnyCPU;x64;x86</Platforms>
-    <Version>1.13.2</Version>
+    <Version>1.14</Version>
     <PackageProjectUrl>https://github.com/soi013/FileRenamerDiff</PackageProjectUrl>
     <SignAssembly>false</SignAssembly>
     <ApplicationManifest>app.manifest</ApplicationManifest>
