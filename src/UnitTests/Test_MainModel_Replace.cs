@@ -58,13 +58,11 @@ namespace UnitTests
 
             await model.LoadFileElements();
 
-
             model.Setting.DeleteTexts.Add(new(@"\[.*\]", "", true));
             model.Setting.DeleteTexts.Add(new(@"\s+(?=\.)", "", true));
 
             model.Setting.DeleteTexts.Add(new(@"X", ""));
             model.Setting.ReplaceTexts.Add(new(@"amp", "AMP"));
-
 
             await model.Replace();
 

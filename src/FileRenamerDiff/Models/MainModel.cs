@@ -508,10 +508,12 @@ namespace FileRenamerDiff.Models
                 return string.Empty;
 
             string logFilePath = Path.Combine(dirPath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
+
             while (fileSystem.File.Exists(logFilePath))
             {
                 logFilePath = AppExtension.GetFilePathWithoutExtension(logFilePath) + "_.csv";
             }
+
             return logFilePath;
         }
 
@@ -562,6 +564,7 @@ namespace FileRenamerDiff.Models
             //それでもなかったら、オンラインのマニュアルを表示させる
             if (!fileSystem.File.Exists(htmlFilePath))
                 htmlFilePath = @$"https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use{codeTag}.md";
+
             return htmlFilePath;
         }
     }

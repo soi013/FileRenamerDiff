@@ -152,7 +152,7 @@ csharp_space_between_square_brackets = false
 
 # 折り返しの設定
 csharp_preserve_single_line_blocks = true
-csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_statements = false
 
 #### 命名スタイル ####
 
