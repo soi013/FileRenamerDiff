@@ -93,6 +93,7 @@ namespace FileRenamerDiff.Models
             {
                 inputText = regex.Replace(inputText);
             }
+
             return inputText;
         }
     }

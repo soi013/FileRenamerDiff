@@ -82,6 +82,7 @@ namespace FileRenamerDiff.Models
                     stbBody.AppendLine(m.MessageBody);
                 }
             }
+
             yield return CreateMessage(currentMessage, stbBody);
 
             static AppMessage CreateMessage(AppMessage currentMessage, StringBuilder stbBody) =>

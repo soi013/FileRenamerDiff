@@ -232,7 +232,6 @@ namespace UnitTests
             sWhit.IsNullOrWhiteSpace().Should().BeTrue();
             sText.IsNullOrWhiteSpace().Should().BeFalse();
 
-
             sNull.HasText().Should().BeFalse();
             sEmpt.HasText().Should().BeFalse();
             sWhit.HasText().Should().BeFalse();

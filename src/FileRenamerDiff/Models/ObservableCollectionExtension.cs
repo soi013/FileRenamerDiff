@@ -50,6 +50,7 @@ namespace FileRenamerDiff.Models
             {
                 source.Remove(item);
             }
+
             return removeItems;
         }
 

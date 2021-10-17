@@ -67,6 +67,10 @@ csharp_style_var_elsewhere = false:silent
 csharp_style_var_for_built_in_types = false
 csharp_style_var_when_type_is_apparent = true
 
+# 改行設定
+dotnet_style_allow_multiple_blank_lines_experimental = false:suggestion
+dotnet_style_allow_statement_immediately_after_block_experimental = false:suggestion
+
 # 式のようなメンバー
 csharp_style_expression_bodied_accessors = true:suggestion
 csharp_style_expression_bodied_constructors = false:silent

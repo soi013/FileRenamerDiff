@@ -188,11 +188,13 @@ namespace FileRenamerDiff.ViewModels
                 LogTo.Warning("CollectionView is Adding");
                 currentView.CancelNew();
             }
+
             if (currentView.IsEditingItem)
             {
                 LogTo.Warning("CollectionView is Editing");
                 currentView.CommitEdit();
             }
+
             currentView.Refresh();
         }
     }
