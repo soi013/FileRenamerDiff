@@ -289,7 +289,7 @@ namespace FileRenamerDiff.Models
 
         private static void UpdateLanguage(string langCode)
         {
-            if (String.IsNullOrWhiteSpace(langCode))
+            if (langCode.IsNullOrWhiteSpace())
                 return;
 
             Properties.Resources.Culture = CultureInfo.GetCultureInfo(langCode);
@@ -312,7 +312,7 @@ namespace FileRenamerDiff.Models
         /// </summary>
         internal void LoadSettingFile(string filePath)
         {
-            if (String.IsNullOrWhiteSpace(filePath))
+            if (filePath.IsNullOrWhiteSpace())
                 return;
 
             try
@@ -337,7 +337,7 @@ namespace FileRenamerDiff.Models
         internal void SaveSettingFile(string filePath)
         {
             //保存ダイアログがキャンセルされた場合、空白のファイルパスが来るので、その場合は何もしない
-            if (String.IsNullOrWhiteSpace(filePath))
+            if (filePath.IsNullOrWhiteSpace())
                 return;
 
             try
@@ -399,7 +399,7 @@ namespace FileRenamerDiff.Models
                 .ToList();
 
             return totalReplaceTexts
-                .Where(a => !String.IsNullOrWhiteSpace(a.TargetPattern))
+                .Where(a => a.TargetPattern.HasText())
                 .Select(a => a.ToReplaceRegex())
                 .WhereNotNull()
                 .ToList();
@@ -504,7 +504,7 @@ namespace FileRenamerDiff.Models
                             .Select(x => x.DirectoryPath)
                             .MinBy(x => x.Length)
                             .FirstOrDefault() ?? string.Empty;
-            if (string.IsNullOrWhiteSpace(dirPath))
+            if (dirPath.IsNullOrWhiteSpace())
                 return string.Empty;
 
             string logFilePath = Path.Combine(dirPath, $"RenameLog {DateTime.Now:yyyy-MM-dd HH-mm-ss}.csv");
@@ -541,9 +541,9 @@ namespace FileRenamerDiff.Models
             //変換はPowerShellファイル(.ps1)をビルド前イベントから呼び出して使う
 
             //設定で言語が指定されていれば、そのヘルプを、自動なら現在のスレッドのカルチャを取得する
-            string code = (String.IsNullOrWhiteSpace(Setting.AppLanguageCode)
+            string code = Setting.AppLanguageCode.IsNullOrWhiteSpace()
                     ? Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName
-                    : Setting.AppLanguageCode);
+                    : Setting.AppLanguageCode;
 
             var availableCodes = SettingAppModel.AvailableLanguages.Select(x => x.TwoLetterISOLanguageName).ToArray();
 

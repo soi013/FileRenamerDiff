@@ -213,5 +213,30 @@ namespace UnitTests
             TrafficLight.Blue.GetAttribute<TrafficLight, EnumMemberAttribute>()?.Value
                 .Should().Be("Go");
         }
+
+        [Fact]
+        public void Test_StringExts()
+        {
+            string? sNull = null;
+            string? sEmpt = string.Empty;
+            string? sWhit = "  ";
+            string? sText = "abc";
+
+            sNull.IsNullOrEmpty().Should().BeTrue();
+            sEmpt.IsNullOrEmpty().Should().BeTrue();
+            sWhit.IsNullOrEmpty().Should().BeFalse();
+            sText.IsNullOrEmpty().Should().BeFalse();
+
+            sNull.IsNullOrWhiteSpace().Should().BeTrue();
+            sEmpt.IsNullOrWhiteSpace().Should().BeTrue();
+            sWhit.IsNullOrWhiteSpace().Should().BeTrue();
+            sText.IsNullOrWhiteSpace().Should().BeFalse();
+
+
+            sNull.HasText().Should().BeFalse();
+            sEmpt.HasText().Should().BeFalse();
+            sWhit.HasText().Should().BeFalse();
+            sText.HasText().Should().BeTrue();
+        }
     }
 }

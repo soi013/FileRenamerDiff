@@ -234,7 +234,7 @@ namespace FileRenamerDiff.Models
         /// <param name="asExpression">正規表現パターンか</param>
         internal static bool IsValidRegexPattern(string pattern, bool asExpression)
         {
-            if (string.IsNullOrEmpty(pattern))
+            if (pattern.IsNullOrEmpty())
             {
                 LogTo.Debug("TargetPattern '{@pattern}' is NOT valid. The pattern may not be empty or null.", pattern);
                 return false;
@@ -329,5 +329,26 @@ namespace FileRenamerDiff.Models
             //同じ属性が複数含まれていても、最初のみ返す
             return attributes.First();
         }
+
+        /// <summary>
+        /// IsNullOrEmpty の簡易版。 (string.IsNullOrEmpty(value) が value.IsNullOrEmpty() で呼び出せます。)
+        /// </summary>
+        /// <param name="value">対象文字列</param>
+        /// <returns>Null または Empty の場合に true を返します。</returns>
+        public static bool IsNullOrEmpty(this string? value) => string.IsNullOrEmpty(value);
+
+        /// <summary>
+        /// IsNullOrWhiteSpace の簡易版。 (string.IsNullOrWhiteSpace(value) が value.IsNullOrWhiteSpace() で呼び出せます。)
+        /// </summary>
+        /// <param name="value">対象文字列</param>
+        /// <returns>Null または WhiteSpace の場合に true を返します。</returns>
+        public static bool IsNullOrWhiteSpace(this string? value) => string.IsNullOrWhiteSpace(value);
+
+        /// <summary>
+        /// IsNullOrWhiteSpace の簡易版。 (string.IsNullOrWhiteSpace(value) が value.IsNullOrWhiteSpace() で呼び出せます。)
+        /// </summary>
+        /// <param name="value">対象文字列</param>
+        /// <returns>Null または WhiteSpace の場合に false を返します。</returns>
+        public static bool HasText(this string? value) => !string.IsNullOrWhiteSpace(value);
     }
 }

@@ -217,7 +217,7 @@ namespace FileRenamerDiff.ViewModels
         }
 
         private Task LoadFileFromDialog(FolderSelectionMessage fsMessage) =>
-           fsMessage.Response.Any(x => !string.IsNullOrWhiteSpace(x))
+           fsMessage.Response.Any(x => x.HasText())
                 ? LoadFileFromNewPath(fsMessage.Response)
                 : Task.CompletedTask;
 

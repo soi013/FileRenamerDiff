@@ -92,14 +92,14 @@ namespace FileRenamerDiff.Models
         {
             var ignorePattern = IgnoreExtensions
                 .Select(x => x.Value)
-                .Where(x => !String.IsNullOrWhiteSpace(x))
+                .Where(x => x.HasText())
                 .Select(x => $"^{x}$")
                 .ConcatenateString('|');
 
             //無視する拡張子条件がない場合、逆にすべての拡張子にマッチしてしまうので、nullを返す
-            return String.IsNullOrWhiteSpace(ignorePattern)
-                ? null
-                : AppExtension.CreateRegexOrNull(ignorePattern);
+            return ignorePattern.HasText()
+                ? AppExtension.CreateRegexOrNull(ignorePattern)
+                : null;
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace FileRenamerDiff.Models
         public void Serialize(IFileSystem fileSystem, string settingFilePath)
         {
             string? dirPath = Path.GetDirectoryName(settingFilePath);
-            if (!String.IsNullOrWhiteSpace(dirPath))
+            if (dirPath.HasText())
                 fileSystem.Directory.CreateDirectory(dirPath);
 
             using var fileStream = fileSystem.FileStream.Create(settingFilePath, FileMode.Create);
