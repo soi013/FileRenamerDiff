@@ -23,31 +23,31 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_AppExtension : IClassFixture<LogFixture>
+    public class AppExtension_Test : IClassFixture<LogFixture>
     {
         [Fact]
-        public void Test_ConcatenateString_string1() =>
+        public void ConcatenateString_string1() =>
             new[] { "a", "b", "c" }
                 .ConcatenateString("WwW")
                 .Should().Be("aWwWbWwWc");
         [Fact]
-        public void Test_ConcatenateString_string2() =>
+        public void ConcatenateString_string2() =>
             new[] { "a", "b", "c" }
                 .ConcatenateString("_")
                 .Should().Be("a_b_c");
 
         [Fact]
-        public void Test_Test_ConcatenateString_char() =>
+        public void ConcatenateString_char() =>
             new[] { "a", "b", "c" }
                 .ConcatenateString('_')
                 .Should().Be("a_b_c");
 
         //別でテスト
         //[Fact]
-        //public void Test_ToRawText() =>
+        //public void ToRawText() =>
 
         [Fact]
-        public void Test_WithFreeze()
+        public void WithFreeze()
         {
             var brush = Colors.Red.ToSolidColorBrush();
             brush.IsFrozen
@@ -66,12 +66,12 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_ToCode() =>
+        public void ToCode() =>
             Colors.Purple.ToCode()
                 .Should().Be("#800080");
 
         [Fact]
-        public void Test_ToColorOrDefault()
+        public void ToColorOrDefault()
         {
             AppExtension.ToColorOrDefault("Purple")
                 .Should().Be(Colors.Purple);
@@ -86,7 +86,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_CodeToColorOrNull()
+        public void CodeToColorOrNull()
         {
             AppExtension.CodeToColorOrNull("Purple")
                 .Should().Be(Colors.Purple);
@@ -101,7 +101,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_IEnumerable_Do()
+        public void IEnumerable_Do()
         {
             string log = "log->";
 
@@ -114,7 +114,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_IEnumerable_WithIndex()
+        public void IEnumerable_WithIndex()
         {
             string log = "log->";
 
@@ -128,14 +128,14 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_IEnumerable_WhereNotNull() =>
+        public void IEnumerable_WhereNotNull() =>
             new string?[] { "a", null, "c" }
                 .WhereNotNull()
                 .ToArray()
                 .Should().BeEquivalentTo("a", "c");
 
         [Fact]
-        public void Test_IObservable_WhereNotNull()
+        public void IObservable_WhereNotNull()
         {
             string log = "log->";
             var subject = new Subject<string?>();
@@ -153,7 +153,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_CreateRegexOrNull()
+        public void CreateRegexOrNull()
         {
             AppExtension.CreateRegexOrNull("abc")
                 .Should().NotBeNull();
@@ -174,12 +174,12 @@ namespace UnitTests
         [InlineData(null, true, false)]
         [InlineData("\\l", false, true)]
         [InlineData("\\l", true, false)]
-        public void Test_IsValidRegexPattern(string pattern, bool asExpression, bool expectedIsValid) =>
+        public void IsValidRegexPattern(string pattern, bool asExpression, bool expectedIsValid) =>
             AppExtension.IsValidRegexPattern(pattern, asExpression)
                 .Should().Be(expectedIsValid);
 
         [Fact]
-        public async Task Test_TimeOut_Cause()
+        public async Task TimeOut_Cause()
         {
             Func<Task> actionNotTimeOut = () => Task.Delay(1).Timeout(3000d);
 
@@ -202,7 +202,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_EnumExt()
+        public void EnumExt()
         {
             TrafficLight.Red.GetAttribute<TrafficLight, EnumMemberAttribute>()?.Value
                 .Should().Be("Stop");
@@ -215,7 +215,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_StringExts()
+        public void StringExts()
         {
             string? sNull = null;
             string? sEmpt = string.Empty;

@@ -25,17 +25,17 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_ObservableCollectionExtension : IClassFixture<LogFixture>
+    public class ObservableCollectionExtension_Test : IClassFixture<LogFixture>
     {
         [Fact]
-        public void Test_ToObservableCollection() =>
+        public void ToObservableCollection() =>
             new[] { "a", "b", "c" }
                 .Select(x => x.ToUpperInvariant())
                 .ToObservableCollection()
                 .Should().BeEquivalentTo(new[] { "A", "B", "C" });
 
         [Fact]
-        public void Test_AddRange()
+        public void AddRange()
         {
             var source = new[] { "a", "b", "c" }.ToObservableCollection();
             source.AddRange(new[] { "x", "y", "z" });
@@ -45,7 +45,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_RemoveAll()
+        public void RemoveAll()
         {
             var source = new[] { 1, 2, 3, 4, 5 }.ToObservableCollection();
             source
@@ -56,7 +56,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_ObserveX()
+        public void ObserveX()
         {
             var source = new[] { "a", "b", "c" }.ToObservableCollection();
             var countLog = source.ObserveCount()
@@ -81,7 +81,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_ToObservableCollctionSynced()
+        public void ToObservableCollctionSynced()
         {
             ObservableCollection<int> source = new[] { 1, 2, 3 }.ToObservableCollection();
             ObservableCollection<double> syncTarget = source.ToObservableCollctionSynced(

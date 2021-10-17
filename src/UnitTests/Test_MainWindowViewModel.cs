@@ -24,7 +24,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_MainWindowViewModel : IClassFixture<LogFixture>
+    public class MainWindowViewModel_Test : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string targetDirPathSub = @"D:\FileRenamerDiff_TestSub";
@@ -34,7 +34,7 @@ namespace UnitTests
         private static readonly string filePathB = Path.Combine(targetDirPath, fileNameB);
 
         [WpfFact]
-        public async Task Test_Idle()
+        public async Task IsIdle_when_Initialize_LoadFiles()
         {
             var fileDict = new[] { filePathA, filePathB }
                .ToDictionary(
@@ -58,7 +58,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_WindowTitle()
+        public async Task WindowTitle()
         {
             var fileDict = new[] { filePathA, filePathB }
                 .ToDictionary(
@@ -106,7 +106,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_Dispose()
+        public async Task SettingFileSaved_when_Dispose()
         {
             var fileSystem = new MockFileSystem();
             var model = new MainModel(fileSystem, Scheduler.Immediate);
@@ -126,7 +126,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_CommandCanExecute()
+        public async Task CommandsCanExecute()
         {
             var fileDict = new[] { filePathA, filePathB }
                 .ToDictionary(
@@ -238,7 +238,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_ClearSettingAndConfirm()
+        public async Task ConfirmDialog_when_ClearSetting()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var mainVM = new MainWindowViewModel(model);
@@ -292,7 +292,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_FolderDialog_Success_Invalid()
+        public async Task FolderDialog_Success_Invalid()
         {
             var fileDict = new[] { filePathA, filePathB }
                 .ToDictionary(
@@ -332,7 +332,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_FolderDialog_Cancel()
+        public async Task FolderDialog_Cancel()
         {
             var fileDict = new[] { filePathA, filePathB }
                 .ToDictionary(

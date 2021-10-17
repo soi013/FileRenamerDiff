@@ -19,13 +19,13 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_MainModel_Setting
+    public class MainModel_Setting
     {
         private static readonly string defaultSettingFilePath = SettingAppModel.DefaultFilePath;
         private static readonly string otherSettingFilePath = @"D:\FileRenamerDiff_Setting\Setting.json";
 
         [Fact]
-        public void Test_SaveSetting()
+        public void SaveSetting_Success()
         {
             var noSettingFileSystem = new MockFileSystem();
 
@@ -46,7 +46,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_SaveSetting_Cancel()
+        public async Task SaveSetting_Cancel()
         {
             var noSettingFileSystem = new MockFileSystem();
 
@@ -70,7 +70,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_SaveSetting_NotSaveInvalidFilePath()
+        public async Task SaveSetting_NotSaveInvalidFilePath()
         {
             var noSettingFileSystem = new MockFileSystem();
             noSettingFileSystem.AddFile(otherSettingFilePath, new MockFileData("other") { AllowedFileShare = FileShare.Read });
@@ -99,7 +99,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_LoadSetting_Success()
+        public void LoadSetting_Success()
         {
             const string firstIgnoreExt = "firstignoreext";
             const string otherIgnoreExt = "otherignoreext";
@@ -136,7 +136,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_LoadSetting_NotLoadInvalidFileContent()
+        public void LoadSetting_NotLoadInvalidFileContent()
         {
             const string firstIgnoreExt = "firstignoreext";
 
@@ -163,7 +163,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_SettingReset()
+        public void SettingReset()
         {
             var noSettingFileSystem = new MockFileSystem();
 
@@ -193,7 +193,7 @@ namespace UnitTests
         [InlineData("zh", "how_to_use.zh.md")]
         [InlineData("xx", "how_to_use.md")]
         [InlineData("en", "how_to_use.md")]
-        public void Test_GetHelpPath_DefaultSetting(string langCode, string expectedHelpFileName)
+        public void GetHelpPath_DefaultSetting(string langCode, string expectedHelpFileName)
         {
             var noSettingFileSystem = new MockFileSystem();
 
@@ -214,7 +214,7 @@ namespace UnitTests
         [InlineData("xx", "how_to_use.md")]
         [InlineData("en", "how_to_use.md")]
         [InlineData("ja-jp", "how_to_use.md")]
-        public void Test_GetHelpPath_Setting(string langCode, string expectedHelpFileName)
+        public void GetHelpPath_Setting(string langCode, string expectedHelpFileName)
         {
             var noSettingFileSystem = new MockFileSystem();
 

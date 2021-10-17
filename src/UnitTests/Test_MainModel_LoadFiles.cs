@@ -22,7 +22,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_MainModel_LoadFiles
+    public class MainModel_LoadFiles
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -61,7 +61,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFileDefaultSetting_IgnoreIniHidden()
+        public async Task LoadFile_DefaultSetting_IgnoreIniHidden()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -75,7 +75,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_All()
+        public async Task LoadFile_All()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -95,7 +95,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_OnlyDir()
+        public async Task LoadFile_OnlyDir()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -115,7 +115,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_OnlyFile()
+        public async Task LoadFile_OnlyFile()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -135,7 +135,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_OnlyTopIgnoreHidden()
+        public async Task LoadFile_OnlyTopIgnoreHidden()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -155,7 +155,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_Frequentory()
+        public async Task LoadFile_Frequentory()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -170,7 +170,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_Nothing()
+        public async Task LoadFile_Nothing()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -194,7 +194,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_NoFileTarget()
+        public async Task LoadFile_NoFileTarget()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -215,7 +215,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_MannyFiles()
+        public async Task LoadFile_MannyFiles()
         {
             var files = Enumerable.Range(0, 10000)
                 .Select(i => $"ManyFile-{i:0000}.txt")
@@ -245,7 +245,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_LoadFile_Canncel()
+        public async Task LoadFile_Cancel()
         {
             var moqFileSystem = new Mock<IFileSystem>();
             moqFileSystem

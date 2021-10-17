@@ -14,7 +14,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_AppMessage
+    public class AppMessage_Test
     {
         [Fact]
         public void AppMessageHeadMerge()

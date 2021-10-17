@@ -22,7 +22,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_AppExtension_FileSystem : IClassFixture<LogFixture>
+    public class AppExtension_FileSystem_Test : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -51,18 +51,18 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_GetDirectoryPath_File() =>
+        public void GetDirectoryPath_NormalFile() =>
             new MockFileInfo(CreateMockFileSystem(), filePathE)
             .GetDirectoryPath()
             .Should().Be(filePathDSubDir);
         [Fact]
-        public void Test_GetDirectoryPath_Directory() =>
+        public void GetDirectoryPath_Directory() =>
             new MockDirectoryInfo(CreateMockFileSystem(), filePathGSubSubDir)
             .GetDirectoryPath()
             .Should().Be(filePathDSubDir);
 
         [Fact]
-        public void Test_GetExistWithReflesh()
+        public void GetExistWithReflesh()
         {
             var mockFileSystem = CreateMockFileSystem();
             new MockFileInfo(mockFileSystem, filePathA)
@@ -77,7 +77,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_Rename_File()
+        public void Rename_NormalFile()
         {
             var mockFileSystem = CreateMockFileSystem();
             var mockFile = new MockFileInfo(mockFileSystem, filePathA);
@@ -99,7 +99,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_Rename_Directory()
+        public void Rename_Directory()
         {
             var mockFileSystem = CreateMockFileSystem();
             var mockFile = new MockDirectoryInfo(mockFileSystem, filePathDSubDir);
@@ -121,7 +121,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_Rename_File_OnlyCase()
+        public void Rename_File_OnlyCase()
         {
             var mockFileSystem = CreateMockFileSystem();
             var mockFile = new MockFileInfo(mockFileSystem, filePathA);
@@ -145,7 +145,7 @@ namespace UnitTests
 
         //MockFileSystemのバグ？Rename時にエラーする
         //[Fact]
-        //public void Test_Rename_Directory_OnlyCase()
+        //public void Rename_Directory_OnlyCase()
         //{
         //    var mockFileSystem = CreateMockFileSystem();
         //    var mockFile = new MockDirectoryInfo(mockFileSystem, filePathDSubDir);
@@ -168,11 +168,11 @@ namespace UnitTests
         //}
 
         [Fact]
-        public void Test_GetFilePathWithoutExtension() =>
+        public void GetFilePathWithoutExtension() =>
             AppExtension.GetFilePathWithoutExtension(filePathA)
                 .Should().Be(Path.Combine(targetDirPath, "A"));
         [Fact]
-        public void Test_GetExtentionCoreFromPath() =>
+        public void GetExtentionCoreFromPath() =>
             AppExtension.GetExtentionCoreFromPath(filePathA)
                 .Should().Be("txt");
     }

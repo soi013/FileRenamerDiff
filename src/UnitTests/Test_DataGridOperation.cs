@@ -40,7 +40,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_DataGridOperation
+    public class DataGridOperation_Test
     {
         class BindingSorceTest
         {
@@ -50,7 +50,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_DataGridOperation_RemoveItem_Binding()
+        public void DataGridOperation_RemoveItem_Binding()
         {
             var window = new Window();
             var dataGrid = new DataGrid();
@@ -94,7 +94,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_DataGridOperation_RemoveItem_NoBinding()
+        public void DataGridOperation_RemoveItem_NoBinding()
         {
             var window = new Window();
             var dataGrid = new DataGrid();

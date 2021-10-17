@@ -15,7 +15,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_FileElementModel
+    public class FileElementModel_Test
     {
 
         [Theory]
@@ -218,7 +218,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_FileElement_WarningMessageInvalid()
+        public void FileElement_WarningMessageInvalid()
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
@@ -267,7 +267,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_FileElement_WarningMessageCannotChange()
+        public void FileElement_WarningMessageCannotChange()
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
@@ -351,7 +351,7 @@ namespace UnitTests
         [InlineData("test.eml", (FileAttributes.Normal), FileCategories.Mail)]
         [InlineData("test.pdf", (FileAttributes.Normal), FileCategories.Pdf)]
         [InlineData("test.md", (FileAttributes.Normal), FileCategories.Markdown)]
-        public void Test_FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
+        public void FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
             string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
@@ -365,7 +365,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_FileCategory_Unique()
+        public void FileCategory_Unique()
         {
             Enum.GetValues<FileCategories>()
                 .SelectMany(x => x.GetFileExtPattern())

@@ -16,10 +16,10 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_InformationPageViewModel
+    public class InformationPageViewModel_Test
     {
         [Fact]
-        public void Test_InformationPageViewModel_Create()
+        public void InformationPageViewModel_Create()
         {
             InformationPageViewModel.AppInfoText
                 .Should().ContainAll("File Renamer Diff", "soi013");

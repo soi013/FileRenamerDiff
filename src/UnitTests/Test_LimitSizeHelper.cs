@@ -38,10 +38,10 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_LimitSizeHelper
+    public class LimitSizeHelper_Test
     {
         [WpfFact]
-        public void Test_LimitSizeHelper_Width()
+        public void LimitWidth()
         {
             var window = new Window() { Width = 200, Height = 200, SizeToContent = SizeToContent.Manual, WindowStyle = WindowStyle.None };
             var tb = new TextBox() { Text = "short", TextWrapping = TextWrapping.Wrap };
@@ -70,7 +70,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_LimitSizeHelper_Height()
+        public void LimitHeight()
         {
             var window = new Window() { Width = 200, Height = 200, SizeToContent = SizeToContent.Manual, WindowStyle = WindowStyle.None };
             var tb = new TextBox() { Text = "short", TextWrapping = TextWrapping.Wrap };

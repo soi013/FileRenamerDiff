@@ -18,7 +18,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_MainModel_Count
+    public class MainModel_Count
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -52,7 +52,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_CountZero()
+        public async Task CountZero()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -79,7 +79,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_CountNoConflict()
+        public async Task CountNoConflict()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -103,7 +103,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_CountConflict()
+        public async Task CountConflict()
         {
             MainModel model = CreateDefaultSettingModel();
 
@@ -130,7 +130,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_CountSubDirChange()
+        public async Task CountSubDirChange()
         {
             MainModel model = CreateDefaultSettingModel();
 

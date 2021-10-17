@@ -31,7 +31,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_FileElementViewModel : IClassFixture<LogFixture>
+    public class FileElementViewModel_Test : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string fileNameA = "A.hoge";
@@ -53,7 +53,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_FileProperties()
+        public void FileProperties()
         {
             var fileSystem = CreateMockFileSystem();
             var messageEvent = new Subject<AppMessage>();
@@ -88,7 +88,7 @@ namespace UnitTests
         [InlineData("fix／tgt／fix", "tgt", "REP", "fix|／|tgt|／|fix", "fix|／|REP|／|fix")]
         [InlineData("fix(tgt)fix", "tgt", "REP", "fix|(|tgt|)|fix", "fix|(|REP|)|fix")]
         [InlineData("fix[tgt]fix", "tgt", "REP", "fix|[|tgt|]|fix", "fix|[|REP|]|fix")]
-        public void Test_Replace(string targetFileName, string regexPattern, string replaceText, string oldPiecedFileName, string newPiecedFileName)
+        public void Replace(string targetFileName, string regexPattern, string replaceText, string oldPiecedFileName, string newPiecedFileName)
         {
             string targetFilePath = Path.Combine(targetDirPath, targetFileName);
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()

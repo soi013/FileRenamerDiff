@@ -21,13 +21,13 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_SettingAppViewModel : IClassFixture<LogFixture>
+    public class SettingAppViewModel_Test : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string targetDirPathSub = @"D:\FileRenamerDiff_TestSub";
 
         [WpfFact]
-        public async Task Test_CommandCanExecute()
+        public async Task Commands_CanExecute()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -58,7 +58,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public void Test_SearchFilePathConcate()
+        public void SearchFilePathConcate()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -77,7 +77,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_CommonDeletePattern()
+        public void CommonDeletePattern()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -123,7 +123,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_CommonReplacePattern()
+        public void CommonReplacePattern()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -170,7 +170,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_OtherProperties()
+        public void OtherProperties()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -232,7 +232,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_Add_Clear_DeleteTextsCommand()
+        public async Task Add_Clear_DeleteTextsCommand()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -259,7 +259,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_Add_Clear_IgnoreExtensionsCommand()
+        public async Task Add_Clear_IgnoreExtensionsCommand()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);
@@ -285,7 +285,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_Add_Clear_ReplaceTextsCommand()
+        public async Task Add_Clear_ReplaceTextsCommand()
         {
             var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
             var settingVM = new SettingAppViewModel(model);

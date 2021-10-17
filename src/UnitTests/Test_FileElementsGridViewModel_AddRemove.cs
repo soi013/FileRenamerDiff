@@ -29,7 +29,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_FileElementsGridViewModel_AddRemove : IClassFixture<LogFixture>
+    public class FileElementsGridViewModel_AddRemove : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -57,7 +57,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_AddTargetFiles_RemoveFile()
+        public async Task AddTargetFiles_RemoveFile()
         {
             MockFileSystem fileSystem = CreateMockFileSystem();
             var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);

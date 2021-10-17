@@ -25,10 +25,10 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_ProgressDialogViewModel
+    public class ProgressDialogViewModel_Test
     {
         [WpfFact]
-        public async Task Test_ProgressDialogViewModel_ProgressInfo()
+        public async Task ProgressInfo_RecievedOnlyLast()
         {
             var mock = new Mock<IMainModel>();
             var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
@@ -58,7 +58,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_ProgressDialogViewModel_Cancel()
+        public async Task ProgressDialogViewModel_Cancel()
         {
             var mock = new Mock<IMainModel>();
 

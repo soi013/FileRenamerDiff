@@ -14,7 +14,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_ValueHolder
+    public class ValueHolder_Test
     {
         [Fact]
         public void NotifyPropertyChanged()

@@ -38,10 +38,10 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_Converters : IClassFixture<LogFixture>
+    public class ConvertersTest : IClassFixture<LogFixture>
     {
         [WpfFact]
-        public void Test_LogEventLevelToBrushConverter()
+        public void LogEventLevelToBrushConverter()
         {
             LogEventLevelToBrushConverter converter = new();
             ((SolidColorBrush)converter.Convert(AppMessageLevel.Info, 0, CultureInfo.InvariantCulture))
@@ -61,7 +61,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_LogEventLevelToPackIconKindConverter()
+        public void LogEventLevelToPackIconKindConverter()
         {
             LogEventLevelToPackIconKindConverter converter = new();
 
@@ -74,7 +74,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_CultureDisplayConverter()
+        public void CultureDisplayConverter()
         {
             CultureDisplayConverter converter = new();
             converter.Convert(CultureInfo.InvariantCulture, 0, CultureInfo.InvariantCulture)
@@ -216,7 +216,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_FileCategoryToStringConverter()
+        public void FileCategoryToStringConverter()
         {
             FileCategoryToStringConverter converter = new();
 
@@ -232,7 +232,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public void Test_FileCategoryToPackIconKindConverter()
+        public void FileCategoryToPackIconKindConverter()
         {
             FileCategoryToPackIconKindConverter converter = new();
 

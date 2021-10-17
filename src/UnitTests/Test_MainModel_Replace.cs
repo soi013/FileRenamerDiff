@@ -18,7 +18,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_MainModel_Replace
+    public class MainModel_Replace
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -52,7 +52,7 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task Test_DeleteComplex()
+        public async Task DeleteComplex()
         {
             MainModel model = CreateDefaultSettingModel();
 

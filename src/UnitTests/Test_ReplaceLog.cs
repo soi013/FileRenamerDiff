@@ -15,14 +15,14 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_ReplaceLog
+    public class ReplaceLog_Test
     {
         [Theory]
         [InlineData(true, "A", true)]
         [InlineData(false, "A", false)]
         [InlineData(true, "X", false)]
         [InlineData(false, "X", false)]
-        public async Task Test_ReplaceLogByEnableSetting(bool enableLog, string targetPattern, bool expectedResult)
+        public async Task ReplaceLogByEnableSetting(bool enableLog, string targetPattern, bool expectedResult)
         {
             const string targetDirPath = @"D:\FileRenamerDiff_Test";
             string filePathA = Path.Combine(targetDirPath, "A.txt");

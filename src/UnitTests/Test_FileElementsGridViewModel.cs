@@ -29,7 +29,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_FileElementsGridViewModel : IClassFixture<LogFixture>
+    public class FileElementsGridViewModel_Test : IClassFixture<LogFixture>
     {
         private const string targetDirPath = @"D:\FileRenamerDiff_Test";
         private const string SubDirName = "D_SubDir";
@@ -65,7 +65,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_CountZero()
+        public async Task Counts_NoFile()
         {
             ReactivePropertyScheduler.SetDefault(new ReactivePropertyWpfScheduler(Dispatcher.CurrentDispatcher));
             var model = CreateDefaultSettingModel();
@@ -106,7 +106,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_CountNoConflict()
+        public async Task Counts_NotConflict()
         {
             var model = CreateDefaultSettingModel();
 
@@ -148,7 +148,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_CountConflict()
+        public async Task Counts_Conflict()
         {
             var model = CreateDefaultSettingModel();
 

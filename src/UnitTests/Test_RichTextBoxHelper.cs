@@ -40,7 +40,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class Test_RichTextBoxHelper
+    public class RichTextBoxHelper_Test
     {
         public class RichTextViewModel : INotifyPropertyChanged
         {
@@ -61,7 +61,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_RichTextBoxHelper_Binding()
+        public async Task RichTextBoxHelper_Binding()
         {
             var window = new Window();
             var tb = new RichTextBox() { };
@@ -103,7 +103,7 @@ namespace UnitTests
         }
 
         [WpfFact]
-        public async Task Test_RichTextBoxHelper_Double()
+        public async Task DoubleRichTextBox_ChangeSame()
         {
             var window = new Window();
             var tb1 = new RichTextBox() { };
