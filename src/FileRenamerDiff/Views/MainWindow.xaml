@@ -103,7 +103,8 @@
                         <Button
                            Grid.Column="0"
                            Padding="8,2"
-                           Style="{StaticResource MaterialDesignRaisedButton}">
+                           Style="{StaticResource MaterialDesignRaisedButton}"
+                           ToolTip="Select Target Folder">
                            <behaviors:Interaction.Triggers>
                               <behaviors:EventTrigger EventName="Click">
                                  <l:FolderBrowserDialogInteractionMessageAction>
@@ -195,12 +196,14 @@
                   <Button
                      Command="{Binding ShowHelpPageCommand}"
                      Content="{materialDesign:PackIcon HelpCircle}"
-                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
+                     Style="{StaticResource MaterialDesignIconForegroundButton}"
+                     ToolTip="Show help file in browser" />
                   <!--  アプリケーション情報ボタン（右端）  -->
                   <Button
                      Command="{Binding ShowInformationPageCommand}"
                      Content="{materialDesign:PackIcon InfoCircle}"
-                     Style="{StaticResource MaterialDesignIconForegroundButton}" />
+                     Style="{StaticResource MaterialDesignIconForegroundButton}"
+                     ToolTip="Application information dialog" />
                </StackPanel>
             </Grid>
          </materialDesign:ColorZone>
