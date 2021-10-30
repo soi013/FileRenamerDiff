@@ -17,10 +17,13 @@ namespace UnitTests
 {
     public class FileElementModel_Test
     {
+        private const string dirName = "FileRenamerDiff_Test";
+        private const string dirPath = @"D:\" + dirName + @"\";
 
         [Theory]
         [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt", false)]
         [InlineData("abc.txt", "txt", "csv", "abc.csv", true)]
+        [InlineData("abc.txt", "txt", "csv", "abc.txt", false)]
         [InlineData("xABCx_AxBC.txt", "ABC", "[$0]", "x[ABC]x_AxBC.txt", false)]
         [InlineData("abc ABC AnBC", "ABC", "X$0X", "abc XABCX AnBC", true)]
         [InlineData("A0012 34", "\\d*(\\d{3})", "$1", "A012 34", true)]
@@ -65,7 +68,7 @@ namespace UnitTests
 
         internal static void Test_FileElementCore(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            string targetFilePath = dirPath + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData(targetFilePath)
@@ -140,7 +143,7 @@ namespace UnitTests
         [InlineData("abc.Dir", "Dir", "YYY", "abc.YYY")]
         internal static void Test_FileElementDirectory(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            string targetFilePath = dirPath + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockDirectoryData()
@@ -220,7 +223,7 @@ namespace UnitTests
         [Fact]
         public void FileElement_WarningMessageInvalid()
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
+            string targetFilePath = dirPath + @"ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData("ABC")
@@ -269,7 +272,7 @@ namespace UnitTests
         [Fact]
         public void FileElement_WarningMessageCannotChange()
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
+            string targetFilePath = dirPath + @"ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData("ABC") { AllowedFileShare = FileShare.None }
@@ -353,7 +356,7 @@ namespace UnitTests
         [InlineData("test.md", (FileAttributes.Normal), FileCategories.Markdown)]
         public void FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            string targetFilePath = dirPath + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData(targetFilePath) { Attributes = attributes }
