@@ -33,6 +33,9 @@ namespace UnitTests
         [InlineData("Ha14 Ｆｕ１７", "[A-z]|[0-9]", "\\f$0", "Ｈａ１４ Ｆｕ１７", true)]
         [InlineData("ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", "[ｦ-ﾟ]+", "\\f$0", "アンパン バイキン", true)]
         [InlineData("süß ÖL Ära", "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "suess OEL Aera", true)]
+        [InlineData("abc.txt", "^", "X", "Xabc.txt", true)]
+        [InlineData("abc.txt", "$", "X", "abc.txtX", true)]
+        [InlineData("abc.txt", "$", "X", "abcX.txt", false)]
 
         public void ReplacePattern(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
             => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
