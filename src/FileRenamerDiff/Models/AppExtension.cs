@@ -116,6 +116,11 @@ namespace FileRenamerDiff.Models
             source.Where(x => x is not null)!;
 
         /// <summary>
+        /// ファイルのあるディレクトリの名前を取得
+        /// </summary>
+        public static string? GetDirectoryName(this IFileSystemInfo fsInfo) =>
+            Path.GetFileName(Path.GetDirectoryName(fsInfo.FullName));
+        /// <summary>
         /// ファイルのあるディレクトリのパスを取得
         /// </summary>
         public static string? GetDirectoryPath(this IFileSystemInfo fsInfo) =>
