@@ -187,7 +187,7 @@ namespace FileRenamerDiff.Models
 
             foreach (var reg in repRegexes)
             {
-                outFileName = reg.Replace(outFileName);
+                outFileName = reg.Replace(outFileName, fsInfo);
             }
 
             //拡張子をリネームしない設定であったら、元の拡張子文字列を連結
