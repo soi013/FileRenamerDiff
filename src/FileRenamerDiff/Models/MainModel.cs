@@ -368,7 +368,7 @@ namespace FileRenamerDiff.Models
 
         internal void ReplaceCore()
         {
-            List<ReplaceRegex> regexes = CreateRegexes();
+            List<ReplaceRegexBase> regexes = CreateRegexes();
             Parallel.ForEach(FileElementModels,
                 x => x.Replace(regexes, Setting.IsRenameExt));
 
@@ -391,9 +391,8 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 設定をもとに置換パターンコレクションを作成する
         /// </summary>
-        internal List<ReplaceRegex> CreateRegexes()
+        internal List<ReplaceRegexBase> CreateRegexes()
         {
-
             var totalReplaceTexts = Setting.DeleteTexts
                 .Concat(Setting.ReplaceTexts)
                 .ToList();

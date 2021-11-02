@@ -178,7 +178,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 指定された置換パターンで、ファイル名を置換する（ストレージに保存はされない）
         /// </summary>
-        internal void Replace(IReadOnlyList<ReplaceRegex> repRegexes, bool isRenameExt)
+        internal void Replace(IReadOnlyList<ReplaceRegexBase> repRegexes, bool isRenameExt)
         {
             //設定によって拡張子をリネームするかを決定
             string outFileName = isRenameExt || isDirectory

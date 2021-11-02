@@ -239,7 +239,7 @@ namespace UnitTests
 
             //TEST2 Replace
             //ファイル名の一部を変更する置換パターンを作成
-            ReplaceRegex replaceRegex = ReplacePattern.CreateAddFolder(regexPattern, true).ToReplaceRegex()!;
+            var replaceRegex = ReplacePatternBase.CreateAddFolder(regexPattern, true).ToReplaceRegex()!;
 
             //リネームプレビュー実行
             fileElem.Replace(new[] { replaceRegex }, false);

@@ -68,7 +68,7 @@ namespace FileRenamerDiff.Models
                 .WhereNotNull()
                 .FirstOrDefault();
 
-        private static readonly IReadOnlyList<ReplaceRegex> regexesNormalize = new ReplacePattern[]
+        private static readonly IReadOnlyList<ReplaceRegexBase> regexesNormalize = new ReplacePattern[]
             {
                new (@"(?<=\p{Lu})Ä|Ä(?=\p{Lu})", "AE", true),
                new ("Ä", "Ae"),
