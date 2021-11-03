@@ -43,7 +43,14 @@ namespace UnitTests
         [WpfFact]
         public void LimitWidth()
         {
-            var window = new Window() { Width = 200, Height = 200, SizeToContent = SizeToContent.Manual, WindowStyle = WindowStyle.None };
+            var window = new Window()
+            {
+                Top = -1000,
+                Width = 200,
+                Height = 200,
+                SizeToContent = SizeToContent.Manual,
+                WindowStyle = WindowStyle.None
+            };
             var tb = new TextBox() { Text = "short", TextWrapping = TextWrapping.Wrap };
 
             //StackPanelに含めることで、サイズがWindowいっぱいにならなくなる
@@ -72,7 +79,14 @@ namespace UnitTests
         [WpfFact]
         public void LimitHeight()
         {
-            var window = new Window() { Width = 200, Height = 200, SizeToContent = SizeToContent.Manual, WindowStyle = WindowStyle.None };
+            var window = new Window()
+            {
+                Top = -1000,
+                Width = 200,
+                Height = 200,
+                SizeToContent = SizeToContent.Manual,
+                WindowStyle = WindowStyle.None
+            };
             var tb = new TextBox() { Text = "short", TextWrapping = TextWrapping.Wrap };
 
             //StackPanelに含めることで、サイズがWindowいっぱいにならなくなる

@@ -52,7 +52,10 @@ namespace UnitTests
         [WpfFact]
         public void DataGridOperation_RemoveItem_Binding()
         {
-            var window = new Window();
+            var window = new Window()
+            {
+                Top = -10000,
+            };
             var dataGrid = new DataGrid();
             window.Content = dataGrid;
             dataGrid.AutoGenerateColumns = false;
@@ -96,7 +99,10 @@ namespace UnitTests
         [WpfFact]
         public void DataGridOperation_RemoveItem_NoBinding()
         {
-            var window = new Window();
+            var window = new Window()
+            {
+                Top = -10000,
+            };
             var dataGrid = new DataGrid();
             window.Content = dataGrid;
             dataGrid.AutoGenerateColumns = false;

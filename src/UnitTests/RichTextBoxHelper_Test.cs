@@ -63,7 +63,10 @@ namespace UnitTests
         [WpfFact]
         public async Task RichTextBoxHelper_Binding()
         {
-            var window = new Window();
+            var window = new Window()
+            {
+                Top = -10000,
+            };
             var tb = new RichTextBox() { };
 
             var firstColor = Colors.Red;
@@ -105,7 +108,10 @@ namespace UnitTests
         [WpfFact]
         public async Task DoubleRichTextBox_ChangeSame()
         {
-            var window = new Window();
+            var window = new Window()
+            {
+                Top = -10000,
+            };
             var tb1 = new RichTextBox() { };
             var tb2 = new RichTextBox() { };
 
