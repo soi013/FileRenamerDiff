@@ -36,6 +36,9 @@ namespace UnitTests
         [InlineData("abc.txt", "^", "X", "Xabc.txt", true)]
         [InlineData("abc.txt", "$", "X", "abc.txtX", true)]
         [InlineData("abc.txt", "$", "X", "abcX.txt", false)]
+        [InlineData("abc.txt", "^", "$d", dirName + "abc.txt", false)]
+        [InlineData("abc.txt", "^", "$d_", dirName + "_abc.txt", false)]
+        [InlineData("abc.txt", "abc", "$d", dirName + ".txt", false)]
         public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
             => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
@@ -96,10 +99,11 @@ namespace UnitTests
 
             //TEST2 Replace
             //ファイル名の一部を変更する置換パターンを作成
-            ReplaceRegex[] replaceRegexes = Enumerable
+            ReplaceRegexBase[] replaceRegexes = Enumerable
                 .Zip(regexPatterns, replaceTexts,
-                    (regex, replaceText) =>
-                        new ReplaceRegex(new Regex(regex, RegexOptions.Compiled), replaceText))
+                    (regex, replaceText) => new ReplacePattern(regex, replaceText, true))
+                .Select(x => x.ToReplaceRegex())
+                .WhereNotNull()
                 .ToArray();
 
             //リネームプレビュー実行
@@ -239,7 +243,7 @@ namespace UnitTests
 
             //TEST2 Replace
             //ファイル名の一部を変更する置換パターンを作成
-            var replaceRegex = ReplacePatternBase.CreateAddFolder(regexPattern, true).ToReplaceRegex()!;
+            var replaceRegex = new ReplacePattern(regexPattern, "$d", true).ToReplaceRegex()!;
 
             //リネームプレビュー実行
             fileElem.Replace(new[] { replaceRegex }, false);

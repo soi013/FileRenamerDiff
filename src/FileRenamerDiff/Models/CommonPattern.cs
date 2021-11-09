@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -26,8 +29,12 @@ namespace FileRenamerDiff.Models
         /// サンプル出力例
         /// </summary>
         public string SampleOutput { get; } = new ReplacePattern(TargetPattern, ReplaceText, AsExpression)
-            .ToReplaceRegex()?.Replace(SampleInput)
+            .ToReplaceRegex()?.Replace(SampleInput, sampleInfo)
             ?? String.Empty;
+
+        private const string sampleFilePath = @"D:\ParentDir\abc.txt";
+        private static readonly IFileSystemInfo sampleInfo = AppExtension.CreateMockFileSystem(new[] { sampleFilePath })
+            .FileInfo.FromFileName(sampleFilePath);
 
         /// <summary>
         /// よく使う削除パターン集
@@ -75,6 +82,7 @@ namespace FileRenamerDiff.Models
 
                 new(Resources.Common_ReplaceUmulaut,  "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "süß ÖL Ära.txt", true),
                 new(Resources.Common_ReplaceHanKana,  "[ｦ-ﾟ]+", "\\f$0", "ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", true),
+                new("Add DirectoryName",  "^", "$d", "_dir", true),
             };
     }
 }

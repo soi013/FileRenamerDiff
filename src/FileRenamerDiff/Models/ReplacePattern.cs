@@ -7,8 +7,28 @@ namespace FileRenamerDiff.Models
     /// <summary>
     /// 置換前後のパターン
     /// </summary>
-    public class ReplacePattern : ReplacePatternBase
+    public class ReplacePattern : NotificationObject
     {
+        private string _TargetPattern;
+        /// <summary>
+        /// 置換される対象のパターン
+        /// </summary>
+        public string TargetPattern
+        {
+            get => _TargetPattern;
+            set => RaisePropertyChangedIfSet(ref _TargetPattern, value);
+        }
+
+        private bool _AsExpression;
+        /// <summary>
+        /// パターンを単純一致か正規表現とするか
+        /// </summary>
+        public bool AsExpression
+        {
+            get => _AsExpression;
+            set => RaisePropertyChangedIfSet(ref _AsExpression, value);
+        }
+
         private string _ReplaceText;
         /// <summary>
         /// 置換後文字列
@@ -25,13 +45,14 @@ namespace FileRenamerDiff.Models
         /// <param name="targetPattern">置換される対象のパターン</param>
         /// <param name="replaceText">置換後文字列</param>
         /// <param name="asExpression">パターンを単純一致か正規表現とするか</param>
-        public ReplacePattern(string targetPattern, string replaceText = "", bool asExpression = false)
-            : base(targetPattern, asExpression)
+        public ReplacePattern(string targetPattern, string replaceText, bool asExpression = false)
         {
+            this._TargetPattern = targetPattern;
+            this._AsExpression = asExpression;
             this._ReplaceText = replaceText;
         }
 
-        public override ReplaceRegexBase? ToReplaceRegex()
+        public ReplaceRegexBase? ToReplaceRegex()
         {
             var patternEx = AsExpression
                 ? TargetPattern
@@ -39,10 +60,12 @@ namespace FileRenamerDiff.Models
 
             Regex? regex = AppExtension.CreateRegexOrNull(patternEx);
 
-            return regex == null
-                ? null
+            return regex == null ? null
+                : AddDirectoryNameRegex.IsContainPattern(ReplaceText) ? new AddDirectoryNameRegex(regex, ReplaceText)
                 : new ReplaceRegex(regex, ReplaceText);
         }
+
+        internal static ReplacePattern CreateEmpty() => new(string.Empty, string.Empty);
 
         public override string ToString() => $"{TargetPattern}->{ReplaceText}";
     }

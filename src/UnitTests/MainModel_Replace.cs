@@ -20,7 +20,8 @@ namespace UnitTests
 {
     public class MainModel_Replace
     {
-        private const string targetDirPath = @"D:\FileRenamerDiff_Test";
+        private const string topDirName = "FileRenamerDiff_Test";
+        private const string targetDirPath = @"D:\" + topDirName;
         private const string SubDirName = "D_SubDir";
         private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
         private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
@@ -71,6 +72,32 @@ namespace UnitTests
 
             model.FileElementModels[0].OutputFileName
                 .Should().Be("sAMPle.txt");
+        }
+
+        [Fact]
+        public async Task AddDirectoryNameSetting()
+        {
+            MainModel model = CreateDefaultSettingModel();
+
+            await model.LoadFileElements();
+
+            model.Setting.IsDirectoryRenameTarget = false;
+
+            model.Setting.ReplaceTexts.Add(new("^", "$d_", true));
+
+            await model.Replace();
+
+            model.FileElementModels.Select(x => x.OutputFileName)
+                .Should().BeEquivalentTo(
+                new[]
+                {
+                    SubDirName + "_" + "saXmXple.txt",
+                    SubDirName + "_" + "sam [p] [le].txt",
+                    topDirName + "_" + SubDirName,
+                    topDirName + "_" + "C.txt",
+                    topDirName + "_" + "B.txt",
+                    topDirName + "_" + "A.txt",
+                });
         }
     }
 }

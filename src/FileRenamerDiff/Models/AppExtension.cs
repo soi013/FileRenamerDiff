@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
@@ -355,5 +356,29 @@ namespace FileRenamerDiff.Models
         /// <param name="value">対象文字列</param>
         /// <returns>Null または WhiteSpace の場合に false を返します。</returns>
         public static bool HasText(this string? value) => !string.IsNullOrWhiteSpace(value);
+
+        /// <summary>
+        /// 指定したファイルパスのファイルを含むファイルシステムの生成
+        /// </summary>
+        /// <param name="filePaths">内部に含むファイルパスコレクション</param>
+        /// <returns>指定したファイルを含んだファイルシステム</returns>
+        public static IFileSystem CreateMockFileSystem(string[] filePaths)
+        {
+            IDictionary<string, MockFileData> files = filePaths
+                .ToDictionaryDirectKey(path => new MockFileData(path));
+
+            return new MockFileSystem(files);
+        }
+
+        /// <summary>
+        /// Keyに指定して、辞書へ変換
+        /// </summary>
+        /// <param name="source">入力</param>
+        /// <param name="elementSelector">入力から値への変換デリゲート</param>
+        public static Dictionary<TKey, TValue> ToDictionaryDirectKey<TKey, TValue>(this IEnumerable<TKey> source, Func<TKey, TValue> elementSelector) where TKey : notnull
+            => source.ToDictionary(
+                keySelector: key => key,
+                elementSelector: elementSelector);
+
     }
 }

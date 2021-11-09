@@ -14,7 +14,7 @@ namespace FileRenamerDiff.Models
         /// <summary>
         /// 置換パターンを組み立てる
         /// </summary>
-        public ReplaceRegex(Regex regex, string replaceText, bool asAddFolder = false)
+        public ReplaceRegex(Regex regex, string replaceText)
             : base(regex)
         {
             this.replaceText = replaceText;
@@ -28,7 +28,7 @@ namespace FileRenamerDiff.Models
             regex == null ? input
             : matchEvaluator != null ? regex.Replace(input, matchEvaluator)
             : regex.Replace(input, replaceText);
-
+          
         public override string ToString() => $"{regex}->{replaceText}";
     }
 }
