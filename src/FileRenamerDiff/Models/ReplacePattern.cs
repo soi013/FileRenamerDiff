@@ -19,16 +19,6 @@ namespace FileRenamerDiff.Models
             set => RaisePropertyChangedIfSet(ref _TargetPattern, value);
         }
 
-        private bool _AsExpression;
-        /// <summary>
-        /// パターンを単純一致か正規表現とするか
-        /// </summary>
-        public bool AsExpression
-        {
-            get => _AsExpression;
-            set => RaisePropertyChangedIfSet(ref _AsExpression, value);
-        }
-
         private string _ReplaceText;
         /// <summary>
         /// 置換後文字列
@@ -37,6 +27,16 @@ namespace FileRenamerDiff.Models
         {
             get => _ReplaceText;
             set => RaisePropertyChangedIfSet(ref _ReplaceText, value);
+        }
+
+        private bool _AsExpression;
+        /// <summary>
+        /// パターンを単純一致か正規表現とするか
+        /// </summary>
+        public bool AsExpression
+        {
+            get => _AsExpression;
+            set => RaisePropertyChangedIfSet(ref _AsExpression, value);
         }
 
         /// <summary>
@@ -58,9 +58,11 @@ namespace FileRenamerDiff.Models
                 ? TargetPattern
                 : Regex.Escape(TargetPattern);
 
+            //無効なパターンの場合はnullになる
             Regex? regex = AppExtension.CreateRegexOrNull(patternEx);
 
             return regex == null ? null
+                //
                 : AddDirectoryNameRegex.IsContainPattern(ReplaceText) ? new AddDirectoryNameRegex(regex, ReplaceText)
                 : new ReplaceRegex(regex, ReplaceText);
         }
