@@ -366,4 +366,10 @@ Führen Sie "Umbenennen Speichern" aus, um die aktuelle Datei umzubenennen.</val
   <data name="Grid_FileType" xml:space="preserve">
     <value>Dateityp</value>
   </data>
+  <data name="Common_AddDirectoryNameBeginning" xml:space="preserve">
+    <value>Verzeichnisname am Anfang hinzufügen</value>
+  </data>
+  <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
+    <value>Verzeichnisname vor der Erweiterung einfügen</value>
+  </data>
 </root>

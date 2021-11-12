@@ -366,4 +366,10 @@
   <data name="Grid_FileType" xml:space="preserve">
     <value>тип файла</value>
   </data>
+  <data name="Common_AddDirectoryNameBeginning" xml:space="preserve">
+    <value>Добавьте имя каталога в начале</value>
+  </data>
+  <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
+    <value>Добавьте имя каталога перед расширением</value>
+  </data>
 </root>

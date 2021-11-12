@@ -82,7 +82,8 @@ namespace FileRenamerDiff.Models
 
                 new(Resources.Common_ReplaceUmulaut,  "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "süß ÖL Ära.txt", true),
                 new(Resources.Common_ReplaceHanKana,  "[ｦ-ﾟ]+", "\\f$0", "ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", true),
-                new("Add DirectoryName",  "^", "$d", "_dir", true),
+                new(Resources.Common_AddDirectoryNameBeginning,  "^", "$d_", "_abc.txt", true),
+                new(Resources.Common_AddDirectoryNameBeforeExtension,  "(.?)(\\.\\w*$)", "$1_$d$2", "abc.txt", true),
             };
     }
 }
