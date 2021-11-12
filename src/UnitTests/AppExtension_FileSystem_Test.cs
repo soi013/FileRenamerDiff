@@ -51,6 +51,17 @@ namespace UnitTests
         }
 
         [Fact]
+        public void GetDirectoryName_NormalFile() =>
+            new MockFileInfo(CreateMockFileSystem(), filePathE)
+            .GetDirectoryName()
+            .Should().Be(SubDirName);
+        [Fact]
+        public void GetDirectoryName_Directory() =>
+            new MockDirectoryInfo(CreateMockFileSystem(), filePathGSubSubDir)
+            .GetDirectoryName()
+            .Should().Be(SubDirName);
+
+        [Fact]
         public void GetDirectoryPath_NormalFile() =>
             new MockFileInfo(CreateMockFileSystem(), filePathE)
             .GetDirectoryPath()

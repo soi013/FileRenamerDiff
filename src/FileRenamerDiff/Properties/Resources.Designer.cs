@@ -124,6 +124,24 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Add the directory name before the extension に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDirectoryNameBeforeExtension {
+            get {
+                return ResourceManager.GetString("Common_AddDirectoryNameBeforeExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add the directory name at the beginning に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDirectoryNameBeginning {
+            get {
+                return ResourceManager.GetString("Common_AddDirectoryNameBeginning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Add three &apos;0&apos; to the number (three-digit zero padding 1/2) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_AddThreeZero {
@@ -504,7 +522,7 @@ namespace FileRenamerDiff.Properties {
         ///
         ///Project Site: https://github.com/mmanela/diffplex/
         ///
-        ///License: https://github.com/mmanela/diffplex [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///License: https://g [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string License {
             get {

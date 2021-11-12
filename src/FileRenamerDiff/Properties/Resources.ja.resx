@@ -366,4 +366,10 @@
   <data name="Grid_FileType" xml:space="preserve">
     <value>ファイル種類</value>
   </data>
+  <data name="Common_AddDirectoryNameBeginning" xml:space="preserve">
+    <value>ディレクトリ名を先頭に追加</value>
+  </data>
+  <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
+    <value>拡張子の手前にディレクトリ名を追加</value>
+  </data>
 </root>

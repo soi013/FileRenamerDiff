@@ -447,4 +447,12 @@ Execute "SAVE" to rename the actual file.</value>
     <value>File Type</value>
     <comment>ファイルの種類</comment>
   </data>
+  <data name="Common_AddDirectoryNameBeginning" xml:space="preserve">
+    <value>Add the directory name at the beginning</value>
+    <comment>よくあるパターン説明_ファイル名の先頭にフォルダ名を追加する</comment>
+  </data>
+  <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
+    <value>Add the directory name before the extension</value>
+    <comment>よくあるパターン説明_拡張子の手前にフォルダ名を追加する</comment>
+  </data>
 </root>

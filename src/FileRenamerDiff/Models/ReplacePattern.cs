@@ -52,16 +52,18 @@ namespace FileRenamerDiff.Models
             this._ReplaceText = replaceText;
         }
 
-        public ReplaceRegex? ToReplaceRegex()
+        public ReplaceRegexBase? ToReplaceRegex()
         {
             var patternEx = AsExpression
                 ? TargetPattern
                 : Regex.Escape(TargetPattern);
 
+            //無効なパターンの場合はnullになる
             Regex? regex = AppExtension.CreateRegexOrNull(patternEx);
 
-            return regex == null
-                ? null
+            return regex == null ? null
+                //
+                : AddDirectoryNameRegex.IsContainPattern(ReplaceText) ? new AddDirectoryNameRegex(regex, ReplaceText)
                 : new ReplaceRegex(regex, ReplaceText);
         }
 

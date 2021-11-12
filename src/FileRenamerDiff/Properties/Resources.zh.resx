@@ -366,4 +366,10 @@
   <data name="Grid_FileType" xml:space="preserve">
     <value>文件类型</value>
   </data>
+  <data name="Common_AddDirectoryNameBeginning" xml:space="preserve">
+    <value>在开头添加目录名称</value>
+  </data>
+  <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
+    <value>在扩展名之前添加目录名</value>
+  </data>
 </root>

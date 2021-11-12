@@ -17,21 +17,36 @@ namespace UnitTests
 {
     public class FileElementModel_Test
     {
+        private const string dirName = "FileRenamerDiff_Test";
+        private const string dirPath = @"D:\" + dirName + @"\";
 
         [Theory]
         [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt", false)]
         [InlineData("abc.txt", "txt", "csv", "abc.csv", true)]
+        [InlineData("abc.txt", "txt", "csv", "abc.txt", false)]
         [InlineData("xABCx_AxBC.txt", "ABC", "[$0]", "x[ABC]x_AxBC.txt", false)]
+        [InlineData("xABCx_AxBC.txt", "ABC", "$$0", "x$0x_AxBC.txt", false)]
         [InlineData("abc ABC AnBC", "ABC", "X$0X", "abc XABCX AnBC", true)]
         [InlineData("A0012 34", "\\d*(\\d{3})", "$1", "A012 34", true)]
+        [InlineData("A0012 34", "\\d*(\\d{3})", "$$1", "A$1 34", true)]
         //[InlineData("low UPP Pas", "[A-z]", "\\u$0", "LOW UPP PAS", true)] //System.IO.Abstractionsのバグ？で失敗する
         //[InlineData("low UPP Pas", "[A-z]", "\\l$0", "low upp pas", true)]
         [InlineData("Ha14 Ｆｕ１７", "[Ａ-ｚ]|[０-９]", "\\h$0", "Ha14 Fu17", true)]
         [InlineData("Ha14 Ｆｕ１７", "[A-z]|[0-9]", "\\f$0", "Ｈａ１４ Ｆｕ１７", true)]
+        [InlineData("Ha14 Ｆｕ１７", "[A-z]|[0-9]", "\\f$$0", @"_f$0_f$0_f$0_f$0 Ｆｕ１７", true)]
         [InlineData("ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", "[ｦ-ﾟ]+", "\\f$0", "アンパン バイキン", true)]
+        [InlineData("ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", "[ｦ-ﾟ]+", "\\f$$0", "_f$0 _f$0", true)]
         [InlineData("süß ÖL Ära", "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "suess OEL Aera", true)]
-
-        public void ReplacePattern(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
+        [InlineData("süß ÖL Ära", "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$$0", "_n$0 _n$0 _n$0a", true)]
+        [InlineData("abc.txt", "^", "X", "Xabc.txt", true)]
+        [InlineData("abc.txt", "$", "X", "abc.txtX", true)]
+        [InlineData("abc.txt", "$", "X", "abcX.txt", false)]
+        [InlineData("abc.txt", "^", "$d", dirName + "abc.txt", false)]
+        [InlineData("abc.txt", "^", "$d_", dirName + "_abc.txt", false)]
+        [InlineData("abc.txt", "abc", "$d", dirName + ".txt", false)]
+        [InlineData("abc.txt", "abc", "$$d", "$d.txt", false)]
+        [InlineData("abc.txt", "(.?)(\\.\\w*$)", "$1_$d$2", "abc_" + dirName + ".txt", true)]
+        public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
             => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
         [Theory]
@@ -65,7 +80,7 @@ namespace UnitTests
 
         internal static void Test_FileElementCore(string targetFileName, IReadOnlyList<string> regexPatterns, IReadOnlyList<string> replaceTexts, string expectedRenamedFileName, bool isRenameExt)
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            string targetFilePath = dirPath + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData(targetFilePath)
@@ -91,10 +106,11 @@ namespace UnitTests
 
             //TEST2 Replace
             //ファイル名の一部を変更する置換パターンを作成
-            ReplaceRegex[] replaceRegexes = Enumerable
+            ReplaceRegexBase[] replaceRegexes = Enumerable
                 .Zip(regexPatterns, replaceTexts,
-                    (regex, replaceText) =>
-                        new ReplaceRegex(new Regex(regex, RegexOptions.Compiled), replaceText))
+                    (regex, replaceText) => new ReplacePattern(regex, replaceText, true))
+                .Select(x => x.ToReplaceRegex())
+                .WhereNotNull()
                 .ToArray();
 
             //リネームプレビュー実行
@@ -140,7 +156,7 @@ namespace UnitTests
         [InlineData("abc.Dir", "Dir", "YYY", "abc.YYY")]
         internal static void Test_FileElementDirectory(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            string targetFilePath = dirPath + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockDirectoryData()
@@ -217,10 +233,72 @@ namespace UnitTests
                 .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ファイルシステム上も名前が変わったはず");
         }
 
+        [Theory]
+        [InlineData("_abc.txt", "^", (dirName + "_abc.txt"))]
+        internal static void AddFolderName(string targetFileName, string regexPattern, string expectedRenamedFileName)
+        {
+            string targetFilePath = dirPath + targetFileName;
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+            {
+                [targetFilePath] = new MockFileData(targetFileName)
+            });
+
+            var messageEvent = new Subject<AppMessage>();
+            var fileElem = new FileElementModel(fileSystem, targetFilePath, messageEvent);
+            var queuePropertyChanged = new Queue<string?>();
+            fileElem.PropertyChanged += (o, e) => queuePropertyChanged.Enqueue(e.PropertyName);
+
+            //TEST2 Replace
+            //ファイル名の一部を変更する置換パターンを作成
+            var replaceRegex = new ReplacePattern(regexPattern, "$d", true).ToReplaceRegex()!;
+
+            //リネームプレビュー実行
+            fileElem.Replace(new[] { replaceRegex }, false);
+
+            fileElem.OutputFileName
+                .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
+
+            fileElem.ToString()
+                    .Should().ContainAll(new[] { targetFileName, expectedRenamedFileName
+        }, because: "リネーム前後のファイル名を含んでいるはず");
+
+            bool shouldRename = targetFileName != expectedRenamedFileName;
+            fileElem.IsReplaced
+                .Should().Be(shouldRename, "リネーム後の名前と前の名前が違うなら、リネーム変更されたはず");
+
+            if (shouldRename)
+                queuePropertyChanged
+                    .Should().Contain(new[] { nameof(FileElementModel.OutputFileName), nameof(FileElementModel.OutputFilePath), nameof(FileElementModel.IsReplaced) });
+            else
+                queuePropertyChanged
+                    .Should().BeEmpty();
+
+            fileElem.State
+                .Should().Be(RenameState.None, "リネーム変更はしたが、まだリネーム保存していない");
+
+            fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
+                .Select(p => Path.GetFileName(p))
+                .Should().BeEquivalentTo(new[] { targetFileName }, "ファイルシステム上はまだ前の名前のはず");
+
+            //TEST3 Rename
+            fileElem.Rename();
+
+            fileElem.State
+                .Should().Be(RenameState.Renamed, "リネーム保存されたはず");
+
+            //System.IO.Abstractions のバグ？で反映されていない
+            //fileElem.InputFileName
+            //    .Should().Be(expectedRenamedFileName, "リネーム保存後のファイル名になったはず");
+
+            fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
+                .Select(p => Path.GetFileName(p))
+                .Should().BeEquivalentTo(new[] { expectedRenamedFileName }, "ファイルシステム上も名前が変わったはず");
+        }
+
         [Fact]
         public void FileElement_WarningMessageInvalid()
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
+            string targetFilePath = dirPath + @"ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData("ABC")
@@ -269,7 +347,7 @@ namespace UnitTests
         [Fact]
         public void FileElement_WarningMessageCannotChange()
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\ABC.txt";
+            string targetFilePath = dirPath + @"ABC.txt";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData("ABC") { AllowedFileShare = FileShare.None }
@@ -353,7 +431,7 @@ namespace UnitTests
         [InlineData("test.md", (FileAttributes.Normal), FileCategories.Markdown)]
         public void FileCategory(string targetFileName, FileAttributes attributes, FileCategories category)
         {
-            string targetFilePath = @"D:\FileRenamerDiff_Test\" + targetFileName;
+            string targetFilePath = dirPath + targetFileName;
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
             {
                 [targetFilePath] = new MockFileData(targetFilePath) { Attributes = attributes }
