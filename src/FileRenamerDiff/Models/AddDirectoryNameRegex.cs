@@ -9,7 +9,7 @@ namespace FileRenamerDiff.Models
     /// </summary>
     public class AddDirectoryNameRegex : ReplaceRegexBase
     {
-        private static readonly string targetRegexWord = "\\$d";
+        private static readonly string targetRegexWord = @"(?<!\$)\$d";
         private static readonly Regex regexTargetWord = new(targetRegexWord, RegexOptions.Compiled);
 
         private readonly string replaceText;
