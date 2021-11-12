@@ -45,6 +45,7 @@ namespace UnitTests
         [InlineData("abc.txt", "^", "$d_", dirName + "_abc.txt", false)]
         [InlineData("abc.txt", "abc", "$d", dirName + ".txt", false)]
         [InlineData("abc.txt", "abc", "$$d", "$d.txt", false)]
+        [InlineData("abc.txt", "(.?)(\\.\\w*$)", "$1_$d$2", "abc_" + dirName + ".txt", true)]
         public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
             => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
