@@ -44,9 +44,13 @@ namespace UnitTests
             var vm = new ProgressDialogViewModel(mock.Object);
 
             var t = Task.Run(() =>
-                Enumerable.Range(0, 3)
-                    .Select(x => new ProgressInfo(x, $"progress-{x:00}"))
-                    .ForEach(x => subjectProgress.OnNext(x)));
+            {
+                var pinfos = Enumerable.Range(0, 3)
+                    .Select(x => new ProgressInfo(x, $"progress-{x:00}"));
+
+                foreach (var x in pinfos)
+                    subjectProgress.OnNext(x);                
+            });
 
             await vm.CurrentProgressInfo.WaitUntilValueChangedAsync();
             vm.CurrentProgressInfo.Value!.Count

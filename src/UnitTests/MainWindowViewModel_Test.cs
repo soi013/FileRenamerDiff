@@ -177,11 +177,16 @@ namespace UnitTests
             //ステージ2 ファイル読み込み後
             await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(100);
-            canExecuteUsuallyCommand
-                .Concat(new[] { mainVM.ReplaceCommand })
-                .ForEach((c, i) =>
-                    c.CanExecute(null)
-                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
+
+            var canExecuteCommand = canExecuteUsuallyCommand
+                            .Concat(new[] { mainVM.ReplaceCommand })
+                            .Select((command, index) => (command, index));
+
+            foreach (var (command, index) in canExecuteCommand)
+            {
+                command.CanExecute(null)
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{index})");
+            }
 
             mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeFalse("実行不可能のはず");
@@ -227,11 +232,11 @@ namespace UnitTests
             await mainVM.WaitIdle().Timeout(3000);
             await Task.Delay(10);
 
-            canExecuteUsuallyCommand
-              .Concat(new[] { mainVM.ReplaceCommand })
-                .ForEach((c, i) =>
-                    c.CanExecute(null)
-                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{i})"));
+            foreach (var (command, index) in canExecuteCommand)
+            {
+                command.CanExecute(null)
+                    .Should().BeTrue($"すべて実行可能はなず (indexCommand:{index})");
+            }
 
             mainVM.RenameExecuteCommand.CanExecute()
                 .Should().BeFalse($"実行不可能に戻ったはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
