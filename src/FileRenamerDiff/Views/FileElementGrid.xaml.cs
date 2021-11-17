@@ -11,16 +11,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FileRenamerDiff.Views
+namespace FileRenamerDiff.Views;
+
+/// <summary>
+/// FileElementGrid.xaml の相互作用ロジック
+/// </summary>
+public partial class FileElementGrid : UserControl
 {
-    /// <summary>
-    /// FileElementGrid.xaml の相互作用ロジック
-    /// </summary>
-    public partial class FileElementGrid : UserControl
+    public FileElementGrid()
     {
-        public FileElementGrid()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

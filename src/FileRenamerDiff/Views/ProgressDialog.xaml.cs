@@ -11,16 +11,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FileRenamerDiff.Views
+namespace FileRenamerDiff.Views;
+
+/// <summary>
+/// ProgressDialog.xaml の相互作用ロジック
+/// </summary>
+public partial class ProgressDialog : UserControl
 {
-    /// <summary>
-    /// ProgressDialog.xaml の相互作用ロジック
-    /// </summary>
-    public partial class ProgressDialog : UserControl
+    public ProgressDialog()
     {
-        public ProgressDialog()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
