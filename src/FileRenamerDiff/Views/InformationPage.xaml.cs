@@ -12,21 +12,20 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FileRenamerDiff.Views
-{
-    /// <summary>
-    /// InformationPage.xaml の相互作用ロジック
-    /// </summary>
-    public partial class InformationPage : UserControl
-    {
-        public InformationPage()
-        {
-            InitializeComponent();
-        }
+namespace FileRenamerDiff.Views;
 
-        private void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("cmd", $"/c start {e.Parameter}") { CreateNoWindow = true });
-        }
+/// <summary>
+/// InformationPage.xaml の相互作用ロジック
+/// </summary>
+public partial class InformationPage : UserControl
+{
+    public InformationPage()
+    {
+        InitializeComponent();
+    }
+
+    private void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo("cmd", $"/c start {e.Parameter}") { CreateNoWindow = true });
     }
 }

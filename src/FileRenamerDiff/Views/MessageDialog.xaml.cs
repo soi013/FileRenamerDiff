@@ -11,16 +11,15 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FileRenamerDiff.Views
+namespace FileRenamerDiff.Views;
+
+/// <summary>
+/// MessageDialog.xaml の相互作用ロジック
+/// </summary>
+public partial class MessageDialog : UserControl
 {
-    /// <summary>
-    /// MessageDialog.xaml の相互作用ロジック
-    /// </summary>
-    public partial class MessageDialog : UserControl
+    public MessageDialog()
     {
-        public MessageDialog()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

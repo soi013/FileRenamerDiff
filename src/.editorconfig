@@ -202,3 +202,6 @@ dotnet_naming_style.i_で始まる.capitalization = pascal_case
 
 # IDE0058: 式の値が使用されていません
 dotnet_diagnostic.IDE0058.severity = none
+
+# IDE0160: 範囲指定されたブロックが設定された namespace に変換
+csharp_style_namespace_declarations = file_scoped:suggestion

@@ -28,25 +28,24 @@ using Livet.Messaging.Windows;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
-namespace FileRenamerDiff.ViewModels
+namespace FileRenamerDiff.ViewModels;
+
+public class ConfirmDialogViewModel : ViewModel
 {
-    public class ConfirmDialogViewModel : ViewModel
+    /// <summary>
+    /// ダイアログ結果（初期状態はNull）
+    /// </summary>
+    public ReactivePropertySlim<bool?> IsOkResult { get; } = new ReactivePropertySlim<bool?>(null);
+
+    public ReactiveCommand OkCommand { get; } = new();
+    public ReactiveCommand CancelCommand { get; } = new();
+
+    public ConfirmDialogViewModel()
     {
-        /// <summary>
-        /// ダイアログ結果（初期状態はNull）
-        /// </summary>
-        public ReactivePropertySlim<bool?> IsOkResult { get; } = new ReactivePropertySlim<bool?>(null);
+        OkCommand.Subscribe(() =>
+            IsOkResult.Value = true);
 
-        public ReactiveCommand OkCommand { get; } = new();
-        public ReactiveCommand CancelCommand { get; } = new();
-
-        public ConfirmDialogViewModel()
-        {
-            OkCommand.Subscribe(() =>
-                IsOkResult.Value = true);
-
-            CancelCommand.Subscribe(() =>
-                IsOkResult.Value = false);
-        }
+        CancelCommand.Subscribe(() =>
+            IsOkResult.Value = false);
     }
 }

@@ -14,15 +14,14 @@ using FluentAssertions;
 
 using Xunit;
 
-namespace UnitTests
+namespace UnitTests;
+
+public class InformationPageViewModel_Test
 {
-    public class InformationPageViewModel_Test
+    [Fact]
+    public void InformationPageViewModel_Create()
     {
-        [Fact]
-        public void InformationPageViewModel_Create()
-        {
-            InformationPageViewModel.AppInfoText
-                .Should().ContainAll("File Renamer Diff", "soi013");
-        }
+        InformationPageViewModel.AppInfoText
+            .Should().ContainAll("File Renamer Diff", "soi013");
     }
 }
