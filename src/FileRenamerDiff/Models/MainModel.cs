@@ -502,7 +502,8 @@ namespace FileRenamerDiff.Models
             string dirPath = FileElementModels
                             .Select(x => x.DirectoryPath)
                             .MinBy(x => x.Length)
-                            .FirstOrDefault() ?? string.Empty;
+                            ?? string.Empty;
+
             if (dirPath.IsNullOrWhiteSpace())
                 return string.Empty;
 

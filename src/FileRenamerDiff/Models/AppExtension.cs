@@ -87,6 +87,19 @@ namespace FileRenamerDiff.Models
         }
 
         /// <summary>
+        /// 要素を使用して、なんらかの処理を付随的に行う。
+        /// </summary>
+        /// <param name="source">入力</param>
+        /// <param name="onNext">付随的処理</param>
+        /// <returns>sourceと同じ</returns>
+        public static IEnumerable<T> Do<T>(this IEnumerable<T> source, Action<T> onNext) =>
+            source.Select(x =>
+            {
+                onNext(x);
+                return x;
+            });
+
+        /// <summary>
         /// 要素とインデックスを使用して、なんらかの処理を付随的に行う。
         /// </summary>
         /// <param name="source">入力</param>
@@ -380,5 +393,9 @@ namespace FileRenamerDiff.Models
                 keySelector: key => key,
                 elementSelector: elementSelector);
 
+        /// <summary>
+        /// コレクションが空かどうか
+        /// </summary>
+        public static bool IsEmpty<T>(this IEnumerable<T> source) => !source.Any();
     }
 }
