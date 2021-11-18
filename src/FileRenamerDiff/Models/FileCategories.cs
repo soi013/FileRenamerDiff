@@ -1,9 +1,5 @@
-﻿using System;
-using System.IO;
-using System.IO.Abstractions;
-using System.Linq;
+﻿using System.IO.Abstractions;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
 
 using static FileRenamerDiff.Models.FileCategoriesExt;
 

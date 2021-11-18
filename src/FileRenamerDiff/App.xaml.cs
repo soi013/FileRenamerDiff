@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO.Abstractions;
-using System.Linq;
+﻿using System.IO.Abstractions;
 using System.Reactive.Concurrency;
-using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 

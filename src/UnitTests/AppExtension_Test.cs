@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Reactive.Linq;
+﻿using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Runtime.Serialization;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Media;
-
-using DiffPlex.DiffBuilder.Model;
 
 using FileRenamerDiff.Models;
 
 using FluentAssertions;
-
-using Reactive.Bindings;
 
 using Xunit;
 

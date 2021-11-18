@@ -1,34 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Reactive;
+﻿using System.Diagnostics;
 using System.Reactive.Linq;
-using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
 
-using Anotar.Serilog;
-
-using DiffPlex;
-using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 
 using FileRenamerDiff.Models;
-using FileRenamerDiff.Properties;
 
 using Livet;
-using Livet.Commands;
-using Livet.EventListeners;
-using Livet.Messaging;
-using Livet.Messaging.IO;
-using Livet.Messaging.Windows;
 
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;

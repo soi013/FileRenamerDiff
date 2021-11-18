@@ -1,23 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Media;
 
-using Anotar.Serilog;
-
 using FileRenamerDiff.Models;
-
-using Livet.Messaging;
-
-using MaterialDesignThemes.Wpf;
-
-using Serilog.Events;
 
 namespace FileRenamerDiff.Views;
 

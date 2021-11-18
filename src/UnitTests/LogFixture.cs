@@ -1,17 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Threading;
-using System.Threading.Tasks;
+﻿global using System;
+global using System.Linq;
+global using System.Text.RegularExpressions;
+global using System.Threading.Tasks;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Threading;
+global using System.ComponentModel;
 
 using Anotar.Serilog;
 
-using Reactive.Bindings;
-
 using Serilog;
-using Serilog.Events;
 using Serilog.Exceptions;
-using Serilog.Formatting.Compact;
 
 namespace UnitTests;
 

@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Media;
 
 using FileRenamerDiff.Models;
 

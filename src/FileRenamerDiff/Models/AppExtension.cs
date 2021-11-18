@@ -1,17 +1,18 @@
-﻿using System;
+﻿global using System;
+global using System.Linq;
+global using System.Text.RegularExpressions;
+global using System.Threading.Tasks;
+global using System.Collections.Generic;
+global using System.IO;
+global using System.Text;
+global using System.Threading;
+global using System.ComponentModel;
+
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -20,9 +21,6 @@ using Anotar.Serilog;
 using DiffPlex;
 using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
-
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.Models;
 

@@ -1,21 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-
-using Anotar.Serilog;
-
-using Livet;
-using Livet.Messaging;
-
-using Reactive.Bindings;
-
-using Serilog.Events;
-
-namespace FileRenamerDiff.Models;
+﻿namespace FileRenamerDiff.Models;
 
 /// <summary>
 /// アプリケーション内メッセージ
