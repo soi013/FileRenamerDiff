@@ -18,7 +18,7 @@ namespace UnitTests;
 public class FileElementModel_Test
 {
     private const string dirName = "FileRenamerDiff_Test";
-    private const string dirPath = @"D:\" + dirName + @"\";
+    private const string dirPath = $@"D:\{dirName}\";
 
     [Theory]
     [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt", false)]
@@ -41,11 +41,11 @@ public class FileElementModel_Test
     [InlineData("abc.txt", "^", "X", "Xabc.txt", true)]
     [InlineData("abc.txt", "$", "X", "abc.txtX", true)]
     [InlineData("abc.txt", "$", "X", "abcX.txt", false)]
-    [InlineData("abc.txt", "^", "$d", dirName + "abc.txt", false)]
-    [InlineData("abc.txt", "^", "$d_", dirName + "_abc.txt", false)]
-    [InlineData("abc.txt", "abc", "$d", dirName + ".txt", false)]
+    [InlineData("abc.txt", "^", "$d", $"{dirName}abc.txt", false)]
+    [InlineData("abc.txt", "^", "$d_", $"{dirName}_abc.txt", false)]
+    [InlineData("abc.txt", "abc", "$d", $"{dirName}.txt", false)]
     [InlineData("abc.txt", "abc", "$$d", "$d.txt", false)]
-    [InlineData("abc.txt", "(.?)(\\.\\w*$)", "$1_$d$2", "abc_" + dirName + ".txt", true)]
+    [InlineData("abc.txt", "(.?)(\\.\\w*$)", "$1_$d$2", $"abc_{dirName}.txt", true)]
     public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
@@ -234,7 +234,7 @@ public class FileElementModel_Test
     }
 
     [Theory]
-    [InlineData("_abc.txt", "^", (dirName + "_abc.txt"))]
+    [InlineData("_abc.txt", "^", ($"{dirName}_abc.txt"))]
     internal static void AddFolderName(string targetFileName, string regexPattern, string expectedRenamedFileName)
     {
         string targetFilePath = dirPath + targetFileName;

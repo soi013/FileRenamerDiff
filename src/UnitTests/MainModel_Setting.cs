@@ -155,7 +155,7 @@ public class MainModel_Setting
             .Should().Contain(firstIgnoreExt, because: "起動時にファイルから設定値が読み込まれたはず");
 
         model.LoadSettingFile("  ");
-        model.LoadSettingFile(otherSettingFilePath + "__.json");
+        model.LoadSettingFile($"{otherSettingFilePath}__.json");
         model.LoadSettingFile(otherSettingFilePath);
 
         model.Setting.IgnoreExtensions.Select(x => x.Value)

@@ -213,7 +213,7 @@ public class MainWindowViewModel_Test : IClassFixture<LogFixture>
             .Should().BeFalse($"まだ実行不可能のはず。IsIdle:{mainVM.IsIdle.Value}, CountConflicted:{model.CountConflicted.Value}, CountReplaced:{model.CountReplaced.Value}");
 
         //ステージ5 有効なネーム後
-        var replaceSafe = new ReplacePattern(fileNameA, "XXX_" + fileNameA);
+        var replaceSafe = new ReplacePattern(fileNameA, $"XXX_{fileNameA}");
         var replaceSafeVM = new ReplacePatternViewModel(replaceSafe);
         replaceSafeVM.ToString()
             .Should().ContainAll(fileNameA, "XXX_");

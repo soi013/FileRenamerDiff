@@ -21,7 +21,7 @@ namespace UnitTests;
 public class MainModel_Replace
 {
     private const string topDirName = "FileRenamerDiff_Test";
-    private const string targetDirPath = @"D:\" + topDirName;
+    private const string targetDirPath = $@"D:\{topDirName}";
     private const string SubDirName = "D_SubDir";
     private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
     private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
@@ -91,12 +91,12 @@ public class MainModel_Replace
             .Should().BeEquivalentTo(
             new[]
             {
-                    SubDirName + "_" + "saXmXple.txt",
-                    SubDirName + "_" + "sam [p] [le].txt",
-                    topDirName + "_" + SubDirName,
-                    topDirName + "_" + "C.txt",
-                    topDirName + "_" + "B.txt",
-                    topDirName + "_" + "A.txt",
+                    $"{SubDirName}_saXmXple.txt",
+                    $"{SubDirName}_sam [p] [le].txt",
+                    $"{topDirName}_{SubDirName}",
+                    $"{topDirName}_C.txt",
+                    $"{topDirName}_B.txt",
+                    $"{topDirName}_A.txt",
             });
     }
 }

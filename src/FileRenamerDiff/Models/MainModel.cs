@@ -556,7 +556,7 @@ public class MainModel : NotificationObject, IMainModel
             : $".{code}";
 
         string htmlFileName = $"how_to_use{codeTag}.html";
-        string htmlFilePath = @$".\Resources\" + htmlFileName;
+        string htmlFilePath = $"{@$".\Resources\"}{htmlFileName}";
         //設定言語のファイルが無かった場合は英語のマニュアルに変更する
         if (!fileSystem.File.Exists(htmlFilePath))
             htmlFilePath = @$".\Resources\how_to_use.html";
