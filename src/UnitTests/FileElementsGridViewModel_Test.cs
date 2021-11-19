@@ -104,7 +104,7 @@ public class FileElementsGridViewModel_Test : IClassFixture<LogFixture>
         await model.WaitIdleUI().Timeout(3000);
 
         await fileElementVMs.CountReplaced
-            .WaitShouldBe(2, 3000d, "置換する設定があるので");
+            .WaitShouldBe(2, 3000d, "B→BBB・C→CCCの置換する設定があるので");
         await fileElementVMs.CountConflicted
             .WaitShouldBe(0, 3000d, "衝突はしないので");
 
@@ -142,17 +142,18 @@ public class FileElementsGridViewModel_Test : IClassFixture<LogFixture>
         ListCollectionView cViewFileElementVMs = (ListCollectionView)fileElementVMs.CViewFileElementVMs;
 
         //ステージ 衝突する置換後
-        model.Setting.ReplaceTexts.Add(new("B", "A"));
-        model.Setting.ReplaceTexts.Add(new("C", "A"));
+        const string conflictText = "A";
+        model.Setting.ReplaceTexts.Add(new("B", conflictText));
+        model.Setting.ReplaceTexts.Add(new("C", conflictText));
 
         await model.Replace();
 
         await model.WaitIdleUI().Timeout(3000);
 
         await fileElementVMs.CountReplaced
-            .WaitShouldBe(2, 3000d, "置換する設定があるので");
+            .WaitShouldBe(2, 3000d, "B→A・C→Aの2つの置換する設定があるので");
         await fileElementVMs.CountConflicted
-            .WaitShouldBe(3, 3000d, "衝突するので");
+            .WaitShouldBe(3, 3000d, "元々A・B→A・C→Aの3つが衝突するので");
 
         fileElementVMs.IsReplacedAny.Value
             .Should().BeTrue("置換する設定があるので");
@@ -161,7 +162,7 @@ public class FileElementsGridViewModel_Test : IClassFixture<LogFixture>
 
         foreach (FileElementViewModel vm in cViewFileElementVMs)
         {
-            (vm.PathModel.OutputFileName.Contains("A") == vm.IsConflicted.Value)
+            (vm.PathModel.OutputFileName.Contains(conflictText) == vm.IsConflicted.Value)
                 .Should().BeTrue("Aを含んだファイル名は衝突しているはず");
         }
 
@@ -169,13 +170,13 @@ public class FileElementsGridViewModel_Test : IClassFixture<LogFixture>
         fileElementVMs.IsVisibleConflictedOnly.Value = true;
 
         await cViewFileElementVMs.ObserveProperty(x => x.Count)
-            .WaitShouldBe(3, 3000d, "フィルタ後は絞られたはず");
+            .WaitShouldBe(3, 3000d, "元々A・B→A・C→Aの3つのファイルにフィルタ後は絞られたはず");
 
         //ステージ 衝突＆置換ファイルのみ表示にした後
         fileElementVMs.IsVisibleReplacedOnly.Value = true;
 
         await cViewFileElementVMs.ObserveProperty(x => x.Count)
-            .WaitShouldBe(2, 3000d, "フィルタ後は絞られたはず");
+            .WaitShouldBe(2, 3000d, "B→A・C→Aの2つのファイルにフィルタ後は絞られたはず");
 
         //ステージ すべてのファイル表示にした後
         fileElementVMs.IsVisibleConflictedOnly.Value = false;
