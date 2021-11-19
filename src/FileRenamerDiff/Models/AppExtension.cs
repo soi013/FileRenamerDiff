@@ -373,7 +373,7 @@ public static class AppExtension
     /// </summary>
     /// <param name="filePaths">内部に含むファイルパスコレクション</param>
     /// <returns>指定したファイルを含んだファイルシステム</returns>
-    public static IFileSystem CreateMockFileSystem(string[] filePaths)
+    public static IFileSystem CreateMockFileSystem(IEnumerable<string> filePaths)
     {
         IDictionary<string, MockFileData> files = filePaths
             .ToDictionaryDirectKey(path => new MockFileData(path));

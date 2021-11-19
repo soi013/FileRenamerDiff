@@ -277,4 +277,61 @@ public class AppExtension_Test : IClassFixture<LogFixture>
 
         dict.Should().BeEmpty();
     }
+
+    [Fact]
+    public void CreateMockFileSystem_Noraml()
+    {
+        string parentDirPath = @"D:\pdir";
+
+        var paths = new[] { "abc.txt", "def.csv", "subdir" }
+            .Select(x => Path.Combine(parentDirPath, x));
+
+        var fileSystem = AppExtension.CreateMockFileSystem(paths);
+
+        fileSystem.Directory.EnumerateFileSystemEntries(parentDirPath, "*", SearchOption.AllDirectories)
+            .Should().BeEquivalentTo(new[]
+            {
+                @$"{parentDirPath}\abc.txt",
+                @$"{parentDirPath}\def.csv",
+                @$"{parentDirPath}\subdir",
+            });
+
+        fileSystem.Directory.GetDirectories(parentDirPath)
+            .Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CreateMockFileSystem_SubSubDir()
+    {
+        string parentDirPath = @"D:\pdir";
+
+        string subDirName = "SUB";
+
+        var paths = new[]
+            {
+                "abc.txt",
+                Path.Combine(subDirName,"def.csv"),
+                Path.Combine(subDirName,subDirName,"ghi.ini")
+            }
+            .Select(x => Path.Combine(parentDirPath, x));
+
+        var fileSystem = AppExtension.CreateMockFileSystem(paths);
+
+        fileSystem.Directory.EnumerateFileSystemEntries(parentDirPath, "*", SearchOption.AllDirectories)
+            .Should().BeEquivalentTo(new[]
+            {
+                @$"{parentDirPath}\abc.txt",
+                @$"{parentDirPath}\{subDirName}",
+                @$"{parentDirPath}\{subDirName}\def.csv",
+                @$"{parentDirPath}\{subDirName}\{subDirName}",
+                @$"{parentDirPath}\{subDirName}\{subDirName}\ghi.ini",
+            });
+
+        fileSystem.Directory.GetDirectories(parentDirPath, "*", SearchOption.AllDirectories)
+           .Should().BeEquivalentTo(new[]
+                {
+                    @$"{parentDirPath}\{subDirName}",
+                    @$"{parentDirPath}\{subDirName}\{subDirName}",
+                });
+    }
 }
