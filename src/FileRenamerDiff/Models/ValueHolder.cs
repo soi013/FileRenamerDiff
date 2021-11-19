@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Livet;
 
-using Livet;
+namespace FileRenamerDiff.Models;
 
-namespace FileRenamerDiff.Models
+public class ValueHolder<T> : NotificationObject
 {
-    public class ValueHolder<T> : NotificationObject
+    private T _Value;
+    public T Value
     {
-        private T _Value;
-        public T Value
-        {
-            get => _Value;
-            set => RaisePropertyChangedIfSet(ref _Value, value);
-        }
+        get => _Value;
+        set => RaisePropertyChangedIfSet(ref _Value, value);
+    }
 
-        public ValueHolder(T value)
-        {
-            this._Value = value;
-        }
-    }
-    public static class ValueHolderFactory
+    public ValueHolder(T value)
     {
-        public static ValueHolder<T> Create<T>(T value) => new(value);
+        this._Value = value;
     }
+}
+public static class ValueHolderFactory
+{
+    public static ValueHolder<T> Create<T>(T value) => new(value);
 }

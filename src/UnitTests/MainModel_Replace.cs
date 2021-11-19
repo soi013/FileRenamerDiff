@@ -1,103 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Reactive.Concurrency;
+﻿using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
 
 using Reactive.Bindings;
 
-using Xunit;
+namespace UnitTests;
 
-namespace UnitTests
+public class MainModel_Replace
 {
-    public class MainModel_Replace
+    private const string topDirName = "FileRenamerDiff_Test";
+    private const string targetDirPath = $@"D:\{topDirName}";
+    private const string SubDirName = "D_SubDir";
+    private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
+    private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
+    private static readonly string filePathC = Path.Combine(targetDirPath, "C.txt");
+    private static readonly string filePathDSubDir = Path.Combine(targetDirPath, SubDirName);
+    private static readonly string filePathE = Path.Combine(targetDirPath, SubDirName, "sam [p] [le].txt");
+    private static readonly string filePathF = Path.Combine(targetDirPath, SubDirName, "saXmXple.txt");
+
+    private static MockFileSystem CreateMockFileSystem()
     {
-        private const string topDirName = "FileRenamerDiff_Test";
-        private const string targetDirPath = @"D:\" + topDirName;
-        private const string SubDirName = "D_SubDir";
-        private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
-        private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
-        private static readonly string filePathC = Path.Combine(targetDirPath, "C.txt");
-        private static readonly string filePathDSubDir = Path.Combine(targetDirPath, SubDirName);
-        private static readonly string filePathE = Path.Combine(targetDirPath, SubDirName, "sam [p] [le].txt");
-        private static readonly string filePathF = Path.Combine(targetDirPath, SubDirName, "saXmXple.txt");
-
-        private static MockFileSystem CreateMockFileSystem()
+        return new MockFileSystem(new Dictionary<string, MockFileData>()
         {
-            return new MockFileSystem(new Dictionary<string, MockFileData>()
+            [filePathA] = new MockFileData("A"),
+            [filePathB] = new MockFileData("B"),
+            [filePathC] = new MockFileData("C"),
+            [filePathDSubDir] = new MockDirectoryData(),
+            [filePathE] = new MockFileData("E"),
+            [filePathF] = new MockFileData("F"),
+        });
+    }
+    private static MainModel CreateDefaultSettingModel()
+    {
+        MockFileSystem fileSystem = CreateMockFileSystem();
+
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        model.Initialize();
+        model.Setting.SearchFilePaths = new[] { targetDirPath };
+        return model;
+    }
+
+    [Fact]
+    public async Task DeleteComplex()
+    {
+        MainModel model = CreateDefaultSettingModel();
+
+        await model.LoadFileElements();
+
+        model.Setting.DeleteTexts.Add(new(@"\[.*\]", "", true));
+        model.Setting.DeleteTexts.Add(new(@"\s+(?=\.)", "", true));
+
+        model.Setting.DeleteTexts.Add(new(@"X", ""));
+        model.Setting.ReplaceTexts.Add(new(@"amp", "AMP"));
+
+        await model.Replace();
+
+        model.FileElementModels[1].OutputFileName
+            .Should().Be("sam.txt");
+
+        model.FileElementModels[0].OutputFileName
+            .Should().Be("sAMPle.txt");
+    }
+
+    [Fact]
+    public async Task AddDirectoryNameSetting()
+    {
+        MainModel model = CreateDefaultSettingModel();
+
+        await model.LoadFileElements();
+
+        model.Setting.IsDirectoryRenameTarget = false;
+
+        model.Setting.ReplaceTexts.Add(new("^", "$d_", true));
+
+        await model.Replace();
+
+        model.FileElementModels.Select(x => x.OutputFileName)
+            .Should().BeEquivalentTo(
+            new[]
             {
-                [filePathA] = new MockFileData("A"),
-                [filePathB] = new MockFileData("B"),
-                [filePathC] = new MockFileData("C"),
-                [filePathDSubDir] = new MockDirectoryData(),
-                [filePathE] = new MockFileData("E"),
-                [filePathF] = new MockFileData("F"),
+                    $"{SubDirName}_saXmXple.txt",
+                    $"{SubDirName}_sam [p] [le].txt",
+                    $"{topDirName}_{SubDirName}",
+                    $"{topDirName}_C.txt",
+                    $"{topDirName}_B.txt",
+                    $"{topDirName}_A.txt",
             });
-        }
-        private static MainModel CreateDefaultSettingModel()
-        {
-            MockFileSystem fileSystem = CreateMockFileSystem();
-
-            var model = new MainModel(fileSystem, Scheduler.Immediate);
-            model.Initialize();
-            model.Setting.SearchFilePaths = new[] { targetDirPath };
-            return model;
-        }
-
-        [Fact]
-        public async Task DeleteComplex()
-        {
-            MainModel model = CreateDefaultSettingModel();
-
-            await model.LoadFileElements();
-
-            model.Setting.DeleteTexts.Add(new(@"\[.*\]", "", true));
-            model.Setting.DeleteTexts.Add(new(@"\s+(?=\.)", "", true));
-
-            model.Setting.DeleteTexts.Add(new(@"X", ""));
-            model.Setting.ReplaceTexts.Add(new(@"amp", "AMP"));
-
-            await model.Replace();
-
-            model.FileElementModels[1].OutputFileName
-                .Should().Be("sam.txt");
-
-            model.FileElementModels[0].OutputFileName
-                .Should().Be("sAMPle.txt");
-        }
-
-        [Fact]
-        public async Task AddDirectoryNameSetting()
-        {
-            MainModel model = CreateDefaultSettingModel();
-
-            await model.LoadFileElements();
-
-            model.Setting.IsDirectoryRenameTarget = false;
-
-            model.Setting.ReplaceTexts.Add(new("^", "$d_", true));
-
-            await model.Replace();
-
-            model.FileElementModels.Select(x => x.OutputFileName)
-                .Should().BeEquivalentTo(
-                new[]
-                {
-                    SubDirName + "_" + "saXmXple.txt",
-                    SubDirName + "_" + "sam [p] [le].txt",
-                    topDirName + "_" + SubDirName,
-                    topDirName + "_" + "C.txt",
-                    topDirName + "_" + "B.txt",
-                    topDirName + "_" + "A.txt",
-                });
-        }
     }
 }

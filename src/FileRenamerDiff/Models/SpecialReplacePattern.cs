@@ -1,75 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using Zipangu;
 
-using Zipangu;
+namespace FileRenamerDiff.Models;
 
-namespace FileRenamerDiff.Models
+/// <summary>
+/// 特殊置換パターン
+/// </summary>
+public class SpecialReplacePattern
 {
     /// <summary>
-    /// 特殊置換パターン
+    /// 特殊置換にあてはまるかの判定用Regex
     /// </summary>
-    public class SpecialReplacePattern
+    public Regex MatchRegex { get; }
+
+    /// <summary>
+    /// 特殊置換のMatchEvaluatorを生成するデリゲート
+    /// </summary>
+    public Func<int, MatchEvaluator> EvaluatorCreator { get; }
+
+    private SpecialReplacePattern(string matchPattern, Func<string, string> replaceFunc)
     {
-        /// <summary>
-        /// 特殊置換にあてはまるかの判定用Regex
-        /// </summary>
-        public Regex MatchRegex { get; }
+        this.MatchRegex = new Regex(matchPattern, RegexOptions.Compiled);
+        this.EvaluatorCreator = (groupIndex => (match => replaceFunc(match.Groups[groupIndex].Value)));
+    }
 
-        /// <summary>
-        /// 特殊置換のMatchEvaluatorを生成するデリゲート
-        /// </summary>
-        public Func<int, MatchEvaluator> EvaluatorCreator { get; }
+    /// <summary>
+    /// 指定された置換文字列が特殊置換にあてはまるなら、特殊置換のMatchEvaluatorを生成する
+    /// </summary>
+    /// <param name="replaceText">置換文字列</param>
+    /// <returns>特殊置換、なければnull</returns>
+    private MatchEvaluator? ConvertToEvaluator(string replaceText)
+    {
+        Match? matchResult = MatchRegex.Match(replaceText);
 
-        private SpecialReplacePattern(string matchPattern, Func<string, string> replaceFunc)
+        if (matchResult?.Success != true || matchResult.Groups.Count <= 2)
+            return null;
+
+        int groupIndex = int.Parse(matchResult.Groups[2].Value);
+        return this.EvaluatorCreator(groupIndex);
+    }
+
+    /// <summary>
+    /// 特殊置換パターンリスト
+    /// </summary>
+    public static IReadOnlyList<SpecialReplacePattern> Patterns { get; } =
+        new SpecialReplacePattern[]
         {
-            this.MatchRegex = new Regex(matchPattern, RegexOptions.Compiled);
-            this.EvaluatorCreator = (groupIndex => (match => replaceFunc(match.Groups[groupIndex].Value)));
-        }
-
-        /// <summary>
-        /// 指定された置換文字列が特殊置換にあてはまるなら、特殊置換のMatchEvaluatorを生成する
-        /// </summary>
-        /// <param name="replaceText">置換文字列</param>
-        /// <returns>特殊置換、なければnull</returns>
-        private MatchEvaluator? ConvertToEvaluator(string replaceText)
-        {
-            Match? matchResult = MatchRegex.Match(replaceText);
-
-            if (matchResult?.Success != true || matchResult.Groups.Count <= 2)
-                return null;
-
-            int groupIndex = int.Parse(matchResult.Groups[2].Value);
-            return this.EvaluatorCreator(groupIndex);
-        }
-
-        /// <summary>
-        /// 特殊置換パターンリスト
-        /// </summary>
-        public static IReadOnlyList<SpecialReplacePattern> Patterns { get; } =
-            new SpecialReplacePattern[]
-            {
                 new SpecialReplacePattern(@"^\\(u)\$(\d+)",x=>x.ToUpperInvariant()),
                 new SpecialReplacePattern(@"^\\(l)\$(\d+)",x=>x.ToLowerInvariant()),
                 new SpecialReplacePattern(@"^\\(h)\$(\d+)",x=>x.AsciiToNarrow()),
                 new SpecialReplacePattern(@"^\\(f)\$(\d+)",x=>x.AsciiToWide().HalfKatakanaToKatakana()),
                 new SpecialReplacePattern(@"^\\(n)\$(\d+)",x=>NormalizeParaAlphabet(x)),
-            };
+        };
 
-        /// <summary>
-        /// 特殊置換MatchEvaluatorへ変換
-        /// </summary>
-        /// <param name="replaceText">置換文字列</param>
-        /// <returns>特殊置換、なければnull</returns>
-        internal static MatchEvaluator? FindEvaluator(string replaceText) =>
-            Patterns
-                .Select(p => p.ConvertToEvaluator(replaceText))
-                .WhereNotNull()
-                .FirstOrDefault();
+    /// <summary>
+    /// 特殊置換MatchEvaluatorへ変換
+    /// </summary>
+    /// <param name="replaceText">置換文字列</param>
+    /// <returns>特殊置換、なければnull</returns>
+    internal static MatchEvaluator? FindEvaluator(string replaceText) =>
+        Patterns
+            .Select(p => p.ConvertToEvaluator(replaceText))
+            .WhereNotNull()
+            .FirstOrDefault();
 
-        private static readonly IReadOnlyList<ReplaceRegexBase> regexesNormalize = new ReplacePattern[]
-            {
+    private static readonly IReadOnlyList<ReplaceRegexBase> regexesNormalize = new ReplacePattern[]
+        {
                new (@"(?<=\p{Lu})Ä|Ä(?=\p{Lu})", "AE", true),
                new ("Ä", "Ae"),
                new ("ä", "ae"),
@@ -82,19 +77,18 @@ namespace FileRenamerDiff.Models
                new (@"(?<=\p{Lu})ẞ|ẞ(?=\p{Lu})", "SS", true),
                new ("ẞ", "Ss"),
                new ("ß", "ss"),
-            }
-            .Select(x => x.ToReplaceRegex())
-            .WhereNotNull()
-            .ToArray();
-
-        private static string NormalizeParaAlphabet(string inputText)
-        {
-            foreach (var regex in regexesNormalize)
-            {
-                inputText = regex.Replace(inputText);
-            }
-
-            return inputText;
         }
+        .Select(x => x.ToReplaceRegex())
+        .WhereNotNull()
+        .ToArray();
+
+    private static string NormalizeParaAlphabet(string inputText)
+    {
+        foreach (var regex in regexesNormalize)
+        {
+            inputText = regex.Replace(inputText);
+        }
+
+        return inputText;
     }
 }

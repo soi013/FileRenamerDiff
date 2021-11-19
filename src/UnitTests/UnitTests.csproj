@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+      <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-
+    <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Anotar.Serilog.Fody" Version="5.1.3" PrivateAssets="all" />
+    <PackageReference Include="Anotar.Serilog.Fody" Version="6.0.0" PrivateAssets="all" />
     <PackageReference Include="coverlet.msbuild" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="FluentAssertions" Version="6.1.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
     <PackageReference Include="ReactiveProperty" Version="7.12.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />

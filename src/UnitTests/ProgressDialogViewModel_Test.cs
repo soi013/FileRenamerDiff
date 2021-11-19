@@ -1,92 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Concurrency;
+﻿using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-using FileRenamerDiff.Models;
-using FileRenamerDiff.ViewModels;
-
-using FluentAssertions;
 
 using Moq;
 
 using Reactive.Bindings;
 
-using Xunit;
+namespace UnitTests;
 
-namespace UnitTests
+public class ProgressDialogViewModel_Test
 {
-    public class ProgressDialogViewModel_Test
+    [WpfFact]
+    public async Task ProgressInfo_RecievedOnlyLast()
     {
-        [WpfFact]
-        public async Task ProgressInfo_RecievedOnlyLast()
+        var mock = new Mock<IMainModel>();
+        var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
+        mock.SetupGet(x => x.UIScheduler)
+            .Returns(syncScheduler);
+
+        var subjectProgress = new Subject<ProgressInfo>();
+
+        mock
+            .SetupGet(x => x.CurrentProgressInfo)
+            .Returns(subjectProgress.ToReadOnlyReactivePropertySlim());
+
+        var vm = new ProgressDialogViewModel(mock.Object);
+
+        var t = Task.Run(() =>
         {
-            var mock = new Mock<IMainModel>();
-            var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
-            mock.SetupGet(x => x.UIScheduler)
-                .Returns(syncScheduler);
+            var pinfos = Enumerable.Range(0, 3)
+                .Select(x => new ProgressInfo(x, $"progress-{x:00}"));
 
-            var subjectProgress = new Subject<ProgressInfo>();
+            foreach (var x in pinfos)
+                subjectProgress.OnNext(x);
+        });
 
-            mock
-                .SetupGet(x => x.CurrentProgressInfo)
-                .Returns(subjectProgress.ToReadOnlyReactivePropertySlim());
+        await vm.CurrentProgressInfo.WaitUntilValueChangedAsync();
+        vm.CurrentProgressInfo.Value!.Count
+            .Should().Be(2);
+        vm.CurrentProgressInfo.Value!.Message
+            .Should().Contain("progress-02");
+        vm.CurrentProgressInfo.Value!.Message
+            .Should().NotContainAny("00", "01");
+    }
 
-            var vm = new ProgressDialogViewModel(mock.Object);
+    [WpfFact]
+    public async Task ProgressDialogViewModel_Cancel()
+    {
+        var mock = new Mock<IMainModel>();
 
-            var t = Task.Run(() =>
-                Enumerable.Range(0, 3)
-                    .Select(x => new ProgressInfo(x, $"progress-{x:00}"))
-                    .ForEach(x => subjectProgress.OnNext(x)));
+        mock.SetupGet(x => x.UIScheduler)
+            .Returns(new SynchronizationContextScheduler(SynchronizationContext.Current!));
 
-            await vm.CurrentProgressInfo.WaitUntilValueChangedAsync();
-            vm.CurrentProgressInfo.Value!.Count
-                .Should().Be(2);
-            vm.CurrentProgressInfo.Value!.Message
-                .Should().Contain("progress-02");
-            vm.CurrentProgressInfo.Value!.Message
-                .Should().NotContainAny("00", "01");
-        }
+        var subjectProgress = new Subject<ProgressInfo>();
+        mock
+            .SetupGet(x => x.CurrentProgressInfo)
+            .Returns(subjectProgress.ToReadOnlyReactivePropertySlim());
 
-        [WpfFact]
-        public async Task ProgressDialogViewModel_Cancel()
-        {
-            var mock = new Mock<IMainModel>();
+        var cancelToken = new CancellationTokenSource();
+        mock
+            .SetupGet(x => x.CancelWork)
+            .Returns(cancelToken);
 
-            mock.SetupGet(x => x.UIScheduler)
-                .Returns(new SynchronizationContextScheduler(SynchronizationContext.Current!));
+        var vm = new ProgressDialogViewModel(mock.Object);
 
-            var subjectProgress = new Subject<ProgressInfo>();
-            mock
-                .SetupGet(x => x.CurrentProgressInfo)
-                .Returns(subjectProgress.ToReadOnlyReactivePropertySlim());
+        cancelToken.IsCancellationRequested
+            .Should().BeFalse();
 
-            var cancelToken = new CancellationTokenSource();
-            mock
-                .SetupGet(x => x.CancelWork)
-                .Returns(cancelToken);
+        await vm.CancelCommand.ExecuteAsync();
+        cancelToken.IsCancellationRequested
+            .Should().BeTrue();
 
-            var vm = new ProgressDialogViewModel(mock.Object);
-
-            cancelToken.IsCancellationRequested
-                .Should().BeFalse();
-
-            await vm.CancelCommand.ExecuteAsync();
-            cancelToken.IsCancellationRequested
-                .Should().BeTrue();
-
-            await vm.CancelCommand.ExecuteAsync();
-            cancelToken.IsCancellationRequested
-                .Should().BeTrue();
-        }
+        await vm.CancelCommand.ExecuteAsync();
+        cancelToken.IsCancellationRequested
+            .Should().BeTrue();
     }
 }
