@@ -96,6 +96,19 @@ public class AppExtension_Test : IClassFixture<LogFixture>
     }
 
     [Fact]
+    public void IEnumerable_DoWithIndex()
+    {
+        string log = "log->";
+
+        var arr = new[] { "a", "b", "c" }
+              .Do((x,i) => log += $"[{i}-{x}]_")
+              .ToArray();
+
+        log
+            .Should().Be("log->[0-a]_[1-b]_[2-c]_");
+    }
+
+    [Fact]
     public void IEnumerable_WithIndex()
     {
         string log = "log->";
@@ -223,12 +236,11 @@ public class AppExtension_Test : IClassFixture<LogFixture>
     [Fact]
     public void IsEmpty_Empty()
     {
-        new int[0].IsEmpty()
+        Array.Empty<int>().IsEmpty()
             .Should().BeTrue();
 
         Enumerable.Range(0, 0).IsEmpty()
             .Should().BeTrue();
-
 
         Enumerable.Range(0, 10).Where(x => x < 0).IsEmpty()
             .Should().BeTrue();
