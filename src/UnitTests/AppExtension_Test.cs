@@ -219,4 +219,28 @@ public class AppExtension_Test : IClassFixture<LogFixture>
         sWhit.HasText().Should().BeFalse();
         sText.HasText().Should().BeTrue();
     }
+
+    [Fact]
+    public void IsEmpty_Empty()
+    {
+        new int[0].IsEmpty()
+            .Should().BeTrue();
+
+        Enumerable.Range(0, 0).IsEmpty()
+            .Should().BeTrue();
+
+
+        Enumerable.Range(0, 10).Where(x => x < 0).IsEmpty()
+            .Should().BeTrue();
+    }
+
+    [Fact]
+    public void IsEmpty_NotEmpty()
+    {
+        new[] { 0, 1, 2 }.IsEmpty()
+            .Should().BeFalse();
+
+        Enumerable.Range(0, 10).IsEmpty()
+            .Should().BeFalse();
+    }
 }
