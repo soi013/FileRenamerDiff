@@ -101,7 +101,7 @@ public class AppExtension_Test : IClassFixture<LogFixture>
         string log = "log->";
 
         var arr = new[] { "a", "b", "c" }
-              .Do((x,i) => log += $"[{i}-{x}]_")
+              .Do((x, i) => log += $"[{i}-{x}]_")
               .ToArray();
 
         log
@@ -254,5 +254,27 @@ public class AppExtension_Test : IClassFixture<LogFixture>
 
         Enumerable.Range(0, 10).IsEmpty()
             .Should().BeFalse();
+    }
+
+    [Fact]
+    public void ToDictionaryDirectKey_Noraml()
+    {
+        var dict = new[] { "a", "bb", "ccc" }
+            .ToDictionaryDirectKey(x => x.Length);
+
+        dict.Keys
+            .Should().BeEquivalentTo(new[] { "a", "bb", "ccc" });
+
+        dict.Values
+            .Should().BeEquivalentTo(new[] { 1, 2, 3 });
+    }
+
+    [Fact]
+    public void ToDictionaryDirectKey_Empty()
+    {
+        var dict = Array.Empty<string>()
+            .ToDictionaryDirectKey(x => x.Length);
+
+        dict.Should().BeEmpty();
     }
 }
