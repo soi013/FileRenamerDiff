@@ -5,12 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 
-using FileRenamerDiff.Models;
 using FileRenamerDiff.Views;
-
-using FluentAssertions;
-
-using Xunit;
 
 namespace UnitTests;
 

@@ -2,11 +2,6 @@
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 
-using FileRenamerDiff.Models;
-using FileRenamerDiff.ViewModels;
-
-using FluentAssertions;
-
 namespace UnitTests;
 
 /// <summary>

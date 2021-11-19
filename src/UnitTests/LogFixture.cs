@@ -1,11 +1,19 @@
 ﻿global using System;
+global using System.Collections.Generic;
+global using System.ComponentModel;
+global using System.IO;
+global using System.IO.Abstractions.TestingHelpers;
 global using System.Linq;
 global using System.Text.RegularExpressions;
-global using System.Threading.Tasks;
-global using System.Collections.Generic;
-global using System.IO;
 global using System.Threading;
-global using System.ComponentModel;
+global using System.Threading.Tasks;
+
+global using FileRenamerDiff.Models;
+global using FileRenamerDiff.ViewModels;
+
+global using FluentAssertions;
+
+global using Xunit;
 
 using Anotar.Serilog;
 

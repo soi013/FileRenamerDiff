@@ -1,11 +1,4 @@
-﻿using System.IO.Abstractions.TestingHelpers;
-using System.Reactive.Subjects;
-
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
-
-using Xunit;
+﻿using System.Reactive.Subjects;
 
 namespace UnitTests;
 

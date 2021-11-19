@@ -1,18 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
-
-using Xunit;
-
-namespace UnitTests;
+﻿namespace UnitTests;
 
 public class AppMessage_Test
 {

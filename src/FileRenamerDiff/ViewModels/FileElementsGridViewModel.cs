@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Reactive.Concurrency;
+﻿using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Data;
 

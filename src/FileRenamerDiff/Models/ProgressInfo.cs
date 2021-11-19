@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FileRenamerDiff.Models;
+﻿namespace FileRenamerDiff.Models;
 
 /// <summary>
 /// 処理状態情報

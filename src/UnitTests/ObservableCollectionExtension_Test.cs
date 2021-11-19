@@ -1,27 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Reactive;
+﻿using System.Collections.ObjectModel;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
-using DiffPlex.DiffBuilder.Model;
-
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
-
-using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-
-using Xunit;
 
 namespace UnitTests;
 

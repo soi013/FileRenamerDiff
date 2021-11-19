@@ -1,12 +1,4 @@
-﻿using System.IO.Abstractions.TestingHelpers;
-
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
-
-using Xunit;
-
-namespace UnitTests;
+﻿namespace UnitTests;
 
 public class AppExtension_FileSystem_Test : IClassFixture<LogFixture>
 {

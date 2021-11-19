@@ -1,14 +1,7 @@
 ﻿using System.Globalization;
-using System.IO.Abstractions.TestingHelpers;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
-
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
-
-using Xunit;
 
 namespace UnitTests;
 

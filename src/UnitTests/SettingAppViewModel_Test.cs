@@ -1,16 +1,8 @@
-﻿using System.IO.Abstractions.TestingHelpers;
-using System.Reactive.Concurrency;
+﻿using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
-using FileRenamerDiff.Models;
-using FileRenamerDiff.ViewModels;
-
-using FluentAssertions;
-
 using Reactive.Bindings;
-
-using Xunit;
 
 namespace UnitTests;
 

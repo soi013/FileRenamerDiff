@@ -2,16 +2,9 @@
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-using FileRenamerDiff.Models;
-using FileRenamerDiff.ViewModels;
-
-using FluentAssertions;
-
 using Moq;
 
 using Reactive.Bindings;
-
-using Xunit;
 
 namespace UnitTests;
 

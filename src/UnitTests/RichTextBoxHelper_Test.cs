@@ -1,42 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
+﻿using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 
-using Anotar.Serilog;
-
-using FileRenamerDiff.Models;
-using FileRenamerDiff.ViewModels;
 using FileRenamerDiff.Views;
 
-using FluentAssertions;
-using FluentAssertions.Extensions;
-using FluentAssertions.Primitives;
-
 using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
-using Reactive.Bindings.Schedulers;
-
-using Xunit;
 
 namespace UnitTests;
 

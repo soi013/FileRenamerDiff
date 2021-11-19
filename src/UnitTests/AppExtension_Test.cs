@@ -3,12 +3,6 @@ using System.Reactive.Subjects;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 
-using FileRenamerDiff.Models;
-
-using FluentAssertions;
-
-using Xunit;
-
 namespace UnitTests;
 
 public class AppExtension_Test : IClassFixture<LogFixture>
