@@ -7,9 +7,14 @@ namespace FileRenamerDiff.Models;
 /// </summary>
 public class AddDirectoryNameRegex : ReplaceRegexBase
 {
-    private static readonly string targetRegexWord = @"(?<!\$)\$d";
+    //「$$d」を含まない「$d」
+    private const string targetRegexWord = @"(?<!\$)\$d";
+    //「$d」が置換後文字列にあるか判定するRegex
     private static readonly Regex regexTargetWord = new(targetRegexWord, RegexOptions.Compiled);
 
+    /// <summary>
+    /// 「$d」を含んだ置換後文字列
+    /// </summary>
     private readonly string replaceText;
 
     public AddDirectoryNameRegex(Regex regex, string replaceText) : base(regex)
@@ -19,7 +24,7 @@ public class AddDirectoryNameRegex : ReplaceRegexBase
 
     internal override string Replace(string input, IFileSystemInfo? fsInfo = null)
     {
-        //「置換後文字列($d)」をディレクトリ名で置換する
+        //「置換後文字列内の「$d」」をディレクトリ名で置換する
         string directoryName = fsInfo?.GetDirectoryName() ?? string.Empty;
         var replaceTextModified = regexTargetWord.Replace(replaceText, directoryName);
 
