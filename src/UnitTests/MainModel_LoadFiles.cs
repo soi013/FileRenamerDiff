@@ -206,11 +206,9 @@ public class MainModel_LoadFiles
     {
         var files = Enumerable.Range(0, 10000)
             .Select(i => $"ManyFile-{i:0000}.txt")
-            .ToDictionary(
-                x => Path.Combine(targetDirPath, x),
-                x => new MockFileData(x));
+            .Select(x => Path.Combine(targetDirPath, x));
 
-        MainModel model = CreateDefaultSettingModel(new MockFileSystem(files));
+        MainModel model = CreateDefaultSettingModel(AppExtension.CreateMockFileSystem(files));
 
         var progressInfos = model.CurrentProgressInfo
             .Skip(1)
