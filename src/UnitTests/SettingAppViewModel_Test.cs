@@ -2,6 +2,8 @@
 using System.Reactive.Linq;
 using System.Windows.Input;
 
+using Livet.Messaging.IO;
+
 using Reactive.Bindings;
 
 namespace UnitTests;
@@ -324,5 +326,46 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         model.Setting.ReplaceTexts
             .Should().BeEmpty("空になったはず");
+    }
+
+    private static readonly string defaultSettingFilePath = SettingAppModel.DefaultFilePath;
+    private static readonly string otherSettingFilePath = @"D:\FileRenamerDiff_Setting\Setting.json";
+
+    [WpfFact]
+    public void SaveSetting()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var settingVM = new SettingAppViewModel(model);
+        model.Initialize();
+
+        const string newIgnoreExt = "someignoreext";
+        settingVM.IgnoreExtensions.Add(new(newIgnoreExt));
+
+        //ステージ1 保存前
+        fileSystem.AllFiles
+            .Should().BeEmpty();
+
+        settingVM.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(defaultSettingFilePath), "デフォルトファイルのディレクトリパスになっているはず");
+
+        settingVM.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(defaultSettingFilePath), "デフォルトファイル名前になっているはず");
+
+        //ステージ2 保存後
+        var saveMessage = new SavingFileSelectionMessage() { Response = new[] { otherSettingFilePath } };
+        settingVM.SaveSettingFileDialogCommand.Execute(saveMessage);
+
+        fileSystem.AllFiles
+            .Should().BeEquivalentTo(new[] { otherSettingFilePath }, because: "設定ファイルが保存されているはず");
+
+        fileSystem.File.ReadAllText(otherSettingFilePath)
+            .Should().Contain(newIgnoreExt, because: "設定ファイルの中身に新しい設定値が保存されているはず");
+
+        settingVM.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(otherSettingFilePath), "保存したファイルのディレクトリパスになっているはず");
+
+        settingVM.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
     }
 }
