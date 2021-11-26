@@ -15,6 +15,8 @@ public class ValueHolder<T> : NotificationObject
     {
         this._Value = value;
     }
+
+    public override string ToString() => $"[{Value}]";
 }
 public static class ValueHolderFactory
 {
