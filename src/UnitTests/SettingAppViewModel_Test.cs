@@ -179,6 +179,15 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         settingVM.IsRenameExt.Value
             .Should().Be(defaultSetting.IsRenameExt, "デフォルト設定と同じはず");
 
+        settingVM.AvailableLanguages
+            .Should().BeEquivalentTo(SettingAppModel.AvailableLanguages, "Modelの静的プロパティと同じはず");
+        settingVM.AvailableLanguages.Select(x => x.Name)
+            .Should().BeEquivalentTo(
+                new[] { string.Empty, "de", "en", "ja", "ru", "zh" },
+                becauseArgs: "6個の言語があるはず");
+        settingVM.SelectedLanguage.Value.Name
+            .Should().Be(defaultSetting.AppLanguageCode, "デフォルト設定と同じはず");
+
         settingVM.IsAppDarkTheme.Value
             .Should().Be(defaultSetting.IsAppDarkTheme, "デフォルト設定と同じはず");
 
@@ -193,27 +202,47 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         settingVM.IsRenameExt.Value ^= true;
         settingVM.IsAppDarkTheme.Value ^= true;
         settingVM.IsCreateRenameLog.Value ^= true;
+        settingVM.SelectedLanguage.Value = settingVM.AvailableLanguages.First(x => x.Name.Contains("ja"));
 
         settingVM.IsSearchSubDirectories.Value
             .Should().Be(!defaultSetting.IsSearchSubDirectories, "デフォルト設定と違うはず");
+        model.Setting.IsSearchSubDirectories
+            .Should().Be(settingVM.IsSearchSubDirectories.Value, "VMとModelの値は同じはず");
 
         settingVM.IsDirectoryRenameTarget.Value
             .Should().Be(!defaultSetting.IsDirectoryRenameTarget, "デフォルト設定と違うはず");
+        model.Setting.IsDirectoryRenameTarget
+            .Should().Be(settingVM.IsDirectoryRenameTarget.Value, "VMとModelの値は同じはず");
 
         settingVM.IsFileRenameTarget.Value
             .Should().Be(!defaultSetting.IsFileRenameTarget, "デフォルト設定と違うはず");
+        model.Setting.IsFileRenameTarget
+            .Should().Be(settingVM.IsFileRenameTarget.Value, "VMとModelの値は同じはず");
 
         settingVM.IsHiddenRenameTarget.Value
             .Should().Be(!defaultSetting.IsHiddenRenameTarget, "デフォルト設定と違うはず");
+        model.Setting.IsHiddenRenameTarget
+            .Should().Be(settingVM.IsHiddenRenameTarget.Value, "VMとModelの値は同じはず");
 
         settingVM.IsRenameExt.Value
             .Should().Be(!defaultSetting.IsRenameExt, "デフォルト設定と違うはず");
+        model.Setting.IsRenameExt
+            .Should().Be(settingVM.IsRenameExt.Value, "VMとModelの値は同じはず");
 
         settingVM.IsAppDarkTheme.Value
             .Should().Be(!defaultSetting.IsAppDarkTheme, "デフォルト設定と違うはず");
+        model.Setting.IsAppDarkTheme
+            .Should().Be(settingVM.IsAppDarkTheme.Value, "VMとModelの値は同じはず");
+
+        settingVM.SelectedLanguage.Value.Name
+            .Should().NotBe(defaultSetting.AppLanguageCode, "デフォルト設定と違うはず");
+        model.Setting.AppLanguageCode
+            .Should().Be(settingVM.SelectedLanguage.Value.Name, "VMとModelの値は同じはず");
 
         settingVM.IsCreateRenameLog.Value
             .Should().Be(!defaultSetting.IsCreateRenameLog, "デフォルト設定と違うはず");
+        model.Setting.IsCreateRenameLog
+            .Should().Be(settingVM.IsCreateRenameLog.Value, "VMとModelの値は同じはず");
     }
 
     [WpfFact]
