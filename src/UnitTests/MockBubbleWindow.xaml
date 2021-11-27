@@ -1,0 +1,59 @@
+﻿<Window
+    x:Class="UnitTests.MockBubbleWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:test="clr-namespace:UnitTests"
+    xmlns:v="clr-namespace:FileRenamerDiff.Views;assembly=FileRenamerDiff"
+    x:Name="_this"
+    Title="MockBubbleWindow"
+    Width="800"
+    Height="450"
+    DataContext="{Binding ElementName=_this}"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="BubleDataGrid" TargetType="{x:Type DataGrid}">
+            <!--  DataGrid内でスクロールしても、親のパネルがスクロールするようになる  -->
+            <Setter Property="v:StyleBehaviorCollection.StyleBehaviors">
+                <Setter.Value>
+                    <v:StyleBehaviorCollection>
+                        <v:BubbleScrollEvent />
+                    </v:StyleBehaviorCollection>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="borderBig" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="Green" />
+            <Setter Property="Height" Value="100" />
+        </Style>
+    </Window.Resources>
+
+    <!--  テスト時にこのScrollViewerの位置を確認する  -->
+    <ScrollViewer x:Name="TargetScroll">
+        <StackPanel>
+            <Border Style="{StaticResource borderBig}" />
+
+            <!--  スクロールしても親パネルに伝わらないDataGrid  -->
+            <DataGrid x:Name="mockDataGridNotBubble" ItemsSource="{Binding Persons}" />
+            <Border Style="{StaticResource borderBig}" />
+
+            <!--  スクロールしたら親パネルに伝わるDataGrid1  -->
+            <DataGrid x:Name="mockDataGridBubble" ItemsSource="{Binding Persons}">
+                <behaviors:Interaction.Behaviors>
+                    <v:BubbleScrollEvent />
+                </behaviors:Interaction.Behaviors>
+            </DataGrid>
+            <Border Style="{StaticResource borderBig}" />
+
+            <!--  スクロールしたら親パネルに伝わるDataGrid2  -->
+            <DataGrid
+                x:Name="mockDataGridBubbleStyle"
+                ItemsSource="{Binding Persons}"
+                Style="{StaticResource BubleDataGrid}" />
+            <Border Style="{StaticResource borderBig}" />
+        </StackPanel>
+    </ScrollViewer>
+</Window>
