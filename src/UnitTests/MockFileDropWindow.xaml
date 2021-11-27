@@ -1,0 +1,20 @@
+﻿<Window
+    x:Class="UnitTests.MockFileDropWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:UnitTests"
+    xmlns:v="clr-namespace:FileRenamerDiff.Views;assembly=FileRenamerDiff"
+    x:Name="_this"
+    Title="MockFileDropWindow"
+    Width="800"
+    Height="450"
+    DataContext="{Binding ElementName=_this}"
+    TextElement.FontSize="32">
+    <behaviors:Interaction.Behaviors>
+        <v:FileDropBehavior Command="{Binding AddFilePathsCommand}" />
+    </behaviors:Interaction.Behaviors>
+    <StackPanel Background="Teal">
+        <TextBlock x:Name="TargetTextBlock" />
+    </StackPanel>
+</Window>
