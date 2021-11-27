@@ -5,13 +5,11 @@
     xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:test="clr-namespace:UnitTests"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:v="clr-namespace:FileRenamerDiff.Views;assembly=FileRenamerDiff"
-    x:Name="_this"
     Title="MockBubbleWindow"
     Width="800"
     Height="450"
-    DataContext="{Binding ElementName=_this}"
     mc:Ignorable="d">
     <Window.Resources>
         <Style x:Key="BubleDataGrid" TargetType="{x:Type DataGrid}">
@@ -29,6 +27,12 @@
             <Setter Property="Background" Value="Green" />
             <Setter Property="Height" Value="100" />
         </Style>
+
+        <x:Array x:Key="source" Type="{x:Type sys:String}">
+            <sys:String>A</sys:String>
+            <sys:String>BB</sys:String>
+            <sys:String>CCC</sys:String>
+        </x:Array>
     </Window.Resources>
 
     <!--  テスト時にこのScrollViewerの位置を確認する  -->
@@ -37,11 +41,11 @@
             <Border Style="{StaticResource borderBig}" />
 
             <!--  スクロールしても親パネルに伝わらないDataGrid  -->
-            <DataGrid x:Name="mockDataGridNotBubble" ItemsSource="{Binding Persons}" />
+            <DataGrid x:Name="mockDataGridNotBubble" ItemsSource="{Binding Mode=OneWay, Source={StaticResource source}}" />
             <Border Style="{StaticResource borderBig}" />
 
             <!--  スクロールしたら親パネルに伝わるDataGrid1  -->
-            <DataGrid x:Name="mockDataGridBubble" ItemsSource="{Binding Persons}">
+            <DataGrid x:Name="mockDataGridBubble" ItemsSource="{Binding Mode=OneWay, Source={StaticResource source}}">
                 <behaviors:Interaction.Behaviors>
                     <v:BubbleScrollEvent />
                 </behaviors:Interaction.Behaviors>
@@ -51,7 +55,7 @@
             <!--  スクロールしたら親パネルに伝わるDataGrid2  -->
             <DataGrid
                 x:Name="mockDataGridBubbleStyle"
-                ItemsSource="{Binding Persons}"
+                ItemsSource="{Binding Mode=OneWay, Source={StaticResource source}}"
                 Style="{StaticResource BubleDataGrid}" />
             <Border Style="{StaticResource borderBig}" />
         </StackPanel>
