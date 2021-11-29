@@ -510,4 +510,51 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
                 .Should().NotContainEquivalentOf(newIgnoreExt, because: "設定がデフォルトに戻っているはず");
     }
+
+    [WpfFact]
+    public async Task ResetSetting_MemoryLeak()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        int messageCount = 0;
+        model.MessageEventStream.Subscribe(x => messageCount++);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        const string newIgnoreExt = "someignoreext";
+
+        long startMemory = GC.GetTotalMemory(false);
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+        mainVM.SettingVM.Value.ResetSettingCommand.Execute();
+
+        long firstMemory = GC.GetTotalMemory(false);
+
+        long diffMemory = Math.Max(100, firstMemory - startMemory);
+
+        const int loopcount = 1000;
+
+        for (int i = 0; i < loopcount; i++)
+        {
+            mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+            mainVM.SettingVM.Value.ResetSettingCommand.Execute();
+        }
+
+        await Task.Delay(200);
+        GC.Collect();
+
+        long endDiffMemory = GC.GetTotalMemory(false);
+
+        System.Diagnostics.Debug.WriteLine($"INFO {new { loopcount, startMemory, diffMemory, endDiffMemory, }}");
+
+        messageCount
+            .Should().Be(loopcount + 1, "リセット回数だけメッセージが来るはず");
+
+        endDiffMemory
+            .Should().BeLessThan(
+                (10 * 1000 * 1000) + (diffMemory * 10),
+                because: "メモリ使用増加量が10MB＋1回リセット時の変動の10倍以上だったら、メモリリークしている");
+    }
 }
