@@ -161,16 +161,16 @@ public class SettingAppViewModel : ViewModel
             .Select(x => new CommonPatternViewModel(mainModel, x, false))
             .ToArray();
 
-        this.SearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePaths);
-        this.ConcatedSearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.ConcatedSearchFilePaths);
-        this.IsSearchSubDirectories = setting.ToReactivePropertyAsSynchronized(x => x.IsSearchSubDirectories);
-        this.IsDirectoryRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsDirectoryRenameTarget);
-        this.IsFileRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsFileRenameTarget);
-        this.IsHiddenRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsHiddenRenameTarget);
-        this.IsRenameExt = setting.ToReactivePropertyAsSynchronized(x => x.IsRenameExt);
+        this.SearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePaths).AddTo(this.CompositeDisposable);
+        this.ConcatedSearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.ConcatedSearchFilePaths).AddTo(this.CompositeDisposable);
+        this.IsSearchSubDirectories = setting.ToReactivePropertyAsSynchronized(x => x.IsSearchSubDirectories).AddTo(this.CompositeDisposable);
+        this.IsDirectoryRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsDirectoryRenameTarget).AddTo(this.CompositeDisposable);
+        this.IsFileRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsFileRenameTarget).AddTo(this.CompositeDisposable);
+        this.IsHiddenRenameTarget = setting.ToReactivePropertyAsSynchronized(x => x.IsHiddenRenameTarget).AddTo(this.CompositeDisposable);
+        this.IsRenameExt = setting.ToReactivePropertyAsSynchronized(x => x.IsRenameExt).AddTo(this.CompositeDisposable);
 
-        this.IsAppDarkTheme = setting.ToReactivePropertyAsSynchronized(x => x.IsAppDarkTheme);
-        this.IsCreateRenameLog = setting.ToReactivePropertyAsSynchronized(x => x.IsCreateRenameLog);
+        this.IsAppDarkTheme = setting.ToReactivePropertyAsSynchronized(x => x.IsAppDarkTheme).AddTo(this.CompositeDisposable);
+        this.IsCreateRenameLog = setting.ToReactivePropertyAsSynchronized(x => x.IsCreateRenameLog).AddTo(this.CompositeDisposable);
 
         this.AvailableLanguages = SettingAppModel.AvailableLanguages;
         this.SelectedLanguage = CreateAppLanguageRp();
@@ -183,8 +183,8 @@ public class SettingAppViewModel : ViewModel
         this.ClearIgnoreExtensionsCommand =
             new[]
             {
-                    mainModel.IsIdleUI,
-                    setting.IgnoreExtensions.ObserveIsAny(),
+                mainModel.IsIdleUI,
+                setting.IgnoreExtensions.ObserveIsAny(),
             }
             .CombineLatestValuesAreAllTrue()
             .ToAsyncReactiveCommand()
@@ -197,6 +197,7 @@ public class SettingAppViewModel : ViewModel
              .ToReactiveCommand()
              .WithSubscribe(() => setting.AddDeleteTexts())
              .AddTo(this.CompositeDisposable);
+
         this.ClearDeleteTextsCommand =
             new[]
             {
@@ -204,28 +205,29 @@ public class SettingAppViewModel : ViewModel
                     setting.DeleteTexts.ObserveIsAny(),
             }
             .CombineLatestValuesAreAllTrue()
-             .ToAsyncReactiveCommand()
-             .WithSubscribe(() =>
+            .ToAsyncReactiveCommand()
+            .WithSubscribe(() =>
                 mainModel.ExecuteAfterConfirm(() =>
                     setting.DeleteTexts.Clear()))
-             .AddTo(this.CompositeDisposable);
+            .AddTo(this.CompositeDisposable);
 
         this.AddReplaceTextsCommand = mainModel.IsIdleUI
             .ToReactiveCommand()
             .WithSubscribe(() => setting.AddReplaceTexts())
             .AddTo(this.CompositeDisposable);
+
         this.ClearReplaceTextsCommand =
             new[]
             {
-                    mainModel.IsIdleUI,
-                    setting.ReplaceTexts.ObserveIsAny(),
+                mainModel.IsIdleUI,
+                setting.ReplaceTexts.ObserveIsAny(),
             }
             .CombineLatestValuesAreAllTrue()
-             .ToAsyncReactiveCommand()
-             .WithSubscribe(() =>
+            .ToAsyncReactiveCommand()
+            .WithSubscribe(() =>
                 mainModel.ExecuteAfterConfirm(() =>
                     setting.ReplaceTexts.Clear()))
-             .AddTo(this.CompositeDisposable);
+            .AddTo(this.CompositeDisposable);
 
         this.ShowExpressionReferenceCommand = mainModel.IsIdleUI
             .ToAsyncReactiveCommand()
@@ -239,18 +241,23 @@ public class SettingAppViewModel : ViewModel
 
         this.LoadSettingFileDialogCommand = mainModel.IsIdleUI
             .ToReactiveCommand<FileSelectionMessage>()
-            .WithSubscribe(x => mainModel.LoadSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
+            .WithSubscribe(x => mainModel.LoadSettingFile(x.Response?.FirstOrDefault() ?? String.Empty))
+            .AddTo(this.CompositeDisposable);
 
         this.SaveSettingFileDialogCommand = mainModel.IsIdleUI
             .ToReactiveCommand<FileSelectionMessage>()
-            .WithSubscribe(x => mainModel.SaveSettingFile(x.Response?.FirstOrDefault() ?? String.Empty));
+            .WithSubscribe(x => mainModel.SaveSettingFile(x.Response?.FirstOrDefault() ?? String.Empty))
+            .AddTo(this.CompositeDisposable);
 
         this.PreviousSettingFileDirectory = mainModel.PreviousSettingFilePath
             .Select(x => Path.GetDirectoryName(x))
-            .ToReadOnlyReactivePropertySlim();
+            .ToReadOnlyReactivePropertySlim()
+            .AddTo(this.CompositeDisposable);
+
         this.PreviousSettingFileName = mainModel.PreviousSettingFilePath
             .Select(x => Path.GetFileName(x))
-            .ToReadOnlyReactivePropertySlim();
+            .ToReadOnlyReactivePropertySlim()
+            .AddTo(this.CompositeDisposable);
     }
 
     private ReactivePropertySlim<CultureInfo> CreateAppLanguageRp()
