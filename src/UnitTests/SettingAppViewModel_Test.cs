@@ -332,7 +332,7 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
     private static readonly string otherSettingFilePath = @"D:\FileRenamerDiff_Setting\Setting.json";
 
     [WpfFact]
-    public void SaveSetting()
+    public void SaveSetting_Success()
     {
         var fileSystem = new MockFileSystem();
         var model = new MainModel(fileSystem, Scheduler.Immediate);
@@ -367,5 +367,121 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         settingVM.PreviousSettingFileName.Value
             .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
+    }
+
+
+    [WpfFact]
+    public void SaveSetting_NullFilePath()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var settingVM = new SettingAppViewModel(model);
+        model.Initialize();
+
+        const string newIgnoreExt = "someignoreext";
+        settingVM.IgnoreExtensions.Add(new(newIgnoreExt));
+
+        //ステージ2 保存後
+        var saveMessage = new SavingFileSelectionMessage() { Response = null };
+        settingVM.SaveSettingFileDialogCommand.Execute(saveMessage);
+
+        fileSystem.AllFiles
+            .Should().BeEmpty("保存できていないので、ファイルが増えていないはず");
+
+        settingVM.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(defaultSettingFilePath), "保存できていないので、デフォルトファイルのディレクトリパスになっているはず");
+
+        settingVM.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(defaultSettingFilePath), "保存できていないので、デフォルトファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task LoadSetting_Success()
+    {
+        const string firstIgnoreExt = "firstignoreext";
+        const string otherIgnoreExt = "otherignoreext";
+
+        string settingContent = @"{""IgnoreExtensions"":[{""Value"":""" + firstIgnoreExt + @"""}]}";
+        string settingContentOther = @"{""IgnoreExtensions"":[{""Value"":""" + otherIgnoreExt + @"""}]}";
+
+        var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            [defaultSettingFilePath] = new MockFileData(settingContent),
+            [otherSettingFilePath] = new MockFileData(settingContentOther),
+        });
+
+        var model = new MainModel(mockFileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 初期状態
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(firstIgnoreExt, because: "起動時にファイルから設定値が読み込まれたはず");
+
+        //ステージ2 読込後
+        var fileMessage = new OpeningFileSelectionMessage() { Response = new[] { otherSettingFilePath } };
+        mainVM.SettingVM.Value.LoadSettingFileDialogCommand.Execute(fileMessage);
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().NotContain(firstIgnoreExt, because: "別の設定ファイルを読ませたら、元の設定値は消えたはず");
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().Contain(otherIgnoreExt, because: "別の設定ファイルを読ませたら、ファイルから設定値が読み込まれたはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(otherSettingFilePath), "保存したファイルのディレクトリパスになっているはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task LoadSetting_NullFilePath()
+    {
+        const string firstIgnoreExt = "firstignoreext";
+        const string otherIgnoreExt = "otherignoreext";
+
+        string settingContent = @"{""IgnoreExtensions"":[{""Value"":""" + firstIgnoreExt + @"""}]}";
+        string settingContentOther = @"{""IgnoreExtensions"":[{""Value"":""" + otherIgnoreExt + @"""}]}";
+
+        var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            [defaultSettingFilePath] = new MockFileData(settingContent),
+            [otherSettingFilePath] = new MockFileData(settingContentOther),
+        });
+
+        var model = new MainModel(mockFileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 初期状態
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(firstIgnoreExt, because: "起動時にファイルから設定値が読み込まれたはず");
+
+        //ステージ2 読込後
+        var fileMessage = new OpeningFileSelectionMessage() { Response = null };
+        mainVM.SettingVM.Value.LoadSettingFileDialogCommand.Execute(fileMessage);
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().Contain(firstIgnoreExt, because: "設定を読み込めていないので、元の設定値のままのはず");
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().NotContain(otherIgnoreExt, because: "設定を読み込めていないので、ファイルから設定値が読み込まれていないはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(defaultSettingFilePath), "設定を読み込めていないので、デフォルトファイルのディレクトリパスになっているはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(defaultSettingFilePath), "設定を読み込めていないので、デフォルトファイル名前になっているはず");
     }
 }
