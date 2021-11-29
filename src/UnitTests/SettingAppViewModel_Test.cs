@@ -534,7 +534,7 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         long diffMemory = Math.Max(100, firstMemory - startMemory);
 
-        const int loopcount = 1000;
+        const int loopcount = 100;
 
         for (int i = 0; i < loopcount; i++)
         {
