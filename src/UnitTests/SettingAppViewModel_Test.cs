@@ -544,10 +544,13 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         await Task.Delay(200);
         GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
 
-        long endDiffMemory = GC.GetTotalMemory(false);
+        long endMemory = GC.GetTotalMemory(false);
+        long endDiffMemory = endMemory - firstMemory;
 
-        System.Diagnostics.Debug.WriteLine($"INFO {new { loopcount, startMemory, diffMemory, endDiffMemory, }}");
+        System.Diagnostics.Debug.WriteLine($"INFO {new { loopcount, startMemory, diffMemory, endMemory, endDiffMemory, }}");
 
         messageCount
             .Should().Be(loopcount + 1, "リセット回数だけメッセージが来るはず");
