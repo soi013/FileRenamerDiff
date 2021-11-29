@@ -369,7 +369,6 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
             .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
     }
 
-
     [WpfFact]
     public void SaveSetting_NullFilePath()
     {
@@ -483,5 +482,32 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         mainVM.SettingVM.Value.PreviousSettingFileName.Value
             .Should().Be(Path.GetFileName(defaultSettingFilePath), "設定を読み込めていないので、デフォルトファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task ResetSetting_Success()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        const string newIgnoreExt = "someignoreext";
+        mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 設定変更後
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(newIgnoreExt, because: "設定が変更されたはず");
+
+        //ステージ2 リセット後
+        mainVM.SettingVM.Value.ResetSettingCommand.Execute();
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().NotContainEquivalentOf(newIgnoreExt, because: "設定がデフォルトに戻っているはず");
     }
 }
