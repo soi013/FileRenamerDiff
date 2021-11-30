@@ -43,7 +43,7 @@ public class LimitSizeHelper_Test
             .Should().BeInRange(90, 110, "大きいコンテンツなので、サイズが制限ギリギリまで増えているはず");
 
         LimitSizeHelper.GetLimitMaxHeight(tb)
-            .Should().Be(0d);
+            .Should().Be(1d);
         LimitSizeHelper.GetLimitMaxWidth(tb)
             .Should().Be(0.5d);
     }
@@ -86,6 +86,6 @@ public class LimitSizeHelper_Test
         LimitSizeHelper.GetLimitMaxHeight(tb)
             .Should().Be(0.5d);
         LimitSizeHelper.GetLimitMaxWidth(tb)
-            .Should().Be(0d);
+            .Should().Be(-1d);
     }
 }
