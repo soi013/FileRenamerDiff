@@ -54,7 +54,14 @@
 
             <!--  スクロールしたら親パネルに伝わるDataGrid2  -->
             <DataGrid
-                x:Name="mockDataGridBubbleStyle"
+                x:Name="mockDataGridBubbleStyle1"
+                ItemsSource="{Binding Mode=OneWay, Source={StaticResource source}}"
+                Style="{StaticResource BubleDataGrid}" />
+            <Border Style="{StaticResource borderBig}" />
+
+            <!--  スクロールしたら親パネルに伝わるDataGrid3  -->
+            <DataGrid
+                x:Name="mockDataGridBubbleStyle2"
                 ItemsSource="{Binding Mode=OneWay, Source={StaticResource source}}"
                 Style="{StaticResource BubleDataGrid}" />
             <Border Style="{StaticResource borderBig}" />

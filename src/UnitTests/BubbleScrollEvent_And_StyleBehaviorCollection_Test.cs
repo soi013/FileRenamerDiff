@@ -1,5 +1,7 @@
 ﻿using System.Windows.Input;
 
+using FileRenamerDiff.Views;
+
 namespace UnitTests;
 
 public class BubbleScrollEvent_And_StyleBehaviorCollection_Test
@@ -60,11 +62,41 @@ public class BubbleScrollEvent_And_StyleBehaviorCollection_Test
         {
             RoutedEvent = Mouse.PreviewMouseWheelEvent,
         };
-        window.mockDataGridBubbleStyle.RaiseEvent(mouseWheelEventArgs1);
+        window.mockDataGridBubbleStyle1.RaiseEvent(mouseWheelEventArgs1);
         await Task.Delay(100);
 
         window.TargetScroll.VerticalOffset
             .Should().BeGreaterThan(1, "スクロールが伝わったので動いたはず");
+
+        window.TargetScroll.ScrollToTop();
+        await Task.Delay(100);
+
+        var mouseWheelEventArgs2 = new MouseWheelEventArgs(Mouse.PrimaryDevice, Environment.TickCount, -500)
+        {
+            RoutedEvent = Mouse.PreviewMouseWheelEvent,
+        };
+        window.mockDataGridBubbleStyle2.RaiseEvent(mouseWheelEventArgs2);
+        await Task.Delay(100);
+
+        window.TargetScroll.VerticalOffset
+            .Should().BeGreaterThan(1, "スクロールが伝わったので動いたはず");
+    }
+
+    [WpfFact]
+    public void StyleBehaviorCollection_GetSet()
+    {
+        MockBubbleWindow window = SetupWindow();
+
+        StyleBehaviorCollection.GetStyleBehaviors(window.mockDataGridBubbleStyle1)
+            .Should().HaveCount(1);
+        StyleBehaviorCollection.GetStyleBehaviors(window.mockDataGridBubbleStyle2)
+            .Should().HaveCount(1);
+
+        StyleBehaviorCollection.GetStyleBehaviors(window.mockDataGridNotBubble)
+            .Should().BeNull();
+
+        StyleBehaviorCollection.GetStyleBehaviors(window.mockDataGridBubble)
+            .Should().BeNull();
     }
 
     private static MockBubbleWindow SetupWindow()
