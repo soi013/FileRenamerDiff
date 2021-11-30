@@ -3,22 +3,22 @@
 /// <summary>
 /// アプリケーション内メッセージ
 /// </summary>
-public class AppMessage
+public record AppMessage
 {
     /// <summary>
     /// メッセージレベル
     /// </summary>
-    public AppMessageLevel MessageLevel { get; }
+    public AppMessageLevel MessageLevel { get; init; }
 
     /// <summary>
     /// メッセージタイトル
     /// </summary>
-    public string MessageHead { get; }
+    public string MessageHead { get; init; }
 
     /// <summary>
     /// メッセージ本体
     /// </summary>
-    public string MessageBody { get; }
+    public string MessageBody { get; init; }
 
     public AppMessage(AppMessageLevel level, string head, string body = "")
     {
@@ -26,8 +26,6 @@ public class AppMessage
         MessageHead = head;
         MessageBody = body;
     }
-
-    public override string ToString() => $"{MessageLevel}_{MessageHead}_({MessageBody})";
 }
 
 /// <summary>
@@ -68,10 +66,7 @@ public static class AppMessageExt
 
         yield return CreateMessage(currentMessage, stbBody);
 
-        static AppMessage CreateMessage(AppMessage currentMessage, StringBuilder stbBody) =>
-            new(
-                    currentMessage.MessageLevel,
-                    currentMessage.MessageHead,
-                    stbBody.ToString().TrimEnd('\r', '\n'));
+        static AppMessage CreateMessage(AppMessage baseMessage, StringBuilder stbBody) =>
+            baseMessage with { MessageBody = stbBody.ToString().TrimEnd('\r', '\n') };
     }
 }

@@ -41,6 +41,11 @@ public class LimitSizeHelper_Test
         window.UpdateLayout();
         tb.ActualWidth
             .Should().BeInRange(90, 110, "大きいコンテンツなので、サイズが制限ギリギリまで増えているはず");
+
+        LimitSizeHelper.GetLimitMaxHeight(tb)
+            .Should().Be(1d);
+        LimitSizeHelper.GetLimitMaxWidth(tb)
+            .Should().Be(0.5d);
     }
 
     [WpfFact]
@@ -77,5 +82,10 @@ public class LimitSizeHelper_Test
         window.UpdateLayout();
         tb.ActualHeight
             .Should().BeInRange(90, 110, "大きいコンテンツなので、サイズが制限ギリギリまで増えているはず");
+
+        LimitSizeHelper.GetLimitMaxHeight(tb)
+            .Should().Be(0.5d);
+        LimitSizeHelper.GetLimitMaxWidth(tb)
+            .Should().Be(-1d);
     }
 }

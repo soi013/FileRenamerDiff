@@ -1,6 +1,9 @@
-﻿using System.Reactive.Concurrency;
+﻿using System.Globalization;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
+
+using Livet.Messaging.IO;
 
 using Reactive.Bindings;
 
@@ -179,6 +182,15 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         settingVM.IsRenameExt.Value
             .Should().Be(defaultSetting.IsRenameExt, "デフォルト設定と同じはず");
 
+        settingVM.AvailableLanguages
+            .Should().BeEquivalentTo(SettingAppModel.AvailableLanguages, "Modelの静的プロパティと同じはず");
+        settingVM.AvailableLanguages.Select(x => x.Name)
+            .Should().BeEquivalentTo(
+                new[] { string.Empty, "de", "en", "ja", "ru", "zh" },
+                becauseArgs: "6個の言語があるはず");
+        settingVM.SelectedLanguage.Value.Name
+            .Should().Be(defaultSetting.AppLanguageCode, "デフォルト設定と同じはず");
+
         settingVM.IsAppDarkTheme.Value
             .Should().Be(defaultSetting.IsAppDarkTheme, "デフォルト設定と同じはず");
 
@@ -193,27 +205,47 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         settingVM.IsRenameExt.Value ^= true;
         settingVM.IsAppDarkTheme.Value ^= true;
         settingVM.IsCreateRenameLog.Value ^= true;
+        settingVM.SelectedLanguage.Value = settingVM.AvailableLanguages.First(x => x.Name.Contains("ja"));
 
         settingVM.IsSearchSubDirectories.Value
             .Should().Be(!defaultSetting.IsSearchSubDirectories, "デフォルト設定と違うはず");
+        model.Setting.IsSearchSubDirectories
+            .Should().Be(settingVM.IsSearchSubDirectories.Value, "VMとModelの値は同じはず");
 
         settingVM.IsDirectoryRenameTarget.Value
             .Should().Be(!defaultSetting.IsDirectoryRenameTarget, "デフォルト設定と違うはず");
+        model.Setting.IsDirectoryRenameTarget
+            .Should().Be(settingVM.IsDirectoryRenameTarget.Value, "VMとModelの値は同じはず");
 
         settingVM.IsFileRenameTarget.Value
             .Should().Be(!defaultSetting.IsFileRenameTarget, "デフォルト設定と違うはず");
+        model.Setting.IsFileRenameTarget
+            .Should().Be(settingVM.IsFileRenameTarget.Value, "VMとModelの値は同じはず");
 
         settingVM.IsHiddenRenameTarget.Value
             .Should().Be(!defaultSetting.IsHiddenRenameTarget, "デフォルト設定と違うはず");
+        model.Setting.IsHiddenRenameTarget
+            .Should().Be(settingVM.IsHiddenRenameTarget.Value, "VMとModelの値は同じはず");
 
         settingVM.IsRenameExt.Value
             .Should().Be(!defaultSetting.IsRenameExt, "デフォルト設定と違うはず");
+        model.Setting.IsRenameExt
+            .Should().Be(settingVM.IsRenameExt.Value, "VMとModelの値は同じはず");
 
         settingVM.IsAppDarkTheme.Value
             .Should().Be(!defaultSetting.IsAppDarkTheme, "デフォルト設定と違うはず");
+        model.Setting.IsAppDarkTheme
+            .Should().Be(settingVM.IsAppDarkTheme.Value, "VMとModelの値は同じはず");
+
+        settingVM.SelectedLanguage.Value.Name
+            .Should().NotBe(defaultSetting.AppLanguageCode, "デフォルト設定と違うはず");
+        model.Setting.AppLanguageCode
+            .Should().Be(settingVM.SelectedLanguage.Value.Name, "VMとModelの値は同じはず");
 
         settingVM.IsCreateRenameLog.Value
             .Should().Be(!defaultSetting.IsCreateRenameLog, "デフォルト設定と違うはず");
+        model.Setting.IsCreateRenameLog
+            .Should().Be(settingVM.IsCreateRenameLog.Value, "VMとModelの値は同じはず");
     }
 
     [WpfFact]
@@ -295,5 +327,274 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         model.Setting.ReplaceTexts
             .Should().BeEmpty("空になったはず");
+    }
+
+    private static readonly string defaultSettingFilePath = SettingAppModel.DefaultFilePath;
+    private static readonly string otherSettingFilePath = @"D:\FileRenamerDiff_Setting\Setting.json";
+
+    [WpfFact]
+    public void SaveSetting_Success()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var settingVM = new SettingAppViewModel(model);
+        model.Initialize();
+
+        const string newIgnoreExt = "someignoreext";
+        settingVM.IgnoreExtensions.Add(new(newIgnoreExt));
+
+        //ステージ1 保存前
+        fileSystem.AllFiles
+            .Should().BeEmpty();
+
+        settingVM.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(defaultSettingFilePath), "デフォルトファイルのディレクトリパスになっているはず");
+
+        settingVM.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(defaultSettingFilePath), "デフォルトファイル名前になっているはず");
+
+        //ステージ2 保存後
+        var saveMessage = new SavingFileSelectionMessage() { Response = new[] { otherSettingFilePath } };
+        settingVM.SaveSettingFileDialogCommand.Execute(saveMessage);
+
+        fileSystem.AllFiles
+            .Should().BeEquivalentTo(new[] { otherSettingFilePath }, because: "設定ファイルが保存されているはず");
+
+        fileSystem.File.ReadAllText(otherSettingFilePath)
+            .Should().Contain(newIgnoreExt, because: "設定ファイルの中身に新しい設定値が保存されているはず");
+
+        settingVM.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(otherSettingFilePath), "保存したファイルのディレクトリパスになっているはず");
+
+        settingVM.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public void SaveSetting_NullFilePath()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var settingVM = new SettingAppViewModel(model);
+        model.Initialize();
+
+        const string newIgnoreExt = "someignoreext";
+        settingVM.IgnoreExtensions.Add(new(newIgnoreExt));
+
+        //ステージ2 保存後
+        var saveMessage = new SavingFileSelectionMessage() { Response = null };
+        settingVM.SaveSettingFileDialogCommand.Execute(saveMessage);
+
+        fileSystem.AllFiles
+            .Should().BeEmpty("保存できていないので、ファイルが増えていないはず");
+
+        settingVM.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(defaultSettingFilePath), "保存できていないので、デフォルトファイルのディレクトリパスになっているはず");
+
+        settingVM.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(defaultSettingFilePath), "保存できていないので、デフォルトファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task LoadSetting_Success()
+    {
+        const string firstIgnoreExt = "firstignoreext";
+        const string otherIgnoreExt = "otherignoreext";
+
+        string settingContent = @"{""IgnoreExtensions"":[{""Value"":""" + firstIgnoreExt + @"""}]}";
+        string settingContentOther = @"{""IgnoreExtensions"":[{""Value"":""" + otherIgnoreExt + @"""}]}";
+
+        var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            [defaultSettingFilePath] = new MockFileData(settingContent),
+            [otherSettingFilePath] = new MockFileData(settingContentOther),
+        });
+
+        var model = new MainModel(mockFileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 初期状態
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(firstIgnoreExt, because: "起動時にファイルから設定値が読み込まれたはず");
+
+        //ステージ2 読込後
+        var fileMessage = new OpeningFileSelectionMessage() { Response = new[] { otherSettingFilePath } };
+        mainVM.SettingVM.Value.LoadSettingFileDialogCommand.Execute(fileMessage);
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().NotContain(firstIgnoreExt, because: "別の設定ファイルを読ませたら、元の設定値は消えたはず");
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().Contain(otherIgnoreExt, because: "別の設定ファイルを読ませたら、ファイルから設定値が読み込まれたはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(otherSettingFilePath), "保存したファイルのディレクトリパスになっているはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task LoadSetting_InvalidLang()
+    {
+        const string invalidLangCode = "xx";
+        const string validLangCode = "en";
+
+        string settingContent = @"{""AppLanguageCode"": """ + invalidLangCode + @"""}";
+        string settingContentOther = @"{""AppLanguageCode"": """ + validLangCode + @"""}";
+
+        var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            [defaultSettingFilePath] = new MockFileData(settingContent),
+            [otherSettingFilePath] = new MockFileData(settingContentOther),
+        });
+
+        var model = new MainModel(mockFileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 初期状態
+        mainVM.SettingVM.Value.SelectedLanguage.Value
+                .Should().Be(CultureInfo.InvariantCulture, because: "無効な言語コードが指定された場合は自動カルチャになるはず");
+
+        //ステージ2 読込後
+        var fileMessage = new OpeningFileSelectionMessage() { Response = new[] { otherSettingFilePath } };
+        mainVM.SettingVM.Value.LoadSettingFileDialogCommand.Execute(fileMessage);
+
+        mainVM.SettingVM.Value.SelectedLanguage.Value.Name
+                .Should().Be(validLangCode, because: "有効な言語コードが指定された場合はそのカルチャになるはず");
+    }
+
+    [WpfFact]
+    public async Task LoadSetting_NullFilePath()
+    {
+        const string firstIgnoreExt = "firstignoreext";
+        const string otherIgnoreExt = "otherignoreext";
+
+        string settingContent = @"{""IgnoreExtensions"":[{""Value"":""" + firstIgnoreExt + @"""}]}";
+        string settingContentOther = @"{""IgnoreExtensions"":[{""Value"":""" + otherIgnoreExt + @"""}]}";
+
+        var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            [defaultSettingFilePath] = new MockFileData(settingContent),
+            [otherSettingFilePath] = new MockFileData(settingContentOther),
+        });
+
+        var model = new MainModel(mockFileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 初期状態
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(firstIgnoreExt, because: "起動時にファイルから設定値が読み込まれたはず");
+
+        //ステージ2 読込後
+        var fileMessage = new OpeningFileSelectionMessage() { Response = null };
+        mainVM.SettingVM.Value.LoadSettingFileDialogCommand.Execute(fileMessage);
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().Contain(firstIgnoreExt, because: "設定を読み込めていないので、元の設定値のままのはず");
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+            .Should().NotContain(otherIgnoreExt, because: "設定を読み込めていないので、ファイルから設定値が読み込まれていないはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileDirectory.Value
+            .Should().Be(Path.GetDirectoryName(defaultSettingFilePath), "設定を読み込めていないので、デフォルトファイルのディレクトリパスになっているはず");
+
+        mainVM.SettingVM.Value.PreviousSettingFileName.Value
+            .Should().Be(Path.GetFileName(defaultSettingFilePath), "設定を読み込めていないので、デフォルトファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task ResetSetting_Success()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        const string newIgnoreExt = "someignoreext";
+        mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 設定変更後
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().Contain(newIgnoreExt, because: "設定が変更されたはず");
+
+        //ステージ2 リセット後
+        mainVM.SettingVM.Value.ResetSettingCommand.Execute();
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Select(x => x.Value)
+                .Should().NotContainEquivalentOf(newIgnoreExt, because: "設定がデフォルトに戻っているはず");
+    }
+
+    [WpfFact]
+    public async Task ResetSetting_MemoryLeak()
+    {
+        var fileSystem = new MockFileSystem();
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        int messageCount = 0;
+        model.MessageEventStream.Subscribe(x => messageCount++);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        const string newIgnoreExt = "someignoreext";
+
+        long startMemory = GC.GetTotalMemory(false);
+
+        mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+        mainVM.SettingVM.Value.ResetSettingCommand.Execute();
+
+        long firstMemory = GC.GetTotalMemory(false);
+
+        long diffMemory = Math.Max(100, firstMemory - startMemory);
+
+        const int loopcount = 100;
+
+        for (int i = 0; i < loopcount; i++)
+        {
+            mainVM.SettingVM.Value.IgnoreExtensions.Add(new(newIgnoreExt));
+            mainVM.SettingVM.Value.ResetSettingCommand.Execute();
+        }
+
+        await Task.Delay(200);
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
+
+        long endMemory = GC.GetTotalMemory(false);
+        long endDiffMemory = endMemory - firstMemory;
+
+        System.Diagnostics.Debug.WriteLine($"INFO {new { loopcount, startMemory, diffMemory, endMemory, endDiffMemory, }}");
+
+        messageCount
+            .Should().Be(loopcount + 1, "リセット回数だけメッセージが来るはず");
+
+        endDiffMemory
+            .Should().BeLessThan(
+                (10 * 1000 * 1000) + (diffMemory * 10),
+                because: "メモリ使用増加量が10MB＋1回リセット時の変動の10倍以上だったら、メモリリークしている");
     }
 }

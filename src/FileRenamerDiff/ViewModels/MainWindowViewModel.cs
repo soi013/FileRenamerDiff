@@ -139,6 +139,7 @@ public class MainWindowViewModel : ViewModel
 
         this.SettingVM = mainModel.ObserveProperty(x => x.Setting)
             .Select(_ => new SettingAppViewModel(mainModel))
+            .DisposePreviousValue()
             .ObserveOn(uiScheduler)
             .ToReadOnlyReactivePropertySlim<SettingAppViewModel>();
 

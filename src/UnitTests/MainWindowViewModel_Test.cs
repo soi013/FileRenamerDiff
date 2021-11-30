@@ -21,11 +21,8 @@ public class MainWindowViewModel_Test : IClassFixture<LogFixture>
     [WpfFact]
     public async Task IsIdle_when_Initialize_LoadFiles()
     {
-        var fileDict = new[] { filePathA, filePathB }
-           .ToDictionary(
-               s => s,
-               s => new MockFileData("mock"));
-        var model = new MainModel(new MockFileSystem(fileDict), Scheduler.Immediate);
+        var fileSystem = AppExtension.CreateMockFileSystem(new[] { filePathA, filePathB });
+        var model = new MainModel(fileSystem, Scheduler.Immediate);
         var mainVM = new MainWindowViewModel(model);
 
         mainVM.IsIdle.Value
@@ -45,12 +42,7 @@ public class MainWindowViewModel_Test : IClassFixture<LogFixture>
     [WpfFact]
     public async Task WindowTitle()
     {
-        var fileDict = new[] { filePathA, filePathB }
-            .ToDictionary(
-                s => s,
-                s => new MockFileData("mock"));
-
-        var fileSystem = new MockFileSystem(fileDict);
+        var fileSystem = AppExtension.CreateMockFileSystem(new[] { filePathA, filePathB });
         var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
         var model = new MainModel(fileSystem, syncScheduler);
         model.Setting.SearchFilePaths = new[] { targetDirPath };
@@ -113,12 +105,7 @@ public class MainWindowViewModel_Test : IClassFixture<LogFixture>
     [WpfFact]
     public async Task CommandsCanExecute()
     {
-        var fileDict = new[] { filePathA, filePathB }
-            .ToDictionary(
-                s => s,
-                s => new MockFileData("mock"));
-
-        var fileSystem = new MockFileSystem(fileDict);
+        var fileSystem = AppExtension.CreateMockFileSystem(new[] { filePathA, filePathB });
         var syncScheduler = new SynchronizationContextScheduler(SynchronizationContext.Current!);
         var model = new MainModel(fileSystem, syncScheduler);
         var mainVM = new MainWindowViewModel(model);
@@ -284,12 +271,7 @@ public class MainWindowViewModel_Test : IClassFixture<LogFixture>
     [WpfFact]
     public async Task FolderDialog_Success_Invalid()
     {
-        var fileDict = new[] { filePathA, filePathB }
-            .ToDictionary(
-                s => s,
-                s => new MockFileData("mock"));
-
-        var fileSystem = new MockFileSystem(fileDict);
+        var fileSystem = AppExtension.CreateMockFileSystem(new[] { filePathA, filePathB });
         var model = new MainModel(fileSystem, Scheduler.Immediate);
         var mainVM = new MainWindowViewModel(model);
 
@@ -324,12 +306,7 @@ public class MainWindowViewModel_Test : IClassFixture<LogFixture>
     [WpfFact]
     public async Task FolderDialog_Cancel()
     {
-        var fileDict = new[] { filePathA, filePathB }
-            .ToDictionary(
-                s => s,
-                s => new MockFileData("mock"));
-
-        var fileSystem = new MockFileSystem(fileDict);
+        var fileSystem = AppExtension.CreateMockFileSystem(new[] { filePathA, filePathB });
         var model = new MainModel(fileSystem, Scheduler.Immediate);
         var mainVM = new MainWindowViewModel(model);
 

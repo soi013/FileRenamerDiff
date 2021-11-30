@@ -96,6 +96,19 @@ public class AppExtension_Test : IClassFixture<LogFixture>
     }
 
     [Fact]
+    public void IEnumerable_DoWithIndex()
+    {
+        string log = "log->";
+
+        var arr = new[] { "a", "b", "c" }
+              .Do((x, i) => log += $"[{i}-{x}]_")
+              .ToArray();
+
+        log
+            .Should().Be("log->[0-a]_[1-b]_[2-c]_");
+    }
+
+    [Fact]
     public void IEnumerable_WithIndex()
     {
         string log = "log->";
@@ -218,5 +231,107 @@ public class AppExtension_Test : IClassFixture<LogFixture>
         sEmpt.HasText().Should().BeFalse();
         sWhit.HasText().Should().BeFalse();
         sText.HasText().Should().BeTrue();
+    }
+
+    [Fact]
+    public void IsEmpty_Empty()
+    {
+        Array.Empty<int>().IsEmpty()
+            .Should().BeTrue();
+
+        Enumerable.Range(0, 0).IsEmpty()
+            .Should().BeTrue();
+
+        Enumerable.Range(0, 10).Where(x => x < 0).IsEmpty()
+            .Should().BeTrue();
+    }
+
+    [Fact]
+    public void IsEmpty_NotEmpty()
+    {
+        new[] { 0, 1, 2 }.IsEmpty()
+            .Should().BeFalse();
+
+        Enumerable.Range(0, 10).IsEmpty()
+            .Should().BeFalse();
+    }
+
+    [Fact]
+    public void ToDictionaryDirectKey_Noraml()
+    {
+        var dict = new[] { "a", "bb", "ccc" }
+            .ToDictionaryDirectKey(x => x.Length);
+
+        dict.Keys
+            .Should().BeEquivalentTo(new[] { "a", "bb", "ccc" });
+
+        dict.Values
+            .Should().BeEquivalentTo(new[] { 1, 2, 3 });
+    }
+
+    [Fact]
+    public void ToDictionaryDirectKey_Empty()
+    {
+        var dict = Array.Empty<string>()
+            .ToDictionaryDirectKey(x => x.Length);
+
+        dict.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CreateMockFileSystem_Noraml()
+    {
+        string parentDirPath = @"D:\pdir";
+
+        var paths = new[] { "abc.txt", "def.csv", "subdir" }
+            .Select(x => Path.Combine(parentDirPath, x));
+
+        var fileSystem = AppExtension.CreateMockFileSystem(paths);
+
+        fileSystem.Directory.EnumerateFileSystemEntries(parentDirPath, "*", SearchOption.AllDirectories)
+            .Should().BeEquivalentTo(new[]
+            {
+                @$"{parentDirPath}\abc.txt",
+                @$"{parentDirPath}\def.csv",
+                @$"{parentDirPath}\subdir",
+            });
+
+        fileSystem.Directory.GetDirectories(parentDirPath)
+            .Should().BeEmpty();
+    }
+
+    [Fact]
+    public void CreateMockFileSystem_SubSubDir()
+    {
+        string parentDirPath = @"D:\pdir";
+
+        string subDirName = "SUB";
+
+        var paths = new[]
+            {
+                "abc.txt",
+                Path.Combine(subDirName,"def.csv"),
+                Path.Combine(subDirName,subDirName,"ghi.ini")
+            }
+            .Select(x => Path.Combine(parentDirPath, x));
+
+        var fileSystem = AppExtension.CreateMockFileSystem(paths);
+
+        fileSystem.Directory.EnumerateFileSystemEntries(parentDirPath, "*", SearchOption.AllDirectories)
+            .Should().BeEquivalentTo(new[]
+            {
+                @$"{parentDirPath}\abc.txt",
+                @$"{parentDirPath}\{subDirName}",
+                @$"{parentDirPath}\{subDirName}\def.csv",
+                @$"{parentDirPath}\{subDirName}\{subDirName}",
+                @$"{parentDirPath}\{subDirName}\{subDirName}\ghi.ini",
+            });
+
+        fileSystem.Directory.GetDirectories(parentDirPath, "*", SearchOption.AllDirectories)
+           .Should().BeEquivalentTo(new[]
+                {
+                    @$"{parentDirPath}\{subDirName}",
+                    @$"{parentDirPath}\{subDirName}\{subDirName}",
+                });
     }
 }
