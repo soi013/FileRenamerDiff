@@ -1,4 +1,5 @@
-﻿using System.Reactive.Concurrency;
+﻿using System.Globalization;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Windows.Input;
 
@@ -437,6 +438,42 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
 
         mainVM.SettingVM.Value.PreviousSettingFileName.Value
             .Should().Be(Path.GetFileName(otherSettingFilePath), "保存したファイル名前になっているはず");
+    }
+
+    [WpfFact]
+    public async Task LoadSetting_InvalidLang()
+    {
+        const string invalidLangCode = "xx";
+        const string validLangCode = "en";
+
+        string settingContent = @"{""AppLanguageCode"": """ + invalidLangCode + @"""}";
+        string settingContentOther = @"{""AppLanguageCode"": """ + validLangCode + @"""}";
+
+        var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+        {
+            [defaultSettingFilePath] = new MockFileData(settingContent),
+            [otherSettingFilePath] = new MockFileData(settingContentOther),
+        });
+
+        var model = new MainModel(mockFileSystem, Scheduler.Immediate);
+        var mainVM = new MainWindowViewModel(model);
+        mainVM.Initialize();
+        await model.WaitIdleUI().Timeout(3000d);
+        await Task.Delay(100);
+
+        //設定VMは設定読込時にリセットされるので、MainVMの設定プロパティからアクセスする
+        //settingVM...
+
+        //ステージ1 初期状態
+        mainVM.SettingVM.Value.SelectedLanguage.Value
+                .Should().Be(CultureInfo.InvariantCulture, because: "無効な言語コードが指定された場合は自動カルチャになるはず");
+
+        //ステージ2 読込後
+        var fileMessage = new OpeningFileSelectionMessage() { Response = new[] { otherSettingFilePath } };
+        mainVM.SettingVM.Value.LoadSettingFileDialogCommand.Execute(fileMessage);
+
+        mainVM.SettingVM.Value.SelectedLanguage.Value.Name
+                .Should().Be(validLangCode, because: "有効な言語コードが指定された場合はそのカルチャになるはず");
     }
 
     [WpfFact]
