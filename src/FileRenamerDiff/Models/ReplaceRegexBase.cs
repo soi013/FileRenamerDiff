@@ -21,7 +21,8 @@ public abstract class ReplaceRegexBase
     /// 置換実行
     /// </summary>
     /// <param name="input">入力文字列</param>
+    /// <param name="allPaths">全ての入力ファイルパス（一部の継承する置換クラスで使用）</param>
     /// <param name="fsInfo">ファイル情報（一部の継承する置換クラスで使用）</param>
     /// <returns>置換後文字列</returns>
-    internal abstract string Replace(string input, IFileSystemInfo? fsInfo = null);
+    internal abstract string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null);
 }

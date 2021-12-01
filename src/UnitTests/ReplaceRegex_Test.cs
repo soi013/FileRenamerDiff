@@ -80,7 +80,7 @@ public class ReplaceRegex_Test
 
         var regex = new Regex(regexPattern);
         var rpRegex = new AddDirectoryNameRegex(regex, replaceText);
-        string replacedFileName = rpRegex.Replace(targetFileName, fileInfo);
+        string replacedFileName = rpRegex.Replace(targetFileName, fsInfo: fileInfo);
 
         replacedFileName
             .Should().Be(expectedRenamedFileName);
@@ -101,7 +101,7 @@ public class ReplaceRegex_Test
 
         var regex = new Regex(regexPattern);
         var rpRegex = new AddDirectoryNameRegex(regex, replaceText);
-        string replacedFileName = rpRegex.Replace(targetFileName, fileInfo);
+        string replacedFileName = rpRegex.Replace(targetFileName, fsInfo: fileInfo);
 
         replacedFileName
             .Should().Be(targetFileName);

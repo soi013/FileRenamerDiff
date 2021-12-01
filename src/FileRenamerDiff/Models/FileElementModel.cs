@@ -154,7 +154,7 @@ public class FileElementModel : NotificationObject
     /// <summary>
     /// 指定された置換パターンで、ファイル名を置換する（ストレージに保存はされない）
     /// </summary>
-    internal void Replace(IReadOnlyList<ReplaceRegexBase> repRegexes, bool isRenameExt)
+    internal void Replace(IReadOnlyList<ReplaceRegexBase> repRegexes, IReadOnlyList<string> allPaths, bool isRenameExt)
     {
         //設定によって拡張子をリネームするかを決定
         string outFileName = isRenameExt || isDirectory
@@ -163,7 +163,7 @@ public class FileElementModel : NotificationObject
 
         foreach (var reg in repRegexes)
         {
-            outFileName = reg.Replace(outFileName, fsInfo);
+            outFileName = reg.Replace(outFileName, allPaths, fsInfo);
         }
 
         //拡張子をリネームしない設定であったら、元の拡張子文字列を連結

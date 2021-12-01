@@ -23,7 +23,7 @@ public class ReplaceRegex : ReplaceRegexBase
     /// <summary>
     /// 置換実行
     /// </summary>
-    internal override string Replace(string input, IFileSystemInfo? fsInfo = null) =>
+    internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null) =>
         regex == null ? input
         : matchEvaluator != null ? regex.Replace(input, matchEvaluator)
         : regex.Replace(input, replaceText);

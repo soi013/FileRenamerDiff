@@ -113,7 +113,7 @@ public static class AppExtension
     /// <summary>
     /// インデックスを付与して列挙する
     /// </summary>
-    public static IEnumerable<(T, int)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
+    public static IEnumerable<(T element, int index)> WithIndex<T>(this IEnumerable<T> ts) => ts.Select((t, i) => (t, i));
 
     /// <summary>
     ///nullの要素を取り除いてnullが含まれていないことが保証されたWhere

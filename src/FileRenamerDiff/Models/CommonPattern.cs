@@ -23,7 +23,7 @@ public record CommonPattern(string Comment, string TargetPattern, string Replace
     /// サンプル出力例
     /// </summary>
     public string SampleOutput { get; } = new ReplacePattern(TargetPattern, ReplaceText, AsExpression)
-        .ToReplaceRegex()?.Replace(SampleInput, sampleInfo)
+        .ToReplaceRegex()?.Replace(SampleInput, fsInfo: sampleInfo)
         ?? String.Empty;
 
     private const string sampleFilePath = @"D:\ParentDir\abc.txt";
