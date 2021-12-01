@@ -106,4 +106,52 @@ public class ReplaceRegex_Test
         replacedFileName
             .Should().Be(targetFileName);
     }
+
+    [Theory]
+    [InlineData("abc.txt", "^", "$n_", $"1_abc.txt")]
+    [InlineData("abc.txt", "$", "_$n", $"abc.txt_1")]
+    public void AddSerialNumber_Single(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
+    {
+        string targetFilePath = Path.Combine(dirPath, targetFileName);
+        var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+        {
+            [targetFilePath] = new MockFileData(targetFileName)
+        });
+
+        var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
+
+        var regex = new Regex(regexPattern);
+        var rpRegex = new AddSerialNumberRegex(regex, replaceText);
+        string replacedFileName = rpRegex.Replace(targetFileName, new[] { targetFilePath }, fileInfo);
+
+        replacedFileName
+            .Should().Be(expectedRenamedFileName);
+    }
+
+    [Theory]
+    [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n_", $"1_aaa.txt")]
+    [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n_", $"2_bbb.txt")]
+    [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n_", $"3_ccc.txt")]
+    public void AddSerialNumber_Multi(string concatedTargetFileNames, string regexPattern, string replaceText, string expectedRenamedFileName)
+    {
+        string[] targetFileNames = concatedTargetFileNames
+                    .Split(',');
+        string targetFileName = targetFileNames.First();
+        string[] targetFilePaths = targetFileNames
+            .Select(x => Path.Combine(dirPath, x))
+            .ToArray();
+
+        var fileSystem = AppExtension.CreateMockFileSystem(targetFilePaths);
+
+        string targetFilePath = targetFilePaths.First();
+        var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
+
+        string[] orderdTargetFilePaths = targetFilePaths.OrderBy(x => x).ToArray();
+        var regex = new Regex(regexPattern);
+        var rpRegex = new AddSerialNumberRegex(regex, replaceText);
+        string replacedFileName = rpRegex.Replace(targetFileName, orderdTargetFilePaths, fileInfo);
+
+        replacedFileName
+            .Should().Be(expectedRenamedFileName);
+    }
 }
