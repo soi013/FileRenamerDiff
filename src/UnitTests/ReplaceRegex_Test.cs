@@ -154,4 +154,25 @@ public class ReplaceRegex_Test
         replacedFileName
             .Should().Be(expectedRenamedFileName);
     }
+
+    [Theory]
+    [InlineData("abc.txt", "def", "$n_")]
+    [InlineData("abc.txt", "def", "_$n")]
+    public void AddSerialNumber_NotChange(string targetFileName, string regexPattern, string replaceText)
+    {
+        string targetFilePath = Path.Combine(dirPath, targetFileName);
+        var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+        {
+            [targetFilePath] = new MockFileData(targetFileName)
+        });
+
+        var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
+
+        var regex = new Regex(regexPattern);
+        var rpRegex = new AddSerialNumberRegex(regex, replaceText);
+        string replacedFileName = rpRegex.Replace(targetFileName, new[] { targetFilePath }, fileInfo);
+
+        replacedFileName
+            .Should().Be(targetFileName);
+    }
 }
