@@ -34,6 +34,7 @@ public class FileElementModel_Test
     [InlineData("abc.txt", "abc", "$$d", "$d.txt", false)]
     [InlineData("abc.txt", "(.?)(\\.\\w*$)", "$1_$d$2", $"abc_{dirName}.txt", true)]
     [InlineData("abc.txt", "^", "$n", $"1abc.txt", false)]
+    [InlineData("abc.txt", "abc", "$$n", "$n.txt", false)]
     public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
