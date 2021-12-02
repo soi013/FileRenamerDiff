@@ -257,6 +257,39 @@ public class AppExtension_Test : IClassFixture<LogFixture>
     }
 
     [Fact]
+    public void ToIntOrNull_Int()
+    {
+        "1".ToIntOrNull()
+            .Should().Be(1);
+
+        "-99".ToIntOrNull()
+            .Should().Be(-99);
+
+
+        "005".ToIntOrNull()
+            .Should().Be(5);
+    }
+
+    [Fact]
+    public void ToIntOrNull_Null()
+    {
+        (null as string)?.ToIntOrNull()
+             .Should().BeNull();
+
+        string.Empty.ToIntOrNull()
+             .Should().BeNull();
+
+        "abc".ToIntOrNull()
+             .Should().BeNull();
+
+        "a99".ToIntOrNull()
+            .Should().BeNull();
+
+        "0.01".ToIntOrNull()
+            .Should().BeNull();
+    }
+
+    [Fact]
     public void ToDictionaryDirectKey_Noraml()
     {
         var dict = new[] { "a", "bb", "ccc" }
