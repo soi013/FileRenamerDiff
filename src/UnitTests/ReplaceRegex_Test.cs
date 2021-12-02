@@ -110,6 +110,7 @@ public class ReplaceRegex_Test
     [Theory]
     [InlineData("abc.txt", "^", "$n_", $"1_abc.txt")]
     [InlineData("abc.txt", "$", "_$n", $"abc.txt_1")]
+    [InlineData("abc.txt", "^", "$n<5>_", $"5_abc.txt")]
     public void AddSerialNumber_Single(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string targetFilePath = Path.Combine(dirPath, targetFileName);
@@ -132,6 +133,9 @@ public class ReplaceRegex_Test
     [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n_", $"1_aaa.txt")]
     [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n_", $"2_bbb.txt")]
     [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n_", $"3_ccc.txt")]
+    [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<100>_", $"100_aaa.txt")]
+    [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<100>_", $"101_bbb.txt")]
+    [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<100>_", $"102_ccc.txt")]
     public void AddSerialNumber_Multi(string concatedTargetFileNames, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string[] targetFileNames = concatedTargetFileNames
