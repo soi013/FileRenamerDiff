@@ -8,10 +8,13 @@ namespace FileRenamerDiff.Models;
 /// </summary>
 public class AddSerialNumberRegex : ReplaceRegexBase
 {
-    //「$$n」を含まない「$n」
-    private const string targetRegexWord = @"(?<!\$)\$n";
+    //「$$n」を含まない「$n」、「$n<"paramerter">」
+    private const string targetRegexWord = @"(?<!\$)\$n(<.+>)?";
+    private const string paramerterRegexWord = @"(?<=\<).+(?=\>)";
     //「$n」が置換後文字列にあるか判定するRegex
     private static readonly Regex regexTargetWord = new(targetRegexWord, RegexOptions.Compiled);
+    //パラメータを取得するRegex
+    private static readonly Regex regexparamerterWord = new(paramerterRegexWord, RegexOptions.Compiled);
 
     /// <summary>
     /// 「$n」を含んだ置換後文字列
@@ -22,7 +25,11 @@ public class AddSerialNumberRegex : ReplaceRegexBase
     public AddSerialNumberRegex(Regex regex, string replaceText) : base(regex)
     {
         this.replaceText = replaceText;
-        this.startNumber = 1;
+
+        string[] paramerters = regexparamerterWord.Match(replaceText).Value
+            .Split(',');
+
+        this.startNumber = paramerters.ElementAtOrDefault(0)?.ToIntOrNull() ?? 1;
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)

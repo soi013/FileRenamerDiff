@@ -367,7 +367,7 @@ public static class AppExtension
     /// <param name="value">対象文字列</param>
     /// <returns>Null または WhiteSpace の場合に false を返します。</returns>
     public static bool HasText(this string? value) => !string.IsNullOrWhiteSpace(value);
-
+        
     /// <summary>
     /// 指定したファイルパスのファイルを含むファイルシステムの生成
     /// </summary>
@@ -395,4 +395,9 @@ public static class AppExtension
     /// コレクションが空かどうか
     /// </summary>
     public static bool IsEmpty<T>(this IEnumerable<T> source) => !source.Any();
+
+    public static int? ToIntOrNull(this string value) => int.TryParse(value, out int result)
+        ? result
+        : null;
+
 }
