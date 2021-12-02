@@ -21,6 +21,7 @@ public class AddSerialNumberRegex : ReplaceRegexBase
     /// </summary>
     private readonly string replaceText;
     private readonly int startNumber;
+    private readonly int step;
 
     public AddSerialNumberRegex(Regex regex, string replaceText) : base(regex)
     {
@@ -30,6 +31,7 @@ public class AddSerialNumberRegex : ReplaceRegexBase
             .Split(',');
 
         this.startNumber = paramerters.ElementAtOrDefault(0)?.ToIntOrNull() ?? 1;
+        this.step = paramerters.ElementAtOrDefault(1)?.ToIntOrNull() ?? 1;
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
@@ -38,10 +40,10 @@ public class AddSerialNumberRegex : ReplaceRegexBase
         allPaths ??= new[] { inputPath };
 
         //全てのパスの中でのこの番号を決定
-        int serialNumber = allPaths.WithIndex().FirstOrDefault(a => a.element == inputPath).index;
+        int indexPath = allPaths.WithIndex().FirstOrDefault(a => a.element == inputPath).index;
 
         //「置換後文字列内の「$n」」を連番で置換する
-        string numberStr = (serialNumber + startNumber).ToString();
+        string numberStr = (indexPath * step + startNumber).ToString();
         var replaceTextModified = regexTargetWord.Replace(replaceText, numberStr);
 
         //再帰的に置換パターンを作成して、RegexBaseを生成する
