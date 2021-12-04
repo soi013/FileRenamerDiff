@@ -22,6 +22,7 @@ public class AddSerialNumberRegex : ReplaceRegexBase
     private readonly string replaceText;
     private readonly int startNumber;
     private readonly int step;
+    private readonly string? format;
 
     public AddSerialNumberRegex(Regex regex, string replaceText) : base(regex)
     {
@@ -32,6 +33,7 @@ public class AddSerialNumberRegex : ReplaceRegexBase
 
         this.startNumber = paramerters.ElementAtOrDefault(0)?.ToIntOrNull() ?? 1;
         this.step = paramerters.ElementAtOrDefault(1)?.ToIntOrNull() ?? 1;
+        this.format = paramerters.ElementAtOrDefault(2);
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
@@ -43,7 +45,7 @@ public class AddSerialNumberRegex : ReplaceRegexBase
         int indexPath = allPaths.WithIndex().FirstOrDefault(a => a.element == inputPath).index;
 
         //「置換後文字列内の「$n」」を連番で置換する
-        string numberStr = (indexPath * step + startNumber).ToString();
+        string numberStr = (indexPath * step + startNumber).ToString(format);
         var replaceTextModified = regexTargetWord.Replace(replaceText, numberStr);
 
         //再帰的に置換パターンを作成して、RegexBaseを生成する
