@@ -113,6 +113,11 @@ public class ReplaceRegex_Test
     [InlineData("abc.txt", "^", "$n<5>_", $"5_abc.txt")]
     [InlineData("abc.txt", "^", "$n<,10>_", $"1_abc.txt")]
     [InlineData("abc.txt", "^", "$n<10,10>_", $"10_abc.txt")]
+    [InlineData("abc.txt", "^", "$n<,,000>_", $"001_abc.txt")]
+    [InlineData("abc.txt", "^", "$n<12,,000>_", $"012_abc.txt")]
+    [InlineData("abc.txt", "^", "$n<10,10,000>_", $"010_abc.txt")]
+    [InlineData("abc.txt", "^", "$n<99,,00>_", $"99_abc.txt")]
+    [InlineData("abc.txt", "^", "$n<999,,00>_", $"999_abc.txt")]
     public void AddSerialNumber_Single(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string targetFilePath = Path.Combine(dirPath, targetFileName);
@@ -144,6 +149,18 @@ public class ReplaceRegex_Test
     [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<10,10>_", $"10_aaa.txt")]
     [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<10,10>_", $"20_bbb.txt")]
     [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<10,10>_", $"30_ccc.txt")]
+    [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<,,000>_", $"001_aaa.txt")]
+    [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<,,000>_", $"002_bbb.txt")]
+    [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<,,000>_", $"003_ccc.txt")]
+    [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<11,,000>_", $"011_aaa.txt")]
+    [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<11,,000>_", $"012_bbb.txt")]
+    [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<11,,000>_", $"013_ccc.txt")]
+    [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<,10,000>_", $"001_aaa.txt")]
+    [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<,10,000>_", $"011_bbb.txt")]
+    [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<,10,000>_", $"021_ccc.txt")]
+    [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<91,10,000>_", $"091_aaa.txt")]
+    [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<91,10,000>_", $"101_bbb.txt")]
+    [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<91,10,000>_", $"111_ccc.txt")]
     public void AddSerialNumber_Multi(string concatedTargetFileNames, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string[] targetFileNames = concatedTargetFileNames
