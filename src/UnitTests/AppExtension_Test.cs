@@ -265,7 +265,6 @@ public class AppExtension_Test : IClassFixture<LogFixture>
         "-99".ToIntOrNull()
             .Should().Be(-99);
 
-
         "005".ToIntOrNull()
             .Should().Be(5);
     }

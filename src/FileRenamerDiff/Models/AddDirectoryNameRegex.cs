@@ -7,9 +7,14 @@ namespace FileRenamerDiff.Models;
 /// </summary>
 public class AddDirectoryNameRegex : ReplaceRegexBase
 {
-    //「$$d」を含まない「$d」
+    /// <summary>
+    /// 「$$d」を含まない「$d」
+    /// </summary>
     private const string targetRegexWord = @"(?<!\$)\$d";
-    //「$d」が置換後文字列にあるか判定するRegex
+
+    /// <summary>
+    /// 「$d」が置換後文字列にあるか判定するRegex
+    /// </summary>
     private static readonly Regex regexTargetWord = new(targetRegexWord, RegexOptions.Compiled);
 
     /// <summary>
@@ -36,7 +41,7 @@ public class AddDirectoryNameRegex : ReplaceRegexBase
     }
 
     /// <summary>
-    /// AddDirectoryNameを含むか判定
+    /// 対象となるパターンを含むか判定
     /// </summary>
     /// <param name="replaceText">置換後文字列を指定</param>
     internal static bool IsContainPattern(string replaceText) => regexTargetWord.IsMatch(replaceText);
