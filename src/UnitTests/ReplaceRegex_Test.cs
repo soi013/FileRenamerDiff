@@ -161,12 +161,27 @@ public class ReplaceRegex_Test
     [InlineData("aaa.txt,bbb.txt,ccc.txt", "^", "$n<91,10,000>_", $"091_aaa.txt")]
     [InlineData("bbb.txt,aaa.txt,ccc.txt", "^", "$n<91,10,000>_", $"101_bbb.txt")]
     [InlineData("ccc.txt,aaa.txt,bbb.txt", "^", "$n<91,10,000>_", $"111_ccc.txt")]
-    public void AddSerialNumber_Multi(string concatedTargetFileNames, string regexPattern, string replaceText, string expectedRenamedFileName)
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,,,r>_", $"1_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,,,r>_", $"2_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,,,r>_", $"1_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<10,,,r>_", $"10_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<10,,,r>_", $"11_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<10,,,r>_", $"10_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,5,,r>_", $"1_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,5,,r>_", $"6_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,5,,r>_", $"1_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,,00,r>_", $"01_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,,00,r>_", $"02_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,,00,r>_", $"03_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<10,5,000,r>_", $"010_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<10,5,000,r>_", $"015_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<10,5,000,r>_", $"010_ccc.txt")]
+    public void AddSerialNumber_Multi(string concatedTargetFilePaths, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
-        string[] targetFileNames = concatedTargetFileNames
+        string[] targetFilePathTails = concatedTargetFilePaths
                     .Split(',');
-        string targetFileName = targetFileNames.First();
-        string[] targetFilePaths = targetFileNames
+        string targetFileName = Path.GetFileName(targetFilePathTails.First());
+        string[] targetFilePaths = targetFilePathTails
             .Select(x => Path.Combine(dirPath, x))
             .ToArray();
 
