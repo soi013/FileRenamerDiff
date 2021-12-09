@@ -42,6 +42,14 @@ public class FileElementModel_Test
     [InlineData("abc.txt", "^", "$n<5,,000>", $"005abc.txt", false)]
     [InlineData("abc.txt", "^", "$n<,10,000>", $"001abc.txt", false)]
     [InlineData("abc.txt", "^", "$n<5,10,000>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,,r>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<4,,,r>", $"4abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,,r>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,,r>", $"5abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,000,r>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,,000,r>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,000,r>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,000,r>", $"005abc.txt", false)]
     public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 

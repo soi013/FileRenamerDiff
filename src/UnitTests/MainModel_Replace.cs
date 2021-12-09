@@ -86,4 +86,30 @@ public class MainModel_Replace
                     $"{topDirName}_A.txt",
             });
     }
+
+    [Fact]
+    public async Task AddSerialNumberSetting()
+    {
+        MainModel model = CreateDefaultSettingModel();
+
+        await model.LoadFileElements();
+
+        model.Setting.IsDirectoryRenameTarget = false;
+
+        model.Setting.ReplaceTexts.Add(new("^", "$n<50,10,000,r>_", true));
+
+        await model.Replace();
+
+        model.FileElementModels.Select(x => x.OutputFileName)
+            .Should().BeEquivalentTo(
+            new[]
+            {
+                    $"060_saXmXple.txt",
+                    $"050_sam [p] [le].txt",
+                    $"080_{SubDirName}",
+                    $"070_C.txt",
+                    $"060_B.txt",
+                    $"050_A.txt",
+            });
+    }
 }
