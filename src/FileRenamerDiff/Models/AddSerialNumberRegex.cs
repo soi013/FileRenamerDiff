@@ -45,6 +45,11 @@ public class AddSerialNumberRegex : ReplaceRegexBase
     /// </summary>
     private readonly string? format;
 
+    /// <summary>
+    /// ディレクトリごと連番有効状態
+    /// </summary>
+    private readonly bool isDirectoryReset;
+
     public AddSerialNumberRegex(Regex regex, string replaceText) : base(regex)
     {
         this.replaceText = replaceText;
@@ -55,12 +60,21 @@ public class AddSerialNumberRegex : ReplaceRegexBase
         this.startNumber = paramerters.ElementAtOrDefault(0)?.ToIntOrNull() ?? 1;
         this.step = paramerters.ElementAtOrDefault(1)?.ToIntOrNull() ?? 1;
         this.format = paramerters.ElementAtOrDefault(2);
+        this.isDirectoryReset = paramerters.ElementAtOrDefault(3) == "r";
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
     {
         string inputPath = fsInfo?.FullName ?? string.Empty;
         allPaths ??= new[] { inputPath };
+
+        //ディレクトリごと連番が有効なら、ディレクトリパスが同じものだけに絞る
+        if (isDirectoryReset)
+        {
+            allPaths = allPaths
+                .Where(x => Path.GetDirectoryName(x) == Path.GetDirectoryName(inputPath))
+                .ToArray();
+        }
 
         //全てのパスの中でのこの番号を決定
         int indexPath = allPaths.WithIndex().FirstOrDefault(a => a.element == inputPath).index;

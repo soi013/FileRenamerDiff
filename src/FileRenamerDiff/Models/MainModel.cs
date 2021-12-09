@@ -352,7 +352,10 @@ public class MainModel : NotificationObject, IMainModel
     {
         List<ReplaceRegexBase> regexes = CreateRegexes();
 
-        string[] inputPaths = FileElementModels.Select(x => x.InputFilePath).ToArray();
+        string[] inputPaths = FileElementModels
+            .Select(x => x.InputFilePath)
+            .Reverse()//逆順に並べられているので、反転しておく
+            .ToArray();
 
         Parallel.ForEach(FileElementModels,
             x => x.Replace(regexes, inputPaths, Setting.IsRenameExt));
