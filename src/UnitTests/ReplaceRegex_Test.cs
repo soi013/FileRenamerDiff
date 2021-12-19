@@ -127,6 +127,7 @@ public class ReplaceRegex_Test
     [InlineData("abc.txt", "^", "$n<10,10,000,r>_", $"010_abc.txt")]
     [InlineData("abc.txt", "^", "$n<99,,00,r>_", $"99_abc.txt")]
     [InlineData("abc.txt", "^", "$n<999,,00,r>_", $"999_abc.txt")]
+    [InlineData("abc.txt", "^", "$n<999,,00,r,i>_", $"999_abc.txt")]
     public void AddSerialNumber_Single(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string targetFilePath = Path.Combine(dirPath, targetFileName);
@@ -188,6 +189,24 @@ public class ReplaceRegex_Test
     [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<10,5,000,r>_", $"010_aaa.txt")]
     [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<10,5,000,r>_", $"015_bbb.txt")]
     [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<10,5,000,r>_", $"010_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,,,,i>_", $"3_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,,,,i>_", $"2_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,,,,i>_", $"1_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<10,,,,i>_", $"12_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<10,,,,i>_", $"11_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<10,,,,i>_", $"10_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,5,,,i>_", $"11_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,5,,,i>_", $"6_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,5,,,i>_", $"1_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,,00,,i>_", $"03_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,,00,,i>_", $"02_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,,00,,i>_", $"01_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<,,,r,i>_", $"2_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<,,,r,i>_", $"1_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<,,,r,i>_", $"1_ccc.txt")]
+    [InlineData(@"Dir1\aaa.txt,Dir1\bbb.txt,Dir2\ccc.txt", "^", "$n<10,50,000,r,i>_", $"060_aaa.txt")]
+    [InlineData(@"Dir1\bbb.txt,Dir1\aaa.txt,Dir2\ccc.txt", "^", "$n<10,50,000,r,i>_", $"010_bbb.txt")]
+    [InlineData(@"Dir2\ccc.txt,Dir1\aaa.txt,Dir1\bbb.txt", "^", "$n<10,50,000,r,i>_", $"010_ccc.txt")]
     public void AddSerialNumber_Multi(string concatedTargetFilePaths, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string[] targetFilePathTails = concatedTargetFilePaths
