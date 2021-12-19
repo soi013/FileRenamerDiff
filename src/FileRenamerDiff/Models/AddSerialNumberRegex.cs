@@ -50,6 +50,11 @@ public class AddSerialNumberRegex : ReplaceRegexBase
     /// </summary>
     private readonly bool isDirectoryReset;
 
+    /// <summary>
+    /// 逆順有効状態
+    /// </summary>
+    private readonly bool isInverseOrder;
+
     public AddSerialNumberRegex(Regex regex, string replaceText) : base(regex)
     {
         this.replaceText = replaceText;
@@ -61,6 +66,7 @@ public class AddSerialNumberRegex : ReplaceRegexBase
         this.step = paramerters.ElementAtOrDefault(1)?.ToIntOrNull() ?? 1;
         this.format = paramerters.ElementAtOrDefault(2);
         this.isDirectoryReset = paramerters.ElementAtOrDefault(3) == "r";
+        this.isInverseOrder = paramerters.ElementAtOrDefault(4) == "i";
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
@@ -74,6 +80,11 @@ public class AddSerialNumberRegex : ReplaceRegexBase
             allPaths = allPaths
                 .Where(x => Path.GetDirectoryName(x) == Path.GetDirectoryName(inputPath))
                 .ToArray();
+        }
+        //逆順なら反転する
+        if (isInverseOrder)
+        {
+            allPaths = allPaths.Reverse().ToArray();
         }
 
         //全てのパスの中でのこの番号を決定
