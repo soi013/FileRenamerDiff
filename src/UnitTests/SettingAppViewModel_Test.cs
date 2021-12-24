@@ -158,6 +158,97 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
     }
 
     [WpfFact]
+    public void AddSerialNumberPattern_AddChangeReAdd()
+    {
+        var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
+        var settingVM = new SettingAppViewModel(model);
+        model.Initialize();
+
+        AddSerialNumberViewModel addSerialNumberVM = settingVM.AddSerialNumberVM;
+
+        const string addSerialNumberHead = "$n";
+
+        //ステージ1 追加前
+        settingVM.ReplaceTexts
+            .Should().NotContain(x => x.ReplaceText.Value.Contains(addSerialNumberHead), "まだ含まれていないはず");
+
+        //ステージ2 追加後
+        addSerialNumberVM.StartNumber.Value = 10;
+        addSerialNumberVM.Step.Value = 5;
+        addSerialNumberVM.ZeroPadCount.Value = 3;
+        addSerialNumberVM.IsDirectoryReset.Value = true;
+        addSerialNumberVM.IsInverseOrder.Value = true;
+
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+
+        //ステージ3 追加後編集
+        ReplacePatternViewModel addedPattern = settingVM.ReplaceTexts.Where(x => x.ReplaceText.Value.Contains(addSerialNumberHead)).First();
+        const string changedTarget = "XXX";
+        addedPattern.ReplaceText.Value = changedTarget;
+
+        settingVM.ReplaceTexts
+            .Should().NotContain(x => x.ReplaceText.Value.Contains(addSerialNumberHead), "変更したので、含まれていないはず");
+
+        //ステージ4 再度追加
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+    }
+
+    [WpfFact]
+    public void AddSerialNumberPattern_Paramerters()
+    {
+        var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);
+        var settingVM = new SettingAppViewModel(model);
+        model.Initialize();
+
+        AddSerialNumberViewModel addSerialNumberVM = settingVM.AddSerialNumberVM;
+
+        //ステージ デフォルトパラメータ指定
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n", "含まれているはず");
+
+        //ステージ 部分パラメータ指定1
+        addSerialNumberVM.StartNumber.Value = 10;
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<10>", "含まれているはず");
+
+        //ステージ 部分パラメータ指定2
+        addSerialNumberVM.StartNumber.Value = AddSerialNumberRegex.DefaultStartNumber;
+        addSerialNumberVM.Step.Value = 5;
+        addSerialNumberVM.IsDirectoryReset.Value = true;
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<,5,,r>", "含まれているはず");
+
+        //ステージ 全パラメータ指定1
+        addSerialNumberVM.StartNumber.Value = 10;
+        addSerialNumberVM.Step.Value = 5;
+        addSerialNumberVM.ZeroPadCount.Value = 3;
+        addSerialNumberVM.IsDirectoryReset.Value = true;
+        addSerialNumberVM.IsInverseOrder.Value = true;
+
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+
+        //ステージ 全パラメータ指定2
+        addSerialNumberVM.StartNumber.Value = 99;
+        addSerialNumberVM.Step.Value = 100;
+        addSerialNumberVM.ZeroPadCount.Value = 2;
+        addSerialNumberVM.IsDirectoryReset.Value = true;
+        addSerialNumberVM.IsInverseOrder.Value = true;
+
+        addSerialNumberVM.AddSettingCommand.Execute();
+        settingVM.ReplaceTexts
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<99,100,00,r,i>", "含まれているはず");
+    }
+
+    [WpfFact]
     public void OtherProperties()
     {
         var model = new MainModel(new MockFileSystem(), Scheduler.Immediate);

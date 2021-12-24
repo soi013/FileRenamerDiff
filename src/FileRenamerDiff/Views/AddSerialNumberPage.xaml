@@ -1,0 +1,95 @@
+﻿<UserControl
+    x:Class="FileRenamerDiff.Views.AddSerialNumberPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
+    xmlns:v="clr-namespace:FileRenamerDiff.Views"
+    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+    Height="Auto"
+    d:DataContext="{d:DesignInstance {x:Type vm:AddSerialNumberViewModel},
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="850"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <FrameworkElement.Resources>
+        <!--<Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="TextBox">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="5,0" />
+            <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="True" />
+            <Setter Property="materialDesign:TextFieldAssist.PrefixText" Value="Start" />
+        </Style>-->
+        <Style BasedOn="{StaticResource MaterialDesignSwitchToggleButton}" TargetType="ToggleButton">
+            <Setter Property="Margin" Value="20,10" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignNumericUpDown}" TargetType="{x:Type metro:NumericUpDown}">
+            <Setter Property="Margin" Value="10" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignCardGroupBox}" TargetType="{x:Type GroupBox}">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+        <Style BasedOn="{StaticResource IconTagLabel}" TargetType="Label">
+            <Setter Property="Margin" Value="10,10,5,1" />
+            <Setter Property="Width" Value="130" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </FrameworkElement.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock
+                Margin="10"
+                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                Text="Add Serial Number" />
+            <GroupBox Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}">
+                <TextBox
+                    materialDesign:HintAssist.Hint="Target Text"
+                    materialDesign:TextFieldAssist.LeadingIcon="DebugStepInto"
+                    Text="{Binding TextTargetPattern.Value, UpdateSourceTrigger=PropertyChanged}" />
+            </GroupBox>
+            <GroupBox Header="Paramerters">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="RayStartArrow" Content="Start Number:" />
+                        <metro:NumericUpDown Value="{Binding StartNumber.Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="DebugStepOver" Content="Step:" />
+                        <metro:NumericUpDown Value="{Binding Step.Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="Numeric0Box" Content="Zero Pad Count:" />
+                        <metro:NumericUpDown Value="{Binding ZeroPadCount.Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="FolderRefresh" Content="Directory Reset:" />
+                        <ToggleButton IsChecked="{Binding IsDirectoryReset.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="SortNumericDescending" Content="Inverse Order:" />
+                        <ToggleButton IsChecked="{Binding IsInverseOrder.Value}" />
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Pattern">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding TextTargetPattern.Value}" />
+                    <materialDesign:PackIcon Kind="ArrowRight" />
+                    <TextBlock Text="{Binding TextAddPattern.Value}" />
+                </StackPanel>
+            </GroupBox>
+
+            <Button
+                Command="{Binding AddSettingCommand, Mode=OneTime}"
+                Cursor="Hand"
+                Style="{StaticResource AddButton}" />
+
+        </StackPanel>
+    </Grid>
+</UserControl>
