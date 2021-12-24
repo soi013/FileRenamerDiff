@@ -55,6 +55,38 @@ public class AddSerialNumberRegex : ReplaceRegexBase
     /// </summary>
     private readonly bool isInverseOrder;
 
+    /// <summary>
+    /// 連番開始番号デフォルト値
+    /// </summary>
+    public static readonly int DefaultStartNumber = 1;
+
+    /// <summary>
+    /// 連番ステップ数デフォルト値
+    /// </summary>
+    public static readonly int DefaultStep = 1;
+
+    /// <summary>
+    /// 連番文字列化時のフォーマットデフォルト値
+    /// </summary>
+    public static readonly string? DefaultFormat = null;
+    /// <summary>
+    /// ディレクトリごと連番有効状態デフォルト値
+    /// </summary>
+    public static readonly bool DefaultIsDirectoryReset = false;
+    /// <summary>
+    /// 逆順有効状態デフォルト値
+    /// </summary>
+    public static readonly bool DefaultIsInverseOrder = false;
+
+    /// <summary>
+    /// ディレクトリごと連番有効パラメータ文字列
+    /// </summary>
+    public static readonly string DirectoryResetText ="r";
+    /// <summary>
+    /// 逆順有効パラメータ文字列
+    /// </summary>
+    public static readonly string InverseOrderText = "i";
+
     public AddSerialNumberRegex(Regex regex, string replaceText) : base(regex)
     {
         this.replaceText = replaceText;
@@ -62,11 +94,11 @@ public class AddSerialNumberRegex : ReplaceRegexBase
         string[] paramerters = regexParamerterWord.Match(replaceText).Value
             .Split(',');
 
-        this.startNumber = paramerters.ElementAtOrDefault(0)?.ToIntOrNull() ?? 1;
-        this.step = paramerters.ElementAtOrDefault(1)?.ToIntOrNull() ?? 1;
+        this.startNumber = paramerters.ElementAtOrDefault(0)?.ToIntOrNull() ?? DefaultStartNumber;
+        this.step = paramerters.ElementAtOrDefault(1)?.ToIntOrNull() ?? DefaultStep;
         this.format = paramerters.ElementAtOrDefault(2);
-        this.isDirectoryReset = paramerters.ElementAtOrDefault(3) == "r";
-        this.isInverseOrder = paramerters.ElementAtOrDefault(4) == "i";
+        this.isDirectoryReset = paramerters.ElementAtOrDefault(3) == DirectoryResetText;
+        this.isInverseOrder = paramerters.ElementAtOrDefault(4) == InverseOrderText;
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
