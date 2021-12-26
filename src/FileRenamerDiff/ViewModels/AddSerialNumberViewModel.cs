@@ -1,15 +1,11 @@
-﻿using System.Reactive.Concurrency;
+﻿using System.IO.Abstractions;
 using System.Reactive.Linq;
-using System.Windows.Data;
 
-using Anotar.Serilog;
+using DiffPlex.DiffBuilder.Model;
 
 using FileRenamerDiff.Models;
 
-using Livet;
-
 using Reactive.Bindings;
-using Reactive.Bindings.Extensions;
 
 namespace FileRenamerDiff.ViewModels;
 
@@ -23,14 +19,38 @@ public class AddSerialNumberViewModel
     public ReactivePropertySlim<bool> IsDirectoryReset { get; } = new();
     public ReactivePropertySlim<bool> IsInverseOrder { get; } = new();
 
+    public ReadOnlyReactivePropertySlim<string> TextAddPattern { get; }
+
+    public ReactivePropertySlim<string> TextTargetPattern { get; } = new("^");
+
+    /// <summary>
+    /// リネーム前後の差分比較情報
+    /// </summary>
+    public ReadOnlyReactivePropertySlim<IReadOnlyList<AddSerialNumberSampleViewModel>> SampleDiffVMs { get; }
+
+    private static readonly IReadOnlyList<string> inputFilePaths = new[]
+        {
+            @"C:\Dir1\aaa.txt",
+            @"C:\Dir1\bbb.txt",
+            @"C:\Dir1\ccc.txt",
+            @"C:\Dir2\ddd.txt",
+        };
+
+    private static readonly IReadOnlyList<IFileInfo> inputFileInfos = CreateFileInfos(inputFilePaths);
+
+    private static IFileInfo[] CreateFileInfos(IReadOnlyList<string> inputFilePaths)
+    {
+        var fileSystem = AppExtension.CreateMockFileSystem(inputFilePaths);
+
+        return inputFilePaths
+            .Select(x => fileSystem.FileInfo.FromFileName(x))
+            .ToArray();
+    }
+
     /// <summary>
     /// 現在の設定のパターンへの追加
     /// </summary>
     public ReactiveCommand AddSettingCommand { get; }
-
-    public ReadOnlyReactivePropertySlim<string> TextAddPattern { get; }
-    public ReactivePropertySlim<string> TextTargetPattern { get; } = new("^");
-
 
     /// <summary>
     /// デザイナー用です　コードからは呼べません
@@ -46,17 +66,36 @@ public class AddSerialNumberViewModel
                     CreatePatternText(start, step, pad, isReset, isInverse))
             .ToReadOnlyReactivePropertySlim("$n");
 
+        this.SampleDiffVMs = Observable
+            .CombineLatest(TextTargetPattern, TextAddPattern,
+                (target, addPattern) => new { target, addPattern })
+            .Select(a => new AddSerialNumberRegex(new Regex(a.target), a.addPattern))
+            .Select(regex =>
+                inputFileInfos
+                    .Select(fsInfo => CreateSampleViewModel(fsInfo, regex))
+                    .ToArray())
+            .ToReadOnlyReactivePropertySlim<IReadOnlyList<AddSerialNumberSampleViewModel>>();
+
         this.AddSettingCommand = Observable
             .CombineLatest(TextTargetPattern, TextAddPattern,
                 (x, y) => x.HasText() && y.HasText())
             .ToReactiveCommand()
             .WithSubscribe(() =>
-                mainModel.Setting.ReplaceTexts
+                this.mainModel.Setting.ReplaceTexts
                     .Add(new ReplacePattern(TextTargetPattern.Value, TextAddPattern.Value, true)));
     }
 
-    private static Regex regexTailDefaultParamerters = new(",+(?=>)", RegexOptions.Compiled);
-    private static Regex regexAllDefaultParamerters = new("<,*>", RegexOptions.Compiled);
+    private static AddSerialNumberSampleViewModel CreateSampleViewModel(IFileInfo fsInfo, AddSerialNumberRegex regex)
+    {
+        string inputFileName = fsInfo.Name;
+        string outputFileName = regex.Replace(inputFileName, inputFilePaths, fsInfo);
+        return new(
+            SampleDiff: AppExtension.CreateDiff(inputFileName, outputFileName),
+            DirectoryPath: fsInfo.DirectoryName);
+    }
+
+    private static readonly Regex regexTailDefaultParamerters = new(",+(?=>)", RegexOptions.Compiled);
+    private static readonly Regex regexAllDefaultParamerters = new("<,*>", RegexOptions.Compiled);
 
     private static string CreatePatternText(int start, int step, int pad, bool isReset, bool isInverse)
     {
@@ -79,4 +118,6 @@ public class AddSerialNumberViewModel
 
         return paramerterText;
     }
+
+    public record AddSerialNumberSampleViewModel(SideBySideDiffModel SampleDiff, string DirectoryPath);
 }

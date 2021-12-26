@@ -172,6 +172,16 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         settingVM.ReplaceTexts
             .Should().NotContain(x => x.ReplaceText.Value.Contains(addSerialNumberHead), "まだ含まれていないはず");
 
+        addSerialNumberVM.SampleDiffVMs.Value
+            .Select(x => x.SampleDiff.NewText.ToRawText())
+            .Should().BeEquivalentTo(new[]
+            {
+                "1aaa.txt",
+                "2bbb.txt",
+                "3ccc.txt",
+                "4ddd.txt"
+            });
+
         //ステージ2 追加後
         addSerialNumberVM.StartNumber.Value = 10;
         addSerialNumberVM.Step.Value = 5;
@@ -180,8 +190,18 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         addSerialNumberVM.IsInverseOrder.Value = true;
 
         addSerialNumberVM.AddSettingCommand.Execute();
+
         settingVM.ReplaceTexts
             .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+        addSerialNumberVM.SampleDiffVMs.Value
+            .Select(x => x.SampleDiff.NewText.ToRawText())
+            .Should().BeEquivalentTo(new[]
+            {
+                "020aaa.txt",
+                "015bbb.txt",
+                "010ccc.txt",
+                "010ddd.txt"
+            });
 
         //ステージ3 追加後編集
         ReplacePatternViewModel addedPattern = settingVM.ReplaceTexts.Where(x => x.ReplaceText.Value.Contains(addSerialNumberHead)).First();

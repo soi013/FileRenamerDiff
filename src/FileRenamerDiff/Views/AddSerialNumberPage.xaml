@@ -15,15 +15,9 @@
     d:DataContext="{d:DesignInstance {x:Type vm:AddSerialNumberViewModel},
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="850"
-    d:DesignWidth="400"
+    d:DesignWidth="600"
     mc:Ignorable="d">
     <FrameworkElement.Resources>
-        <!--<Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="TextBox">
-            <Setter Property="Margin" Value="10" />
-            <Setter Property="materialDesign:TextFieldAssist.TextBoxViewMargin" Value="5,0" />
-            <Setter Property="materialDesign:TextFieldAssist.HasLeadingIcon" Value="True" />
-            <Setter Property="materialDesign:TextFieldAssist.PrefixText" Value="Start" />
-        </Style>-->
         <Style BasedOn="{StaticResource MaterialDesignSwitchToggleButton}" TargetType="ToggleButton">
             <Setter Property="Margin" Value="20,10" />
         </Style>
@@ -41,11 +35,23 @@
         </Style>
     </FrameworkElement.Resources>
     <Grid>
-        <StackPanel>
-            <TextBlock
-                Margin="10"
-                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                Text="Add Serial Number" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="10"
+            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+            Text="Add Serial Number" />
+        <StackPanel Grid.Row="1" Grid.Column="0">
             <GroupBox Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}">
                 <TextBox
                     materialDesign:HintAssist.Hint="Target Text"
@@ -77,7 +83,10 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Pattern">
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <!--  生成されたReplace Pattern  -->
+            <GroupBox Header="Created Replace Pattern">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="{Binding TextTargetPattern.Value}" />
                     <materialDesign:PackIcon Kind="ArrowRight" />
@@ -85,11 +94,36 @@
                 </StackPanel>
             </GroupBox>
 
-            <Button
-                Command="{Binding AddSettingCommand, Mode=OneTime}"
-                Cursor="Hand"
-                Style="{StaticResource AddButton}" />
-
+            <!--  サンプル入出力  -->
+            <GroupBox Header="Sample">
+                <DataGrid ItemsSource="{Binding SampleDiffVMs.Value}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding DirectoryPath}" Header="Folder" />
+                        <DataGridTemplateColumn Width="150" Header="Input">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="150" Header="Output">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </GroupBox>
         </StackPanel>
+
+        <!--  追加ボタン  -->
+        <Button
+            Grid.Row="2"
+            Grid.ColumnSpan="2"
+            Command="{Binding AddSettingCommand, Mode=OneTime}"
+            Cursor="Hand"
+            Style="{StaticResource AddButton}" />
     </Grid>
 </UserControl>
