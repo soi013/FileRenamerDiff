@@ -25,7 +25,7 @@
             <Setter Property="Margin" Value="10" />
         </Style>
         <Style BasedOn="{StaticResource MaterialDesignCardGroupBox}" TargetType="{x:Type GroupBox}">
-            <Setter Property="Margin" Value="10" />
+            <Setter Property="Margin" Value="0,4" />
             <Setter Property="Padding" Value="10" />
         </Style>
         <Style BasedOn="{StaticResource IconTagLabel}" TargetType="Label">
@@ -34,7 +34,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
         </Style>
     </FrameworkElement.Resources>
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -44,13 +44,24 @@
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <TextBlock
+        <StackPanel
             Grid.Row="0"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            Margin="10"
-            Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-            Text="Add Serial Number" />
+            Margin="20,5"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <materialDesign:PackIcon
+                Width="48"
+                Height="48"
+                Margin="10,0"
+                Kind="Numeric" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                Text="Add Serial Number" />
+        </StackPanel>
+
         <StackPanel Grid.Row="1" Grid.Column="0">
             <GroupBox Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}">
                 <TextBox
@@ -123,7 +134,6 @@
             Grid.Row="2"
             Grid.ColumnSpan="2"
             Command="{Binding AddSettingCommand, Mode=OneTime}"
-            Cursor="Hand"
             Style="{StaticResource AddButton}" />
     </Grid>
 </UserControl>
