@@ -19,10 +19,12 @@
     mc:Ignorable="d">
     <FrameworkElement.Resources>
         <Style BasedOn="{StaticResource MaterialDesignSwitchToggleButton}" TargetType="ToggleButton">
-            <Setter Property="Margin" Value="20,10" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Width" Value="65" />
         </Style>
         <Style BasedOn="{StaticResource MaterialDesignNumericUpDown}" TargetType="{x:Type metro:NumericUpDown}">
             <Setter Property="Margin" Value="10" />
+            <Setter Property="MinWidth" Value="40" />
             <Setter Property="Foreground" Value="{StaticResource MaterialDesignBody}" />
         </Style>
         <Style BasedOn="{StaticResource MaterialDesignCardGroupBox}" TargetType="{x:Type GroupBox}">
@@ -31,15 +33,19 @@
         </Style>
         <Style BasedOn="{StaticResource IconTagLabel}" TargetType="Label">
             <Setter Property="Margin" Value="10,10,5,1" />
-            <Setter Property="Width" Value="160" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="IconPropertyPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal" />
+            <Setter Property="HorizontalAlignment" Value="Right" />
         </Style>
         <Style
             x:Key="fixText"
             BasedOn="{StaticResource MaterialDesignFilledTextBox}"
             TargetType="TextBox">
-            <Setter Property="Margin" Value="20,10" />
-            <Setter Property="MinWidth" Value="40" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="MinWidth" Value="65" />
             <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
         </Style>
     </FrameworkElement.Resources>
@@ -80,31 +86,31 @@
             </GroupBox>
             <GroupBox Header="Paramerters">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="RayStartArrow" Content="{x:Static properties:Resources.AddingSerial_StartNumber}" />
                         <metro:NumericUpDown Value="{Binding StartNumber.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="DebugStepOver" Content="{x:Static properties:Resources.AddingSerial_Step}" />
                         <metro:NumericUpDown Value="{Binding Step.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="Numeric0Box" Content="{x:Static properties:Resources.AddingSerial_ZeroPaddingDigits}" />
                         <metro:NumericUpDown Value="{Binding ZeroPadCount.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="FolderRefresh" Content="{x:Static properties:Resources.AddingSerial_ResetPerFolder}" />
                         <ToggleButton IsChecked="{Binding IsDirectoryReset.Value}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                         <Label v:IconHeadder.IconKind="SortNumericDescending" Content="{x:Static properties:Resources.AddingSerial_Inverse}" />
                         <ToggleButton IsChecked="{Binding IsInverseOrder.Value}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="DockLeft" Content="{x:Static properties:Resources.AddingSerial_PrefixText}" />
                         <TextBox Style="{StaticResource fixText}" Text="{Binding PrefixText.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="DockRight" Content="{x:Static properties:Resources.AddingSerial_PostfixText}" />
                         <TextBox Style="{StaticResource fixText}" Text="{Binding PostfixText.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
