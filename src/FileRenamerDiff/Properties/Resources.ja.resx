@@ -372,4 +372,25 @@
   <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
     <value>拡張子の手前にディレクトリ名を追加</value>
   </data>
+  <data name="AddingSerial_StartNumber" xml:space="preserve">
+    <value>開始番号: </value>
+  </data>
+  <data name="AddingSerial_AddingSerialNumber" xml:space="preserve">
+    <value>連番追加</value>
+  </data>
+  <data name="AddingSerial_ZeroPaddingDigits" xml:space="preserve">
+    <value>ゼロ詰め桁数: </value>
+  </data>
+  <data name="AddingSerial_Step" xml:space="preserve">
+    <value>ステップ数: </value>
+  </data>
+  <data name="AddingSerial_ResetPerFolder" xml:space="preserve">
+    <value>フォルダごとリセット: </value>
+  </data>
+  <data name="AddingSerial_Inverse" xml:space="preserve">
+    <value>逆順: </value>
+  </data>
+  <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
+    <value>生成された置換パターン</value>
+  </data>
 </root>

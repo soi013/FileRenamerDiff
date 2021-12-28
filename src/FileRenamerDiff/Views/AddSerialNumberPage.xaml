@@ -23,6 +23,7 @@
         </Style>
         <Style BasedOn="{StaticResource MaterialDesignNumericUpDown}" TargetType="{x:Type metro:NumericUpDown}">
             <Setter Property="Margin" Value="10" />
+            <Setter Property="Foreground" Value="{StaticResource MaterialDesignBody}" />
         </Style>
         <Style BasedOn="{StaticResource MaterialDesignCardGroupBox}" TargetType="{x:Type GroupBox}">
             <Setter Property="Margin" Value="0,4" />
@@ -59,7 +60,7 @@
             <TextBlock
                 VerticalAlignment="Center"
                 Style="{StaticResource MaterialDesignHeadline5TextBlock}"
-                Text="Add Serial Number" />
+                Text="{x:Static properties:Resources.AddingSerial_AddingSerialNumber}" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0">
@@ -72,23 +73,23 @@
             <GroupBox Header="Paramerters">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label v:IconHeadder.IconKind="RayStartArrow" Content="Start Number:" />
+                        <Label v:IconHeadder.IconKind="RayStartArrow" Content="{x:Static properties:Resources.AddingSerial_StartNumber}" />
                         <metro:NumericUpDown Value="{Binding StartNumber.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label v:IconHeadder.IconKind="DebugStepOver" Content="Step:" />
+                        <Label v:IconHeadder.IconKind="DebugStepOver" Content="{x:Static properties:Resources.AddingSerial_Step}" />
                         <metro:NumericUpDown Value="{Binding Step.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label v:IconHeadder.IconKind="Numeric0Box" Content="Zero Pad Count:" />
+                        <Label v:IconHeadder.IconKind="Numeric0Box" Content="{x:Static properties:Resources.AddingSerial_ZeroPaddingDigits}" />
                         <metro:NumericUpDown Value="{Binding ZeroPadCount.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label v:IconHeadder.IconKind="FolderRefresh" Content="Directory Reset:" />
+                        <Label v:IconHeadder.IconKind="FolderRefresh" Content="{x:Static properties:Resources.AddingSerial_ResetPerFolder}" />
                         <ToggleButton IsChecked="{Binding IsDirectoryReset.Value}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label v:IconHeadder.IconKind="SortNumericDescending" Content="Inverse Order:" />
+                        <Label v:IconHeadder.IconKind="SortNumericDescending" Content="{x:Static properties:Resources.AddingSerial_Inverse}" />
                         <ToggleButton IsChecked="{Binding IsInverseOrder.Value}" />
                     </StackPanel>
                 </StackPanel>
@@ -97,11 +98,11 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="1">
             <!--  生成されたReplace Pattern  -->
-            <GroupBox Header="Created Replace Pattern">
+            <GroupBox Header="{x:Static properties:Resources.AddingSerial_GenaratedPattern}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding TextTargetPattern.Value}" />
-                    <materialDesign:PackIcon Kind="ArrowRight" />
-                    <TextBlock Text="{Binding TextAddPattern.Value}" />
+                    <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding TextTargetPattern.Value}" />
+                    <materialDesign:PackIcon Margin="10,0" Kind="ArrowRight" />
+                    <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding TextAddPattern.Value}" />
                 </StackPanel>
             </GroupBox>
 
@@ -110,14 +111,14 @@
                 <DataGrid ItemsSource="{Binding SampleDiffVMs.Value}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding DirectoryPath}" Header="Folder" />
-                        <DataGridTemplateColumn Width="150" Header="Input">
+                        <DataGridTemplateColumn Width="150" Header="{x:Static properties:Resources.Grid_OldText}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="150" Header="Output">
+                        <DataGridTemplateColumn Width="150" Header="{x:Static properties:Resources.Grid_NewText}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />

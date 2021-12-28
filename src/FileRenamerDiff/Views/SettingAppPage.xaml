@@ -408,7 +408,8 @@
                     <materialDesign:PopupBox
                         Grid.Column="3"
                         Margin="0,0,15,0"
-                        StaysOpen="True">
+                        StaysOpen="True"
+                        ToolTip="{x:Static properties:Resources.AddingSerial_AddingSerialNumber}">
                         <materialDesign:PopupBox.ToggleContent>
                             <materialDesign:PackIcon
                                 Width="24"

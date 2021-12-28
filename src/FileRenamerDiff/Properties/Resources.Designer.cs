@@ -19,7 +19,7 @@ namespace FileRenamerDiff.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -57,6 +57,69 @@ namespace FileRenamerDiff.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Adding serial numbers に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_AddingSerialNumber {
+            get {
+                return ResourceManager.GetString("AddingSerial_AddingSerialNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Genarated Pattern に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_GenaratedPattern {
+            get {
+                return ResourceManager.GetString("AddingSerial_GenaratedPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Inverse:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_Inverse {
+            get {
+                return ResourceManager.GetString("AddingSerial_Inverse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset per Folder:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_ResetPerFolder {
+            get {
+                return ResourceManager.GetString("AddingSerial_ResetPerFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start Number:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_StartNumber {
+            get {
+                return ResourceManager.GetString("AddingSerial_StartNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Step:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_Step {
+            get {
+                return ResourceManager.GetString("AddingSerial_Step", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Zero-Padding Digits:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_ZeroPaddingDigits {
+            get {
+                return ResourceManager.GetString("AddingSerial_ZeroPaddingDigits", resourceCulture);
             }
         }
         

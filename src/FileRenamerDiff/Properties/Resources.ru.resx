@@ -372,4 +372,25 @@
   <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
     <value>Добавьте имя каталога перед расширением</value>
   </data>
+  <data name="AddingSerial_AddingSerialNumber" xml:space="preserve">
+    <value>Добавление серийных номеров</value>
+  </data>
+  <data name="AddingSerial_StartNumber" xml:space="preserve">
+    <value>Стартовый номер: </value>
+  </data>
+  <data name="AddingSerial_Step" xml:space="preserve">
+    <value>Шаг: </value>
+  </data>
+  <data name="AddingSerial_ZeroPaddingDigits" xml:space="preserve">
+    <value>Нулевая прокладка цифр: </value>
+  </data>
+  <data name="AddingSerial_ResetPerFolder" xml:space="preserve">
+    <value>Сброс в папку: </value>
+  </data>
+  <data name="AddingSerial_Inverse" xml:space="preserve">
+    <value>Инверсия: </value>
+  </data>
+  <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
+    <value>енерируемый шаблон замены</value>
+  </data>
 </root>
