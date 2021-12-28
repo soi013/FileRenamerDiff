@@ -372,4 +372,31 @@
   <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
     <value>在扩展名之前添加目录名</value>
   </data>
+  <data name="AddingSerial_AddingSerialNumber" xml:space="preserve">
+    <value>添加序列号</value>
+  </data>
+  <data name="AddingSerial_StartNumber" xml:space="preserve">
+    <value>开始编号: </value>
+  </data>
+  <data name="AddingSerial_Step" xml:space="preserve">
+    <value>步骤: </value>
+  </data>
+  <data name="AddingSerial_ZeroPaddingDigits" xml:space="preserve">
+    <value>零填充数字: </value>
+  </data>
+  <data name="AddingSerial_ResetPerFolder" xml:space="preserve">
+    <value>按文件夹重置: </value>
+  </data>
+  <data name="AddingSerial_Inverse" xml:space="preserve">
+    <value>逆向: </value>
+  </data>
+  <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
+    <value>生成的替换模式</value>
+  </data>
+  <data name="AddingSerial_PrefixText" xml:space="preserve">
+    <value>前缀字符串: </value>
+  </data>
+  <data name="AddingSerial_PostfixText" xml:space="preserve">
+    <value>后缀文本: </value>
+  </data>
 </root>

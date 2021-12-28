@@ -33,6 +33,39 @@ public class FileElementModel_Test
     [InlineData("abc.txt", "abc", "$d", $"{dirName}.txt", false)]
     [InlineData("abc.txt", "abc", "$$d", "$d.txt", false)]
     [InlineData("abc.txt", "(.?)(\\.\\w*$)", "$1_$d$2", $"abc_{dirName}.txt", true)]
+    [InlineData("abc.txt", "^", "$n", $"1abc.txt", false)]
+    [InlineData("abc.txt", "abc", "$$n", "$n.txt", false)]
+    [InlineData("abc.txt", "^", "$n<4>", $"4abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10>", $"5abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,000>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,,000>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,000>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,000>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,,r>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<4,,,r>", $"4abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,,r>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,,r>", $"5abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,000,r>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,,000,r>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,000,r>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,000,r>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,,,i>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<4,,,,i>", $"4abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,,,i>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,,,i>", $"5abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,000,,i>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,,000,,i>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,000,,i>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,000,,i>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,,r,i>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<4,,,r,i>", $"4abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,,r,i>", $"1abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,,r,i>", $"5abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,,000,r,i>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,,000,r,i>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<,10,000,r,i>", $"001abc.txt", false)]
+    [InlineData("abc.txt", "^", "$n<5,10,000,r,i>", $"005abc.txt", false)]
     public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
@@ -101,7 +134,7 @@ public class FileElementModel_Test
             .ToArray();
 
         //リネームプレビュー実行
-        fileElem.Replace(replaceRegexes, isRenameExt);
+        fileElem.Replace(replaceRegexes, new[] { targetFilePath }, isRenameExt);
 
         fileElem.OutputFileName
             .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
@@ -173,13 +206,10 @@ public class FileElementModel_Test
         replaceRegex.ToString()
             .Should().Contain(regexPattern, replaceText, "->");
 
-        ReplaceRegex[] replaceRegexes = new[]
-            {
-                    replaceRegex
-                };
+        ReplaceRegex[] replaceRegexes = new[] { replaceRegex };
 
         //リネームプレビュー実行
-        fileElem.Replace(replaceRegexes, false);
+        fileElem.Replace(replaceRegexes, new[] { targetFilePath }, false);
 
         fileElem.OutputFileName
             .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
@@ -240,7 +270,7 @@ public class FileElementModel_Test
         var replaceRegex = new ReplacePattern(regexPattern, "$d", true).ToReplaceRegex()!;
 
         //リネームプレビュー実行
-        fileElem.Replace(new[] { replaceRegex }, false);
+        fileElem.Replace(new[] { replaceRegex }, new[] { targetFilePath }, false);
 
         fileElem.OutputFileName
             .Should().Be(expectedRenamedFileName, "リネーム変更後のファイル名になったはず");
@@ -304,7 +334,7 @@ public class FileElementModel_Test
         //無効文字の置換パターン
 
         //リネームプレビュー実行
-        fileElem.Replace(new[] { new ReplaceRegex(new Regex("A"), ":") }, false);
+        fileElem.Replace(new[] { new ReplaceRegex(new Regex("A"), ":") }, new[] { targetFilePath }, false);
 
         const string expectedFileName = "_BC.txt";
 
@@ -353,7 +383,7 @@ public class FileElementModel_Test
         //無効文字の置換パターン
 
         //リネームプレビュー実行
-        fileElem.Replace(new[] { new ReplaceRegex(new Regex("ABC"), "xyz") }, false);
+        fileElem.Replace(new[] { new ReplaceRegex(new Regex("ABC"), "xyz") }, new[] { targetFilePath }, false);
 
         const string expectedFileName = "xyz.txt";
 

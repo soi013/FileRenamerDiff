@@ -455,4 +455,40 @@ Execute "SAVE" to rename the actual file.</value>
     <value>Add the directory name before the extension</value>
     <comment>よくあるパターン説明_拡張子の手前にフォルダ名を追加する</comment>
   </data>
+  <data name="AddingSerial_AddingSerialNumber" xml:space="preserve">
+    <value>Adding serial numbers</value>
+    <comment>連番追加設定_連番追加</comment>
+  </data>
+  <data name="AddingSerial_StartNumber" xml:space="preserve">
+    <value>Start Number: </value>
+    <comment>連番追加設定_開始番号</comment>
+  </data>
+  <data name="AddingSerial_Step" xml:space="preserve">
+    <value>Step: </value>
+    <comment>連番追加設定_ステップ数</comment>
+  </data>
+  <data name="AddingSerial_ZeroPaddingDigits" xml:space="preserve">
+    <value>Zero-Padding Digits: </value>
+    <comment>連番追加設定_ゼロ詰め</comment>
+  </data>
+  <data name="AddingSerial_ResetPerFolder" xml:space="preserve">
+    <value>Reset per Folder: </value>
+    <comment>連番追加設定_フォルダごとリセット</comment>
+  </data>
+  <data name="AddingSerial_Inverse" xml:space="preserve">
+    <value>Inverse: </value>
+    <comment>連番追加設定_逆順</comment>
+  </data>
+  <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
+    <value>Genarated Pattern</value>
+    <comment>連番追加設定_生成パターン</comment>
+  </data>
+  <data name="AddingSerial_PrefixText" xml:space="preserve">
+    <value>Prefix Text: </value>
+    <comment>連番追加設定_前置文字</comment>
+  </data>
+  <data name="AddingSerial_PostfixText" xml:space="preserve">
+    <value>Postfix Text: </value>
+    <comment>連番追加設定_後置文字</comment>
+  </data>
 </root>

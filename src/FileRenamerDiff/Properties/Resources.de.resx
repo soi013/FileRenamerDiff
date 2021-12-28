@@ -372,4 +372,31 @@ Führen Sie "Umbenennen Speichern" aus, um die aktuelle Datei umzubenennen.</val
   <data name="Common_AddDirectoryNameBeforeExtension" xml:space="preserve">
     <value>Verzeichnisname vor der Erweiterung einfügen</value>
   </data>
+  <data name="AddingSerial_AddingSerialNumber" xml:space="preserve">
+    <value>Hinzufügen von Seriennummern</value>
+  </data>
+  <data name="AddingSerial_StartNumber" xml:space="preserve">
+    <value>Startnummer: </value>
+  </data>
+  <data name="AddingSerial_Step" xml:space="preserve">
+    <value>Schritt: </value>
+  </data>
+  <data name="AddingSerial_ZeroPaddingDigits" xml:space="preserve">
+    <value>Ziffern mit Nulleinfügung: </value>
+  </data>
+  <data name="AddingSerial_ResetPerFolder" xml:space="preserve">
+    <value>Zurücksetzen pro Ordner: </value>
+  </data>
+  <data name="AddingSerial_Inverse" xml:space="preserve">
+    <value>Umgekehrt: </value>
+  </data>
+  <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
+    <value>Generiertes Ersetzungsmuster</value>
+  </data>
+  <data name="AddingSerial_PrefixText" xml:space="preserve">
+    <value>Präfix-Text: </value>
+  </data>
+  <data name="AddingSerial_PostfixText" xml:space="preserve">
+    <value>Postfix-Text: </value>
+  </data>
 </root>

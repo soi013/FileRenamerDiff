@@ -229,8 +229,8 @@ public class MainModel : NotificationObject, IMainModel
             .Where(x => ignoreRegex?.IsMatch(AppExtension.GetExtentionCoreFromPath(x)) != true)
             .Do((x, i) =>
             {
-                    //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
-                    if ((i & 0xFF) != 0xFF)
+                //i%256と同じ。全部をレポート出力する必要はないので、何回かに1回に減らす
+                if ((i & 0xFF) != 0xFF)
                     return;
                 progress?.Report(new(i, $"File Loaded {x}"));
                 cancellationToken?.ThrowIfCancellationRequested();
@@ -351,8 +351,14 @@ public class MainModel : NotificationObject, IMainModel
     internal void ReplaceCore()
     {
         List<ReplaceRegexBase> regexes = CreateRegexes();
+
+        string[] inputPaths = FileElementModels
+            .Select(x => x.InputFilePath)
+            .Reverse()//逆順に並べられているので、反転しておく
+            .ToArray();
+
         Parallel.ForEach(FileElementModels,
-            x => x.Replace(regexes, Setting.IsRenameExt));
+            x => x.Replace(regexes, inputPaths, Setting.IsRenameExt));
 
         //Replaceした場合は自動ではReplacedとConflictedの数が更新されないので、明示的に呼ぶ
         UpdateCountReplacedAndConflicted();

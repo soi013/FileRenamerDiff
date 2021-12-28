@@ -53,6 +53,8 @@ public class SettingAppViewModel : ViewModel
     /// </summary>
     public IReadOnlyList<CommonPatternViewModel> CommonReplacePatternVMs { get; }
 
+    public AddSerialNumberViewModel AddSerialNumberVM { get; }
+
     /// <summary>
     /// ファイル探索時にサブディレクトリを探索するか
     /// </summary>
@@ -160,6 +162,8 @@ public class SettingAppViewModel : ViewModel
         this.CommonReplacePatternVMs = CommonPattern.ReplacePatterns
             .Select(x => new CommonPatternViewModel(mainModel, x, false))
             .ToArray();
+
+        this.AddSerialNumberVM = new AddSerialNumberViewModel(mainModel);
 
         this.SearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.SearchFilePaths).AddTo(this.CompositeDisposable);
         this.ConcatedSearchFilePaths = setting.ToReactivePropertyAsSynchronized(x => x.ConcatedSearchFilePaths).AddTo(this.CompositeDisposable);

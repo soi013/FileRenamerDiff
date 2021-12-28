@@ -1,541 +1,536 @@
 ﻿<UserControl
-   x:Class="FileRenamerDiff.Views.SettingAppPage"
-   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-   xmlns:dd="urn:gong-wpf-dragdrop"
-   xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
-   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
-   xmlns:v="clr-namespace:FileRenamerDiff.Views"
-   xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
-   Height="Auto"
-   d:DataContext="{d:DesignInstance {x:Type vm:SettingAppViewModel},
-                                    IsDesignTimeCreatable=True}"
-   d:DesignHeight="850"
-   d:DesignWidth="400"
-   mc:Ignorable="d">
-   <UserControl.Resources>
-      <materialDesign:NotConverter x:Key="NotConverter" />
-      <v:CultureDisplayConverter x:Key="CultureDisplayConverter" />
-      <Style BasedOn="{StaticResource MaterialDesignOutlinedTextBox}" TargetType="{x:Type TextBox}">
-         <Setter Property="MinWidth" Value="40" />
-         <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
-      </Style>
+    x:Class="FileRenamerDiff.Views.SettingAppPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
+    xmlns:v="clr-namespace:FileRenamerDiff.Views"
+    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+    Height="Auto"
+    d:DataContext="{d:DesignInstance {x:Type vm:SettingAppViewModel},
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="850"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <materialDesign:NotConverter x:Key="NotConverter" />
+        <v:CultureDisplayConverter x:Key="CultureDisplayConverter" />
+        <Style BasedOn="{StaticResource MaterialDesignOutlinedTextBox}" TargetType="{x:Type TextBox}">
+            <Setter Property="MinWidth" Value="40" />
+            <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
+        </Style>
 
-      <!--  Expanderヘッダー内TextBlock スタイル  -->
-      <Style
-         x:Key="ExpanderHeader"
-         BasedOn="{StaticResource MaterialDesignBody1TextBlock}"
-         TargetType="{x:Type TextBlock}">
-         <Setter Property="Margin" Value="5,0" />
-      </Style>
-      <Style
-         x:Key="ExpanderHeaderLabel"
-         BasedOn="{StaticResource IconTagLabel}"
-         TargetType="{x:Type Label}">
-         <Setter Property="Margin" Value="0,2" />
-         <Setter Property="FontSize" Value="16" />
-         <Setter Property="FontWeight" Value="Regular" />
-      </Style>
+        <!--  Expanderヘッダー内TextBlock スタイル  -->
+        <Style
+            x:Key="ExpanderHeader"
+            BasedOn="{StaticResource MaterialDesignBody1TextBlock}"
+            TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="5,0" />
+        </Style>
+        <Style
+            x:Key="ExpanderHeaderLabel"
+            BasedOn="{StaticResource IconTagLabel}"
+            TargetType="{x:Type Label}">
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Regular" />
+        </Style>
 
-      <!--  追加ボタン スタイル  -->
-      <Style
-         x:Key="AddButton"
-         x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
-         TargetType="{x:Type Button}">
-         <Setter Property="Content">
-            <Setter.Value>
-               <Label
-                  v:IconHeadder.IconKind="TableRowAddAfter"
-                  Content="{x:Static properties:Resources.Setting_Add}"
-                  Style="{StaticResource IconTagLabel}" />
-            </Setter.Value>
-         </Setter>
-         <Setter Property="Margin" Value="30,5" />
-         <Setter Property="HorizontalAlignment" Value="Stretch" />
-      </Style>
+        <!--  Common追加ボタン スタイル  -->
+        <Style
+            x:Key="AddCommonButton"
+            x:Shared="False"
+            BasedOn="{StaticResource DataGridMiniButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Content" Value="{materialDesign:PackIcon Kind=TableRowAddAfter}" />
+        </Style>
 
-      <!--  Common追加ボタン スタイル  -->
-      <Style
-         x:Key="AddCommonButton"
-         x:Shared="False"
-         BasedOn="{StaticResource DataGridMiniButton}"
-         TargetType="{x:Type Button}">
-         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=TableRowAddAfter}" />
-      </Style>
+        <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
+            <Setter Property="AutoGenerateColumns" Value="False" />
+            <Setter Property="CanUserSortColumns" Value="False" />
+            <Setter Property="HeadersVisibility" Value="All" />
 
-      <Style BasedOn="{StaticResource {x:Type DataGrid}}" TargetType="{x:Type DataGrid}">
-         <Setter Property="AutoGenerateColumns" Value="False" />
-         <Setter Property="CanUserSortColumns" Value="False" />
-         <Setter Property="HeadersVisibility" Value="All" />
+            <!--  DataGrid内でスクロールしても、親のパネルがスクロールするようになる  -->
+            <Setter Property="v:StyleBehaviorCollection.StyleBehaviors">
+                <Setter.Value>
+                    <v:StyleBehaviorCollection>
+                        <v:BubbleScrollEvent />
+                    </v:StyleBehaviorCollection>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignLightCheckBox}" TargetType="{x:Type CheckBox}">
+            <Setter Property="Margin" Value="30,5" />
+        </Style>
+        <Style BasedOn="{StaticResource MaterialDesignExpander}" TargetType="{x:Type Expander}">
+            <Setter Property="Padding" Value="10,2,2,2" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+        </Style>
+        <!--  DataGridの正規表現列内ElmentStyle用  -->
+        <Style
+            x:Key="regexCheckBox"
+            BasedOn="{StaticResource MaterialDesignCheckBox}"
+            TargetType="{x:Type CheckBox}">
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
+        </Style>
+        <Style
+            x:Key="regexHeader"
+            x:Shared="False"
+            BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
+            TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Regex}" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
+        </Style>
 
-         <!--  DataGrid内でスクロールしても、親のパネルがスクロールするようになる  -->
-         <Setter Property="v:StyleBehaviorCollection.StyleBehaviors">
-            <Setter.Value>
-               <v:StyleBehaviorCollection>
-                  <v:BubbleScrollEvent />
-               </v:StyleBehaviorCollection>
-            </Setter.Value>
-         </Setter>
-      </Style>
-      <Style BasedOn="{StaticResource MaterialDesignLightCheckBox}" TargetType="{x:Type CheckBox}">
-         <Setter Property="Margin" Value="30,5" />
-      </Style>
-      <Style BasedOn="{StaticResource MaterialDesignExpander}" TargetType="{x:Type Expander}">
-         <Setter Property="Padding" Value="10,2,2,2" />
-         <Setter Property="HorizontalAlignment" Value="Stretch" />
-      </Style>
-      <!--  DataGridの正規表現列内ElmentStyle用  -->
-      <Style
-         x:Key="regexCheckBox"
-         BasedOn="{StaticResource MaterialDesignCheckBox}"
-         TargetType="{x:Type CheckBox}">
-         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
-      </Style>
-      <Style
-         x:Key="regexHeader"
-         x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}"
-         TargetType="{x:Type DataGridColumnHeader}">
-         <Setter Property="Content" Value="{materialDesign:PackIcon Kind=Regex}" />
-         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
-      </Style>
+        <!--  正規表現リファレンスButton Style  -->
+        <Style
+            x:Key="ShowExpressionReferenceButton"
+            x:Shared="False"
+            BasedOn="{StaticResource MaterialDesignFlatButton}"
+            TargetType="{x:Type Button}">
+            <Setter Property="Command" Value="{Binding ShowExpressionReferenceCommand, Mode=OneTime}" />
+            <Setter Property="Margin" Value="3,1" />
+            <Setter Property="Content">
+                <Setter.Value>
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="HelpCircleOutline" />
+                        <materialDesign:PackIcon Kind="Regex" />
+                    </StackPanel>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
+        </Style>
 
-      <!--  正規表現リファレンスButton Style  -->
-      <Style
-         x:Key="ShowExpressionReferenceButton"
-         x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignFlatButton}"
-         TargetType="{x:Type Button}">
-         <Setter Property="Command" Value="{Binding ShowExpressionReferenceCommand, Mode=OneTime}" />
-         <Setter Property="Margin" Value="3,1" />
-         <Setter Property="Content">
-            <Setter.Value>
-               <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                  <materialDesign:PackIcon Kind="HelpCircleOutline" />
-                  <materialDesign:PackIcon Kind="Regex" />
-               </StackPanel>
-            </Setter.Value>
-         </Setter>
-         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_AsExpression}" />
-      </Style>
+        <!--  Common Popup  -->
+        <Style
+            x:Key="commonPopup"
+            x:Shared="False"
+            BasedOn="{StaticResource MaterialDesignToolForegroundPopupBox}"
+            TargetType="{x:Type materialDesign:PopupBox}">
+            <Setter Property="Margin" Value="0,0,15,0" />
+            <Setter Property="StaysOpen" Value="True" />
+            <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_CommonPatterns}" />
+            <Setter Property="ToggleContent">
+                <Setter.Value>
+                    <materialDesign:PackIcon
+                        Width="24"
+                        Height="24"
+                        Foreground="{StaticResource HighContrastBrush}"
+                        Kind="BookOpen" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="{x:Type materialDesign:Card}">
+            <Setter Property="Margin" Value="15,5,15,10" />
+        </Style>
+    </UserControl.Resources>
 
-      <!--  Common Popup  -->
-      <Style
-         x:Key="commonPopup"
-         x:Shared="False"
-         BasedOn="{StaticResource MaterialDesignToolForegroundPopupBox}"
-         TargetType="{x:Type materialDesign:PopupBox}">
-         <Setter Property="Margin" Value="0,0,15,0" />
-         <Setter Property="StaysOpen" Value="True" />
-         <Setter Property="ToolTip" Value="{x:Static properties:Resources.Setting_CommonPatterns}" />
-         <Setter Property="ToggleContent">
-            <Setter.Value>
-               <materialDesign:PackIcon
-                  Width="24"
-                  Height="24"
-                  Foreground="{StaticResource HighContrastBrush}"
-                  Kind="BookOpen" />
-            </Setter.Value>
-         </Setter>
-      </Style>
-      <Style BasedOn="{StaticResource {x:Type materialDesign:Card}}" TargetType="{x:Type materialDesign:Card}">
-         <Setter Property="Margin" Value="15,5,15,10" />
-      </Style>
-   </UserControl.Resources>
+    <StackPanel x:Name="rootObj">
+        <Expander>
+            <Expander.Header>
+                <Label
+                    v:IconHeadder.IconKind="FolderSettingsOutline"
+                    Content="{x:Static properties:Resources.Setting_FileSearch}"
+                    Style="{StaticResource ExpanderHeaderLabel}" />
+            </Expander.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <materialDesign:Card>
+                        <CheckBox Content="{x:Static properties:Resources.Setting_SearchSubDirectories}" IsChecked="{Binding IsSearchSubDirectories.Value}" />
+                    </materialDesign:Card>
+                    <GroupBox
+                        Margin="15,5,15,10"
+                        materialDesign:ColorZoneAssist.Mode="Standard"
+                        Header="{x:Static properties:Resources.Setting_IgnoreFileTypes}"
+                        Style="{DynamicResource MaterialDesignCardGroupBox}">
+                        <StackPanel Grid.Row="0">
+                            <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeDirectory}" IsChecked="{Binding IsDirectoryRenameTarget.Value}" />
+                            <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeFile}" IsChecked="{Binding IsFileRenameTarget.Value}" />
+                            <Border Style="{StaticResource divider}" />
+                            <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeHidden}" IsChecked="{Binding IsHiddenRenameTarget.Value}" />
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+                <DataGrid
+                    Grid.Row="1"
+                    dd:DragDrop.DragDropContext="IgnoreExtensions"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    ItemsSource="{Binding IgnoreExtensions}">
+                    <DataGrid.Columns>
+                        <v:DataGridIconColumn Kind="DragVertical" />
+                        <DataGridTextColumn
+                            Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                            Header="{x:Static properties:Resources.Setting_IgnoreExtensions}" />
+                        <DataGridTemplateColumn CanUserSort="False">
+                            <DataGridTemplateColumn.Header>
+                                <Button Command="{Binding DataContext.ClearIgnoreExtensionsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource RemoveButton}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button
+                    Grid.Row="2"
+                    Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}"
+                    Style="{StaticResource AddButton}" />
+            </Grid>
+        </Expander>
+        <Border Style="{StaticResource divider}" />
+        <Expander>
+            <Expander.Header>
+                <Label
+                    v:IconHeadder.IconKind="FormatStrikethrough"
+                    Content="{x:Static properties:Resources.Setting_DeleteTexts}"
+                    Style="{StaticResource ExpanderHeaderLabel}" />
+            </Expander.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
 
-   <StackPanel x:Name="rootObj">
-      <Expander>
-         <Expander.Header>
-            <Label
-               v:IconHeadder.IconKind="FolderSettingsOutline"
-               Content="{x:Static properties:Resources.Setting_FileSearch}"
-               Style="{StaticResource ExpanderHeaderLabel}" />
-         </Expander.Header>
-         <Grid>
-            <Grid.RowDefinitions>
-               <RowDefinition Height="Auto" />
-               <RowDefinition Height="*" />
-               <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-               <materialDesign:Card>
-                  <CheckBox Content="{x:Static properties:Resources.Setting_SearchSubDirectories}" IsChecked="{Binding IsSearchSubDirectories.Value}" />
-               </materialDesign:Card>
-               <GroupBox
-                  Margin="15,5,15,10"
-                  materialDesign:ColorZoneAssist.Mode="Standard"
-                  Header="{x:Static properties:Resources.Setting_IgnoreFileTypes}"
-                  Style="{DynamicResource MaterialDesignCardGroupBox}">
-                  <StackPanel Grid.Row="0">
-                     <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeDirectory}" IsChecked="{Binding IsDirectoryRenameTarget.Value}" />
-                     <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeFile}" IsChecked="{Binding IsFileRenameTarget.Value}" />
-                     <Border Style="{StaticResource divider}" />
-                     <CheckBox Content="{x:Static properties:Resources.Setting_FileTypeHidden}" IsChecked="{Binding IsHiddenRenameTarget.Value}" />
-                  </StackPanel>
-               </GroupBox>
+                <!--  削除パターン  -->
+                <DataGrid
+                    dd:DragDrop.DragDropContext="Delete"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    ItemsSource="{Binding DeleteTexts}"
+                    RowHeaderWidth="30"
+                    SelectionMode="Extended">
+                    <DataGrid.Columns>
+                        <v:DataGridIconColumn Kind="DragVertical" />
+                        <DataGridTextColumn
+                            Binding="{Binding TargetPattern.Value, UpdateSourceTrigger=PropertyChanged}"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                            Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding AsExpression.Value, UpdateSourceTrigger=PropertyChanged}"
+                            ElementStyle="{StaticResource regexCheckBox}"
+                            HeaderStyle="{StaticResource regexHeader}" />
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.Header>
+                                <Button Command="{Binding DataContext.ClearDeleteTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource RemoveButton}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
+                        Style="{StaticResource AddButton}" />
+                    <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
+
+                    <!--  よく使う削除パターン集  -->
+                    <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
+                        <StackPanel Margin="8">
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
+                            <DataGrid ItemsSource="{Binding CommonDeletePatternVMs}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Command="{Binding AddSettingCommand, Mode=OneTime}"
+                                                    Content="{materialDesign:PackIcon Kind=TableRowAddAfter}"
+                                                    Style="{StaticResource AddCommonButton}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <materialDesign:DataGridTextColumn
+                                        Binding="{Binding Comment, Mode=OneTime}"
+                                        Header="Description"
+                                        IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding TargetPattern, Mode=OneTime}"
+                                        Header="{x:Static properties:Resources.Setting_DeleteTextTarget}"
+                                        IsReadOnly="True" />
+                                    <DataGridTemplateColumn Width="150" Header="Sample Input">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="150" Header="Sample Output">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                </Grid>
+            </Grid>
+        </Expander>
+        <Border Style="{StaticResource divider}" />
+        <Expander>
+            <Expander.Header>
+                <Label
+                    v:IconHeadder.IconKind="AbTesting"
+                    Content="{x:Static properties:Resources.Setting_ReplacePatterns}"
+                    Style="{StaticResource ExpanderHeaderLabel}" />
+            </Expander.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  置換パターン  -->
+                <DataGrid
+                    dd:DragDrop.DragDropContext="Replace"
+                    dd:DragDrop.DropScrollingMode="VerticalOnly"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    ItemsSource="{Binding ReplaceTexts}">
+                    <DataGrid.Columns>
+                        <v:DataGridIconColumn Kind="DragVertical" />
+                        <DataGridTextColumn
+                            Binding="{Binding TargetPattern.Value, UpdateSourceTrigger=PropertyChanged}"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                            Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}" />
+                        <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <materialDesign:PackIcon Kind="ArrowRight" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn
+                            Binding="{Binding ReplaceText.Value, UpdateSourceTrigger=PropertyChanged}"
+                            EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
+                            Header="{x:Static properties:Resources.Setting_ReplaceText}" />
+                        <DataGridCheckBoxColumn
+                            Binding="{Binding AsExpression.Value, UpdateSourceTrigger=PropertyChanged}"
+                            ElementStyle="{StaticResource regexCheckBox}"
+                            HeaderStyle="{StaticResource regexHeader}" />
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.Header>
+                                <Button Command="{Binding DataContext.ClearReplaceTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Style="{StaticResource RemoveButton}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
+                        Style="{StaticResource AddButton}" />
+                    <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
+                    <!--  よく使う置換パターン集  -->
+                    <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
+                        <StackPanel Margin="8">
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
+                            <DataGrid ItemsSource="{Binding CommonReplacePatternVMs}">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Command="{Binding AddSettingCommand, Mode=OneTime}"
+                                                    Content="{materialDesign:PackIcon Kind=TableRowAddAfter}"
+                                                    Style="{StaticResource AddCommonButton}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <materialDesign:DataGridTextColumn
+                                        Binding="{Binding Comment, Mode=OneTime}"
+                                        Header="Description"
+                                        IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding TargetPattern, Mode=OneTime}"
+                                        Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}"
+                                        IsReadOnly="True" />
+                                    <DataGridTextColumn
+                                        Binding="{Binding ReplaceText, Mode=OneTime}"
+                                        Header="{x:Static properties:Resources.Setting_ReplaceText}"
+                                        IsReadOnly="True" />
+                                    <DataGridTemplateColumn Width="150" Header="Sample Input">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="150" Header="Sample Output">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </materialDesign:PopupBox>
+                    <materialDesign:PopupBox
+                        Grid.Column="3"
+                        Margin="0,0,15,0"
+                        StaysOpen="True"
+                        ToolTip="{x:Static properties:Resources.AddingSerial_AddingSerialNumber}">
+                        <materialDesign:PopupBox.ToggleContent>
+                            <materialDesign:PackIcon
+                                Width="24"
+                                Height="24"
+                                Foreground="{StaticResource HighContrastBrush}"
+                                Kind="Numeric" />
+                        </materialDesign:PopupBox.ToggleContent>
+                        <v:AddSerialNumberPage DataContext="{Binding AddSerialNumberVM, Mode=OneTime}" />
+                    </materialDesign:PopupBox>
+                </Grid>
+            </Grid>
+        </Expander>
+        <Border Style="{StaticResource divider}" />
+        <!--  その他設定  -->
+        <Expander IsExpanded="True">
+            <Expander.Header>
+                <Label
+                    v:IconHeadder.IconKind="Tune"
+                    Content="{x:Static properties:Resources.Setting_Other}"
+                    Style="{StaticResource ExpanderHeaderLabel}" />
+            </Expander.Header>
+            <StackPanel>
+                <materialDesign:Card Padding="15,10,15,5">
+                    <StackPanel>
+                        <TextBlock
+                            Foreground="{StaticResource HighContrastBrush}"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            Text="App language: change effective after restart" />
+                        <ComboBox
+                            Padding="5"
+                            materialDesign:ColorZoneAssist.Mode="SecondaryMid"
+                            FontSize="14"
+                            ItemsSource="{Binding AvailableLanguages}"
+                            SelectedItem="{Binding SelectedLanguage.Value}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource CultureDisplayConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Padding="15,10,15,5">
+                    <StackPanel>
+                        <TextBlock
+                            Foreground="{StaticResource HighContrastBrush}"
+                            Style="{StaticResource MaterialDesignBody2TextBlock}"
+                            Text="App Theme: change effective after restart" />
+                        <StackPanel Margin="5" Orientation="Horizontal">
+                            <RadioButton
+                                materialDesign:ColorZoneAssist.Mode="Dark"
+                                Content="DARK"
+                                IsChecked="{Binding IsAppDarkTheme.Value}"
+                                Style="{StaticResource MaterialDesignDarkRadioButton}" />
+                            <RadioButton
+                                Margin="10,0"
+                                materialDesign:ColorZoneAssist.Mode="Light"
+                                Content="LIGHT"
+                                IsChecked="{Binding IsAppDarkTheme.Value, Converter={StaticResource NotConverter}}"
+                                Style="{StaticResource MaterialDesignLightRadioButton}" />
+                        </StackPanel>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <CheckBox Content="{x:Static properties:Resources.Setting_IsRenameExt}" IsChecked="{Binding IsRenameExt.Value}" />
+                </materialDesign:Card>
+
+                <materialDesign:Card>
+                    <CheckBox Content="{x:Static properties:Resources.Setting_IsCreateRenameLog}" IsChecked="{Binding IsCreateRenameLog.Value}" />
+                </materialDesign:Card>
+                <Button Margin="30,5">
+                    <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="Click">
+                            <l:OpenFileDialogInteractionMessageAction>
+                                <l:DirectInteractionMessage CallbackCommand="{Binding LoadSettingFileDialogCommand, Mode=OneTime}">
+                                    <l:OpeningFileSelectionMessage
+                                        Title="{x:Static properties:Resources.Setting_ImportSettingFile}"
+                                        FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
+                                        Filter="Settings File|*.json"
+                                        InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
+                                </l:DirectInteractionMessage>
+                            </l:OpenFileDialogInteractionMessageAction>
+                        </behaviors:EventTrigger>
+                    </behaviors:Interaction.Triggers>
+                    <Label
+                        v:IconHeadder.IconKind="FileImport"
+                        Content="{x:Static properties:Resources.Setting_ImportSettingFile}"
+                        Style="{StaticResource IconTagLabel}" />
+                </Button>
+                <Button Margin="30,5">
+                    <behaviors:Interaction.Triggers>
+                        <behaviors:EventTrigger EventName="Click">
+                            <l:SaveFileDialogInteractionMessageAction>
+                                <l:DirectInteractionMessage CallbackCommand="{Binding SaveSettingFileDialogCommand, Mode=OneTime}">
+                                    <l:SavingFileSelectionMessage
+                                        Title="{x:Static properties:Resources.Setting_ExportSettingFile}"
+                                        FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
+                                        Filter="Settings File|*.json"
+                                        InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
+                                </l:DirectInteractionMessage>
+                            </l:SaveFileDialogInteractionMessageAction>
+                        </behaviors:EventTrigger>
+                    </behaviors:Interaction.Triggers>
+                    <Label
+                        v:IconHeadder.IconKind="FileExport"
+                        Content="{x:Static properties:Resources.Setting_ExportSettingFile}"
+                        Style="{StaticResource IconTagLabel}" />
+                </Button>
+                <Button
+                    Margin="30,5"
+                    Command="{Binding ResetSettingCommand, Mode=OneTime}"
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                    <Label
+                        v:IconHeadder.IconKind="Autorenew"
+                        Content="{x:Static properties:Resources.Setting_ResetAllSetting}"
+                        Style="{StaticResource IconTagLabel}" />
+                </Button>
             </StackPanel>
-            <DataGrid
-               Grid.Row="1"
-               dd:DragDrop.DragDropContext="IgnoreExtensions"
-               dd:DragDrop.IsDragSource="True"
-               dd:DragDrop.IsDropTarget="True"
-               ItemsSource="{Binding IgnoreExtensions}">
-               <DataGrid.Columns>
-                  <v:DataGridIconColumn Kind="DragVertical" />
-                  <DataGridTextColumn
-                     Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="{x:Static properties:Resources.Setting_IgnoreExtensions}" />
-                  <DataGridTemplateColumn CanUserSort="False">
-                     <DataGridTemplateColumn.Header>
-                        <Button Command="{Binding DataContext.ClearIgnoreExtensionsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
-                     </DataGridTemplateColumn.Header>
-                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                           <Button Style="{StaticResource RemoveButton}" />
-                        </DataTemplate>
-                     </DataGridTemplateColumn.CellTemplate>
-                  </DataGridTemplateColumn>
-               </DataGrid.Columns>
-            </DataGrid>
-            <Button
-               Grid.Row="2"
-               Command="{Binding AddIgnoreExtensionsCommand, Mode=OneTime}"
-               Style="{StaticResource AddButton}" />
-         </Grid>
-      </Expander>
-      <Border Style="{StaticResource divider}" />
-      <Expander>
-         <Expander.Header>
-            <Label
-               v:IconHeadder.IconKind="FormatStrikethrough"
-               Content="{x:Static properties:Resources.Setting_DeleteTexts}"
-               Style="{StaticResource ExpanderHeaderLabel}" />
-         </Expander.Header>
-         <Grid>
-            <Grid.RowDefinitions>
-               <RowDefinition Height="*" />
-               <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <!--  削除パターン  -->
-            <DataGrid
-               dd:DragDrop.DragDropContext="Delete"
-               dd:DragDrop.IsDragSource="True"
-               dd:DragDrop.IsDropTarget="True"
-               ItemsSource="{Binding DeleteTexts}"
-               RowHeaderWidth="30"
-               SelectionMode="Extended">
-               <DataGrid.Columns>
-                  <v:DataGridIconColumn Kind="DragVertical" />
-                  <DataGridTextColumn
-                     Binding="{Binding TargetPattern.Value, UpdateSourceTrigger=PropertyChanged}"
-                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="{x:Static properties:Resources.Setting_DeleteTextTarget}" />
-                  <DataGridCheckBoxColumn
-                     Binding="{Binding AsExpression.Value, UpdateSourceTrigger=PropertyChanged}"
-                     ElementStyle="{StaticResource regexCheckBox}"
-                     HeaderStyle="{StaticResource regexHeader}" />
-                  <DataGridTemplateColumn>
-                     <DataGridTemplateColumn.Header>
-                        <Button Command="{Binding DataContext.ClearDeleteTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
-                     </DataGridTemplateColumn.Header>
-                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                           <Button Style="{StaticResource RemoveButton}" />
-                        </DataTemplate>
-                     </DataGridTemplateColumn.CellTemplate>
-                  </DataGridTemplateColumn>
-               </DataGrid.Columns>
-            </DataGrid>
-            <Grid Grid.Row="1">
-               <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-               </Grid.ColumnDefinitions>
-               <Button
-                  Grid.Column="0"
-                  Command="{Binding AddDeleteTextsCommand, Mode=OneTime}"
-                  Style="{StaticResource AddButton}" />
-               <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
-
-               <!--  よく使う削除パターン集  -->
-               <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
-                  <StackPanel Margin="8">
-                     <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
-                     <DataGrid ItemsSource="{Binding CommonDeletePatternVMs}">
-                        <DataGrid.Columns>
-                           <DataGridTemplateColumn>
-                              <DataGridTemplateColumn.CellTemplate>
-                                 <DataTemplate>
-                                    <Button
-                                       Command="{Binding AddSettingCommand, Mode=OneTime}"
-                                       Content="{materialDesign:PackIcon Kind=TableRowAddAfter}"
-                                       Style="{StaticResource AddCommonButton}" />
-                                 </DataTemplate>
-                              </DataGridTemplateColumn.CellTemplate>
-                           </DataGridTemplateColumn>
-                           <materialDesign:DataGridTextColumn
-                              Binding="{Binding Comment, Mode=OneTime}"
-                              Header="Description"
-                              IsReadOnly="True" />
-                           <DataGridTextColumn
-                              Binding="{Binding TargetPattern, Mode=OneTime}"
-                              Header="{x:Static properties:Resources.Setting_DeleteTextTarget}"
-                              IsReadOnly="True" />
-                           <DataGridTemplateColumn Width="150" Header="Sample Input">
-                              <DataGridTemplateColumn.CellTemplate>
-                                 <DataTemplate>
-                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
-                                 </DataTemplate>
-                              </DataGridTemplateColumn.CellTemplate>
-                           </DataGridTemplateColumn>
-                           <DataGridTemplateColumn Width="150" Header="Sample Output">
-                              <DataGridTemplateColumn.CellTemplate>
-                                 <DataTemplate>
-                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
-                                 </DataTemplate>
-                              </DataGridTemplateColumn.CellTemplate>
-                           </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                     </DataGrid>
-                  </StackPanel>
-               </materialDesign:PopupBox>
-            </Grid>
-         </Grid>
-      </Expander>
-      <Border Style="{StaticResource divider}" />
-      <Expander>
-         <Expander.Header>
-            <Label
-               v:IconHeadder.IconKind="AbTesting"
-               Content="{x:Static properties:Resources.Setting_ReplacePatterns}"
-               Style="{StaticResource ExpanderHeaderLabel}" />
-         </Expander.Header>
-         <Grid>
-            <Grid.RowDefinitions>
-               <RowDefinition Height="*" />
-               <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <!--  置換パターン  -->
-            <DataGrid
-               dd:DragDrop.DragDropContext="Replace"
-               dd:DragDrop.DropScrollingMode="VerticalOnly"
-               dd:DragDrop.IsDragSource="True"
-               dd:DragDrop.IsDropTarget="True"
-               ItemsSource="{Binding ReplaceTexts}">
-               <DataGrid.Columns>
-                  <v:DataGridIconColumn Kind="DragVertical" />
-                  <DataGridTextColumn
-                     Binding="{Binding TargetPattern.Value, UpdateSourceTrigger=PropertyChanged}"
-                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}" />
-                  <DataGridTemplateColumn CellStyle="{StaticResource IgnoreCell}">
-                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                           <materialDesign:PackIcon Kind="ArrowRight" />
-                        </DataTemplate>
-                     </DataGridTemplateColumn.CellTemplate>
-                  </DataGridTemplateColumn>
-                  <DataGridTextColumn
-                     Binding="{Binding ReplaceText.Value, UpdateSourceTrigger=PropertyChanged}"
-                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
-                     Header="{x:Static properties:Resources.Setting_ReplaceText}" />
-                  <DataGridCheckBoxColumn
-                     Binding="{Binding AsExpression.Value, UpdateSourceTrigger=PropertyChanged}"
-                     ElementStyle="{StaticResource regexCheckBox}"
-                     HeaderStyle="{StaticResource regexHeader}" />
-                  <DataGridTemplateColumn>
-                     <DataGridTemplateColumn.Header>
-                        <Button Command="{Binding DataContext.ClearReplaceTextsCommand, ElementName=rootObj, Mode=OneWay}" Style="{StaticResource ClearButton}" />
-                     </DataGridTemplateColumn.Header>
-                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                           <Button Style="{StaticResource RemoveButton}" />
-                        </DataTemplate>
-                     </DataGridTemplateColumn.CellTemplate>
-                  </DataGridTemplateColumn>
-               </DataGrid.Columns>
-            </DataGrid>
-            <Grid Grid.Row="1">
-               <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="Auto" />
-               </Grid.ColumnDefinitions>
-               <Button
-                  Grid.Column="0"
-                  Command="{Binding AddReplaceTextsCommand, Mode=OneTime}"
-                  Style="{StaticResource AddButton}" />
-
-               <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
-
-               <!--  よく使う置換パターン集  -->
-               <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
-                  <StackPanel Margin="8">
-                     <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
-                     <DataGrid ItemsSource="{Binding CommonReplacePatternVMs}">
-                        <DataGrid.Columns>
-                           <DataGridTemplateColumn>
-                              <DataGridTemplateColumn.CellTemplate>
-                                 <DataTemplate>
-                                    <Button
-                                       Command="{Binding AddSettingCommand, Mode=OneTime}"
-                                       Content="{materialDesign:PackIcon Kind=TableRowAddAfter}"
-                                       Style="{StaticResource AddCommonButton}" />
-                                 </DataTemplate>
-                              </DataGridTemplateColumn.CellTemplate>
-                           </DataGridTemplateColumn>
-                           <materialDesign:DataGridTextColumn
-                              Binding="{Binding Comment, Mode=OneTime}"
-                              Header="Description"
-                              IsReadOnly="True" />
-                           <DataGridTextColumn
-                              Binding="{Binding TargetPattern, Mode=OneTime}"
-                              Header="{x:Static properties:Resources.Setting_ReplaceTextTarget}"
-                              IsReadOnly="True" />
-                           <DataGridTextColumn
-                              Binding="{Binding ReplaceText, Mode=OneTime}"
-                              Header="{x:Static properties:Resources.Setting_ReplaceText}"
-                              IsReadOnly="True" />
-                           <DataGridTemplateColumn Width="150" Header="Sample Input">
-                              <DataGridTemplateColumn.CellTemplate>
-                                 <DataTemplate>
-                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.OldText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
-                                 </DataTemplate>
-                              </DataGridTemplateColumn.CellTemplate>
-                           </DataGridTemplateColumn>
-                           <DataGridTemplateColumn Width="150" Header="Sample Output">
-                              <DataGridTemplateColumn.CellTemplate>
-                                 <DataTemplate>
-                                    <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
-                                 </DataTemplate>
-                              </DataGridTemplateColumn.CellTemplate>
-                           </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                     </DataGrid>
-                  </StackPanel>
-               </materialDesign:PopupBox>
-            </Grid>
-         </Grid>
-      </Expander>
-      <Border Style="{StaticResource divider}" />
-      <!--  その他設定  -->
-      <Expander IsExpanded="True">
-         <Expander.Header>
-            <Label
-               v:IconHeadder.IconKind="Tune"
-               Content="{x:Static properties:Resources.Setting_Other}"
-               Style="{StaticResource ExpanderHeaderLabel}" />
-         </Expander.Header>
-         <StackPanel>
-            <materialDesign:Card Padding="15,10,15,5">
-               <StackPanel>
-                  <TextBlock
-                     Foreground="{StaticResource HighContrastBrush}"
-                     Style="{StaticResource MaterialDesignBody2TextBlock}"
-                     Text="App language: change effective after restart" />
-                  <ComboBox
-                     Padding="5"
-                     materialDesign:ColorZoneAssist.Mode="SecondaryMid"
-                     FontSize="14"
-                     ItemsSource="{Binding AvailableLanguages}"
-                     SelectedItem="{Binding SelectedLanguage.Value}">
-                     <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                           <TextBlock Text="{Binding ., Converter={StaticResource CultureDisplayConverter}}" />
-                        </DataTemplate>
-                     </ComboBox.ItemTemplate>
-                  </ComboBox>
-
-               </StackPanel>
-            </materialDesign:Card>
-
-            <materialDesign:Card Padding="15,10,15,5">
-               <StackPanel>
-                  <TextBlock
-                     Foreground="{StaticResource HighContrastBrush}"
-                     Style="{StaticResource MaterialDesignBody2TextBlock}"
-                     Text="App Theme: change effective after restart" />
-                  <StackPanel Margin="5" Orientation="Horizontal">
-                     <RadioButton
-                        materialDesign:ColorZoneAssist.Mode="Dark"
-                        Content="DARK"
-                        IsChecked="{Binding IsAppDarkTheme.Value}"
-                        Style="{StaticResource MaterialDesignDarkRadioButton}" />
-                     <RadioButton
-                        Margin="10,0"
-                        materialDesign:ColorZoneAssist.Mode="Light"
-                        Content="LIGHT"
-                        IsChecked="{Binding IsAppDarkTheme.Value, Converter={StaticResource NotConverter}}"
-                        Style="{StaticResource MaterialDesignLightRadioButton}" />
-                  </StackPanel>
-               </StackPanel>
-            </materialDesign:Card>
-
-            <materialDesign:Card>
-               <CheckBox Content="{x:Static properties:Resources.Setting_IsRenameExt}" IsChecked="{Binding IsRenameExt.Value}" />
-            </materialDesign:Card>
-
-            <materialDesign:Card>
-               <CheckBox Content="{x:Static properties:Resources.Setting_IsCreateRenameLog}" IsChecked="{Binding IsCreateRenameLog.Value}" />
-            </materialDesign:Card>
-            <Button Margin="30,5">
-               <behaviors:Interaction.Triggers>
-                  <behaviors:EventTrigger EventName="Click">
-                     <l:OpenFileDialogInteractionMessageAction>
-                        <l:DirectInteractionMessage CallbackCommand="{Binding LoadSettingFileDialogCommand, Mode=OneTime}">
-                           <l:OpeningFileSelectionMessage
-                              Title="{x:Static properties:Resources.Setting_ImportSettingFile}"
-                              FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
-                              Filter="Settings File|*.json"
-                              InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
-                        </l:DirectInteractionMessage>
-                     </l:OpenFileDialogInteractionMessageAction>
-                  </behaviors:EventTrigger>
-               </behaviors:Interaction.Triggers>
-               <Label
-                  v:IconHeadder.IconKind="FileImport"
-                  Content="{x:Static properties:Resources.Setting_ImportSettingFile}"
-                  Style="{StaticResource IconTagLabel}" />
-            </Button>
-            <Button Margin="30,5">
-               <behaviors:Interaction.Triggers>
-                  <behaviors:EventTrigger EventName="Click">
-                     <l:SaveFileDialogInteractionMessageAction>
-                        <l:DirectInteractionMessage CallbackCommand="{Binding SaveSettingFileDialogCommand, Mode=OneTime}">
-                           <l:SavingFileSelectionMessage
-                              Title="{x:Static properties:Resources.Setting_ExportSettingFile}"
-                              FileName="{Binding PreviousSettingFileName.Value, Mode=OneWay}"
-                              Filter="Settings File|*.json"
-                              InitialDirectory="{Binding PreviousSettingFileDirectory.Value, Mode=OneWay}" />
-                        </l:DirectInteractionMessage>
-                     </l:SaveFileDialogInteractionMessageAction>
-                  </behaviors:EventTrigger>
-               </behaviors:Interaction.Triggers>
-               <Label
-                  v:IconHeadder.IconKind="FileExport"
-                  Content="{x:Static properties:Resources.Setting_ExportSettingFile}"
-                  Style="{StaticResource IconTagLabel}" />
-            </Button>
-            <Button
-               Margin="30,5"
-               Command="{Binding ResetSettingCommand, Mode=OneTime}"
-               Style="{StaticResource MaterialDesignRaisedAccentButton}">
-               <Label
-                  v:IconHeadder.IconKind="Autorenew"
-                  Content="{x:Static properties:Resources.Setting_ResetAllSetting}"
-                  Style="{StaticResource IconTagLabel}" />
-            </Button>
-         </StackPanel>
-      </Expander>
-   </StackPanel>
+        </Expander>
+    </StackPanel>
 </UserControl>

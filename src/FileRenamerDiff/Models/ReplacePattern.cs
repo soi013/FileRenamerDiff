@@ -60,8 +60,8 @@ public class ReplacePattern : NotificationObject
         Regex? regex = AppExtension.CreateRegexOrNull(patternEx);
 
         return regex == null ? null
-            //
             : AddDirectoryNameRegex.IsContainPattern(ReplaceText) ? new AddDirectoryNameRegex(regex, ReplaceText)
+            : AddSerialNumberRegex.IsContainPattern(ReplaceText) ? new AddSerialNumberRegex(regex, ReplaceText)
             : new ReplaceRegex(regex, ReplaceText);
     }
 

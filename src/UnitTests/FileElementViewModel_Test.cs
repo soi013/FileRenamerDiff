@@ -80,7 +80,7 @@ public class FileElementViewModel_Test : IClassFixture<LogFixture>
                 };
 
         //リネームプレビュー実行
-        fileElementM.Replace(replaceRegexes, false);
+        fileElementM.Replace(replaceRegexes, new[] { targetFilePath }, false);
 
         fileElementVM.IsReplaced.Value
             .Should().BeTrue("置換後のはず");
