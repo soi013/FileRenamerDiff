@@ -31,8 +31,16 @@
         </Style>
         <Style BasedOn="{StaticResource IconTagLabel}" TargetType="Label">
             <Setter Property="Margin" Value="10,10,5,1" />
-            <Setter Property="Width" Value="130" />
+            <Setter Property="Width" Value="160" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+        <Style
+            x:Key="fixText"
+            BasedOn="{StaticResource MaterialDesignFilledTextBox}"
+            TargetType="TextBox">
+            <Setter Property="Margin" Value="20,10" />
+            <Setter Property="MinWidth" Value="40" />
+            <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
         </Style>
     </FrameworkElement.Resources>
     <Grid Margin="5">
@@ -91,6 +99,14 @@
                     <StackPanel Orientation="Horizontal">
                         <Label v:IconHeadder.IconKind="SortNumericDescending" Content="{x:Static properties:Resources.AddingSerial_Inverse}" />
                         <ToggleButton IsChecked="{Binding IsInverseOrder.Value}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="DockLeft" Content="{x:Static properties:Resources.AddingSerial_PrefixText}" />
+                        <TextBox Style="{StaticResource fixText}" Text="{Binding PrefixText.Value, UpdateSourceTrigger=PropertyChanged}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label v:IconHeadder.IconKind="DockRight" Content="{x:Static properties:Resources.AddingSerial_PostfixText}" />
+                        <TextBox Style="{StaticResource fixText}" Text="{Binding PostfixText.Value, UpdateSourceTrigger=PropertyChanged}" />
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

@@ -393,4 +393,10 @@
   <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
     <value>生成された置換パターン</value>
   </data>
+  <data name="AddingSerial_PrefixText" xml:space="preserve">
+    <value>前置き文字列: </value>
+  </data>
+  <data name="AddingSerial_PostfixText" xml:space="preserve">
+    <value>後置き文字列: </value>
+  </data>
 </root>

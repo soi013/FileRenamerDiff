@@ -393,4 +393,10 @@
   <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
     <value>енерируемый шаблон замены</value>
   </data>
+  <data name="AddingSerial_PrefixText" xml:space="preserve">
+    <value>Префиксный текст: </value>
+  </data>
+  <data name="AddingSerial_PostfixText" xml:space="preserve">
+    <value>Постфиксный текст: </value>
+  </data>
 </root>

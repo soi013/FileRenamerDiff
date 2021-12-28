@@ -393,4 +393,10 @@
   <data name="AddingSerial_GenaratedPattern" xml:space="preserve">
     <value>生成的替换模式</value>
   </data>
+  <data name="AddingSerial_PrefixText" xml:space="preserve">
+    <value>前缀字符串: </value>
+  </data>
+  <data name="AddingSerial_PostfixText" xml:space="preserve">
+    <value>后缀文本: </value>
+  </data>
 </root>

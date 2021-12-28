@@ -88,6 +88,24 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Postfix Text:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_PostfixText {
+            get {
+                return ResourceManager.GetString("AddingSerial_PostfixText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prefix Text:  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AddingSerial_PrefixText {
+            get {
+                return ResourceManager.GetString("AddingSerial_PrefixText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Reset per Folder:  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string AddingSerial_ResetPerFolder {

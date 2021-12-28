@@ -19,6 +19,9 @@ public class AddSerialNumberViewModel
     public ReactivePropertySlim<bool> IsDirectoryReset { get; } = new();
     public ReactivePropertySlim<bool> IsInverseOrder { get; } = new();
 
+    public ReactivePropertySlim<string> PrefixText { get; } = new(string.Empty);
+    public ReactivePropertySlim<string> PostfixText { get; } = new("_");
+
     public ReadOnlyReactivePropertySlim<string> TextAddPattern { get; }
 
     public ReactivePropertySlim<string> TextTargetPattern { get; } = new("^");
@@ -61,9 +64,9 @@ public class AddSerialNumberViewModel
     {
         this.mainModel = mainModel;
         this.TextAddPattern = Observable
-            .CombineLatest(StartNumber, Step, ZeroPadCount, IsDirectoryReset, IsInverseOrder,
-                (start, step, pad, isReset, isInverse) =>
-                    CreatePatternText(start, step, pad, isReset, isInverse))
+            .CombineLatest(StartNumber, Step, ZeroPadCount, IsDirectoryReset, IsInverseOrder, PrefixText, PostfixText,
+                (start, step, pad, isReset, isInverse, pre, post) =>
+                    CreatePatternText(start, step, pad, isReset, isInverse, pre, post))
             .ToReadOnlyReactivePropertySlim("$n");
 
         this.SampleDiffVMs = Observable
@@ -97,7 +100,7 @@ public class AddSerialNumberViewModel
     private static readonly Regex regexTailDefaultParamerters = new(",+(?=>)", RegexOptions.Compiled);
     private static readonly Regex regexAllDefaultParamerters = new("<,*>", RegexOptions.Compiled);
 
-    private static string CreatePatternText(int start, int step, int pad, bool isReset, bool isInverse)
+    private static string CreatePatternText(int start, int step, int pad, bool isReset, bool isInverse, string pre, string post)
     {
         //各パラメータが初期値だったら空白にする
         string startText = start == AddSerialNumberRegex.DefaultStartNumber ? string.Empty : start.ToString();
@@ -110,7 +113,7 @@ public class AddSerialNumberViewModel
             ? string.Empty
             : AddSerialNumberRegex.InverseOrderText;
 
-        string paramerterText = @$"$n<{startText},{stepText},{padText},{isResetText},{isInverseText}>";
+        string paramerterText = @$"{pre}$n<{startText},{stepText},{padText},{isResetText},{isInverseText}>{post}";
         //不要なパラメータを削除
         paramerterText = regexTailDefaultParamerters.Replace(paramerterText, string.Empty);
         //全部デフォルトパラメータだったら、削除

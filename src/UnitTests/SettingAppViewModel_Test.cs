@@ -176,10 +176,10 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
             .Select(x => x.SampleDiff.NewText.ToRawText())
             .Should().BeEquivalentTo(new[]
             {
-                "1aaa.txt",
-                "2bbb.txt",
-                "3ccc.txt",
-                "4ddd.txt"
+                "1_aaa.txt",
+                "2_bbb.txt",
+                "3_ccc.txt",
+                "4_ddd.txt"
             });
 
         //ステージ2 追加後
@@ -188,19 +188,21 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         addSerialNumberVM.ZeroPadCount.Value = 3;
         addSerialNumberVM.IsDirectoryReset.Value = true;
         addSerialNumberVM.IsInverseOrder.Value = true;
+        addSerialNumberVM.PrefixText.Value = "[";
+        addSerialNumberVM.PostfixText.Value = "]_";
 
         addSerialNumberVM.AddSettingCommand.Execute();
 
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"[$n<10,5,000,r,i>]_", "含まれているはず");
         addSerialNumberVM.SampleDiffVMs.Value
             .Select(x => x.SampleDiff.NewText.ToRawText())
             .Should().BeEquivalentTo(new[]
             {
-                "020aaa.txt",
-                "015bbb.txt",
-                "010ccc.txt",
-                "010ddd.txt"
+                "[020]_aaa.txt",
+                "[015]_bbb.txt",
+                "[010]_ccc.txt",
+                "[010]_ddd.txt"
             });
 
         //ステージ3 追加後編集
@@ -214,7 +216,7 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         //ステージ4 再度追加
         addSerialNumberVM.AddSettingCommand.Execute();
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"[$n<10,5,000,r,i>]_", "含まれているはず");
     }
 
     [WpfFact]
@@ -229,13 +231,13 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         //ステージ デフォルトパラメータ指定
         addSerialNumberVM.AddSettingCommand.Execute();
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"$n_", "含まれているはず");
 
         //ステージ 部分パラメータ指定1
         addSerialNumberVM.StartNumber.Value = 10;
         addSerialNumberVM.AddSettingCommand.Execute();
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n<10>", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<10>_", "含まれているはず");
 
         //ステージ 部分パラメータ指定2
         addSerialNumberVM.StartNumber.Value = AddSerialNumberRegex.DefaultStartNumber;
@@ -243,7 +245,7 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         addSerialNumberVM.IsDirectoryReset.Value = true;
         addSerialNumberVM.AddSettingCommand.Execute();
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n<,5,,r>", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"$n<,5,,r>_", "含まれているはず");
 
         //ステージ 全パラメータ指定1
         addSerialNumberVM.StartNumber.Value = 10;
@@ -251,10 +253,12 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         addSerialNumberVM.ZeroPadCount.Value = 3;
         addSerialNumberVM.IsDirectoryReset.Value = true;
         addSerialNumberVM.IsInverseOrder.Value = true;
+        addSerialNumberVM.PrefixText.Value = "[";
+        addSerialNumberVM.PostfixText.Value = "]_";
 
         addSerialNumberVM.AddSettingCommand.Execute();
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n<10,5,000,r,i>", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"[$n<10,5,000,r,i>]_", "含まれているはず");
 
         //ステージ 全パラメータ指定2
         addSerialNumberVM.StartNumber.Value = 99;
@@ -262,10 +266,12 @@ public class SettingAppViewModel_Test : IClassFixture<LogFixture>
         addSerialNumberVM.ZeroPadCount.Value = 2;
         addSerialNumberVM.IsDirectoryReset.Value = true;
         addSerialNumberVM.IsInverseOrder.Value = true;
+        addSerialNumberVM.PrefixText.Value = @"No\. ";
+        addSerialNumberVM.PostfixText.Value = "-";
 
         addSerialNumberVM.AddSettingCommand.Execute();
         settingVM.ReplaceTexts
-            .Should().Contain(x => x.ReplaceText.Value == @"$n<99,100,00,r,i>", "含まれているはず");
+            .Should().Contain(x => x.ReplaceText.Value == @"No\. $n<99,100,00,r,i>-", "含まれているはず");
     }
 
     [WpfFact]
