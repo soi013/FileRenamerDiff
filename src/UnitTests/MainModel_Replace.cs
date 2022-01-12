@@ -10,6 +10,8 @@ public class MainModel_Replace
     private const string topDirName = "FileRenamerDiff_Test";
     private const string targetDirPath = $@"D:\{topDirName}";
     private const string SubDirName = "D_SubDir";
+    private const string updateTimeText = "2020-01-23";
+    private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
     private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
     private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
     private static readonly string filePathC = Path.Combine(targetDirPath, "C.txt");
@@ -21,12 +23,12 @@ public class MainModel_Replace
     {
         return new MockFileSystem(new Dictionary<string, MockFileData>()
         {
-            [filePathA] = new MockFileData("A"),
-            [filePathB] = new MockFileData("B"),
-            [filePathC] = new MockFileData("C"),
-            [filePathDSubDir] = new MockDirectoryData(),
-            [filePathE] = new MockFileData("E"),
-            [filePathF] = new MockFileData("F"),
+            [filePathA] = new MockFileData("A") { LastWriteTime = lastWriteTime },
+            [filePathB] = new MockFileData("B") { LastWriteTime = lastWriteTime },
+            [filePathC] = new MockFileData("C") { LastWriteTime = lastWriteTime },
+            [filePathDSubDir] = new MockDirectoryData() { LastWriteTime = lastWriteTime },
+            [filePathE] = new MockFileData("E") { LastWriteTime = lastWriteTime },
+            [filePathF] = new MockFileData("F") { LastWriteTime = lastWriteTime },
         });
     }
     private static MainModel CreateDefaultSettingModel()
@@ -110,6 +112,32 @@ public class MainModel_Replace
                     $"070_C.txt",
                     $"060_B.txt",
                     $"050_A.txt",
+            });
+    }
+
+    [Fact]
+    public async Task AddUpdateTimeSetting()
+    {
+        MainModel model = CreateDefaultSettingModel();
+
+        await model.LoadFileElements();
+
+        model.Setting.IsDirectoryRenameTarget = false;
+
+        model.Setting.ReplaceTexts.Add(new("^", "$u_", true));
+
+        await model.Replace();
+
+        model.FileElementModels.Select(x => x.OutputFileName)
+            .Should().BeEquivalentTo(
+            new[]
+            {
+                    $"{updateTimeText}_saXmXple.txt",
+                    $"{updateTimeText}_sam [p] [le].txt",
+                    $"{updateTimeText}_{SubDirName}",
+                    $"{updateTimeText}_C.txt",
+                    $"{updateTimeText}_B.txt",
+                    $"{updateTimeText}_A.txt",
             });
     }
 }

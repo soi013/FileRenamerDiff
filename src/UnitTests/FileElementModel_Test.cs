@@ -6,6 +6,8 @@ public class FileElementModel_Test
 {
     private const string dirName = "FileRenamerDiff_Test";
     private const string dirPath = $@"D:\{dirName}\";
+    private const string updateTimeText = "2020-01-23";
+    private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
 
     [Theory]
     [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt", false)]
@@ -66,6 +68,9 @@ public class FileElementModel_Test
     [InlineData("abc.txt", "^", "$n<5,,000,r,i>", $"005abc.txt", false)]
     [InlineData("abc.txt", "^", "$n<,10,000,r,i>", $"001abc.txt", false)]
     [InlineData("abc.txt", "^", "$n<5,10,000,r,i>", $"005abc.txt", false)]
+    [InlineData("abc.txt", "^", "$u", $"{updateTimeText}abc.txt", false)]
+    [InlineData("abc.txt", "abc", "$u", $"{updateTimeText}.txt", false)]
+    [InlineData("abc.txt", "abc", "$$u", "$u.txt", false)]
     public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
 
@@ -103,7 +108,7 @@ public class FileElementModel_Test
         string targetFilePath = dirPath + targetFileName;
         var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
         {
-            [targetFilePath] = new MockFileData(targetFilePath)
+            [targetFilePath] = new MockFileData(targetFilePath) { LastWriteTime = lastWriteTime }
         });
 
         var messageEvent = new Subject<AppMessage>();

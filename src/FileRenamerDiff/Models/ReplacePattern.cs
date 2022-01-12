@@ -62,6 +62,7 @@ public class ReplacePattern : NotificationObject
         return regex == null ? null
             : AddDirectoryNameRegex.IsContainPattern(ReplaceText) ? new AddDirectoryNameRegex(regex, ReplaceText)
             : AddSerialNumberRegex.IsContainPattern(ReplaceText) ? new AddSerialNumberRegex(regex, ReplaceText)
+            : AddUpdateTimeRegex.IsContainPattern(ReplaceText) ? new AddUpdateTimeRegex(regex, ReplaceText)
             : new ReplaceRegex(regex, ReplaceText);
     }
 
