@@ -3,21 +3,21 @@
 namespace FileRenamerDiff.Models;
 
 /// <summary>
-/// 正規表現を用いて文字列を更新日時で置換する処理とパターンを保持するクラス
+/// 正規表現を用いて文字列を更新・作成日時で置換する処理とパターンを保持するクラス
 /// </summary>
-public class AddUpdateTimeRegex : ReplaceRegexBase
+public class AddTimeRegex : ReplaceRegexBase
 {
     /// <summary>
-    /// 「$$u」を含まない「$u」、「$u<"paramerter">」
+    /// 「$$t」を含まない「$t」、「$t<"paramerter">」
     /// </summary>
-    private const string targetWord = @"(?<!\$)\$u(<.+>)?";
+    private const string targetWord = @"(?<!\$)\$t(<.+>)?";
     /// <summary>
-    /// 「$u」が置換後文字列にあるか判定するRegex
+    /// 「$t」が置換後文字列にあるか判定するRegex
     /// </summary>
     private static readonly Regex regexTargetWord = new(targetWord, RegexOptions.Compiled);
 
     /// <summary>
-    /// 「$u<"paramerter">」の中の「paramerter」
+    /// 「$t<"paramerter">」の中の「paramerter」
     /// </summary>
     private const string paramerterWord = @"(?<=\<).+(?=\>)";
     /// <summary>
@@ -26,7 +26,7 @@ public class AddUpdateTimeRegex : ReplaceRegexBase
     private static readonly Regex regexParamerterWord = new(paramerterWord, RegexOptions.Compiled);
 
     /// <summary>
-    /// 「$u」を含んだ置換後文字列
+    /// 「$t」を含んだ置換後文字列
     /// </summary>
     private readonly string replaceText;
 
@@ -35,7 +35,7 @@ public class AddUpdateTimeRegex : ReplaceRegexBase
     /// </summary>
     private readonly string? format;
 
-    public AddUpdateTimeRegex(Regex regex, string replaceText) : base(regex)
+    public AddTimeRegex(Regex regex, string replaceText) : base(regex)
     {
         this.replaceText = replaceText;
 
@@ -52,7 +52,7 @@ public class AddUpdateTimeRegex : ReplaceRegexBase
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
     {
-        //「置換後文字列内の「$u」」を更新日時で置換する
+        //「置換後文字列内の「$t」」を更新日時で置換する
         string lastWriteTimeText = fsInfo?.LastWriteTime.ToString(format) ?? string.Empty;
 
         var replaceTextModified = regexTargetWord.Replace(replaceText, lastWriteTimeText);

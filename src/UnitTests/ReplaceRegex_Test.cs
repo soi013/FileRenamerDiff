@@ -4,7 +4,7 @@ public class ReplaceRegex_Test
 {
     private const string dirName = "FileRenamerDiff_Test";
     private const string dirPath = $@"D:\{dirName}\";
-    private const string updateTimeText = "2020-01-23";
+    private const string lastWriteTimeText = "2020-01-23";
     private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
 
     [Theory]
@@ -255,11 +255,11 @@ public class ReplaceRegex_Test
 
 
     [Theory]
-    [InlineData("abc.txt", "^", "$u_", $"{updateTimeText}_abc.txt")]
-    [InlineData("abc.txt", "$", "_$u", $"abc.txt_{updateTimeText}")]
-    [InlineData("abc.txt", "^", "$u<d>_", $"2020/01/23_abc.txt")]
-    [InlineData("abc.txt", "^", "$u<yy-M-d>_", $"20-1-23_abc.txt")]
-    [InlineData("abc.txt", "^", "$u<yyyy-MM-dd HH-mm-ss-fff>_", $"2020-01-23 16-07-55-000_abc.txt")]
+    [InlineData("abc.txt", "^", "$t_", $"{lastWriteTimeText}_abc.txt")]
+    [InlineData("abc.txt", "$", "_$t", $"abc.txt_{lastWriteTimeText}")]
+    [InlineData("abc.txt", "^", "$t<d>_", $"2020/01/23_abc.txt")]
+    [InlineData("abc.txt", "^", "$t<yy-M-d>_", $"20-1-23_abc.txt")]
+    [InlineData("abc.txt", "^", "$t<yyyy-MM-dd HH-mm-ss-fff>_", $"2020-01-23 16-07-55-000_abc.txt")]
     public void AddUpdateTime_Normal(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
     {
         string targetFilePath = Path.Combine(dirPath, targetFileName);
@@ -271,7 +271,7 @@ public class ReplaceRegex_Test
         var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
 
         var regex = new Regex(regexPattern);
-        var rpRegex = new AddUpdateTimeRegex(regex, replaceText);
+        var rpRegex = new AddTimeRegex(regex, replaceText);
         string replacedFileName = rpRegex.Replace(targetFileName, fsInfo: fileInfo);
 
         replacedFileName
@@ -279,8 +279,8 @@ public class ReplaceRegex_Test
     }
 
     [Theory]
-    [InlineData("abc.txt", "def", "$u_")]
-    [InlineData("abc.txt", "def", "_$u")]
+    [InlineData("abc.txt", "def", "$t_")]
+    [InlineData("abc.txt", "def", "_$t")]
     public void AddUpdateTime_NotChange(string targetFileName, string regexPattern, string replaceText)
     {
         string targetFilePath = Path.Combine(dirPath, targetFileName);
@@ -292,7 +292,7 @@ public class ReplaceRegex_Test
         var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
 
         var regex = new Regex(regexPattern);
-        var rpRegex = new AddUpdateTimeRegex(regex, replaceText);
+        var rpRegex = new AddTimeRegex(regex, replaceText);
         string replacedFileName = rpRegex.Replace(targetFileName, fsInfo: fileInfo);
 
         replacedFileName

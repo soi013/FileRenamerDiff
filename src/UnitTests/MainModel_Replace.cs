@@ -10,7 +10,7 @@ public class MainModel_Replace
     private const string topDirName = "FileRenamerDiff_Test";
     private const string targetDirPath = $@"D:\{topDirName}";
     private const string SubDirName = "D_SubDir";
-    private const string updateTimeText = "2020-01-23";
+    private const string lastWriteTimeText = "2020-01-23";
     private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
     private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
     private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
@@ -124,7 +124,7 @@ public class MainModel_Replace
 
         model.Setting.IsDirectoryRenameTarget = false;
 
-        model.Setting.ReplaceTexts.Add(new("^", "$u_", true));
+        model.Setting.ReplaceTexts.Add(new("^", "$t_", true));
 
         await model.Replace();
 
@@ -132,12 +132,12 @@ public class MainModel_Replace
             .Should().BeEquivalentTo(
             new[]
             {
-                    $"{updateTimeText}_saXmXple.txt",
-                    $"{updateTimeText}_sam [p] [le].txt",
-                    $"{updateTimeText}_{SubDirName}",
-                    $"{updateTimeText}_C.txt",
-                    $"{updateTimeText}_B.txt",
-                    $"{updateTimeText}_A.txt",
+                    $"{lastWriteTimeText}_saXmXple.txt",
+                    $"{lastWriteTimeText}_sam [p] [le].txt",
+                    $"{lastWriteTimeText}_{SubDirName}",
+                    $"{lastWriteTimeText}_C.txt",
+                    $"{lastWriteTimeText}_B.txt",
+                    $"{lastWriteTimeText}_A.txt",
             });
     }
 }
