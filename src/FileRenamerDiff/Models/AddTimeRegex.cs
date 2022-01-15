@@ -35,6 +35,15 @@ public class AddTimeRegex : ReplaceRegexBase
     /// </summary>
     private readonly string? format;
 
+    /// <summary>
+    /// 作成時間有効パラメータ文字列
+    /// </summary>
+    public static readonly string CreationTimeText = "c";
+    /// <summary>
+    /// 作成時間有効状態
+    /// </summary>
+    private readonly bool isCreationTime;
+
     public AddTimeRegex(Regex regex, string replaceText) : base(regex)
     {
         this.replaceText = replaceText;
@@ -48,12 +57,18 @@ public class AddTimeRegex : ReplaceRegexBase
         format = format.HasText()
             ? format
             : defaultFormat;
+
+        this.isCreationTime = paramerters.ElementAtOrDefault(1) == CreationTimeText;
     }
 
     internal override string Replace(string input, IReadOnlyList<string>? allPaths = null, IFileSystemInfo? fsInfo = null)
     {
-        //「置換後文字列内の「$t」」を更新日時で置換する
-        string lastWriteTimeText = fsInfo?.LastWriteTime.ToString(format) ?? string.Empty;
+        DateTime? selectedTime = isCreationTime
+            ? fsInfo?.CreationTime
+            : fsInfo?.LastWriteTime;
+
+        //「置換後文字列内の「$t」」を日時で置換する
+        string lastWriteTimeText = selectedTime?.ToString(format) ?? string.Empty;
 
         var replaceTextModified = regexTargetWord.Replace(replaceText, lastWriteTimeText);
 

@@ -8,6 +8,8 @@ public class FileElementModel_Test
     private const string dirPath = $@"D:\{dirName}\";
     private const string lastWriteTimeText = "2020-01-23";
     private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
+    private const string creationTimeText = "2019-08-07";
+    private static readonly DateTime creationTime = new(2019, 8, 7, 16, 55, 43, DateTimeKind.Utc);
 
     [Theory]
     [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt", false)]
@@ -70,6 +72,10 @@ public class FileElementModel_Test
     [InlineData("abc.txt", "^", "$n<5,10,000,r,i>", $"005abc.txt", false)]
     [InlineData("abc.txt", "^", "$t", $"{lastWriteTimeText}abc.txt", false)]
     [InlineData("abc.txt", "abc", "$t", $"{lastWriteTimeText}.txt", false)]
+    [InlineData("abc.txt", "abc", "$t<yy-M-d-H>", $"20-1-23-16.txt", false)]
+    [InlineData("abc.txt", "^", "$t<,c>", $"{creationTimeText}abc.txt", false)]
+    [InlineData("abc.txt", "abc", "$t<,c>", $"{creationTimeText}.txt", false)]
+    [InlineData("abc.txt", "abc", "$t<yy-M-d-H,c>", $"19-8-7-16.txt", false)]
     [InlineData("abc.txt", "abc", "$$t", "$t.txt", false)]
     public void ReplacePatternSimple(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName, bool isRenameExt)
         => Test_FileElementCore(targetFileName, new[] { regexPattern }, new[] { replaceText }, expectedRenamedFileName, isRenameExt);
@@ -108,7 +114,11 @@ public class FileElementModel_Test
         string targetFilePath = dirPath + targetFileName;
         var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
         {
-            [targetFilePath] = new MockFileData(targetFilePath) { LastWriteTime = lastWriteTime }
+            [targetFilePath] = new MockFileData(targetFilePath)
+            {
+                LastWriteTime = lastWriteTime,
+                CreationTime = creationTime,
+            }
         });
 
         var messageEvent = new Subject<AppMessage>();
