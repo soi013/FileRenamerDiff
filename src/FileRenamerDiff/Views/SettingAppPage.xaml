@@ -361,9 +361,19 @@
                     <Button Grid.Column="1" Style="{StaticResource ShowExpressionReferenceButton}" />
                     <!--  よく使う置換パターン集  -->
                     <materialDesign:PopupBox Grid.Column="2" Style="{StaticResource commonPopup}">
-                        <StackPanel Margin="8">
-                            <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="Common Pattern" />
-                            <DataGrid ItemsSource="{Binding CommonReplacePatternVMs}">
+                        <Grid Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                Text="Common Pattern" />
+                            <DataGrid
+                                Grid.Row="1"
+                                ItemsSource="{Binding CommonReplacePatternVMs}"
+                                ScrollViewer.CanContentScroll="True">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn>
                                         <DataGridTemplateColumn.CellTemplate>
@@ -394,7 +404,7 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTemplateColumn Width="150" Header="Sample Output">
+                                    <DataGridTemplateColumn Width="180" Header="Sample Output">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <RichTextBox v:RichTextBoxHelper.Document="{Binding SampleDiff.NewText, Converter={StaticResource DiffPaneModelToFlowDocumentConverter}}" />
@@ -403,7 +413,7 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
-                        </StackPanel>
+                        </Grid>
                     </materialDesign:PopupBox>
                     <materialDesign:PopupBox
                         Grid.Column="3"
