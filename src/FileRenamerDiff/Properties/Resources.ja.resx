@@ -399,4 +399,22 @@
   <data name="AddingSerial_PostfixText" xml:space="preserve">
     <value>後置き文字列: </value>
   </data>
+  <data name="Common_AddDateModifiedBeginning" xml:space="preserve">
+    <value>先頭に更新日時を追加</value>
+  </data>
+  <data name="Common_AddDateModifiedBeforExtension" xml:space="preserve">
+    <value>拡張子の手前に更新日時を追加</value>
+  </data>
+  <data name="Common_AddDateModifiedFormatted" xml:space="preserve">
+    <value>更新日時を書式指定付きで追加</value>
+  </data>
+  <data name="Common_AddDateModifiedLocalFormat" xml:space="preserve">
+    <value>更新日時をローカル書式で追加</value>
+  </data>
+  <data name="Common_AddDateCreatedBeginning" xml:space="preserve">
+    <value>先頭に作成日時を追加</value>
+  </data>
+  <data name="Common_AddDateCreatedFormatted" xml:space="preserve">
+    <value>作成日時を書式付きで追加</value>
+  </data>
 </root>

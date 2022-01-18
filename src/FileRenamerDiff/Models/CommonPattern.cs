@@ -76,13 +76,15 @@ public record CommonPattern(string Comment, string TargetPattern, string Replace
 
                 new(Resources.Common_ReplaceUmulaut,  "\\w?[äöüßÄÖÜẞ]\\w?", "\\n$0", "süß ÖL Ära.txt", true),
                 new(Resources.Common_ReplaceHanKana,  "[ｦ-ﾟ]+", "\\f$0", "ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ", true),
+
                 new(Resources.Common_AddDirectoryNameBeginning,  "^", "$d_", "abc.txt", true),
                 new(Resources.Common_AddDirectoryNameBeforeExtension,  "(.?)(\\.\\w*$)", "$1_$d$2", "abc.txt", true),
-                new("Add LastWrite Time",  "^", "$t_", "abc.txt", true),
-                new("Add LastWrite Time",  "(.?)(\\.\\w*$)", "$1_$t$2", "abc.txt", true),
-                new("Add LastWrite Time",  "^", "$t<yy-MM-dd HH-mm-ss>_", "abc.txt", true),
-                new("Add LastWrite Time",  "^", "$t<D>_", "abc.txt", true),
-                new("Add Creation Time",  "^", "$t<,c>_", "abc.txt", true),
-                new("Add Creation Time",  "^", "$t<yy-MM-dd HH-mm-ss,c>_", "abc.txt", true),
+
+                new(Resources.Common_AddDateModifiedBeginning,  "^", "$t_", "abc.txt", true),
+                new(Resources.Common_AddDateModifiedBeforExtension,  "(.?)(\\.\\w*$)", "$1_$t$2", "abc.txt", true),
+                new(Resources.Common_AddDateModifiedFormatted,  "^", "$t<yy-MM-dd HH-mm-ss>_", "abc.txt", true),
+                new(Resources.Common_AddDateModifiedLocalFormat,  "^", "$t<D>_", "abc.txt", true),
+                new(Resources.Common_AddDateCreatedBeginning,  "^", "$t<,c>_", "abc.txt", true),
+                new(Resources.Common_AddDateCreatedFormatted,  "^", "$t<yy-MM-dd HH-mm-ss,c>_", "abc.txt", true),
         };
 }
