@@ -1,13 +1,12 @@
 ﻿global using System;
-global using System.Linq;
-global using System.Text.RegularExpressions;
-global using System.Threading.Tasks;
 global using System.Collections.Generic;
-global using System.IO;
-global using System.Text;
-global using System.Threading;
 global using System.ComponentModel;
-
+global using System.IO;
+global using System.Linq;
+global using System.Text;
+global using System.Text.RegularExpressions;
+global using System.Threading;
+global using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
@@ -26,6 +25,14 @@ namespace FileRenamerDiff.Models;
 
 public static class AppExtension
 {
+    private static readonly IReadOnlyList<string> mockFilePaths = new[]
+    {
+        $@"D:\mydir\abc.txt",
+        $@"D:\mydir\def.txt",
+    };
+    private static readonly IFileSystem mockFileSystem = AppExtension.CreateMockFileSystem(mockFilePaths);
+    private static readonly IFileSystemInfo mockFileInfo = mockFileSystem.FileInfo.FromFileName(mockFilePaths[0]);
+
     /// <summary>
     /// コレクションのメンバーを連結します。各メンバーの間には、指定した区切り記号が挿入されます。
     /// </summary>
@@ -273,6 +280,41 @@ public static class AppExtension
     }
 
     /// <summary>
+    /// リプレイスパターンが正しい形式か判定
+    /// </summary>
+    /// <param name="pattern">パターン</param>
+    /// <param name="asExpression">正規表現パターンか</param>
+    internal static bool IsValidReplacePattern(string pattern, bool asExpression)
+    {
+        if (pattern is null)
+        {
+            LogTo.Debug("TargetPattern '{@pattern}' is NOT valid. The pattern may not be null.", pattern);
+            return false;
+        }
+
+        if (!asExpression)
+            return true;
+
+        try
+        {
+            var rp = new ReplacePattern("a", pattern, asExpression)
+                .ToReplaceRegex();
+
+            rp?.Replace("sample.txt", mockFilePaths, mockFileInfo);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            if (!(ex is ArgumentException or FormatException))
+                throw;
+
+            LogTo.Debug("TargetPattern '{@pattern}' is NOT valid: {@msg}", pattern, ex.Message);
+            return false;
+        }
+    }
+
+    /// <summary>
     /// 一定時間内にTaskが終了しなければ、TimeoutExceptionを発生させる
     /// </summary>
     public static Task Timeout(this Task task, double millisec) => Timeout(task, TimeSpan.FromMilliseconds(millisec));
@@ -367,7 +409,7 @@ public static class AppExtension
     /// <param name="value">対象文字列</param>
     /// <returns>Null または WhiteSpace の場合に false を返します。</returns>
     public static bool HasText(this string? value) => !string.IsNullOrWhiteSpace(value);
-        
+
     /// <summary>
     /// 指定したファイルパスのファイルを含むファイルシステムの生成
     /// </summary>

@@ -205,6 +205,60 @@ namespace FileRenamerDiff.Properties {
         }
         
         /// <summary>
+        ///   Add Created Date at the beginning に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDateCreatedBeginning {
+            get {
+                return ResourceManager.GetString("Common_AddDateCreatedBeginning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add Created Date with a format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDateCreatedFormatted {
+            get {
+                return ResourceManager.GetString("Common_AddDateCreatedFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add Date modified before the extension に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDateModifiedBeforExtension {
+            get {
+                return ResourceManager.GetString("Common_AddDateModifiedBeforExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add Date modified at the beginning に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDateModifiedBeginning {
+            get {
+                return ResourceManager.GetString("Common_AddDateModifiedBeginning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add Date modified with a format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDateModifiedFormatted {
+            get {
+                return ResourceManager.GetString("Common_AddDateModifiedFormatted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add Date modified in local format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Common_AddDateModifiedLocalFormat {
+            get {
+                return ResourceManager.GetString("Common_AddDateModifiedLocalFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Add the directory name before the extension に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string Common_AddDirectoryNameBeforeExtension {

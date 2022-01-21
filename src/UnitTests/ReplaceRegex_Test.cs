@@ -4,6 +4,10 @@ public class ReplaceRegex_Test
 {
     private const string dirName = "FileRenamerDiff_Test";
     private const string dirPath = $@"D:\{dirName}\";
+    private const string lastWriteTimeText = "2020-01-23";
+    private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
+    private const string creationTimeText = "2019-08-07";
+    private static readonly DateTime creationTime = new(2019, 8, 7, 16, 55, 43, DateTimeKind.Utc);
 
     [Theory]
     [InlineData("coopy -copy.txt", " -copy", "XXX", "coopyXXX.txt")]
@@ -246,6 +250,65 @@ public class ReplaceRegex_Test
         var regex = new Regex(regexPattern);
         var rpRegex = new AddSerialNumberRegex(regex, replaceText);
         string replacedFileName = rpRegex.Replace(targetFileName, new[] { targetFilePath }, fileInfo);
+
+        replacedFileName
+            .Should().Be(targetFileName);
+    }
+
+
+    [Theory]
+    [InlineData("abc.txt", "^", "$t_", $"{lastWriteTimeText}_abc.txt")]
+    [InlineData("abc.txt", "$", "_$t", $"abc.txt_{lastWriteTimeText}")]
+    //[InlineData("abc.txt", "^", "$t<d>_", $"2020/01/23_abc.txt")]  //dだけ指定した場合、ロケールによって設定が変わるのでCIでテストが通らない
+    [InlineData("abc.txt", "^", "$t<yy-M-d>_", $"20-1-23_abc.txt")]
+    [InlineData("abc.txt", "^", "$t<yyyy-MM-dd HH-mm-ss-fff>_", $"2020-01-23 16-07-55-000_abc.txt")]
+    [InlineData("abc.txt", "^", "$t<,c>_", $"{creationTimeText}_abc.txt")]
+    [InlineData("abc.txt", "$", "_$t<,c>", $"abc.txt_{creationTimeText}")]
+    //[InlineData("abc.txt", "^", "$t<d,c>_", $"2019/08/07_abc.txt")]  //dだけ指定した場合、ロケールによって設定が変わるのでCIでテストが通らない
+    [InlineData("abc.txt", "^", "$t<yy-M-d,c>_", $"19-8-7_abc.txt")]
+    [InlineData("abc.txt", "^", "$t<yyyy-MM-dd HH-mm-ss-fff,c>_", $"2019-08-07 16-55-43-000_abc.txt")]
+    public void AddTime_Normal(string targetFileName, string regexPattern, string replaceText, string expectedRenamedFileName)
+    {
+        string targetFilePath = Path.Combine(dirPath, targetFileName);
+        var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+        {
+            [targetFilePath] = new MockFileData(targetFileName)
+            {
+                LastWriteTime = lastWriteTime,
+                CreationTime = creationTime,
+            }
+        });
+
+        var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
+
+        var regex = new Regex(regexPattern);
+        var rpRegex = new AddTimeRegex(regex, replaceText);
+        string replacedFileName = rpRegex.Replace(targetFileName, fsInfo: fileInfo);
+
+        replacedFileName
+            .Should().Be(expectedRenamedFileName);
+    }
+
+    [Theory]
+    [InlineData("abc.txt", "def", "$t_")]
+    [InlineData("abc.txt", "def", "_$t")]
+    public void AddTime_NotChange(string targetFileName, string regexPattern, string replaceText)
+    {
+        string targetFilePath = Path.Combine(dirPath, targetFileName);
+        var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>()
+        {
+            [targetFilePath] = new MockFileData(targetFileName)
+            {
+                LastWriteTime = lastWriteTime,
+                CreationTime = creationTime,
+            }
+        });
+
+        var fileInfo = fileSystem.FileInfo.FromFileName(targetFilePath);
+
+        var regex = new Regex(regexPattern);
+        var rpRegex = new AddTimeRegex(regex, replaceText);
+        string replacedFileName = rpRegex.Replace(targetFileName, fsInfo: fileInfo);
 
         replacedFileName
             .Should().Be(targetFileName);

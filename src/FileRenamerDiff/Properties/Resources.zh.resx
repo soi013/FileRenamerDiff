@@ -399,4 +399,22 @@
   <data name="AddingSerial_PostfixText" xml:space="preserve">
     <value>后缀文本: </value>
   </data>
+  <data name="Common_AddDateModifiedBeginning" xml:space="preserve">
+    <value>在开头添加修改日期</value>
+  </data>
+  <data name="Common_AddDateModifiedBeforExtension" xml:space="preserve">
+    <value>在扩展名前添加修改日期</value>
+  </data>
+  <data name="Common_AddDateModifiedFormatted" xml:space="preserve">
+    <value>添加有格式的修改日期</value>
+  </data>
+  <data name="Common_AddDateModifiedLocalFormat" xml:space="preserve">
+    <value>添加以本地格式修改日期</value>
+  </data>
+  <data name="Common_AddDateCreatedBeginning" xml:space="preserve">
+    <value>在开始处添加建立日期</value>
+  </data>
+  <data name="Common_AddDateCreatedFormatted" xml:space="preserve">
+    <value>添加有格式的建立日期</value>
+  </data>
 </root>

@@ -399,4 +399,22 @@
   <data name="AddingSerial_PostfixText" xml:space="preserve">
     <value>Постфиксный текст: </value>
   </data>
+  <data name="Common_AddDateModifiedBeginning" xml:space="preserve">
+    <value>Добавить Дата изменения в начале</value>
+  </data>
+  <data name="Common_AddDateModifiedBeforExtension" xml:space="preserve">
+    <value>Добавить Дата изменения перед расширением</value>
+  </data>
+  <data name="Common_AddDateModifiedFormatted" xml:space="preserve">
+    <value>Добавить Дата изменения с форматом</value>
+  </data>
+  <data name="Common_AddDateModifiedLocalFormat" xml:space="preserve">
+    <value>Добавить Дата изменения в локальном формате</value>
+  </data>
+  <data name="Common_AddDateCreatedBeginning" xml:space="preserve">
+    <value>Добавить Дата создания в начале</value>
+  </data>
+  <data name="Common_AddDateCreatedFormatted" xml:space="preserve">
+    <value>Добавить Дата создания с форматом</value>
+  </data>
 </root>
