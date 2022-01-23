@@ -173,6 +173,22 @@ public class AppExtension_Test : IClassFixture<LogFixture>
         AppExtension.IsValidRegexPattern(pattern, asExpression)
             .Should().Be(expectedIsValid);
 
+
+    [Theory]
+    [InlineData("abc", false, true)]
+    [InlineData("abc", true, true)]
+    [InlineData(" ", false, true)]
+    [InlineData(" ", true, true)]
+    [InlineData("", false, true)]
+    [InlineData("", true, true)]
+    [InlineData(null, false, false)]
+    [InlineData(null, true, false)]
+    [InlineData("$t<a>", true, false)]
+    [InlineData("$t<a>", false, true)]
+    public void IsValidReplacePattern(string pattern, bool asExpression, bool expectedIsValid) =>
+        AppExtension.IsValidReplacePattern(pattern, asExpression)
+            .Should().Be(expectedIsValid);
+
     [Fact]
     public async Task TimeOut_Cause()
     {

@@ -491,4 +491,28 @@ Execute "SAVE" to rename the actual file.</value>
     <value>Postfix Text: </value>
     <comment>連番追加設定_後置文字</comment>
   </data>
+  <data name="Common_AddDateModifiedBeginning" xml:space="preserve">
+    <value>Add Date modified at the beginning</value>
+    <comment>よくあるパターン説明_ファイル名の先頭に更新日時を追加する</comment>
+  </data>
+  <data name="Common_AddDateModifiedBeforExtension" xml:space="preserve">
+    <value>Add Date modified before the extension</value>
+    <comment>よくあるパターン説明_拡張子の手前にフォルダ名を追加する</comment>
+  </data>
+  <data name="Common_AddDateModifiedFormatted" xml:space="preserve">
+    <value>Add Date modified with a format</value>
+    <comment>よくあるパターン説明_ファイル名の先頭にフォーマットを指定して更新日時を追加する</comment>
+  </data>
+  <data name="Common_AddDateModifiedLocalFormat" xml:space="preserve">
+    <value>Add Date modified in local format</value>
+    <comment>よくあるパターン説明_ファイル名の先頭にローカルフォーマットで更新日時を追加する</comment>
+  </data>
+  <data name="Common_AddDateCreatedBeginning" xml:space="preserve">
+    <value>Add Created Date at the beginning</value>
+    <comment>よくあるパターン説明_ファイル名の先頭に作成日時を追加する</comment>
+  </data>
+  <data name="Common_AddDateCreatedFormatted" xml:space="preserve">
+    <value>Add Created Date with a format</value>
+    <comment>よくあるパターン説明_ファイル名の先頭にフォーマットを指定して作成日時を追加する</comment>
+  </data>
 </root>

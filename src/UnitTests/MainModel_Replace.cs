@@ -10,6 +10,11 @@ public class MainModel_Replace
     private const string topDirName = "FileRenamerDiff_Test";
     private const string targetDirPath = $@"D:\{topDirName}";
     private const string SubDirName = "D_SubDir";
+    private const string lastWriteTimeText = "2020-01-23";
+    private static readonly DateTime lastWriteTime = new(2020, 1, 23, 16, 7, 55, DateTimeKind.Utc);
+    private const string creationTimeText = "2019-08-07";
+    private static readonly DateTime creationTime = new(2019, 8, 7, 16, 55, 43, DateTimeKind.Utc);
+
     private static readonly string filePathA = Path.Combine(targetDirPath, "A.txt");
     private static readonly string filePathB = Path.Combine(targetDirPath, "B.txt");
     private static readonly string filePathC = Path.Combine(targetDirPath, "C.txt");
@@ -19,16 +24,24 @@ public class MainModel_Replace
 
     private static MockFileSystem CreateMockFileSystem()
     {
-        return new MockFileSystem(new Dictionary<string, MockFileData>()
-        {
-            [filePathA] = new MockFileData("A"),
-            [filePathB] = new MockFileData("B"),
-            [filePathC] = new MockFileData("C"),
-            [filePathDSubDir] = new MockDirectoryData(),
-            [filePathE] = new MockFileData("E"),
-            [filePathF] = new MockFileData("F"),
-        });
+        var files = new (string path, MockFileData file)[]
+            {
+                (filePathA , new ("A")),
+                (filePathB , new ("B")),
+                (filePathC , new ("C")),
+                (filePathDSubDir , new MockDirectoryData()),
+                (filePathE , new ("E")),
+                (filePathF , new ("F")),
+            }
+            .Do(x => x.file.LastWriteTime = lastWriteTime)
+            .Do(x => x.file.CreationTime = creationTime)
+            .ToDictionary(
+               keySelector: x => x.path,
+               elementSelector: x => x.file);
+
+        return new MockFileSystem(files);
     }
+
     private static MainModel CreateDefaultSettingModel()
     {
         MockFileSystem fileSystem = CreateMockFileSystem();
@@ -110,6 +123,58 @@ public class MainModel_Replace
                     $"070_C.txt",
                     $"060_B.txt",
                     $"050_A.txt",
+            });
+    }
+
+    [Fact]
+    public async Task AddLastWriteTimeSetting()
+    {
+        MainModel model = CreateDefaultSettingModel();
+
+        await model.LoadFileElements();
+
+        model.Setting.IsDirectoryRenameTarget = false;
+
+        model.Setting.ReplaceTexts.Add(new("^", "$t_", true));
+
+        await model.Replace();
+
+        model.FileElementModels.Select(x => x.OutputFileName)
+            .Should().BeEquivalentTo(
+            new[]
+            {
+                    $"{lastWriteTimeText}_saXmXple.txt",
+                    $"{lastWriteTimeText}_sam [p] [le].txt",
+                    $"{lastWriteTimeText}_{SubDirName}",
+                    $"{lastWriteTimeText}_C.txt",
+                    $"{lastWriteTimeText}_B.txt",
+                    $"{lastWriteTimeText}_A.txt",
+            });
+    }
+
+    [Fact]
+    public async Task AddCreationTimeSetting()
+    {
+        MainModel model = CreateDefaultSettingModel();
+
+        await model.LoadFileElements();
+
+        model.Setting.IsDirectoryRenameTarget = false;
+
+        model.Setting.ReplaceTexts.Add(new("^", "$t<,c>_", true));
+
+        await model.Replace();
+
+        model.FileElementModels.Select(x => x.OutputFileName)
+            .Should().BeEquivalentTo(
+            new[]
+            {
+                    $"{creationTimeText}_saXmXple.txt",
+                    $"{creationTimeText}_sam [p] [le].txt",
+                    $"{creationTimeText}_{SubDirName}",
+                    $"{creationTimeText}_C.txt",
+                    $"{creationTimeText}_B.txt",
+                    $"{creationTimeText}_A.txt",
             });
     }
 }

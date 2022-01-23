@@ -37,12 +37,19 @@ public class ReplacePatternViewModel : ViewModel
             .AddTo(this.CompositeDisposable);
 
         TargetPattern = replacePattern
-            .ToReactivePropertyAsSynchronized(x => x.TargetPattern, mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
+            .ToReactivePropertyAsSynchronized(
+                x => x.TargetPattern,
+                mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError,
+                ignoreValidationErrorValue: true)
             .SetValidateNotifyError(x => AppExtension.IsValidRegexPattern(x, AsExpression.Value) ? null : "Invalid Pattern")
             .AddTo(this.CompositeDisposable);
 
         ReplaceText = replacePattern
-            .ToReactivePropertyAsSynchronized(x => x.ReplaceText)
+            .ToReactivePropertyAsSynchronized(
+                x => x.ReplaceText,
+                mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError,
+                ignoreValidationErrorValue: true)
+            .SetValidateNotifyError(x => AppExtension.IsValidReplacePattern(x, AsExpression.Value) ? null : "Invalid Pattern")
             .AddTo(this.CompositeDisposable);
 
         AsExpression

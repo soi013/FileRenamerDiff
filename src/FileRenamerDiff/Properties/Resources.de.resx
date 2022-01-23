@@ -399,4 +399,22 @@ Führen Sie "Umbenennen Speichern" aus, um die aktuelle Datei umzubenennen.</val
   <data name="AddingSerial_PostfixText" xml:space="preserve">
     <value>Postfix-Text: </value>
   </data>
+  <data name="Common_AddDateModifiedBeginning" xml:space="preserve">
+    <value>Änderungsdatum am Anfang hinzufügen</value>
+  </data>
+  <data name="Common_AddDateModifiedBeforExtension" xml:space="preserve">
+    <value>Änderungsdatum vor der Erweiterung einfügen</value>
+  </data>
+  <data name="Common_AddDateModifiedLocalFormat" xml:space="preserve">
+    <value>Änderungsdatum im lokalen Format hinzufügen</value>
+  </data>
+  <data name="Common_AddDateModifiedFormatted" xml:space="preserve">
+    <value>Änderungsdatum mit einem Format hinzufügen</value>
+  </data>
+  <data name="Common_AddDateCreatedBeginning" xml:space="preserve">
+    <value>Erstellungsdatum am Anfang hinzufügen</value>
+  </data>
+  <data name="Common_AddDateCreatedFormatted" xml:space="preserve">
+    <value>Erstellungsdatum mit einem Format hinzufügen</value>
+  </data>
 </root>
