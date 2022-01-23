@@ -245,10 +245,19 @@ public class SettingAppModel : NotificationObject
     }
     private bool _IsCreateRenameLog;
 
+    /// <summary>
+    /// 検索時に無視される拡張子コレクションに空白の要素を追加
+    /// </summary>
     internal void AddIgnoreExtensions() => IgnoreExtensions.Add(ValueHolderFactory.Create(String.Empty));
 
+    /// <summary>
+    /// 削除文字列パターンコレクションに空白の要素を追加
+    /// </summary>
     internal void AddDeleteTexts() => DeleteTexts.Add(ReplacePattern.CreateEmpty());
 
+    /// <summary>
+    /// 置換文字列パターンコレクションに空白の要素を追加
+    /// </summary>
     internal void AddReplaceTexts() => ReplaceTexts.Add(ReplacePattern.CreateEmpty());
 
     /// <summary>

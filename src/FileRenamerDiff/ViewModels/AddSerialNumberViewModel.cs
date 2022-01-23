@@ -9,21 +9,52 @@ using Reactive.Bindings;
 
 namespace FileRenamerDiff.ViewModels;
 
+/// <summary>
+/// AddSerialNumberRegexの設定専用VM
+/// </summary>
 public class AddSerialNumberViewModel
 {
     private readonly MainModel mainModel;
 
+    /// <summary>
+    /// 連番開始番号
+    /// </summary>
     public ReactivePropertySlim<int> StartNumber { get; } = new(AddSerialNumberRegex.DefaultStartNumber);
+    /// <summary>
+    /// 連番ステップ数
+    /// </summary>
     public ReactivePropertySlim<int> Step { get; } = new(AddSerialNumberRegex.DefaultStep);
+    /// <summary>
+    /// ゼロ埋め桁数
+    /// </summary>
     public ReactivePropertySlim<int> ZeroPadCount { get; } = new(1);
+
+    /// <summary>
+    /// ディレクトリごと連番有効状態
+    /// </summary>
     public ReactivePropertySlim<bool> IsDirectoryReset { get; } = new();
+    /// <summary>
+    /// 逆順有効状態
+    /// </summary>
     public ReactivePropertySlim<bool> IsInverseOrder { get; } = new();
 
+    /// <summary>
+    /// 前置き固定文字
+    /// </summary>
     public ReactivePropertySlim<string> PrefixText { get; } = new(string.Empty);
+    /// <summary>
+    /// 後置き固定文字
+    /// </summary>
     public ReactivePropertySlim<string> PostfixText { get; } = new("_");
 
+    /// <summary>
+    /// 生成された文字列フォーマット
+    /// </summary>
     public ReadOnlyReactivePropertySlim<string> TextAddPattern { get; }
 
+    /// <summary>
+    /// 置換対象となる文字列
+    /// </summary>
     public ReactivePropertySlim<string> TextTargetPattern { get; } = new("^");
 
     /// <summary>
@@ -100,6 +131,9 @@ public class AddSerialNumberViewModel
     private static readonly Regex regexTailDefaultParamerters = new(",+(?=>)", RegexOptions.Compiled);
     private static readonly Regex regexAllDefaultParamerters = new("<,*>", RegexOptions.Compiled);
 
+    /// <summary>
+    /// 各種設定から連番追加の置換パラメータを生成する
+    /// </summary>
     private static string CreatePatternText(int start, int step, int pad, bool isReset, bool isInverse, string pre, string post)
     {
         //各パラメータが初期値だったら空白にする

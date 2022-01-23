@@ -99,15 +99,34 @@ public class SettingAppViewModel : ViewModel
     /// 変更時に変更前後の履歴を保存するか
     /// </summary>
     public ReactiveProperty<bool> IsCreateRenameLog { get; }
+    /// <summary>
+    /// 無視される拡張子コレクションに空白の要素を追加するコマンド
+    /// </summary>
     public ReactiveCommand AddIgnoreExtensionsCommand { get; }
-
+    /// <summary>
+    /// 無視される拡張子コレクションの要素を消去するコマンド
+    /// </summary>
     public AsyncReactiveCommand ClearIgnoreExtensionsCommand { get; }
-
+    /// <summary>
+    /// 削除文字列コレクションに空白の要素を追加するコマンド
+    /// </summary>
     public ReactiveCommand AddDeleteTextsCommand { get; }
+    /// <summary>
+    /// 削除文字列コレクションの要素を消去するコマンド
+    /// </summary>
     public AsyncReactiveCommand ClearDeleteTextsCommand { get; }
+    /// <summary>
+    /// 置換文字列コレクションに空白の要素を追加するコマンド
+    /// </summary>
     public ReactiveCommand AddReplaceTextsCommand { get; }
+    /// <summary>
+    /// 置換文字列コレクションの要素を消去するコマンド
+    /// </summary>
     public AsyncReactiveCommand ClearReplaceTextsCommand { get; }
 
+    /// <summary>
+    /// 正規表現リファレンスの表示コマンド
+    /// </summary>
     public AsyncReactiveCommand ShowExpressionReferenceCommand { get; }
 
     /// <summary>
