@@ -17,7 +17,7 @@ public class ReplaceRegex_Test
     [InlineData("abc ABC AnBC", "ABC", "X$0X", "abc XABCX AnBC")]
     [InlineData("A0012 34", "\\d*(\\d{3})", "$1", "A012 34")]
     [InlineData("A0012 34", "\\d*(\\d{3})", "$$1", "A$1 34")]
-    [InlineData("low UPP Pas", "[A-z]", "\\u$0", "LOW UPP PAS")] //System.IO.Abstractionsのバグ？で失敗する
+    [InlineData("low UPP Pas", "[A-z]", "\\u$0", "LOW UPP PAS")]
     [InlineData("low UPP Pas", "[A-z]", "\\l$0", "low upp pas")]
     [InlineData("Ha14 Ｆｕ１７", "[Ａ-ｚ]|[０-９]", "\\h$0", "Ha14 Fu17")]
     [InlineData("Ha14 Ｆｕ１７", "[A-z]|[0-9]", "\\f$0", "Ｈａ１４ Ｆｕ１７")]

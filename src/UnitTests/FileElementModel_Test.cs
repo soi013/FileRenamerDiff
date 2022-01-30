@@ -318,9 +318,8 @@ public class FileElementModel_Test
         fileElem.State
             .Should().Be(RenameState.Renamed, "リネーム保存されたはず");
 
-        //System.IO.Abstractions のバグ？で反映されていない
-        //fileElem.InputFileName
-        //    .Should().Be(expectedRenamedFileName, "リネーム保存後のファイル名になったはず");
+        fileElem.InputFileName
+            .Should().Be(expectedRenamedFileName, "リネーム保存後のファイル名になったはず");
 
         fileSystem.Directory.GetFiles(Path.GetDirectoryName(targetFilePath))
             .Select(p => Path.GetFileName(p))
