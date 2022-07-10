@@ -1,241 +1,242 @@
 ﻿<metro:MetroWindow
-   x:Class="FileRenamerDiff.Views.MainWindow"
-   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
-   xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
-   xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-   xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
-   xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
-   xmlns:v="clr-namespace:FileRenamerDiff.Views"
-   xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
-   Title="{Binding WindowTitle.Value}"
-   Width="1600"
-   Height="800"
-   Background="{StaticResource MaterialDesignPaper}"
-   BorderBrush="{StaticResource PrimaryHueMidBrush}"
-   BorderThickness="1"
-   FontFamily="Meiryo"
-   FontWeight="Bold"
-   GlowBrush="{StaticResource PrimaryHueMidBrush}"
-   Icon="/FileRenamerDiff_icon.ico"
-   TextElement.Foreground="{StaticResource MaterialDesignBody}"
-   TitleCharacterCasing="Normal">
-   <Window.DataContext>
-      <vm:MainWindowViewModel />
-   </Window.DataContext>
+    x:Class="FileRenamerDiff.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:properties="clr-namespace:FileRenamerDiff.Properties"
+    xmlns:v="clr-namespace:FileRenamerDiff.Views"
+    xmlns:vm="clr-namespace:FileRenamerDiff.ViewModels"
+    Title="{Binding WindowTitle.Value}"
+    Width="1600"
+    Height="800"
+    Background="{StaticResource MaterialDesignPaper}"
+    BorderBrush="{StaticResource PrimaryHueMidBrush}"
+    BorderThickness="1"
+    FontFamily="Meiryo"
+    FontWeight="Bold"
+    GlowBrush="{StaticResource PrimaryHueMidBrush}"
+    Icon="/FileRenamerDiff_icon.ico"
+    TextElement.Foreground="{StaticResource MaterialDesignBody}"
+    TitleCharacterCasing="Normal">
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
 
-   <metro:MetroWindow.Resources>
-      <l:CursorTypeAndBooleanConverter x:Key="BoolToCursorConverter" ConvertWhenFalse="Wait" />
-      <l:TaskbarItemProgressStateAndBooleanConverter
-         x:Key="TaskbarItemProgressStateAndBooleanConverter"
-         ConvertWhenFalse="Indeterminate"
-         ConvertWhenTrue="Normal" />
-   </metro:MetroWindow.Resources>
-   <!--  アプリケーションが待機状態で無いときは、タスクバーとマウスカーソルの表示を変更  -->
-   <metro:MetroWindow.Cursor>
-      <Binding Converter="{StaticResource BoolToCursorConverter}" Path="IsIdle.Value" />
-   </metro:MetroWindow.Cursor>
-   <Window.TaskbarItemInfo>
-      <TaskbarItemInfo ProgressState="{Binding IsIdle.Value, Converter={StaticResource TaskbarItemProgressStateAndBooleanConverter}, Mode=OneWay}" />
-   </Window.TaskbarItemInfo>
+    <metro:MetroWindow.Resources>
+        <l:CursorTypeAndBooleanConverter x:Key="BoolToCursorConverter" ConvertWhenFalse="Wait" />
+        <l:TaskbarItemProgressStateAndBooleanConverter
+            x:Key="TaskbarItemProgressStateAndBooleanConverter"
+            ConvertWhenFalse="Indeterminate"
+            ConvertWhenTrue="Normal" />
+    </metro:MetroWindow.Resources>
+    <!--  アプリケーションが待機状態で無いときは、タスクバーとマウスカーソルの表示を変更  -->
+    <metro:MetroWindow.Cursor>
+        <Binding Converter="{StaticResource BoolToCursorConverter}" Path="IsIdle.Value" />
+    </metro:MetroWindow.Cursor>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo ProgressState="{Binding IsIdle.Value, Converter={StaticResource TaskbarItemProgressStateAndBooleanConverter}, Mode=OneWay}" />
+    </Window.TaskbarItemInfo>
 
-   <behaviors:Interaction.Triggers>
-      <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
-      <behaviors:EventTrigger EventName="ContentRendered">
-         <l:LivetCallMethodAction MethodName="Initialize" MethodTarget="{Binding Mode=OneTime}" />
-      </behaviors:EventTrigger>
+    <behaviors:Interaction.Triggers>
+        <!--  When ContentRendered event raised, Initialize method of ViewModel would be called.  -->
+        <behaviors:EventTrigger EventName="ContentRendered">
+            <l:LivetCallMethodAction MethodName="Initialize" MethodTarget="{Binding Mode=OneTime}" />
+        </behaviors:EventTrigger>
 
-      <!--  Dispose method is called, when Window closing.  -->
-      <behaviors:EventTrigger EventName="Closed">
-         <l:DataContextDisposeAction />
-      </behaviors:EventTrigger>
-   </behaviors:Interaction.Triggers>
+        <!--  Dispose method is called, when Window closing.  -->
+        <behaviors:EventTrigger EventName="Closed">
+            <l:DataContextDisposeAction />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
 
-   <materialDesign:DialogHost
-      CloseOnClickAway="{Binding CloseOnClickAwayDialog.Value}"
-      DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
-      IsOpen="{Binding IsDialogOpen.Value, Mode=TwoWay}"
-      OverlayBackground="{StaticResource PrimaryHueDarkBrush}">
+    <materialDesign:DialogHost
+        CloseOnClickAway="{Binding CloseOnClickAwayDialog.Value}"
+        DialogContent="{Binding DialogContentVM.Value, Mode=OneWay}"
+        IsOpen="{Binding IsDialogOpen.Value, Mode=TwoWay}"
+        OverlayBackground="{StaticResource PrimaryHueDarkBrush}">
 
-      <!--  DataGridのヘッダーからBindingするために、名前付け  -->
-      <Grid>
-         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-         </Grid.RowDefinitions>
-         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-         </Grid.ColumnDefinitions>
+        <!--  DataGridのヘッダーからBindingするために、名前付け  -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-         <materialDesign:ColorZone
-            Grid.Row="0"
-            Grid.ColumnSpan="2"
-            Padding="8"
-            Mode="PrimaryDark">
-            <!--  ファイルパスドロップ時にターゲットパスとして読み込む  -->
-            <behaviors:Interaction.Behaviors>
-               <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
-            </behaviors:Interaction.Behaviors>
-            <Grid>
-               <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-               </Grid.ColumnDefinitions>
-               <StackPanel
-                  Grid.Column="0"
-                  VerticalAlignment="Center"
-                  Orientation="Horizontal">
+            <materialDesign:ColorZone
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Padding="8"
+                Mode="PrimaryDark">
+                <!--  ファイルパスドロップ時にターゲットパスとして読み込む  -->
+                <behaviors:Interaction.Behaviors>
+                    <v:FileDropBehavior Command="{Binding LoadFilesFromNewPathCommand}" />
+                </behaviors:Interaction.Behaviors>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
 
-                  <!--  ターゲットファイルパス選択  -->
-                  <materialDesign:ColorZone
-                     Margin="16,0,0,0"
-                     Padding="8,4,8,4"
-                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
-                     v:LimitSizeHelper.LimitMaxWidth="0.9"
-                     CornerRadius="2">
-                     <Grid>
-                        <Grid.ColumnDefinitions>
-                           <ColumnDefinition Width="Auto" />
-                           <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                        <!--  ターゲットファイルパス選択  -->
+                        <materialDesign:ColorZone
+                            Margin="16,0,0,0"
+                            Padding="8,4,8,4"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            v:LimitSizeHelper.LimitMaxWidth="0.9"
+                            CornerRadius="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Column="0"
+                                    Padding="8,2"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    ToolTip="Select Target Folder">
+                                    <behaviors:Interaction.Triggers>
+                                        <behaviors:EventTrigger EventName="Click">
+                                            <l:FolderBrowserDialogInteractionMessageAction>
+                                                <l:DirectInteractionMessage CallbackCommand="{Binding LoadFilesFromDialogCommand, Mode=OneTime}">
+                                                    <l:FolderSelectionMessage
+                                                        Title="Select Target Folder"
+                                                        DialogPreference="None"
+                                                        Multiselect="True" />
+                                                    <!--  MultiSelect="True"  -->
+                                                </l:DirectInteractionMessage>
+                                            </l:FolderBrowserDialogInteractionMessageAction>
+                                        </behaviors:EventTrigger>
+                                    </behaviors:Interaction.Triggers>
+                                    <materialDesign:PackIcon
+                                        Width="24"
+                                        Height="24"
+                                        Kind="FolderOpen" />
+                                </Button>
+                                <TextBox
+                                    Grid.Column="1"
+                                    MinWidth="200"
+                                    Margin="5,0"
+                                    materialDesign:HintAssist.Foreground="{StaticResource HighContrastBrush}"
+                                    materialDesign:HintAssist.Hint="{x:Static properties:Resources.Hint_SelectTargetDirectory}"
+                                    FontSize="14"
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                    Text="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}" />
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                        <!--  ファイル読み込み開始ボタン  -->
                         <Button
-                           Grid.Column="0"
-                           Padding="8,2"
-                           Style="{StaticResource MaterialDesignRaisedButton}"
-                           ToolTip="Select Target Folder">
-                           <behaviors:Interaction.Triggers>
-                              <behaviors:EventTrigger EventName="Click">
-                                 <l:FolderBrowserDialogInteractionMessageAction>
-                                    <l:DirectInteractionMessage CallbackCommand="{Binding LoadFilesFromDialogCommand, Mode=OneTime}">
-                                       <l:FolderSelectionMessage
-                                          Title="Select Target Folder"
-                                          DialogPreference="None"
-                                          Multiselect="True" />
-                                       <!--  MultiSelect="True"  -->
-                                    </l:DirectInteractionMessage>
-                                 </l:FolderBrowserDialogInteractionMessageAction>
-                              </behaviors:EventTrigger>
-                           </behaviors:Interaction.Triggers>
-                           <materialDesign:PackIcon
-                              Width="24"
-                              Height="24"
-                              Kind="FolderOpen" />
+                            Margin="8,0,0,0"
+                            Command="{Binding LoadFilesFromCurrentPathCommand, Mode=OneTime}"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            ToolTip="{x:Static properties:Resources.Menu_SearchFilesHint}">
+                            <Label
+                                v:IconHeadder.IconKind="FolderSearchOutline"
+                                Content="{x:Static properties:Resources.Menu_SearchFiles}"
+                                Style="{StaticResource IconTagLabel}" />
                         </Button>
-                        <TextBox
-                           Grid.Column="1"
-                           MinWidth="200"
-                           Margin="5,0"
-                           materialDesign:HintAssist.Foreground="{StaticResource HighContrastBrush}"
-                           materialDesign:HintAssist.Hint="{x:Static properties:Resources.Hint_SelectTargetDirectory}"
-                           FontSize="14"
-                           Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                           Text="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}" />
-                     </Grid>
-                  </materialDesign:ColorZone>
 
-                  <!--  ファイル読み込み開始ボタン  -->
-                  <Button
-                     Margin="8,0,0,0"
-                     Command="{Binding LoadFilesFromCurrentPathCommand, Mode=OneTime}"
-                     Style="{StaticResource MaterialDesignRaisedLightButton}"
-                     ToolTip="{x:Static properties:Resources.Menu_SearchFilesHint}">
-                     <Label
-                        v:IconHeadder.IconKind="FolderSearchOutline"
-                        Content="{x:Static properties:Resources.Menu_SearchFiles}"
-                        Style="{StaticResource IconTagLabel}" />
-                  </Button>
+                        <!--  ファイル直接追加開始ボタン  -->
+                        <Button Margin="8,0,0,0" ToolTip="{x:Static properties:Resources.Menu_AddFilesHint}">
+                            <behaviors:Interaction.Triggers>
+                                <behaviors:EventTrigger EventName="Click">
+                                    <l:OpenFileDialogInteractionMessageAction>
+                                        <l:DirectInteractionMessage CallbackCommand="{Binding AddFilesFromDialogCommand, Mode=OneTime}">
+                                            <l:OpeningFileSelectionMessage
+                                                Title="Select Add File"
+                                                InitialDirectory="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}"
+                                                MultiSelect="True" />
+                                        </l:DirectInteractionMessage>
+                                    </l:OpenFileDialogInteractionMessageAction>
+                                </behaviors:EventTrigger>
+                            </behaviors:Interaction.Triggers>
+                            <Label
+                                v:IconHeadder.IconKind="FileOutline"
+                                Content="{x:Static properties:Resources.Menu_AddFiles}"
+                                Style="{StaticResource IconTagLabel}" />
+                        </Button>
 
-                  <!--  ファイル直接追加開始ボタン  -->
-                  <Button Margin="8,0,0,0" ToolTip="{x:Static properties:Resources.Menu_AddFilesHint}">
-                     <behaviors:Interaction.Triggers>
-                        <behaviors:EventTrigger EventName="Click">
-                           <l:OpenFileDialogInteractionMessageAction>
-                              <l:DirectInteractionMessage CallbackCommand="{Binding AddFilesFromDialogCommand, Mode=OneTime}">
-                                 <l:OpeningFileSelectionMessage
-                                    Title="Select Add File"
-                                    InitialDirectory="{Binding SettingVM.Value.ConcatedSearchFilePaths.Value}"
-                                    MultiSelect="True" />
-                              </l:DirectInteractionMessage>
-                           </l:OpenFileDialogInteractionMessageAction>
-                        </behaviors:EventTrigger>
-                     </behaviors:Interaction.Triggers>
-                     <Label
-                        v:IconHeadder.IconKind="FileOutline"
-                        Content="{x:Static properties:Resources.Menu_AddFiles}"
-                        Style="{StaticResource IconTagLabel}" />
-                  </Button>
+                        <!--  リネームプレビューボタン  -->
+                        <Button
+                            Margin="20,0,0,0"
+                            Command="{Binding ReplaceCommand, Mode=OneTime}"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            ToolTip="{x:Static properties:Resources.Menu_DryRunHint}">
+                            <Label
+                                v:IconHeadder.IconKind="RenameBox"
+                                Content="{x:Static properties:Resources.Menu_DryRun}"
+                                Style="{StaticResource IconTagLabel}" />
+                        </Button>
 
-                  <!--  リネームプレビューボタン  -->
-                  <Button
-                     Margin="20,0,0,0"
-                     Command="{Binding ReplaceCommand, Mode=OneTime}"
-                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                     ToolTip="{x:Static properties:Resources.Menu_DryRunHint}">
-                     <Label
-                        v:IconHeadder.IconKind="RenameBox"
-                        Content="{x:Static properties:Resources.Menu_DryRun}"
-                        Style="{StaticResource IconTagLabel}" />
-                  </Button>
-
-                  <!--  リネーム実行ボタン  -->
-                  <Button
-                     Margin="8,0"
-                     Command="{Binding RenameExecuteCommand, Mode=OneTime}"
-                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
-                     ToolTip="{x:Static properties:Resources.Menu_SaveHint}">
-                     <Label
-                        v:IconHeadder.IconKind="ContentSaveAllOutline"
-                        Content="{x:Static properties:Resources.Menu_Save}"
-                        Style="{StaticResource IconTagLabel}" />
-                  </Button>
-               </StackPanel>
-               <StackPanel Grid.Column="1" Orientation="Horizontal">
-                  <!--  Helpボタン（右端）  -->
-                  <Button
-                     Command="{Binding ShowHelpPageCommand}"
-                     Content="{materialDesign:PackIcon HelpCircle}"
-                     Style="{StaticResource MaterialDesignIconForegroundButton}"
-                     ToolTip="Show help file in browser" />
-                  <!--  アプリケーション情報ボタン（右端）  -->
-                  <Button
-                     Command="{Binding ShowInformationPageCommand}"
-                     Content="{materialDesign:PackIcon InfoCircle}"
-                     Style="{StaticResource MaterialDesignIconForegroundButton}"
-                     ToolTip="Application information dialog" />
-               </StackPanel>
-            </Grid>
-         </materialDesign:ColorZone>
-         <v:FileElementGrid
-            Grid.Row="1"
-            Grid.Column="1"
-            DataContext="{Binding GridVM}" />
-         <Expander
-            Grid.Row="1"
-            Grid.Column="0"
-            ExpandDirection="Left"
-            IsExpanded="True">
-            <Expander.Header>
-               <StackPanel>
-                  <materialDesign:PackIcon
-                     Width="24"
-                     Height="24"
-                     Kind="CogOutline" />
-                  <TextBlock
-                     Margin="0,8"
-                     Style="{StaticResource MaterialDesignBody1TextBlock}"
-                     Text="{x:Static properties:Resources.Setting_SettingTab}">
-                     <TextBlock.LayoutTransform>
-                        <RotateTransform Angle="90" />
-                     </TextBlock.LayoutTransform>
-                  </TextBlock>
-               </StackPanel>
-            </Expander.Header>
-            <ScrollViewer IsEnabled="{Binding IsIdle.Value}">
-               <v:SettingAppPage DataContext="{Binding SettingVM.Value}" />
-            </ScrollViewer>
-         </Expander>
-      </Grid>
-   </materialDesign:DialogHost>
+                        <!--  リネーム実行ボタン  -->
+                        <Button
+                            Margin="8,0"
+                            Command="{Binding RenameExecuteCommand, Mode=OneTime}"
+                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            ToolTip="{x:Static properties:Resources.Menu_SaveHint}">
+                            <Label
+                                v:IconHeadder.IconKind="ContentSaveAllOutline"
+                                Content="{x:Static properties:Resources.Menu_Save}"
+                                Style="{StaticResource IconTagLabel}" />
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <!--  Helpボタン（右端）  -->
+                        <Button
+                            Command="{Binding ShowHelpPageCommand}"
+                            Content="{materialDesign:PackIcon HelpCircle}"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                            ToolTip="Show help file in browser" />
+                        <!--  アプリケーション情報ボタン（右端）  -->
+                        <Button
+                            Command="{Binding ShowInformationPageCommand}"
+                            Content="{materialDesign:PackIcon InfoCircle}"
+                            Style="{StaticResource MaterialDesignIconForegroundButton}"
+                            ToolTip="Application information dialog" />
+                    </StackPanel>
+                </Grid>
+            </materialDesign:ColorZone>
+            <v:FileElementGrid
+                Grid.Row="1"
+                Grid.Column="1"
+                DataContext="{Binding GridVM}" />
+            <Expander
+                Grid.Row="1"
+                Grid.Column="0"
+                ExpandDirection="Left"
+                IsExpanded="True">
+                <Expander.Header>
+                    <StackPanel>
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            Kind="CogOutline" />
+                        <TextBlock
+                            Margin="0,8"
+                            Style="{StaticResource MaterialDesignBody1TextBlock}"
+                            Text="{x:Static properties:Resources.Setting_SettingTab}">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90" />
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </StackPanel>
+                </Expander.Header>
+                <!--  何故か Focusable="False"を指定しないと、中のDataGridのテキスト選択がうまく動かなくなる。  -->
+                <ScrollViewer Focusable="False" IsEnabled="{Binding IsIdle.Value}">
+                    <v:SettingAppPage DataContext="{Binding SettingVM.Value}" />
+                </ScrollViewer>
+            </Expander>
+        </Grid>
+    </materialDesign:DialogHost>
 </metro:MetroWindow>
