@@ -56,28 +56,28 @@
     <Resource Include="Resources\FileRenamerDiff_icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="DiffPlex" Version="1.7.0" />
+    <PackageReference Include="DiffPlex" Version="1.7.1" />
     <PackageReference Include="gong-wpf-dragdrop" Version="3.1.1" />
     <PackageReference Include="LivetCask" Version="4.0.2" />
     <PackageReference Include="LivetExtensions" Version="4.0.2" />
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
-    <PackageReference Include="Markdig" Version="0.27.0" />
+    <PackageReference Include="Markdig" Version="0.30.2" />
     <PackageReference Include="Markdig.Wpf" Version="0.5.0.1" />
-    <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
-    <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
-    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.0" />
-    <PackageReference Include="ReactiveProperty" Version="8.0.3" />
-    <PackageReference Include="ReactiveProperty.WPF" Version="8.0.3" />
+    <PackageReference Include="MaterialDesignColors" Version="2.0.6" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
+    <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.2" />
+    <PackageReference Include="ReactiveProperty" Version="8.1.2" />
+    <PackageReference Include="ReactiveProperty.WPF" Version="8.1.2" />
     <PackageReference Include="Anotar.Serilog.Fody" Version="6.0.0" PrivateAssets="all" />
-    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog" Version="2.11.0" />
     <PackageReference Include="Serilog.Enrichers.Memory" Version="1.0.4" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
-    <PackageReference Include="Serilog.Exceptions" Version="8.1.0" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.3.0" />
     <PackageReference Include="Serilog.Formatting.Compact" Version="1.1.0" />
     <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="System.IO.Abstractions" Version="16.1.15" />
-    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="16.1.15" />
+    <PackageReference Include="System.IO.Abstractions" Version="17.0.21" />
+    <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="17.0.21" />
     <PackageReference Include="Utf8Json" Version="1.3.7" />
     <PackageReference Include="Zipangu" Version="1.1.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
