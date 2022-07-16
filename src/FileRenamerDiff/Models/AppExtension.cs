@@ -417,8 +417,13 @@ public static class AppExtension
     /// <returns>指定したファイルを含んだファイルシステム</returns>
     public static IFileSystem CreateMockFileSystem(IEnumerable<string> filePaths)
     {
-        IDictionary<string, MockFileData> files = filePaths
-            .ToDictionaryDirectKey(path => new MockFileData(path));
+        var files = filePaths
+            .ToDictionaryDirectKey(path => new MockFileData(path)
+            {
+                //生成と更新のダミー日時を付与。日付はホーキング博士の生死から。
+                CreationTime = new DateTime(1942, 1, 8, 14, 58, 59),
+                LastWriteTime = new DateTime(2018, 3, 14, 18, 58, 59),
+            });
 
         return new MockFileSystem(files);
     }
