@@ -4,7 +4,7 @@
 
 [View Online](https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use.de.md)
 
-# Schnellanleitung 
+# Schnellanleitung
 
 1. Spezifikation der Zieldatei: Sie können Dateien per Drag & Drop in die Dateiliste ziehen oder nach <kbd>Filesuche</kbd> aus einem bestimmten Verzeichnis suchen.
 
@@ -14,7 +14,7 @@
 
 4. Umbenennen ausführen: Führen Sie <kbd>Umbenennen Speichern</kbd> aus, um die aktuelle Datei umzubenennen.
 
-# Geben Sie die Zieldatei an.
+# Geben Sie die Zieldatei an
 
 Sie können die Zieldatei, die umbenannt werden soll, auf zwei Arten angeben: " Dateien durchsuchen" oder "Direkte Angabe".
 
@@ -61,11 +61,11 @@ Wenn das Kontrollkästchen "Regulärer Ausdruck" aktiviert ist, können Sie die 
 
 Die regulären Ausdrücke (Regex) in dieser Software verwenden "Microsoft .NET" reguläre Ausdrücke. Im Folgenden finden Sie eine Liste mit typischen Ausdrücken. Eine ausführlichere Erklärung finden Sie unter den folgenden Links.
 
-[Regex Quick Reference - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
+[Regex Quick Reference - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
 
 | Regex              | Beschreibung                                           | Muster | Eingabe   | Ausgabe      |
 | ------------------ | ---------------------------------------------------------- | ------- | -------------- | ------------------ |
-| `[`ch_group`]`       | Passt auf jedes einzelne Zeichen in *ch_group*. | [ae]    | Gr**a**y,S**ea**,Gr**ee**n | Gry,S,Grn | 
+| `[`ch_group`]`       | Passt auf jedes einzelne Zeichen in *ch_group*. | [ae]    | Gr**a**y,S**ea**,Gr**ee**n | Gry,S,Grn |
 | `[`first`-`last`]` | Zeichenbereich: Passt auf jedes einzelne Zeichen im Bereich von *first* bis *last*. | [A-Z]   | **R**ocky4 | ocky4           |
 | `.`                | Platzhalterzeichen: Passt auf jedes einzelne Zeichen | a.e     | w**ate**r      | wr                 |
 | `\w`                 | Entspricht einem beliebigen Wortzeichen | \\w | **A**.**a** **あ**~**ä**- | . ~- |
@@ -77,8 +77,7 @@ Die regulären Ausdrücke (Regex) in dieser Software verwenden "Microsoft .NET" 
 | `+`              | Entspricht dem vorhergehenden Element ein oder mehrere Male | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Stimmt mit dem vorherigen Element null oder ein Mal überein | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
 | `{`n`}` | Passt genau *n* Mal auf das vorhergehende Element | [or]{2} | d**oo**r,**or**,o,lr | dr,,o,lr |
-| `\`escape | Erkennen von Escape-Zeichen wie z. B. `. ` und `*` als normale Zeichen. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
-
+| `\`escape | Erkennen von Escape-Zeichen wie z. B. `.` und `*` als normale Zeichen. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
 
 ## Ersetzungsmuster
 
@@ -96,7 +95,7 @@ Der reguläre Ausdruck vor der Ersetzung ist der gleiche wie <kbd>Zu löschen Te
 
 Es gibt auch reguläre Ausdrücke, die nach der Ersetzung verwendet werden können. Einige der gebräuchlichsten sind unten aufgeführt.Eine genauere Erläuterung finden Sie unter den folgenden Links.
 
-[Substitutions In Regular Expressions - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
+[Substitutions In Regular Expressions - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
 
 | Regex  | Beschreibung                                      | Zieltext | Text-ersetzen | Eingabe        | Ausgabe          |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
@@ -115,6 +114,38 @@ Dies ist ein regulärer Ausdruck, der nur in dieser Anwendung vorkommt und nicht
 | `\f`       | Alle Buchstaben und Zahlen in Zeichen normaler Breite umwandeln | **Ha14** Ｆｕ１７ | **Ｈａ１４** Ｆｕ１７ |
 | `\f`       | Konvertiere alle Katakana halber Breite in volle Breite | **ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ** | **アンパン バイキン** |
 | `\n`       | Umlaute in Klarschriftzeichen umwandeln | s**üß** **Ö**L **Ä**ra | s**uess** **OE**L **Ae**ra |
+
+### Sonderzeichen hinzufügen
+
+Sie können Sonderzeichen hinzufügen, indem Sie Symbole in <kbd>Text-ersetzen</kbd> in <kbd>Ersetzungsmuster</kbd> angeben.
+
+| Text-ersetzen | Beschreibung                                 | Eingabe                  | Ausgabe                     |
+| ---- | ------------------------------------ | ---------------------- | -------------------------- |
+| `$d` | Verzeichnisnamen hinzufügen                    | _abc.txt               | **ParentDir**_abc.txt      |
+| `$t` | Änderungsdatum hinzufügen                     | _abc.txt               | **2018-03-14**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss>` | Änderungsdatum mit einem Format hinzufügen                    | _abc.txt               | **18-03-14 18-58-59**_abc.txt      |
+| `$t<D>` | Änderungsdatum im lokalen Format hinzufügen                     | _abc.txt               | **Mittwoch, 14. März 2018**_abc.txt      |
+| `$t<,c>` | Erstellungsdatum hinzufügen                    | _abc.txt               | **1942-01-08**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss,c>` | Erstellungsdatum mit einem Format hinzufügen                    | _abc.txt               | **42-01-08 14-58-59**_abc.txt |
+| `$n`                      | Hinzufügen von Seriennummern         | _a.txt<br />_b.txt<br />_c.txt | **1**_a.txt<br />**2**_b.txt<br />**3**_c.txt                        |
+| `$n<0,10,000>`                      | Fügen Sie Seriennummern hinzu, indem Sie Startnummer, Schritt und Ziffern mit Nulleinfügung angeben | _a.txt<br />_b.txt<br />_c.txt | **000**_a.txt<br />**010**_b.txt<br />**020**_c.txt                      |
+
+### Dialogfeld Seriennummern hinzufügen
+
+Das Einrichten von Seriennummern ist kompliziert, daher gibt es einen Einstellungsdialog.
+
+Sie können die folgenden Einstellungen ändern und in der Beispieldateiliste überprüfen.
+
+- Position einfügen
+- Startnummer
+- Schritt
+- Ziffern mit Nulleinfügung
+- Zurücksetzen pro Ordner
+- Umgekehrt
+- Präfix-Text
+- Postfix-Text
+
+Schließlich können Sie mit <kbd>Hinzufügen</kbd> zu den <kbd>Ersetzungsmuster</kbd> hinzufügen.
 
 # Bestätigung des Umbenennens
 

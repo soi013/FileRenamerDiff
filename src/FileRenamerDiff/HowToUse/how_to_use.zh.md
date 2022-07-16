@@ -61,7 +61,7 @@
 
 本软件的規則運算式(Regex)使用 "Microsoft .NET "的規則運算式。以下是典型的正则表达式。详细的说明，请参考以下链接。
 
-[Regex Quick Reference - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
+[Regex Quick Reference - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
 
 | Regex              | 描述                                                  | 模式      | 输入                      | 输出      |
 | ------------------ | ----------------------------------------------------- | --------- | ------------------------- | --------- |
@@ -77,7 +77,7 @@
 | `+`                | 与前一个元素匹配一次或多次。                          | o+r       | d**oor**,**or**,o,lr      | d,,o,lr   |
 | `?`                | 匹配前一个元素零或一次。                              | o?r       | do**or**,**or**,o,l**r**  | do,,o,l   |
 | `{`n`}`            | 与前一个元素精确匹配*n*次。                           | [or]{2}   | d**oo**r,**or**,o,lr      | dr,,o,lr  |
-| `\`escape          | 将转义字符如`. `或`*`等识别为正常字符。               | \\d\\.\\d | 1\_**2\.3**\_45  | 1__45 |
+| `\`escape          | 将转义字符如`.`或`*`等识别为正常字符。               | \\d\\.\\d | 1\_**2\.3**\_45  | 1__45 |
 
 ## 替换模式
 
@@ -95,7 +95,7 @@
 
 还有一些正则表达式可以在替换后使用。下面列出了一些最常见的正则表达式。更详细的解释，请参考以下链接。
 
-[Substitutions In Regular Expressions - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
+[Substitutions In Regular Expressions - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
 
 | Regex  | 描述                                        | 目标文本        | 替换文本 | 输入           | 输出               |
 | ------ | ------------------------------------------- | --------------- | -------- | -------------- | ------------------ |
@@ -115,6 +115,38 @@
 | `\f`  | 将所有半幅片假名转换为全幅片假名。 | **ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ**        | **アンパン バイキン**      |
 | `\n`  | 将umlauts转换为纯正的ascii字符。   | s**üß** **Ö**L **Ä**ra | s**uess** **OE**L **Ae**ra |
 
+### 添加特殊字符
+
+你可以通过在<kbd>替换文本</kbd>中指定<kbd>替换模式</kbd>的符号来添加特殊字符。
+
+| 替换文本 | 描述                                 | 输入                  | 输出                     |
+| ---- | ------------------------------------ | ---------------------- | -------------------------- |
+| `$d` | 添加目录名称                     | _abc.txt               | **ParentDir**_abc.txt      |
+| `$t` | 添加修改日期                   | _abc.txt               | **2018-03-14**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss>` | 添加有格式的修改日期                     | _abc.txt               | **18-03-14 18-58-59**_abc.txt      |
+| `$t<D>` | 添加以本地格式修改日期                   | _abc.txt               | **2018年3月14日星期三**_abc.txt      |
+| `$t<,c>` | 添加建立日期                    | _abc.txt               | **1942-01-08**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss,c>` | 添加有格式的建立日期                     | _abc.txt               | **42-01-08 14-58-59**_abc.txt |
+| `$n`                      | 連番追加         | _a.txt<br />_b.txt<br />_c.txt | **1**_a.txt<br />**2**_b.txt<br />**3**_c.txt                        |
+| `$n<0,10,000>`                      | 通过指定起始号码、步长和零填充数字添加序列号 | _a.txt<br />_b.txt<br />_c.txt | **000**_a.txt<br />**010**_b.txt<br />**020**_c.txt                      |
+
+### 添加序列号对话框
+
+设置序列号很复杂，所以有一个设置对话框。
+
+你可以改变以下设置，并在样本文件列表中检查它们。
+
+- 插入位置
+- 开始编号
+- 步骤
+- 零填充数字
+- 按文件夹重置
+- 逆向
+- 前缀文本
+- 后缀文本
+
+最后，你可以用<kbd>新增</kbd>添加到<kbd>替换模式</kbd>中。
+
 # 重命名确认
 
  <kbd>試執行</kbd>允许您查看文件重命名前后的情况。
@@ -133,8 +165,6 @@
 | 大小 |文件修改的日期和时间    |                                                              |
 | 修改日期       | 文件修改的日期和时间                           |                                                              |
 | 建立日期        | 创建文件的日期和时间 |                                                              |
-
-
 
 # 保存重命名
 
