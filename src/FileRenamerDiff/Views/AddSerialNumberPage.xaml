@@ -132,7 +132,10 @@
             <GroupBox Header="Sample">
                 <DataGrid ItemsSource="{Binding SampleDiffVMs.Value}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding DirectoryPath}" Header="Folder" />
+                        <DataGridTextColumn
+                            Binding="{Binding DirectoryPath, Mode=OneTime}"
+                            Header="Folder"
+                            IsReadOnly="True" />
                         <DataGridTemplateColumn Width="150" Header="{x:Static properties:Resources.Grid_OldText}">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
