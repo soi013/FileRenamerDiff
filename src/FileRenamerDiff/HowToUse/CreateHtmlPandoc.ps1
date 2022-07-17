@@ -5,28 +5,28 @@ $nameHeader = 'how_to_use'
 # 各言語ごとのコード
 $langCodes = @('', '.de', '.ru', '.zh', '.ja')
 
-$commandName = 'pandoc'
+function GetCommandPath {
+    $commandName = 'pandoc'
 
-$commandPathSpare1 = 'C:\Users\user\AppData\Local\Pandoc\pandoc.exe'
-$commandPathSpare2 = 'C:\Program Files\Pandoc\pandoc.exe'
+    $commandPathSpare1 = 'C:\Users\user\AppData\Local\Pandoc\pandoc.exe'
+    $commandPathSpare2 = 'C:\Program Files\Pandoc\pandoc.exe'
+
+    if (Get-Command $commandName -ea SilentlyContinue) {
+        return $commandName
+    }
+    elseif (Test-Path $commandPathSpare1) {
+        return $commandPathSpare1
+    }
+    elseif (Test-Path $commandPathSpare2) {
+        return $commandPathSpare2
+    }
+    else {
+        echo "WARNING cannnot found command [$commandName]."
+        Exit 1
+    }
+}
 
 $commandPath = ''
-
-if (Get-Command $commandName -ea SilentlyContinue) {
-    $commandPath = $commandName
-}
-elseif (Test-Path $commandPathSpare1) {
-    $commandPath = $commandPathSpare1
-}
-elseif (Test-Path $commandPathSpare2) {
-    $commandPath = $commandPathSpare2
-}
-else {
-    echo "ERROR cannnot found command [$commandName]."
-    Exit 1
-}
-
-echo "pandoc path is $commandPath"
 
 # 各言語ごとに1つのHTMLファイルができる
 foreach ($langCode in $langCodes) {
@@ -45,6 +45,12 @@ foreach ($langCode in $langCodes) {
     # 生成したHTMLファイルが元のMarkdownファイルより更新日時が新しいときのみコンバートする
     if ( $sourceTime -gt $targetTime ) {
         echo "Start Create $nameHeader$langCode.html"
+
+        if (!$commandPath) {
+            $commandPath = GetCommandPath
+        } 
+        
+        echo "pandoc path is $commandPath"
         # Pandocを使用してMarkdownからHTMLファイルを生成する。cssなどを指定する
         & $commandPath -s ./$nameHeader$langCode.md -o ../Resources/$nameHeader$langCode.html --toc --template=./elegant_bootstrap_menu.html --self-contained -t html5 -c my_markdown.css
         echo "Finished Create $nameHeader$langCode.html"
