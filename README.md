@@ -41,11 +41,11 @@ A File Renamer App featuring a difference display before and after the change fo
 
 # Download
 
-### Microsoft Store (Windows 10 only)
+### Microsoft Store (Windows 10, 11)
 
 <a href='//www.microsoft.com/store/apps/9PH9DKV5XVDB?cid=storebadge&ocid=badge'><img src=images/MicrosoftStoreLogo.png width=152px></a>
 
-### Portable version (Windows 7, 8.1, 10)
+### Portable version (Windows 7, 8.1, 10, 11)
 
 Download from [LATEST RELEASE](https://github.com/soi013/FileRenamerDiff/releases/latest).
 
