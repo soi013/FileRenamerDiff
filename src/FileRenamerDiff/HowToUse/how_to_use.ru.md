@@ -58,7 +58,7 @@
 
 Регулярные выражения (Regex) в этом программном обеспечении используют регулярные выражения "Microsoft .NET". Ниже приведен список типичных. Для более подробного объяснения, пожалуйста, обратитесь к следующим ссылкам.
 
-[Regex Quick Reference - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
+[Regex Quick Reference - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
 
 | Regex              | описание                                                     | шаблон    | Вход                      | Выход    |
 | ------------------ | ------------------------------------------------------------ | --------- | ------------------------- | -------- |
@@ -74,7 +74,7 @@
 | `+`                | Совпадает с предыдущим элементом один или несколько раз.     | o+r       | d**oor**,**or**,o,lr      | d,,o,lr  |
 | `?`                | Совпадает с предыдущим элементом ноль или один раз.          | o?r       | do**or**,**or**,o,l**r**  | do,,o,l  |
 | `{`n`}`            | Совпадает с предыдущим элементом ровно *n* раз.              | [or]{2}   | d**oo**r,**or**,o,lr      | dr,,o,lr |
-| `\`escape          | Распознает escape-символы типа `. `и `*`, как обычные символы. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
+| `\`escape          | Распознает escape-символы типа `.`и `*`, как обычные символы. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
 
 ## Модели замещения
 
@@ -92,7 +92,7 @@
 
 Также существует регулярное выражение, которое может быть использовано после замены. Некоторые из наиболее распространенных выражений перечислены ниже. Для более подробного объяснения, пожалуйста, обратитесь к следующим ссылкам.
 
-[Substitutions In Regular Expressions - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
+[Substitutions In Regular Expressions - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
 
 | Regex  | описание                                                     | Текст цели      | После замещения | **Вход**       | Выход              |
 | ------ | ------------------------------------------------------------ | --------------- | --------------- | -------------- | ------------------ |
@@ -111,6 +111,57 @@
 | `\f`  | Преобразовать все Английские буквы и цифры в символы полной ширины | **Ha14** Ｆｕ１７      | **Ｈａ１４** Ｆｕ１７      |
 | `\f`  | Преобразовать все буквы "Катакана" полуширины в полную ширину | **ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ**        | **アンパン バイキン**      |
 | `\n`  | Преобразовать умляуты в английские буквы ASCII               | s**üß** **Ö**L **Ä**ra | s**uess** **OE**L **Ae**ra |
+
+### Добавить специальные символы
+
+Вы можете добавить специальные символы, указав символы в <kbd>После замещения</kbd> в <kbd>Модели замещения</kbd>.
+
+| После замещения | описание                                 | Вход                  | Выход                     |
+| ---- | ------------------------------------ | ---------------------- | -------------------------- |
+| `$d` | Добавьте имя каталога                    | _abc.txt               | **ParentDir**_abc.txt      |
+| `$t` | Добавить Дата изменения                   | _abc.txt               | **2018-03-14**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss>` | Добавить Дата изменения с форматом                    | _abc.txt               | **18-03-14 18-58-59**_abc.txt      |
+| `$t<D>` | Änderungsdatum im lokalen Format hinzufügen                     | _abc.txt               | **среда, 14 марта 2018 г.**_abc.txt      |
+| `$t<,c>` | Добавить Дата создания                     | _abc.txt               | **1942-01-08**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss,c>` | Добавить Дата создания с форматом                    | _abc.txt               | **42-01-08 14-58-59**_abc.txt |
+| `$n`                      | Добавление серийных номеров         | _a.txt<br />_b.txt<br />_c.txt | **1**_a.txt<br />**2**_b.txt<br />**3**_c.txt                        |
+| `$n<0,10,000>`                      | Добавить серийные номера, указав стартовый номер, шаг и нулевая прокладка цифр | _a.txt<br />_b.txt<br />_c.txt | **000**_a.txt<br />**010**_b.txt<br />**020**_c.txt                      |
+
+### Диалог добавления серийных номеров
+
+Настройка серийных номеров сложна, поэтому имеется диалог настроек.
+
+Вы можете изменить следующие настройки и проверить их в списке образцов файлов.
+
+- Позиция вставки
+- Стартовый номер
+- Шаг
+- Нулевая прокладка цифр
+- Сброс в папку
+- Инверсия
+- Префиксный текст
+- Постфиксный текст
+
+Наконец, вы можете добавить в <kbd>Модели замещения</kbd> с помощью <kbd>Добавить</kbd>.
+
+# Rename confirmation
+
+ <kbd>DRY RUN</kbd> allows you to see the files before and after they are renamed.
+
+The description of each column in the file list is as follows.
+
+| Column name         | Displayed contents                                           | Function                                                     |
+| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| Delete button       | Delete button                                                | Delete the line. The button in the header deletes all files. |
+| OLD File Name       | File name before renaming. The changed part becomes a pink background. |                                                              |
+| NEW File Name       | File name after renaming. The changed part becomes a green background. |                                                              |
+| Mark with change    | A check mark is displayed if there are any changes.          | The button in the header makes the file list only with changes. |
+| Mark with duplicate | If there are duplicates, a duplicate mark is displayed.      | The button in the header makes the file list only with duplicates. |
+| File type mark      | The file type is indicated by an icon.                       |                                                              |
+| Directory           | Directory to which the file belongs                          | Click to display the file in the explorer                    |
+| Size                | Size of the file                                             |                                                              |
+| Date modified       | Date and time of file modification                           |                                                              |
+| Created Date        | Date and time of file creation                               |                                                              |
 
 # Подтвердить переименования
 
@@ -136,4 +187,3 @@
 <kbd>Сохранить</kbd> сохраняет действительное имя файла. Невозможно выполнить сохранение, если в списке файлов есть дубликаты.
 
 Если при переименовании каталог, к которому принадлежит файл, будет перезаписан, то он будет удален из списка файлов.
-

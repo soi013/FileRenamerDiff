@@ -68,7 +68,7 @@ jobs:
   create-release:
     runs-on: windows-latest
     needs: [build]
-    if: "contains( github.ref , 'v')"
+    if: "contains( github.ref , 'tags/v')"
 
     steps:
       - name: echos

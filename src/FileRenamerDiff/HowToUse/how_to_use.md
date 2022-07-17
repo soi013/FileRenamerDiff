@@ -4,7 +4,7 @@
 
 [View Online](https://github.com/soi013/FileRenamerDiff/blob/master/src/FileRenamerDiff/HowToUse/how_to_use.md)
 
-# Quick 
+# Quick
 
 1. Target file specification: You can drag and drop files into the file list or search for <kbd>Search Files</kbd> from a specific directory.
 2. Set rename pattern: Set the Delete/Replace pattern from <kbd>Settings</kbd>.
@@ -58,7 +58,7 @@ If the Regular Expression checkbox is checked, you can specify the characters to
 
 The regular expressions(Regex) in this software use "Microsoft .NET" regular expressions. The following is a list of typical ones. For a more detailed explanation, please refer to the following links.
 
-[Regex Quick Reference - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
+[Regex Quick Reference - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/regular-expression-language-quick-reference#character-escapes)
 
 | Regex              | description                                                       | pattern | Input          | Output             |
 | ------------------ | ---------------------------------------------------------- | ------- | -------------- | ------------------ |
@@ -74,7 +74,7 @@ The regular expressions(Regex) in this software use "Microsoft .NET" regular exp
 | `+`              | Matches the previous element one or more time | o+r | d**oor**,**or**,o,lr | d,,o,lr |
 | `?`              | Matches the previous element zero or one time | o?r  | do**or**,**or**,o,l**r** | do,,o,l |
 | `{`n`}` | Matches the previous element exactly *n* times | [or]{2} | d**oo**r,**or**,o,lr | dr,,o,lr |
-| `\`escape | Recognize escape characters such as `. ` and `*` as normal characters. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
+| `\`escape | Recognize escape characters such as `.` and `*` as normal characters. | \\d\\.\\d | 1\_**2\.3**\_45           | 1__45    |
 
 ## Replace Pattern
 
@@ -92,7 +92,7 @@ The regular expression before replacement is the same as <kbd>Delete Texts</kbd>
 
 There are also regular expression that can be used after the replacement. Some of the most common are listed below. For a more detailed explanation, please refer to the following links
 
-[Substitutions In Regular Expressions - Microsoft Docs ](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
+[Substitutions In Regular Expressions - Microsoft Docs](https://docs.microsoft.com/dotnet/standard/base-types/substitutions-in-regular-expressions)
 
 | Regex  | Description                                                  | Target Text | Replace Text | Input          | Output           |
 | ------ | ------------------------------------------------------------ | ----------- | ------------ | -------------- | ---------------- |
@@ -111,6 +111,38 @@ This is a regular expression unique to this application that is not found in the
 | `\f`       | Convert all letters and numbers to Full-width characters | **Ha14** Ｆｕ１７ | **Ｈａ１４** Ｆｕ１７ |
 | `\f`       | Convert all Half-width Katakana to full-width | **ｱﾝﾊﾟﾝ ﾊﾞｲｷﾝ** | **アンパン バイキン** |
 | `\n`       | Convert umlauts to plain-ascii characters | s**üß** **Ö**L **Ä**ra | s**uess** **OE**L **Ae**ra |
+
+### Add special characters
+
+You can add special characters by specifying symbols in <kbd>Replace Text</kbd> in <kbd>Replace Patterns</kbd>.
+
+| Replace Text | Description                                 | Input                  | Output                     |
+| ---- | ------------------------------------ | ---------------------- | -------------------------- |
+| `$d` | Add the directory name                     | _abc.txt               | **ParentDir**_abc.txt      |
+| `$t` | Add Date modified                     | _abc.txt               | **2018-03-14**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss>` | Add Date modified with a format                     | _abc.txt               | **18-03-14 18-58-59**_abc.txt      |
+| `$t<D>` | Add Date modified in local format                     | _abc.txt               | **Wednesday, March 14, 2018**_abc.txt      |
+| `$t<,c>` | Add Created Date                     | _abc.txt               | **1942-01-08**_abc.txt      |
+| `$t<yy-MM-dd HH-mm-ss,c>` | Add Created Date with a format                     | _abc.txt               | **42-01-08 14-58-59**_abc.txt |
+| `$n`                      | Adding serial numbers         | _a.txt<br />_b.txt<br />_c.txt | **1**_a.txt<br />**2**_b.txt<br />**3**_c.txt                        |
+| `$n<0,10,000>`                      | Add serial numbers by specifying Start Number, Step and Zero-Padding Digits | _a.txt<br />_b.txt<br />_c.txt | **000**_a.txt<br />**010**_b.txt<br />**020**_c.txt                      |
+
+### Add Serial Number dialog
+
+Setting up serial numbers is complicated, so a settings dialog is available.
+
+You can change the following settings and check them in the sample file list.
+
+- Insert Position
+- Start Number
+- Step
+- Zero-Padding Digits
+- Reset per Folder
+- Inverse
+- Prefix Text
+- Postfix Text
+
+Finally, you can add to the <kbd>Replace Patterns</kbd> with <kbd>ADD</kbd>.
 
 # Rename confirmation
 
@@ -131,11 +163,8 @@ The description of each column in the file list is as follows.
 | Date modified       | Date and time of file modification                           |                                                              |
 | Created Date        | Date and time of file creation                               |                                                              |
 
-
-
 # Save rename
 
 <kbd>SAVE</kbd> will rename the actual file. Cannot be executed if there are duplicates in the file list.
 
 If the directory to which the file belongs is rewritten when renaming is executed, it will be removed from the file list.
-
