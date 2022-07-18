@@ -86,6 +86,11 @@
             </GroupBox>
             <GroupBox Header="Paramerters">
                 <StackPanel>
+                    <StackPanel.Resources>
+                        <!--  NumericUpDownの＋ー記号の色は直接指定できない  -->
+                        <SolidColorBrush x:Key="MahApps.Brushes.Gray1" Color="{StaticResource Primary500}" />
+                    </StackPanel.Resources>
+
                     <StackPanel Style="{StaticResource IconPropertyPanel}">
                         <Label v:IconHeadder.IconKind="RayStartArrow" Content="{x:Static properties:Resources.AddingSerial_StartNumber}" />
                         <metro:NumericUpDown Value="{Binding StartNumber.Value, UpdateSourceTrigger=PropertyChanged}" />
