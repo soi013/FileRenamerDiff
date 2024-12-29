@@ -67,8 +67,8 @@
     <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.0" />
-    <PackageReference Include="ReactiveProperty" Version="8.1.2" />
-    <PackageReference Include="ReactiveProperty.WPF" Version="8.1.2" />
+    <PackageReference Include="ReactiveProperty" Version="9.6.0" />
+    <PackageReference Include="ReactiveProperty.WPF" Version="9.6.0" />
     <PackageReference Include="Anotar.Serilog.Fody" Version="6.0.0" PrivateAssets="all" />
     <PackageReference Include="Serilog" Version="4.2.0" />
     <PackageReference Include="Serilog.Enrichers.Memory" Version="1.0.4" />
