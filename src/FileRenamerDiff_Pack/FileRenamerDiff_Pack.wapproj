@@ -51,8 +51,8 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>ca7c2cf3-4777-4942-ac4a-0fd3db3b9bf6</ProjectGuid>
-    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.20348.0</TargetPlatformMinVersion>
     <DefaultLanguage>ja-JP</DefaultLanguage>
     <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\FileRenamerDiff\FileRenamerDiff.csproj</EntryPointProjectUniqueName>

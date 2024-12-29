@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>FileRenamerDiff_icon.ico</ApplicationIcon>
@@ -12,6 +12,7 @@
     <PackageProjectUrl>https://github.com/soi013/FileRenamerDiff</PackageProjectUrl>
     <SignAssembly>false</SignAssembly>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SupportedOSPlatformVersion>10.0.26100.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
