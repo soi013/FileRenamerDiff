@@ -534,7 +534,7 @@
                 <Button
                     Margin="30,5"
                     Command="{Binding ResetSettingCommand, Mode=OneTime}"
-                    Style="{StaticResource MaterialDesignRaisedAccentButton}">
+                    Style="{StaticResource MaterialDesignRaisedSecondaryButton}">
                     <Label
                         v:IconHeadder.IconKind="Autorenew"
                         Content="{x:Static properties:Resources.Setting_ResetAllSetting}"

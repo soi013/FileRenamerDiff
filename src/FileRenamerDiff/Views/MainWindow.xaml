@@ -92,7 +92,7 @@
                         <materialDesign:ColorZone
                             Margin="16,0,0,0"
                             Padding="8,4,8,4"
-                            materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                            materialDesign:ElevationAssist.Elevation="Dp2"
                             v:LimitSizeHelper.LimitMaxWidth="0.9"
                             CornerRadius="2">
                             <Grid>
@@ -171,7 +171,7 @@
                         <Button
                             Margin="20,0,0,0"
                             Command="{Binding ReplaceCommand, Mode=OneTime}"
-                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                             ToolTip="{x:Static properties:Resources.Menu_DryRunHint}">
                             <Label
                                 v:IconHeadder.IconKind="RenameBox"
@@ -183,7 +183,7 @@
                         <Button
                             Margin="8,0"
                             Command="{Binding RenameExecuteCommand, Mode=OneTime}"
-                            Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                            Style="{StaticResource MaterialDesignRaisedSecondaryButton}"
                             ToolTip="{x:Static properties:Resources.Menu_SaveHint}">
                             <Label
                                 v:IconHeadder.IconKind="ContentSaveAllOutline"
