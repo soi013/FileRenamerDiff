@@ -415,7 +415,9 @@
                             </DataGrid>
                         </Grid>
                     </materialDesign:PopupBox>
-                    <materialDesign:PopupBox
+                    <v:AddSerialNumberPage Grid.Column="3" DataContext="{Binding AddSerialNumberVM}" />
+
+                    <!--<materialDesign:PopupBox
                         Grid.Column="3"
                         Margin="0,0,15,0"
                         StaysOpen="True"
@@ -427,8 +429,8 @@
                                 Foreground="{StaticResource HighContrastBrush}"
                                 Kind="Numeric" />
                         </materialDesign:PopupBox.ToggleContent>
-                        <v:AddSerialNumberPage DataContext="{Binding AddSerialNumberVM, Mode=OneTime}" />
-                    </materialDesign:PopupBox>
+                        <v:AddSerialNumberPage DataContext="{Binding AddSerialNumberVM}" />
+                    </materialDesign:PopupBox>-->
                 </Grid>
             </Grid>
         </Expander>

@@ -12,6 +12,13 @@ public partial class InformationPage : UserControl
     public InformationPage()
     {
         InitializeComponent();
+
+        this.Loaded += InformationPage_Loaded;
+    }
+
+    private void InformationPage_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+
     }
 
     private void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
